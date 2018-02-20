@@ -1,13 +1,7 @@
 import * as React from 'react';
-import '/styles/Header.css'
+import './styles/Header.css';
 
 class Header extends React.Component {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            
-        };
-    }
 
     Render() {
 
@@ -19,7 +13,7 @@ class Header extends React.Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 
 }
