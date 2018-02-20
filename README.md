@@ -1,3 +1,11 @@
+# Project Match
+
+## Running the Server
+`npm run start-server` runs the express server on port `8080`.
+
+Currently using [nodemon](https://github.com/remy/nodemon) to watch and restart server for changes. We are also currently not using babel for trancompilation for the servside code.
+
+## Project Bootstrap
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
