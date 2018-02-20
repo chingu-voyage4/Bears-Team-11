@@ -27,8 +27,10 @@
   "scripts": {
     "precommit": "lint-staged",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts-ts start",
+    "start-server": "nodemon api/",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
@@ -42,12 +44,10 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^22.3.0",
+    "nodemon": "^1.15.1",
     "typescript": "^2.7.2"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "src/**/*.{js,jsx,json,css}": ["prettier --single-quote --write", "git add"]
   }
 }
