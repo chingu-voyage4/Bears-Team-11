@@ -9,18 +9,19 @@ $grass-green: #1BA572;
 
 $grey: #95989A;
 $dark-grey: #757575;
-
+$light-grey: #D1D1D1;
 
 /*
 ==========================
 FONTS
 ==========================
 */
-$tab-font: "Helvetica Neue", Helvetica, 'Varela Round', sans-serif;
-
+$font: "Helvetica Neue", Helvetica, 'Varela Round', sans-serif;
+$header-font-size: 14px;
 
 /*
 ==========================
 COMPONENTS
 ==========================
 */
+$box-shadow: 0px 3px 6px $light-grey;

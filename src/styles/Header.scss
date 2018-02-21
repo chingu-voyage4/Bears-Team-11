@@ -1,53 +1,74 @@
 @import "_variables.scss";
 
-.container{
+.header-container{
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: auto;
     grid-template-areas: 
-        "t t . . . . . .  l l s s s"
+        "t t t . . . . .  . l s s s"
     }
 
 a{
     text-decoration: none;
 }
 
-.title{
-grid-area: t;
-font-family: Helvetica;
-color: $theme-blue;
+/*
+==========================
+LOGO
+==========================
+*/
+.logo{
+    grid-area: t;
+    font-family: $font;
+    color: $theme-blue;
+    font-size: $header-font-size;
 }
-
-
+/*
+==========================
+LOG IN
+==========================
+*/
 .login{
-grid-area: l;
-background: none;
-border: none;
-font-family: Helvetica;
+    grid-area: l;
+    background: none;
+    border: none;
+    font-family: $font;
+    font-size: $header-font-size;
+    margin: auto;
 }
 
 .loginText{
-font-family: Helvetica;
-color: #757575;
-text-align: center;
-vertical-align: middle;
+    font-family: $font;
+    color: #757575;
+    text-align: center;
+    vertical-align: middle;
+    font-size: $header-font-size;
 }
-
+/*
+==========================
+SIGNUP BUTTON
+==========================
+*/
 .signUp{
-grid-area: s;
-background: none;
-border: none;
-font-family: Helvetica;
+    grid-area: s;
+    background: none;
+    border: none;
+    margin: auto;
 }
 
 .signUpText{
-font-family: Helvetica;
-color: white;
-text-align: center;
-vertical-align: middle;
+    font-family: $font;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: $header-font-size;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
-button{
+.signUpButton{
+    border: none;
+    box-shadow: $box-shadow;
     background-color: $theme-blue;
     vertical-align: middle;
 }
