@@ -24,6 +24,11 @@ a {
   text-decoration: none;
 }
 
+/*
+==========================
+LOGO
+==========================
+*/
 .title {
   grid-area: t;
   font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
@@ -31,6 +36,11 @@ a {
   font-size: 14px;
 }
 
+/*
+==========================
+LOG IN
+==========================
+*/
 .login {
   grid-area: l;
   background: none;
@@ -48,6 +58,11 @@ a {
   font-size: 14px;
 }
 
+/*
+==========================
+SIGNUP BUTTON
+==========================
+*/
 .signUp {
   grid-area: s;
   background: none;

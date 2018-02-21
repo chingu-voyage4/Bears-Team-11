@@ -12,14 +12,22 @@ a{
     text-decoration: none;
 }
 
+/*
+==========================
+LOGO
+==========================
+*/
 .title{
     grid-area: t;
     font-family: $font;
     color: $theme-blue;
     font-size: $header-font-size;
 }
-
-
+/*
+==========================
+LOG IN
+==========================
+*/
 .login{
     grid-area: l;
     background: none;
@@ -36,7 +44,11 @@ a{
     vertical-align: middle;
     font-size: $header-font-size;
 }
-
+/*
+==========================
+SIGNUP BUTTON
+==========================
+*/
 .signUp{
     grid-area: s;
     background: none;
