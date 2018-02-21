@@ -1,9 +1,8 @@
 const express = require('express');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
-app.get('/', function(req, res) {
-  res.send('hello world');
-});
+app.use('/api/v1/user', userRoutes);
 
-app.listen(8080);
+module.exports = app;
