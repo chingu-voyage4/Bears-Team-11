@@ -13,7 +13,7 @@ FONTS
 COMPONENTS
 ==========================
 */
-.container {
+.header-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto;
@@ -29,7 +29,7 @@ a {
 LOGO
 ==========================
 */
-.title {
+.logo {
   grid-area: t;
   font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
   color: #489be2;
@@ -80,12 +80,9 @@ SIGNUP BUTTON
   padding-right: 5px;
 }
 
-button {
-  background-color: #489be2;
-  vertical-align: middle;
-}
-
 .signUpButton {
   border: none;
   box-shadow: 0px 3px 6px #d1d1d1;
+  background-color: #489be2;
+  vertical-align: middle;
 }

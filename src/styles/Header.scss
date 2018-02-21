@@ -1,6 +1,6 @@
 @import "_variables.scss";
 
-.container{
+.header-container{
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: auto;
@@ -17,7 +17,7 @@ a{
 LOGO
 ==========================
 */
-.title{
+.logo{
     grid-area: t;
     font-family: $font;
     color: $theme-blue;
@@ -66,12 +66,9 @@ SIGNUP BUTTON
     padding-right: 5px;
 }
 
-button{
-    background-color: $theme-blue;
-    vertical-align: middle;
-}
-
 .signUpButton{
     border: none;
     box-shadow: $box-shadow;
+    background-color: $theme-blue;
+    vertical-align: middle;
 }
