@@ -30,7 +30,7 @@
     "watch-css":
       "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts-ts start",
-    "start-server": "nodemon api/",
+    "start-server": "nodemon api",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts-ts build",
     "test": "jest",
@@ -45,6 +45,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^22.3.0",
     "nodemon": "^1.15.1",
+    "supertest": "^3.0.0",
     "typescript": "^2.7.2"
   },
   "lint-staged": {
