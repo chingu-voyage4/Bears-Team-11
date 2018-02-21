@@ -7,9 +7,15 @@ class Header extends React.Component {
 
         return (
             <div>
-                <div className="bar">
+                <div className="container">
                     <div className="title">
-                        <h1>Header</h1>
+                        <h1>project match</h1>
+                    </div>
+                    <div className="login">
+                        <a href="#"><h2 className="loginText">Log In</h2></a>
+                    </div>
+                    <div className="signUp">
+                        <button className="signUpButton"><h2 className="signUpText">Sign Up For Free</h2></button>
                     </div>
                 </div>
             </div>

@@ -1,11 +1,64 @@
-.bar {
-  display: flex;
-  border: 1px solid #202020;
-  background-color: #489BE2;
-  text-align: center; }
+/*
+==========================
+COLORS
+==========================
+*/
+/*
+==========================
+FONTS
+==========================
+*/
+/*
+==========================
+COMPONENTS
+==========================
+*/
+.container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 't t . . . . . .  l l s s s';
+}
 
-h1 {
-  text-align: center; }
+a {
+  text-decoration: none;
+}
 
-title {
-  text-align: center; }
+.title {
+  grid-area: t;
+  font-family: Helvetica;
+  color: #489be2;
+}
+
+.login {
+  grid-area: l;
+  background: none;
+  border: none;
+  font-family: Helvetica;
+}
+
+.loginText {
+  font-family: Helvetica;
+  color: #757575;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.signUp {
+  grid-area: s;
+  background: none;
+  border: none;
+  font-family: Helvetica;
+}
+
+.signUpText {
+  font-family: Helvetica;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+}
+
+button {
+  background-color: #489be2;
+  vertical-align: middle;
+}
