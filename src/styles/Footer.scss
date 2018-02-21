@@ -1,0 +1,63 @@
+@import "_variables.scss";
+
+/*
+==========================
+COMPONENTS
+==========================
+*/
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas: ". c . n . a . s s s . . "; 
+    background-color: $theme-blue; 
+    color: white;}
+  
+  a {
+    text-decoration: none; }
+
+h5 { font-size: $footer-font-size;
+     font-family: $font;
+     text-align: left;}
+
+/*
+==========================
+Contact Us
+==========================
+*/
+.contactUs{
+grid-area: c;
+}
+
+/*
+==========================
+Need Help
+==========================
+*/
+.needHelp{
+    grid-area: n;
+}
+
+/*
+==========================
+About
+==========================
+*/
+.about{
+    grid-area: a;
+}
+/*
+==========================
+Subscribe
+==========================
+*/
+.subscribe{
+    grid-area: s;
+}
+.emailInput{
+    display: inline-block;
+    float: left;
+}
+.subscribeButton{
+    float: left;
+}

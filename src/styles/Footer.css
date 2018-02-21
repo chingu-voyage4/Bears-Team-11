@@ -1,0 +1,83 @@
+/*
+==========================
+COLORS
+==========================
+*/
+/*
+==========================
+FONTS
+==========================
+*/
+/*
+==========================
+COMPONENTS
+==========================
+*/
+/*
+==========================
+COMPONENTS
+==========================
+*/
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: '. c . n . a . s s s . . ';
+  background-color: #489be2;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+h5 {
+  font-size: 11px;
+  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+  text-align: left;
+}
+
+/*
+==========================
+Contact Us
+==========================
+*/
+.contactUs {
+  grid-area: c;
+}
+
+/*
+==========================
+Need Help
+==========================
+*/
+.needHelp {
+  grid-area: n;
+}
+
+/*
+==========================
+About
+==========================
+*/
+.about {
+  grid-area: a;
+}
+
+/*
+==========================
+Subscribe
+==========================
+*/
+.subscribe {
+  grid-area: s;
+}
+
+.emailInput {
+  display: inline-block;
+  float: left;
+}
+
+.subscribeButton {
+  float: left;
+}
