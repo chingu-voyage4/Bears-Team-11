@@ -33,7 +33,7 @@
     "start-server": "nodemon api/",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
+    "test": "jest",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
