@@ -5,7 +5,7 @@
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: auto;
     grid-template-areas: 
-        "t t . . . . . .  l l s s s"
+        "t t t . . . . .  l l s s s"
     }
 
 a{
@@ -13,38 +13,41 @@ a{
 }
 
 .title{
-grid-area: t;
-font-family: Helvetica;
-color: $theme-blue;
+    grid-area: t;
+    font-family: $font;
+    color: $theme-blue;
+    font-size: $header-font-size;
 }
 
 
 .login{
-grid-area: l;
-background: none;
-border: none;
-font-family: Helvetica;
+    grid-area: l;
+    background: none;
+    border: none;
+    font-family: $font;
+    font-size: $header-font-size;
 }
 
 .loginText{
-font-family: Helvetica;
-color: #757575;
-text-align: center;
-vertical-align: middle;
+    font-family: $font;
+    color: #757575;
+    text-align: center;
+    vertical-align: middle;
+    font-size: $header-font-size;
 }
 
 .signUp{
-grid-area: s;
-background: none;
-border: none;
-font-family: Helvetica;
+    grid-area: s;
+    background: none;
+    border: none;
 }
 
 .signUpText{
-font-family: Helvetica;
-color: white;
-text-align: center;
-vertical-align: middle;
+    font-family: $font;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-size: $header-font-size;
 }
 
 button{

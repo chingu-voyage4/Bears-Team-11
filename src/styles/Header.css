@@ -17,7 +17,7 @@ COMPONENTS
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 't t . . . . . .  l l s s s';
+  grid-template-areas: 't t t . . . . .  l l s s s';
 }
 
 a {
@@ -26,36 +26,39 @@ a {
 
 .title {
   grid-area: t;
-  font-family: Helvetica;
+  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
   color: #489be2;
+  font-size: 14px;
 }
 
 .login {
   grid-area: l;
   background: none;
   border: none;
-  font-family: Helvetica;
+  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+  font-size: 14px;
 }
 
 .loginText {
-  font-family: Helvetica;
+  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
   color: #757575;
   text-align: center;
   vertical-align: middle;
+  font-size: 14px;
 }
 
 .signUp {
   grid-area: s;
   background: none;
   border: none;
-  font-family: Helvetica;
 }
 
 .signUpText {
-  font-family: Helvetica;
+  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
   color: white;
   text-align: center;
   vertical-align: middle;
+  font-size: 14px;
 }
 
 button {
