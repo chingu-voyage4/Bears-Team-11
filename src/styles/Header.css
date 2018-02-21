@@ -37,6 +37,7 @@ a {
   border: none;
   font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
   font-size: 14px;
+  margin: auto;
 }
 
 .loginText {
@@ -51,6 +52,7 @@ a {
   grid-area: s;
   background: none;
   border: none;
+  margin: auto;
 }
 
 .signUpText {
