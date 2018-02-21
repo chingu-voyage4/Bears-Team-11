@@ -10,6 +10,7 @@
     "express": "^4.16.2",
     "husky": "^0.14.3",
     "lint-staged": "^6.1.1",
+    "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "mongodb": "^3.0.2",
     "mongoose": "^5.0.6",
