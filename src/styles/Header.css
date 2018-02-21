@@ -17,7 +17,7 @@ COMPONENTS
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 't t t . . . . .  l l s s s';
+  grid-template-areas: 't t t . . . . .  . l s s s';
 }
 
 a {
@@ -61,9 +61,16 @@ a {
   text-align: center;
   vertical-align: middle;
   font-size: 14px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 button {
   background-color: #489be2;
   vertical-align: middle;
+}
+
+.signUpButton {
+  border: none;
+  box-shadow: 0px 3px 6px #d1d1d1;
 }

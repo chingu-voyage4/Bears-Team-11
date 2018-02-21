@@ -5,7 +5,7 @@
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: auto;
     grid-template-areas: 
-        "t t t . . . . .  l l s s s"
+        "t t t . . . . .  . l s s s"
     }
 
 a{
@@ -50,9 +50,16 @@ a{
     text-align: center;
     vertical-align: middle;
     font-size: $header-font-size;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 button{
     background-color: $theme-blue;
     vertical-align: middle;
+}
+
+.signUpButton{
+    border: none;
+    box-shadow: $box-shadow;
 }
