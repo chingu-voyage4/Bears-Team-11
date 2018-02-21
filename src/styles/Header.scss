@@ -1,4 +1,4 @@
-@import "./_variables.scss";
+@import "_variables.scss";
 
 .container{
     display: grid;
@@ -15,7 +15,7 @@ a{
 .title{
 grid-area: t;
 font-family: Helvetica;
-color: $theme-Blue;
+color: $theme-blue;
 }
 
 
@@ -48,6 +48,6 @@ vertical-align: middle;
 }
 
 button{
-    background-color: $theme-Blue;
+    background-color: $theme-blue;
     vertical-align: middle;
 }
