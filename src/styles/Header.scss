@@ -1,4 +1,4 @@
-$blueText: #489BE2;
+@import "./_variables.scss";
 
 .container{
     display: grid;
@@ -15,7 +15,7 @@ a{
 .title{
 grid-area: t;
 font-family: Helvetica;
-color: $blueText;
+color: $theme-Blue;
 }
 
 
@@ -48,6 +48,6 @@ vertical-align: middle;
 }
 
 button{
-    background-color: $blueText;
+    background-color: $theme-Blue;
     vertical-align: middle;
 }
