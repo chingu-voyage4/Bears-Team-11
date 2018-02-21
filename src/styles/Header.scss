@@ -1,14 +1,53 @@
-.bar{
-    display: flex;
-    border: 1px solid rgb(32, 32, 32);
-    background-color: #489BE2;
-    text-align: center;
+$blueText: #489BE2;
+
+.container{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "t t . . . . . .  l l s s s"
     }
 
-h1{
-    text-align: center;
+a{
+    text-decoration: none;
 }
 
-title{
-    text-align: center;
+.title{
+grid-area: t;
+font-family: Helvetica;
+color: $blueText;
+}
+
+
+.login{
+grid-area: l;
+background: none;
+border: none;
+font-family: Helvetica;
+}
+
+.loginText{
+font-family: Helvetica;
+color: #757575;
+text-align: center;
+vertical-align: middle;
+}
+
+.signUp{
+grid-area: s;
+background: none;
+border: none;
+font-family: Helvetica;
+}
+
+.signUpText{
+font-family: Helvetica;
+color: white;
+text-align: center;
+vertical-align: middle;
+}
+
+button{
+    background-color: $blueText;
+    vertical-align: middle;
 }
