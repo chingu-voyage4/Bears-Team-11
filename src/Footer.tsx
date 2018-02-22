@@ -9,23 +9,23 @@ class Footer extends React.Component {
             <div>
                 <div className="footer-container">
                     <div className="contactUs">
-                        <h5>Contact Us</h5>
-                        <h5>neophytes@gmail.com</h5>
+                        <h5 className="footer-subtitle">Contact Us</h5>
+                        <h5 className="footer-subcategories">hello@projectmatch.com</h5>
                     </div>
                     <div className="needHelp">
-                    <h5>Need Help?</h5>
-                    <h5>FAQ<br />Support / Contact Us</h5>
+                        <h5 className="footer-subtitle">Need Help?</h5>
+                        <h5 className="footer-subcategories">FAQ</h5>
+                        <h5 className="footer-subcategories">Support / Contact Us</h5>
                     </div>
                     <div className="about">
-                    <h5>About Neophytes</h5>
-                    <h5>About Neophytes<br />Work with us<br />Github</h5>
+                        <h5 className="footer-subtitle">About Project Match</h5>
+                        <h5 className="footer-subcategories">About Project Match</h5>
+                        <h5 className="footer-subcategories">Github</h5>
                     </div>
                     <div className="subscribe">
-                    <h5>Subscribe to Neophytes via Email</h5>
-                    
-                    <input className="emailInput" type="text" placeholder="email" />
-                    <button className="subscribeButton">Subscribe</button>
-                    
+                        <h5 className="footer-subtitle">Subscribe to Project Match via Email</h5>
+                        <input className="emailInput" type="text" placeholder="Email" />
+                        <button className="subscribeButton">SUBSCRIBE</button>
                     </div>
                 </div>
             </div>

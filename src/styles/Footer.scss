@@ -9,24 +9,43 @@ COMPONENTS
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: auto;
-    grid-template-areas: ". c . n . a . s s s . . "; 
+    grid-template-areas: ". c . n . a a . s s s . "; 
     background-color: $theme-blue; 
-    color: white;}
-  
-  a {
-    text-decoration: none; }
+    color: white;
+    padding: 60px 0px 80px 0px;
+    margin: 0px;
+}
 
-h5 { font-size: $footer-font-size;
-     font-family: $font;
-     text-align: left;}
 
+a {
+    text-decoration: none; 
+}
+
+h5 { 
+    font-size: $footer-font-size;
+    font-family: $font;
+    text-align: left;
+    margin: 0px;
+}
+
+.footer-subtitle {
+    font-size: $footer-subheader-font-size;
+    padding-bottom: 15px;
+    text-transform: uppercase ;
+}
+
+.footer-subcategories {
+    font-weight: 100;
+    padding-top: 10px;
+    margin: 0px;
+}
 /*
 ==========================
 Contact Us
 ==========================
 */
-.contactUs{
-grid-area: c;
+.contactUs {
+    grid-area: c;
 }
 
 /*
@@ -34,7 +53,7 @@ grid-area: c;
 Need Help
 ==========================
 */
-.needHelp{
+.needHelp {
     grid-area: n;
 }
 
@@ -54,9 +73,27 @@ Subscribe
 .subscribe{
     grid-area: s;
 }
+
 .emailInput{
     float: left;
+    border: 1px solid white;
+    padding: 5px;
+    background-color: $theme-blue;
+    color: white;
+    text-transform: capitalize;
 }
+
+.emailInput::placeholder {
+    color: white;
+}
+
 .subscribeButton{
     float: left;
+    border: none;
+    background-color: white;
+    color: $theme-blue;
+    text-transform: capitalize;
+    font-size: $footer-subheader-font-size;
+    margin-left: 5px;
+    padding: 9px;
 }
