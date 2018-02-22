@@ -16,15 +16,14 @@ COMPONENTS
 .ready-to-try-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 40px auto 40px;
-  grid-template-areas: 't . . .' 'b . . .';
+  grid-template-rows: auto;
+  grid-template-areas: '. t . .' '. b . .';
 }
 
 .ready-to-try-text {
   grid-area: t;
   font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
   color: #489be2;
-  margin-right: 25%;
 }
 
 .ready-to-try-button {
@@ -33,9 +32,9 @@ COMPONENTS
   box-shadow: 0px 3px 6px #d1d1d1;
   background-color: #489be2;
   vertical-align: middle;
-  margin: 1%;
+  margin: 4%;
   color: white;
   width: 175px;
   height: 31px;
-  margin-right: 38%;
+  margin-left: 8.7%;
 }
