@@ -99,6 +99,7 @@ Subscribe
 
 .emailInput::placeholder {
   color: white;
+  font-size: 11px;
 }
 
 .subscribeButton {
