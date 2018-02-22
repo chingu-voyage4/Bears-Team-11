@@ -27,7 +27,7 @@ class User {
   }
 
   static create({
-    id,
+    id = Math.floor(Math.random() * 1000),
     username,
     name,
     password,
@@ -37,17 +37,17 @@ class User {
     description = '',
     techstack = []
   }) {
-    users[id] = {
+    return (users[id] = {
       id,
       username,
       name,
       password,
       email,
-      locaiton,
+      location,
       roles,
       description,
       techstack
-    };
+    });
   }
 }
 
