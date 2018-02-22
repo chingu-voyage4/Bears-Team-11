@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './styles/ProjectMatch.css';
 
 class ProjectMatch extends React.Component {
   render() {
