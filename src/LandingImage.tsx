@@ -5,7 +5,7 @@ class LandingImage extends React.Component {
   render() {
     return (
       <div className="mainImage">
-          <h1>PlaceHolder</h1>
+          <img src="/assets/Landing_Image-02.png" />
       </div>
     );
   }
