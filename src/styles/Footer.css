@@ -22,9 +22,11 @@ COMPONENTS
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: '. c . n . a . s s s . . ';
+  grid-template-areas: '. c . n . a a . s s s . ';
   background-color: #489be2;
   color: white;
+  padding: 60px 0px 80px 0px;
+  margin: 0px;
 }
 
 a {
@@ -35,6 +37,19 @@ h5 {
   font-size: 11px;
   font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
   text-align: left;
+  margin: 0px;
+}
+
+.footer-subtitle {
+  font-size: 8px;
+  padding-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.footer-subcategories {
+  font-weight: 100;
+  padding-top: 10px;
+  margin: 0px;
 }
 
 /*
@@ -75,8 +90,24 @@ Subscribe
 
 .emailInput {
   float: left;
+  border: 1px solid white;
+  padding: 5px;
+  background-color: #489be2;
+  color: white;
+  text-transform: capitalize;
+}
+
+.emailInput::placeholder {
+  color: white;
 }
 
 .subscribeButton {
   float: left;
+  border: none;
+  background-color: white;
+  color: #489be2;
+  text-transform: capitalize;
+  font-size: 8px;
+  margin-left: 5px;
+  padding: 9px;
 }
