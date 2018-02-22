@@ -6,8 +6,10 @@
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "express-session": "^1.15.6",
     "husky": "^0.14.3",
     "lint-staged": "^6.1.1",
     "lodash": "^4.17.5",
@@ -23,7 +25,8 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-scripts-ts": "2.13.0",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "passport-local": "^1.0.0"
   },
   "scripts": {
     "precommit": "lint-staged",
@@ -34,7 +37,7 @@
     "start-server": "nodemon api",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts-ts build",
-    "test": "jest",
+    "test": "jest --forceExit",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {

@@ -1,25 +1,24 @@
 const express = require('express');
+const {
+  createUser,
+  loginUser,
+  logoutUser,
+  restricted
+} = require('../controllers/user');
+const passport = require('../utils/auth');
 const router = express.Router();
 
-router.post('/', function(req, res) {
-  res.json({
-    message: 'success',
-    route: 'api/v1/user'
-  });
-});
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+}
 
-router.post('/login', function(req, res) {
-  res.json({
-    message: 'success',
-    route: 'api/v1/user/login'
-  });
-});
-
-router.post('/logout', function(req, res) {
-  res.json({
-    message: 'success',
-    route: 'api/v1/user/logout'
-  });
-});
+router.post('/', createUser);
+router.post('/login', passport.authenticate('local'), loginUser);
+router.post('/logout', logoutUser);
+router.get('/restricted', isAuthenticated, restricted);
 
 module.exports = router;
