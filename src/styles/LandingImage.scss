@@ -10,11 +10,11 @@ MAIN IMAGE WITH SKY AND GRASS
 ==========================
 */
 .landing-image{
-    width: 800px;
+    width: 950px;
     z-index: 3;
-    margin-left: 25vw;
+    margin-left: 23vw;
     position: relative;
-    margin-top: -175px;
+    margin-top: -270px;
 }
 
 .blue-sky {
@@ -25,7 +25,7 @@ MAIN IMAGE WITH SKY AND GRASS
 
 .green-grass {
     background-color: $grass-green;
-    top: -65px;
+    top: -78px;
     position: relative;
     height: 100px;
     z-index: 1;
@@ -36,7 +36,7 @@ MAIN IMAGE WITH SKY AND GRASS
 LANDING TEXT
 ==========================
 */
-.landing-header,.landing-subtext   {
+.landing-header,.landing-subtext, .exploreProjectsBtn   {
     position: relative;
     font-family: $font;
     color: $theme-blue;
@@ -47,7 +47,7 @@ LANDING TEXT
 .landing-header {
     font-size: $landing-header-size;
     font-weight: 700;
-    padding-top: 100px;
+    padding-top: 150px;
     float: left;
 }
 
@@ -55,6 +55,22 @@ LANDING TEXT
     font-size: $landing-subtext-size;
     text-align: left;
     font-weight: 300;
-    padding-top: 150px;
+    padding-top: 210px;
     width: 400px;
+    line-height: 20px;
+}
+/*
+==========================
+BUTTON
+==========================
+*/
+.exploreProjectsBtn {
+    margin-top: 25px;
+    border: none;
+    color: white;
+    background-color: $theme-blue;
+    padding: 15px;
+    font-size: $button-font-size;
+    font-weight: 700;
+    box-shadow: $box-shadow;
 }
