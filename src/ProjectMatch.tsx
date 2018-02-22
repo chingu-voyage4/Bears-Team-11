@@ -13,7 +13,7 @@ class ProjectMatch extends React.Component {
                  collaboration tools to support mockup reviews.</h3>
           </div>
           <div className="project-match-image-div">
-          <img className="imac" src={require('./assets/proj_imac.png')} />
+          <img className="project-match-imac" src={require('./assets/proj_imac.png')} />
           </div>
       </div>
     );

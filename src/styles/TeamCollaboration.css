@@ -18,11 +18,11 @@ COMPONENTS
 COMPONENTS
 ==========================
 */
-.project-match-container {
+.team-collaboration-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: '. t i .';
+  grid-template-areas: '. i t .';
 }
 
 /*
@@ -30,7 +30,7 @@ COMPONENTS
 TEXT
 ==========================
 */
-.project-match-text {
+.team-collaboration-text {
   grid-area: t;
   color: #489be2;
 }
@@ -40,11 +40,11 @@ TEXT
 IMAGE
 ==========================
 */
-.project-match-image-div {
+.team-collaboration-image-div {
   grid-area: i;
 }
 
-.project-match-imac {
+.team-collaboration-imac {
   flex: 100%;
   max-width: 100%;
 }
