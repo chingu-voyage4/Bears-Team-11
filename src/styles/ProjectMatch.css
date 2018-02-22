@@ -1,0 +1,35 @@
+/*
+==========================
+COLORS
+==========================
+*/
+/*
+==========================
+FONTS
+==========================
+*/
+/*
+==========================
+COMPONENTS
+==========================
+*/
+.project-match-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: '. t i .';
+}
+
+.project-match-text {
+  grid-area: t;
+  color: #489be2;
+}
+
+.project-match-image-div {
+  grid-area: i;
+}
+
+.imac {
+  flex: 70%;
+  max-width: 100%;
+}
