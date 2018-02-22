@@ -14,8 +14,17 @@ COMPONENTS
 ==========================
 */
 .image {
-  background-color: #e5e9fa;
   width: 1000px;
+}
+
+.blue-sky {
+  background-color: #e5e9fa;
+}
+
+.green-grass {
+  background-color: #1ba572;
+  background-position: 0% -20%;
+  height: 100px;
 }
 
 .header {

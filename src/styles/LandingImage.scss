@@ -1,8 +1,17 @@
 @import "_variables.scss";
 
 .image{
-    background-color: $light-blue;
     width: 1000px;
+}
+
+.blue-sky {
+    background-color: $light-blue;
+}
+
+.green-grass {
+    background-color: $grass-green;
+    background-position: 0% -20%;
+    height: 100px;
 }
 
 .header{
