@@ -1,0 +1,18 @@
+@import "_variables.scss";
+
+.project-match-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "t i"
+}
+
+.project-match-text{
+grid-area: t;
+}
+
+.project-match-image-div{
+grid-area: i;
+background-color: blue;
+}
