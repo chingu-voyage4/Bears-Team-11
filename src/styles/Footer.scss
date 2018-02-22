@@ -85,6 +85,7 @@ Subscribe
 
 .emailInput::placeholder {
     color: white;
+    font-size: $footer-font-size;
 }
 
 .subscribeButton{
@@ -96,4 +97,5 @@ Subscribe
     font-size: $footer-subheader-font-size;
     margin-left: 5px;
     padding: 9px;
+    font-weight: 700;
 }

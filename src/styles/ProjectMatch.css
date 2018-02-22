@@ -1,0 +1,50 @@
+/*
+==========================
+COLORS
+==========================
+*/
+/*
+==========================
+FONTS
+==========================
+*/
+/*
+==========================
+COMPONENTS
+==========================
+*/
+/*
+==========================
+COMPONENTS
+==========================
+*/
+.project-match-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: '. t i .';
+}
+
+/*
+==========================
+TEXT
+==========================
+*/
+.project-match-text {
+  grid-area: t;
+  color: #489be2;
+}
+
+/*
+==========================
+IMAGE
+==========================
+*/
+.project-match-image-div {
+  grid-area: i;
+}
+
+.project-match-imac {
+  flex: 100%;
+  max-width: 100%;
+}

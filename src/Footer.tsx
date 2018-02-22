@@ -24,7 +24,7 @@ class Footer extends React.Component {
                     </div>
                     <div className="subscribe">
                         <h5 className="footer-subtitle">Subscribe to Project Match via Email</h5>
-                        <input className="emailInput" type="text" placeholder="Email" />
+                        <input className="emailInput" type="text" placeholder="Email Address" />
                         <button className="subscribeButton">SUBSCRIBE</button>
                     </div>
                 </div>
