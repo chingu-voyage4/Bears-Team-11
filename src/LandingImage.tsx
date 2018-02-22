@@ -12,6 +12,7 @@ class LandingImage extends React.Component {
             ideas. Project Match will help find you projects and then provide team
             collaboration tools to support mockup reviews.
           </div>
+          <button className="exploreProjectsBtn">EXPLORE PROJECTS</button>
           <img className="landing-image" src={require('./assets/Landing_Image-02.png')} />
           <div className="green-grass" />
         </div>
