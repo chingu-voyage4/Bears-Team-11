@@ -3,6 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import LandingImage from './LandingImage';
 import ProjectMatch from './ProjectMatch';
+import TeamCollaboration from './TeamCollaboration';
 
 class LandingPage extends React.Component {
   render() {
@@ -11,6 +12,7 @@ class LandingPage extends React.Component {
         <Header />
         <LandingImage />
         <ProjectMatch />
+        <TeamCollaboration />
         <Footer />
       </div>
     );
