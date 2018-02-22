@@ -23,11 +23,11 @@ MAIN IMAGE WITH SKY AND GRASS
 ==========================
 */
 .landing-image {
-  width: 800px;
+  width: 950px;
   z-index: 3;
-  margin-left: 25vw;
+  margin-left: 23vw;
   position: relative;
-  margin-top: -175px;
+  margin-top: -220px;
 }
 
 .blue-sky {
@@ -56,13 +56,13 @@ LANDING TEXT
   color: #489be2;
   z-index: 4;
   display: block;
-  margin-left: 18vw;
+  margin-left: 20vw;
 }
 
 .landing-header {
   font-size: 34px;
   font-weight: 700;
-  padding-top: 100px;
+  padding-top: 150px;
   float: left;
 }
 
@@ -70,6 +70,7 @@ LANDING TEXT
   font-size: 16px;
   text-align: left;
   font-weight: 300;
-  padding-top: 150px;
+  padding-top: 200px;
   width: 400px;
+  line-height: 20px;
 }
