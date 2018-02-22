@@ -1,0 +1,30 @@
+@import "_variables.scss";
+
+.ready-to-try-container{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 40px auto 40px;
+    grid-template-areas: 
+        "t . . ."
+        "b . . ."
+}
+
+.ready-to-try-text{
+grid-area: t;
+font-family: $font;
+color: $theme-blue;
+margin-right: 25%;
+}
+
+.ready-to-try-button{
+    border: none;
+    grid-area: b;
+    box-shadow: 0px 3px 6px #d1d1d1;
+    background-color: #489be2;
+    vertical-align: middle;
+    margin: 1%;
+    color: white;
+    width: 175px;
+    height: 31px;
+    margin-right: 38%;
+}
