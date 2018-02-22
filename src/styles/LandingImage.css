@@ -13,25 +13,63 @@ FONTS
 COMPONENTS
 ==========================
 */
-.image {
-  width: 1000px;
+.landing-image-container {
+  display: block;
+}
+
+/*
+==========================
+MAIN IMAGE WITH SKY AND GRASS
+==========================
+*/
+.landing-image {
+  width: 800px;
+  z-index: 3;
+  margin-left: 25vw;
+  position: relative;
+  margin-top: -175px;
 }
 
 .blue-sky {
   background-color: #e5e9fa;
+  z-index: 1;
+  position: relative;
 }
 
 .green-grass {
   background-color: #1ba572;
-  background-position: 0% -20%;
+  top: -65px;
+  position: relative;
   height: 100px;
+  z-index: 1;
 }
 
-.header {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+/*
+==========================
+LANDING TEXT
+==========================
+*/
+.landing-header,
+.landing-subtext {
+  position: relative;
   font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
   color: #489be2;
+  z-index: 4;
+  display: block;
+  margin-left: 18vw;
+}
+
+.landing-header {
+  font-size: 34px;
+  font-weight: 700;
+  padding-top: 100px;
+  float: left;
+}
+
+.landing-subtext {
+  font-size: 16px;
+  text-align: left;
+  font-weight: 300;
+  padding-top: 150px;
+  width: 400px;
 }
