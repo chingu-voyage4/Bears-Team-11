@@ -1,0 +1,40 @@
+/*
+==========================
+COLORS
+==========================
+*/
+/*
+==========================
+FONTS
+==========================
+*/
+/*
+==========================
+COMPONENTS
+==========================
+*/
+.ready-to-try-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: '. t . .' '. b . .';
+}
+
+.ready-to-try-text {
+  grid-area: t;
+  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+  color: #489be2;
+}
+
+.ready-to-try-button {
+  border: none;
+  grid-area: b;
+  box-shadow: 0px 3px 6px #d1d1d1;
+  background-color: #489be2;
+  vertical-align: middle;
+  margin: 4%;
+  color: white;
+  width: 175px;
+  height: 31px;
+  margin-left: 8.7%;
+}

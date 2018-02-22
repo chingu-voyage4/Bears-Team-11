@@ -1,0 +1,44 @@
+/*
+==========================
+COLORS
+==========================
+*/
+/*
+==========================
+FONTS
+==========================
+*/
+/*
+==========================
+COMPONENTS
+==========================
+*/
+.recent-projects-header {
+  text-align: center;
+  color: #489be2;
+}
+
+.recent-projects-container {
+  display: grid;
+  grid-gap: 11px;
+  grid-template-columns: 200px 200px 200px;
+  grid-auto-rows: 200px 200px;
+  justify-content: center;
+}
+
+.projectCard {
+  height: 200px;
+  width: 200px;
+  background-color: grey;
+}
+
+.explore-projects-button {
+  border: none;
+  box-shadow: 0px 3px 6px #d1d1d1;
+  background-color: #489be2;
+  vertical-align: middle;
+  margin: 2%;
+  color: white;
+  width: 175px;
+  height: 31px;
+}
