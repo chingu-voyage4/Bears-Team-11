@@ -1,0 +1,15 @@
+@import "_variables.scss";
+
+.image{
+    background-color: $light-blue;
+    width: 1000px;
+}
+
+.header{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: $font;
+    color: $theme-blue;
+}

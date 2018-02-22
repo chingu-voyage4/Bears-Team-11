@@ -12,10 +12,10 @@ class Header extends React.Component {
                         <h1>project match</h1>
                     </div>
                     <div className="login">
-                        <a href="#"><h2 className="loginText">Log In</h2></a>
+                        <a href="#"><h2 className="loginText">LOG IN</h2></a>
                     </div>
                     <div className="signUp">
-                        <button className="signUpButton"><h2 className="signUpText">Sign Up For Free</h2></button>
+                        <button className="signUpButton"><h2 className="signUpText">SIGN UP FOR FREE</h2></button>
                     </div>
                 </div>
             </div>
