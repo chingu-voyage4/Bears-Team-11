@@ -40,7 +40,8 @@ export let testProject = {
     link: 'https://github.com/chingu-coders/Voyage2-Turtles-11',
     image: 'https://goo.gl/3dCcpg',
     teamMembers: ['thorbw', 'eun park', 'miles burke'],
-    description: 'TurtleTab is a Google Chrome Extension Built with React.',
+    // tslint:disable-next-line:max-line-length
+    description: 'TurtleTab is a Google Chrome Extension Built with React. It creates a new homepage which features current Weather, Todo and Notes functionality. It also accesses your browser data to see Bookmarks, enable/disable Apps and Extensions, and see/clear your History.',
     contact: 'lilgangwolf',
     lookingFor: ['Programmer', 'Designer'],
     comments: 'None',

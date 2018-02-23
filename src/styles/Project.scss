@@ -22,7 +22,7 @@
 
 .project-info {
     width: 300px;
-    height: 100px;
+    height: 125px;
     border: $border;
     position: relative;
     object-position: center;
@@ -32,20 +32,42 @@
     font-size: $project-title-size;
     font-weight: 700;
     text-transform: uppercase;
+    text-align: left;
+    padding: 10px;
 }
 
 .project-description {
     font-size: $project-description-size;
     overflow: hidden;
-    white-space: nowrap;
+    white-space: pre-line;
     text-overflow: ellipsis;
+    height: 55px;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
+.project-roles-needed, .project-roles {
+    display: inline-block;
+    font-size: 11px;
+} 
 .project-roles-needed {
-
+    padding: 10px;
+    color: $dark-grey;
+    text-transform: lowercase;
+    float: left;
 }
-
+.project-roles {
+    color: $theme-blue;
+    text-transform: uppercase;
+    padding-left: 5px;
+}
 .project-save {
-
+    padding: 10px;
+    object-fit: cover;
+    width: 14px;
+    height: 18px;
+    display: inline-block;
+    float: right;
 }
 
