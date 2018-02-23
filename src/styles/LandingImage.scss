@@ -10,7 +10,7 @@ MAIN IMAGE WITH SKY AND GRASS
 ==========================
 */
 .landing-image{
-    width: 950px;
+    height: 65vh;
     z-index: 3;
     margin-left: 23vw;
     position: relative;
@@ -21,14 +21,15 @@ MAIN IMAGE WITH SKY AND GRASS
     background-color: $light-blue;
     z-index: 1;
     position: relative;
+    height: 76vh;
 }
 
 .green-grass {
     background-color: $grass-green;
-    top: -78px;
     position: relative;
-    height: 100px;
-    z-index: 1;
+    height: 12vh;
+    z-index: 2;
+    top: -10.5vh;
 }
 
 /*
@@ -66,11 +67,5 @@ BUTTON
 */
 .exploreProjectsBtn {
     margin-top: 25px;
-    border: none;
-    color: white;
-    background-color: $theme-blue;
-    padding: 15px;
-    font-size: $button-font-size;
-    font-weight: 700;
-    box-shadow: $box-shadow;
+    @include white-text-blue-background-button;
 }
