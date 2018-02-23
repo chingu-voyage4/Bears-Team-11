@@ -29,7 +29,8 @@ BUTTON
 
 .ready-to-try-text {
   grid-area: t;
-  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
+    sans-serif;
   color: #489be2;
   font-size: 34px;
   text-align: left;

@@ -36,7 +36,8 @@ LOGO
 */
 .logo {
   grid-area: t;
-  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
+    sans-serif;
   color: #489be2;
   font-size: 14px;
 }
@@ -50,13 +51,15 @@ LOG IN
   grid-area: l;
   background: none;
   border: none;
-  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
+    sans-serif;
   font-size: 14px;
   margin: auto;
 }
 
 .loginText {
-  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
+    sans-serif;
   color: #757575;
   text-align: center;
   vertical-align: middle;
@@ -76,7 +79,8 @@ SIGNUP BUTTON
 }
 
 .signUpText {
-  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
+    sans-serif;
   color: white;
   text-align: center;
   vertical-align: middle;
