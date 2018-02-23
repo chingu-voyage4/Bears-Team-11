@@ -13,16 +13,81 @@ FONTS
 COMPONENTS
 ==========================
 */
-.image {
-  background-color: #e5e9fa;
-  width: 1000px;
+.landing-image-container {
+  display: block;
 }
 
-.header {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+/*
+==========================
+MAIN IMAGE WITH SKY AND GRASS
+==========================
+*/
+.landing-image {
+  width: 950px;
+  z-index: 3;
+  margin-left: 23vw;
+  position: relative;
+  margin-top: -270px;
+}
+
+.blue-sky {
+  background-color: #e5e9fa;
+  z-index: 1;
+  position: relative;
+}
+
+.green-grass {
+  background-color: #1ba572;
+  top: -78px;
+  position: relative;
+  height: 100px;
+  z-index: 1;
+}
+
+/*
+==========================
+LANDING TEXT
+==========================
+*/
+.landing-header,
+.landing-subtext,
+.exploreProjectsBtn {
+  position: relative;
   font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
   color: #489be2;
+  z-index: 4;
+  display: block;
+  margin-left: 18vw;
+}
+
+.landing-header {
+  font-size: 34px;
+  font-weight: 700;
+  padding-top: 150px;
+  float: left;
+}
+
+.landing-subtext {
+  font-size: 16px;
+  text-align: left;
+  font-weight: 300;
+  padding-top: 210px;
+  width: 400px;
+  line-height: 20px;
+}
+
+/*
+==========================
+BUTTON
+==========================
+*/
+.exploreProjectsBtn {
+  margin-top: 25px;
+  border: none;
+  color: white;
+  background-color: #489be2;
+  padding: 15px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0px 3px 6px #d1d1d1;
 }

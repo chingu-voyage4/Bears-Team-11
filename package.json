@@ -6,16 +6,22 @@
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "express-session": "^1.15.6",
     "husky": "^0.14.3",
     "lint-staged": "^6.1.1",
+    "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "mongodb": "^3.0.2",
     "mongoose": "^5.0.6",
+    "morgan": "^1.9.0",
     "node-sass-chokidar": "0.0.3",
+    "nodemon": "^1.15.1",
     "npm-run-all": "^4.1.2",
     "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "prettier": "^1.10.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -29,10 +35,10 @@
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts-ts start",
-    "start-server": "nodemon api/",
+    "start-server": "nodemon api",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
+    "test": "jest --forceExit",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
@@ -43,11 +49,15 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^22.3.0",
-    "nodemon": "^1.15.1",
+    "supertest": "^3.0.0",
     "typescript": "^2.7.2"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ],
+    "api/**/*.{js}": [
       "prettier --single-quote --write",
       "git add"
     ]
