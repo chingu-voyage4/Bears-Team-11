@@ -28,7 +28,7 @@ MAIN IMAGE WITH SKY AND GRASS
 ==========================
 */
 .landing-image {
-  width: 950px;
+  height: 65vh;
   z-index: 3;
   margin-left: 23vw;
   position: relative;
@@ -39,14 +39,15 @@ MAIN IMAGE WITH SKY AND GRASS
   background-color: #e5e9fa;
   z-index: 1;
   position: relative;
+  height: 76vh;
 }
 
 .green-grass {
   background-color: #1ba572;
-  top: -78px;
   position: relative;
-  height: 100px;
-  z-index: 1;
+  height: 12vh;
+  z-index: 2;
+  top: -10.5vh;
 }
 
 /*
