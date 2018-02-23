@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './styles/LandingImage.css';
+import '../styles/LandingImage.css';
 
 class LandingImage extends React.Component {
   render() {
@@ -13,7 +13,7 @@ class LandingImage extends React.Component {
             collaboration tools to support mockup reviews.
           </div>
           <button className="exploreProjectsBtn">EXPLORE PROJECTS</button>
-          <img className="landing-image" src={require('./assets/Landing_Image-02.png')} />
+          <img className="landing-image" src={require('../assets/Landing_Image-02.png')} />
           <div className="green-grass" />
         </div>
       </div>

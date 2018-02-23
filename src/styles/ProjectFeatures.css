@@ -18,33 +18,38 @@ COMPONENTS
 COMPONENTS
 ==========================
 */
-.team-collaboration-container {
+.project-match-container, .team-collaboration-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto;
-  grid-template-areas: '. i t .';
-}
+  grid-template-rows: auto; }
+
+.project-match-container {
+  grid-template-areas: ". t i ."; }
+
+.team-collaboration-container {
+  grid-template-areas: ". i t ."; }
 
 /*
 ==========================
-TEXT
+TEXT 
 ==========================
 */
-.team-collaboration-text {
+.project-feature-text {
   grid-area: t;
-  color: #489be2;
-}
+  color: #489BE2; }
+
+.project-match-text {
+  grid-area: t;
+  color: #489BE2; }
 
 /*
 ==========================
 IMAGE
 ==========================
 */
-.team-collaboration-image-div {
-  grid-area: i;
-}
+.project-feature-image-div {
+  grid-area: i; }
 
-.team-collaboration-imac {
+.project-feature-imac {
   flex: 100%;
-  max-width: 100%;
-}
+  max-width: 100%; }

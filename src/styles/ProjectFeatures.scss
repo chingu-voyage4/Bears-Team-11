@@ -5,35 +5,43 @@
 COMPONENTS
 ==========================
 */
-.project-match-container{
+
+.project-match-container, .team-collaboration-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
+}
+.project-match-container {
     grid-template-areas: 
         ". t i ."
 }
-
+.team-collaboration-container {
+    grid-template-areas: 
+        ". i t ."
+}
 /*
 ==========================
-TEXT
+TEXT 
 ==========================
 */
-.project-match-text{
-grid-area: t;
-color: $theme-blue;
+.project-feature-text {
+    grid-area: t;
+    color: $theme-blue;
 }
-
+.project-match-text {
+    grid-area: t;
+    color: $theme-blue;
+}
 /*
 ==========================
 IMAGE
 ==========================
 */
-.project-match-image-div{
-grid-area: i;
-
+.project-feature-image-div{
+    grid-area: i;
 }
-
-.project-match-imac{
+.project-feature-imac{
     flex: 100%;
     max-width: 100%;
 }
+

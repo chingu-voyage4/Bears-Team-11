@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './styles/ReadyToTry.css';
+import '../styles/ReadyToTry.css';
 
 class ReadyToTry extends React.Component {
   render() {

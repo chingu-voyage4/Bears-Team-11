@@ -1,0 +1,26 @@
+@import "_variables.scss";
+
+img > .project-image {
+    height: 200px;
+    width: 250px;
+    object-fit: cover;
+}
+
+.project-info {
+    width: 250px;
+    height: 100px;
+    border: 1px solid $grey
+}
+
+.project-name {
+    font-size: $project-title-size;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.project-description {
+    font-size: $project-description-size;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
