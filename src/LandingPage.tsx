@@ -4,9 +4,9 @@ import Footer from './Footer';
 import LandingImage from './LandingImage';
 import ProjectMatch from './ProjectMatch';
 import TeamCollaboration from './TeamCollaboration';
-import RecentProjects from './RecentProjects';
+import Projects from './Projects';
 import ReadyToTry from './ReadyToTry';
-
+// import RecentProjects from './RecentProjects';
 class LandingPage extends React.Component {
   render() {
     return (
@@ -15,7 +15,7 @@ class LandingPage extends React.Component {
         <LandingImage />
         <ProjectMatch />
         <TeamCollaboration />
-        <RecentProjects />
+        <Projects />
         <ReadyToTry />
         <Footer />
       </div>

@@ -17,7 +17,7 @@ COMPONENTS
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: '. t . .' '. b . .';
+  grid-template-areas: '. t t .' '. b . .';
 }
 
 .ready-to-try-text {

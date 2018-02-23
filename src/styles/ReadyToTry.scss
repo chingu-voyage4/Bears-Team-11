@@ -5,15 +5,14 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
     grid-template-areas: 
-        ". t . ."
+        ". t t ."
         ". b . ."
 }
 
 .ready-to-try-text{
-grid-area: t;
-font-family: $font;
-color: $theme-blue;
-
+    grid-area: t;
+    font-family: $font;
+    color: $theme-blue;
 }
 
 .ready-to-try-button{
