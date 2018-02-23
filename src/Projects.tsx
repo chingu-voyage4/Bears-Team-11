@@ -18,6 +18,10 @@ interface TestProjectObject {
     status:     boolean,
     upVotes:    number
 };
+
+interface Props {
+    project: TestProjectObject
+}
 /* tslint-disable */
 var testProject = {
     name:       'Momentum Dash',
@@ -38,18 +42,18 @@ var testProject = {
 };
 /* tslint-enable */
 
-class Projects extends React.Component<TestProjectObject, {}> {
+class Projects extends React.Component<TestProjectObject, Props> {
     constructor(props: TestProjectObject) {
         super(props);
         this.state = {
-            projects: testProject
+            project: testProject
         }
 
     }
     render() {
         return (
             <div className="project">
-                <img className="project-image" alt={this.props.name} src={this.props.image} />
+                <img className="project-image" alt={this.state.project.name} src={this.state.project.image} />
                 <div className="project-info">
                     <div className="project-name">{this.state.project.name}</div>
                     <div className="project-description">{this.state.project.description}</div>
