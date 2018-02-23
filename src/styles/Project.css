@@ -13,16 +13,32 @@ FONTS
 COMPONENTS
 ==========================
 */
-img > .project-image {
+.project {
+  display: inline-block;
+}
+
+.projects-container {
+  display: grid;
+  grid-gap: 50px;
+  grid-template-columns: repeat(3, 300px);
+  grid-auto-rows: 300px;
+  justify-content: center;
+  align-content: center;
+}
+
+.project-image {
   height: 200px;
-  width: 250px;
+  width: 300px;
   object-fit: cover;
+  border: 1px solid #d1d1d1;
 }
 
 .project-info {
-  width: 250px;
+  width: 300px;
   height: 100px;
-  border: 1px solid #95989a;
+  border: 1px solid #d1d1d1;
+  position: relative;
+  object-position: center;
 }
 
 .project-name {

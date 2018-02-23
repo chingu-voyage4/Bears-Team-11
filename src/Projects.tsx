@@ -1,24 +1,35 @@
 import * as React from 'react';
-import './styles/RecentProjects.css';
-import { TestProjectObject, State, Props, testProject } from './types/Projects';
+import './styles/Project.css';
+import { State, Props, ProjectsState, ProjectsInheritedProps, arrayOfTestProjects } from './types/Projects';
 
-class Projects extends React.Component<Props, State> {
-    constructor(props: TestProjectObject) {
-        super(props);
-        this.state = {
-            project: testProject
-        };
-    }
+class Project extends React.Component<Props, State> {
     render() {
+        var data = this.props.project;
         return (
             <div className="project">
-                <img className="project-image" alt={this.state.project.name} src={this.state.project.image} />
+                <img className="project-image" alt={data.name} src={data.image} />
                 <div className="project-info">
-                    <div className="project-name">{this.state.project.name}</div>
-                    <div className="project-description">{this.state.project.description}</div>
-                    <div className="project-roles-needed">{this.state.project.lookingFor}</div>
+                    <div className="project-name">{data.name}</div>
+                    <div className="project-description">{data.description}</div>
+                    <div className="project-roles-needed">{data.lookingFor}</div>
                     <img className="project-save" src={require('./assets/Bookmark Icon.png')} />
                 </div>
+            </div>
+        );
+    }
+}
+class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
+    constructor(props: ProjectsInheritedProps) {
+        super(props);
+    }
+
+    render() {
+        let projectArray = arrayOfTestProjects.slice(0, this.props.count + 1);
+        return (
+            <div className="projects-container">
+                {projectArray.map((projectData) => (
+                    <Project project={projectData} />
+                ))}
             </div>
         );
     }

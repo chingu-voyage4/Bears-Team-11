@@ -3,7 +3,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import LandingImage from './LandingImage';
 import ProjectFeatures from './ProjectFeatures';
-import Projects from '../Projects';
+import RecentProjects from './RecentProjects';
 import ReadyToTry from './ReadyToTry';
 // import RecentProjects from './RecentProjects';
 class LandingPage extends React.Component {
@@ -13,7 +13,7 @@ class LandingPage extends React.Component {
         <Header />
         <LandingImage />
         <ProjectFeatures />
-        <Projects />
+        <RecentProjects />
         <ReadyToTry />
         <Footer />
       </div>
