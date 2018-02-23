@@ -4,11 +4,13 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('./utils/auth');
+const morgan = require('morgan');
 
 const app = express();
 
 const sessionSecret = require('./config');
 
+app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(
