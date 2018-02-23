@@ -13,6 +13,11 @@ FONTS
 COMPONENTS
 ==========================
 */
+/*
+==========================
+BUTTON
+==========================
+*/
 .project {
   display: inline-block;
 }
@@ -26,13 +31,6 @@ COMPONENTS
   align-content: center;
 }
 
-.project-image {
-  height: 200px;
-  width: 300px;
-  object-fit: cover;
-  border: 1px solid #d1d1d1;
-}
-
 .project-info {
   width: 300px;
   height: 125px;
@@ -41,6 +39,23 @@ COMPONENTS
   object-position: center;
 }
 
+/*
+==========================
+IMAGE
+==========================
+*/
+.project-image {
+  height: 200px;
+  width: 300px;
+  object-fit: cover;
+  border: 1px solid #d1d1d1;
+}
+
+/*
+==========================
+NAME & DESCRIPTION
+==========================
+*/
 .project-name {
   font-size: 14px;
   font-weight: 700;
@@ -60,6 +75,11 @@ COMPONENTS
   padding-right: 10px;
 }
 
+/*
+==========================
+ROLES
+==========================
+*/
 .project-roles-needed,
 .project-roles {
   display: inline-block;
@@ -79,6 +99,11 @@ COMPONENTS
   padding-left: 5px;
 }
 
+/*
+==========================
+SAVE PROJECT BUTTON
+==========================
+*/
 .project-save {
   padding: 10px;
   object-fit: cover;

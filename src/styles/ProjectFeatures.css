@@ -15,19 +15,28 @@ COMPONENTS
 */
 /*
 ==========================
+BUTTON
+==========================
+*/
+/*
+==========================
 COMPONENTS
 ==========================
 */
-.project-match-container, .team-collaboration-container {
+.project-match-container,
+.team-collaboration-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto; }
+  grid-template-rows: auto;
+}
 
 .project-match-container {
-  grid-template-areas: ". t i ."; }
+  grid-template-areas: '. t i .';
+}
 
 .team-collaboration-container {
-  grid-template-areas: ". i t ."; }
+  grid-template-areas: '. i t .';
+}
 
 /*
 ==========================
@@ -36,11 +45,13 @@ TEXT
 */
 .project-feature-text {
   grid-area: t;
-  color: #489BE2; }
+  color: #489be2;
+}
 
 .project-match-text {
   grid-area: t;
-  color: #489BE2; }
+  color: #489be2;
+}
 
 /*
 ==========================
@@ -48,8 +59,10 @@ IMAGE
 ==========================
 */
 .project-feature-image-div {
-  grid-area: i; }
+  grid-area: i;
+}
 
 .project-feature-imac {
   flex: 100%;
-  max-width: 100%; }
+  max-width: 100%;
+}

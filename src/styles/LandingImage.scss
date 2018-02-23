@@ -66,11 +66,5 @@ BUTTON
 */
 .exploreProjectsBtn {
     margin-top: 25px;
-    border: none;
-    color: white;
-    background-color: $theme-blue;
-    padding: 15px;
-    font-size: $button-font-size;
-    font-weight: 700;
-    box-shadow: $box-shadow;
+    @include white-text-blue-background-button;
 }

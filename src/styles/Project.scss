@@ -13,13 +13,6 @@
     align-content: center;
 }
 
-.project-image {
-    height: 200px;
-    width: 300px;
-    object-fit: cover;
-    border: $border;
-}
-
 .project-info {
     width: 300px;
     height: 125px;
@@ -28,6 +21,23 @@
     object-position: center;
 }
 
+/*
+==========================
+IMAGE
+==========================
+*/
+.project-image {
+    height: 200px;
+    width: 300px;
+    object-fit: cover;
+    border: $border;
+}
+
+/*
+==========================
+NAME & DESCRIPTION
+==========================
+*/
 .project-name {
     font-size: $project-title-size;
     font-weight: 700;
@@ -47,6 +57,11 @@
     padding-right: 10px;
 }
 
+/*
+==========================
+ROLES
+==========================
+*/
 .project-roles-needed, .project-roles {
     display: inline-block;
     font-size: 11px;
@@ -62,6 +77,11 @@
     text-transform: uppercase;
     padding-left: 5px;
 }
+/*
+==========================
+SAVE PROJECT BUTTON
+==========================
+*/
 .project-save {
     padding: 10px;
     object-fit: cover;
