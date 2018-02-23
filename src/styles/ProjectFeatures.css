@@ -26,16 +26,16 @@ COMPONENTS
 .project-match-container,
 .team-collaboration-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto;
 }
 
 .project-match-container {
-  grid-template-areas: '. t i .';
+  grid-template-areas: '. t i i .';
 }
 
 .team-collaboration-container {
-  grid-template-areas: '. i t .';
+  grid-template-areas: '. i i t .';
 }
 
 /*
@@ -43,14 +43,23 @@ COMPONENTS
 TEXT 
 ==========================
 */
-.project-feature-text {
+.project-feature-heading {
   grid-area: t;
+  font-size: 24px;
   color: #489be2;
+  text-align: left;
+  margin-top: 150px;
+  padding-left: 25px;
 }
 
-.project-match-text {
+.project-feature-text {
+  padding-top: 175px;
   grid-area: t;
   color: #489be2;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 300;
+  padding-left: 25px;
 }
 
 /*
@@ -63,6 +72,8 @@ IMAGE
 }
 
 .project-feature-imac {
+  margin: 50px;
   flex: 100%;
-  max-width: 100%;
+  max-width: 600px;
+  object-fit: cover;
 }
