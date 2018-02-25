@@ -18,6 +18,11 @@ COMPONENTS
 BUTTON
 ==========================
 */
+body {
+  position: relative;
+  z-index: -1;
+}
+
 .header-container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -90,4 +95,54 @@ SIGNUP BUTTON
   box-shadow: 0px 3px 6px #d1d1d1;
   background-color: #489be2;
   vertical-align: middle;
+}
+
+/*
+==========================
+LOGIN SCREEM
+==========================
+*/
+.loginScreen {
+  position: fixed;
+  width: 500px;
+  height: 650px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: white;
+  z-index: 5;
+  border: 5px solid #489be2;
+}
+
+.loginScreen-header {
+  vertical-align: top;
+  color: #489be2;
+}
+
+.loginScreen-button-google {
+  border: 1px solid #d1d1d1;
+  background-color: white;
+  color: grey;
+  height: 35px;
+  width: 324px;
+}
+
+.loginScreen-button-facebook {
+  border: 1px solid #d1d1d1;
+  background-color: white;
+  vertical-align: middle;
+  color: grey;
+  height: 35px;
+  width: 324px;
+}
+
+.usernameDiv {
+  padding-top: 10%;
+  margin: 2%;
+}
+
+.passwordDiv {
+  margin: 2%;
 }
