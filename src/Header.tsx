@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import './styles/Header.css';
 
 class Header extends React.Component<any, any> {
@@ -6,10 +7,48 @@ class Header extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-          loginScreen: false
+          loginScreen: false,
+          Email: '',
+          Password: ''
         };
         this.loginPressed = this.loginPressed.bind(this);
+        this.handleEmail = this.handleEmail.bind(this);
+        this.handlePassword = this.handlePassword.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
       }
+
+      handleEmail(e: any) {
+        this.setState({
+          Email: e.target.value
+        });
+      }
+
+      handlePassword(e: any) {
+        this.setState({
+            Password: e.target.value
+          });
+      }
+
+      handleSubmit(e: any) {
+        var apiBaseUrl = 'http://localhost:3000/api/';
+        var payload = {
+        Email: this.state.username,
+        Password: this.state.password
+        };
+        axios.post(apiBaseUrl + 'login', payload)
+        .then(function (response: any) {
+        if (response.data.code === 200) {
+        alert('good job');
+        } else if (response.data.code === 204) {
+        alert('Username password do not match');
+        } else {
+        alert('Username does not exist');
+        }
+        })
+        .catch(function (error: any) {
+        alert(error);
+        });
+        }
 
       loginPressed() {
           this.setState({
