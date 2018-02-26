@@ -3,7 +3,7 @@ import axios from 'axios';
 import './styles/Header.css';
 
 class Header extends React.Component<any, any> {
-
+    
     constructor(props: any) {
         super(props);
         this.state = {
@@ -17,23 +17,23 @@ class Header extends React.Component<any, any> {
         this.handleSubmit = this.handleSubmit.bind(this);
       }
 
-      handleEmail(e: any) {
+      handleEmail(event: any) {
         this.setState({
-          Email: e.target.value
+          Email: event.target.value
         });
       }
 
-      handlePassword(e: any) {
+      handlePassword(event: any) {
         this.setState({
-            Password: e.target.value
+            Password: event.target.value
           });
       }
 
-      handleSubmit(e: any) {
+      handleSubmit(event: any) {
         var apiBaseUrl = 'http://localhost:3000/api/';
         var payload = {
-        Email: this.state.username,
-        Password: this.state.password
+        Email: this.state.Email,
+        Password: this.state.Password
         };
         axios.post(apiBaseUrl + 'login', payload)
         .then(function (response: any) {
@@ -70,11 +70,23 @@ class Header extends React.Component<any, any> {
             <button className="loginScreen-button-facebook">Sign in with Facebook</button>
             </div>
             <form>
-            <div className="usernameDiv">
-            <input type="text" name="username" placeholder="Email" />
+            <div className="emailDiv">
+            <input
+                type="text" 
+                name="email"
+                value={this.state.Email}
+                onChange={this.handleEmail}
+                placeholder="Email" 
+            />
             </div>
             <div className="passwordDiv">
-            <input type="text" name="password" placeholder="Password" />
+            <input 
+                type="text"
+                name="password"
+                value={this.state.Password}
+                onChange={this.handlePassword}
+                placeholder="Password" 
+            />
             </div>
             <input type="submit" value="Submit" />
             </form>
@@ -84,6 +96,7 @@ class Header extends React.Component<any, any> {
         return (
             <div>
                 <div className="header-container">
+                    <h1>EmailState:{this.state.Email} PasswordState:{this.state.Password}</h1>
                     {this.state.loginScreen === true ? login : null}
                     <div className="logo">
                         <h1>project match</h1>
