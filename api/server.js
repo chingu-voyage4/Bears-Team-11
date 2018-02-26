@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const userRoutes = require('./routes/user');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -10,6 +11,7 @@ const app = express();
 
 const sessionSecret = require('./config');
 
+app.use(cors());
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
