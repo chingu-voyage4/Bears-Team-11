@@ -30,10 +30,10 @@ class Header extends React.Component<any, any> {
       }
 
       handleSubmit(event: any) {
-        var apiBaseUrl = 'http://localhost:3000/api/';
+        var apiBaseUrl = 'localhost:8080/api/v1/user/';
         var payload = {
-        Email: this.state.Email,
-        Password: this.state.Password
+        username: this.state.Email,
+        password: this.state.Password
         };
         axios.post(apiBaseUrl + 'login', payload)
         .then(function (response: any) {
@@ -88,7 +88,7 @@ class Header extends React.Component<any, any> {
                 placeholder="Password" 
             />
             </div>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" onClick={this.handleSubmit} />
             </form>
             </div>
             </div>
