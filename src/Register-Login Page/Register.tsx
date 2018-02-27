@@ -2,6 +2,7 @@ import * as React from 'react';
 import { State, Props, PassedProps } from '../types/Register.d';
 import '../styles/Header.css';
 const fetch = require('isomorphic-fetch');
+
 class Register extends React.Component<PassedProps, State> {
     constructor(props: Props) {
         super(props);
@@ -52,8 +53,8 @@ class Register extends React.Component<PassedProps, State> {
         };
 
         fetch(url, data)
-            /* tslint:disable-next-line */ 
-            .then(function(res: any) {
+            /* tslint:disable-next-line */
+            .then(function (res: any) {
                 if (res.status === 409) {
                     alert('User already exists in database');
                 } else if (res.status === 200) {
@@ -70,53 +71,53 @@ class Register extends React.Component<PassedProps, State> {
                 <form className="register-form">
                     <div className="register-title">project match</div>
                     <label className="register-form-label">First Name</label>
-                    <input 
-                        type="text" 
-                        placeholder="First Name" 
-                        name="firstName" 
-                        required={true} 
-                        onChange={e => this.handleFirstNameChange(e)} 
+                    <input
+                        type="text"
+                        placeholder="First Name"
+                        name="firstName"
+                        required={true}
+                        onChange={e => this.handleFirstNameChange(e)}
                     />
 
                     <label className="register-form-label">Last Name</label>
-                    <input 
-                        type="text" 
-                        placeholder="Last Name" 
-                        name="lastName" 
-                        required={true} 
+                    <input
+                        type="text"
+                        placeholder="Last Name"
+                        name="lastName"
+                        required={true}
                         onChange={e => this.handleLastNameChange(e)}
                     />
 
                     <br />
 
                     <label className="register-form-label">Username</label>
-                    <input 
-                        type="text" 
-                        placeholder="Username" 
-                        name="username" 
-                        required={true} 
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        name="username"
+                        required={true}
                         onChange={e => this.handleUsernameChange(e)}
                     />
 
                     <br />
 
                     <label className="register-form-label">Your Email</label>
-                    <input 
-                        type="email" 
-                        placeholder="Email Address" 
-                        name="email" 
-                        required={true} 
+                    <input
+                        type="email"
+                        placeholder="Email Address"
+                        name="email"
+                        required={true}
                         onChange={e => this.handleEmailChange(e)}
                     />
 
                     <br />
 
                     <label className="register-form-label">Password</label>
-                    <input 
-                        type="password" 
-                        placeholder="Password" 
-                        name="password" 
-                        required={true}  
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        name="password"
+                        required={true}
                         onChange={e => this.handlePasswordChange(e)}
                     />
 
