@@ -15,9 +15,9 @@ var users = {
 };
 
 class User {
-  static find({ username }) {
+  static find({ email }) {
     const user = _.filter(users, function(user) {
-      return users[user.id].username === username;
+      return users[user.id].email === email;
     });
     return user[0];
   }
