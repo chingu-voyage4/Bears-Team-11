@@ -6,9 +6,9 @@ describe('POST/api/v1/user', function() {
     request(app)
       .post('/api/v1/user')
       .send({
-        username: 'joe',
+        firstName: 'Joe',
+        lastName: 'Smol',
         password: 'secret',
-        name: 'Joe Smol',
         email: 'joe@gmail.com'
       })
       .set('Content-Type', 'application/json')
@@ -25,7 +25,7 @@ describe('POST/api/v1/user/login', function() {
     request(app)
       .post('/api/v1/user/login')
       .send({
-        username: 'BlackPanther',
+        email: 'blackpanther@wakanda.gov',
         password: 'shouldbeencrypted'
       })
       .set('Content-Type', 'application/json')
@@ -40,7 +40,7 @@ describe('POST/api/v1/user/login', function() {
     request(app)
       .post('/api/v1/user/login')
       .send({
-        username: 'BlackPanther',
+        email: 'blackpanther@wakanda.gov',
         password: 'password'
       })
       .set('Content-Type', 'application/json')
@@ -48,11 +48,11 @@ describe('POST/api/v1/user/login', function() {
       .expect(401);
   });
 
-  test('login user with incorrect username', () => {
+  test('login user with incorrect email', () => {
     request(app)
       .post('/api/v1/user/login')
       .send({
-        username: 'BlackAngus',
+        email: 'BlackAngus@beef.com',
         password: 'shouldbeencrypted'
       })
       .set('Content-Type', 'application/json')
@@ -60,11 +60,11 @@ describe('POST/api/v1/user/login', function() {
       .expect(401);
   });
 
-  test('login user with incorrect username and password', () => {
+  test('login user with incorrect email and password', () => {
     request(app)
       .post('/api/v1/user/login')
       .send({
-        username: 'BlackAngus',
+        email: 'BlackAngus@beef.com',
         password: 'password'
       })
       .set('Content-Type', 'application/json')
@@ -94,7 +94,7 @@ describe('GET/api/v1/user/restricted', function() {
     agent
       .post('/api/v1/user/login')
       .send({
-        username: 'BlackPanther',
+        email: 'blackpanther@wakanda.gov',
         password: 'shouldbeencrypted'
       })
       .set('Content-Type', 'application/json')
