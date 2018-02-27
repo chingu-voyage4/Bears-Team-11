@@ -30,19 +30,21 @@ class Header extends React.Component<any, any> {
       }
 
       handleSubmit(event: any) {
-        var apiBaseUrl = 'localhost:8080/api/v1/user/';
+        // var apiBaseUrl = 'localhost:8080/api/v1/user/';
+        event.preventDefault();
         var payload = {
         username: this.state.Email,
         password: this.state.Password
         };
-        axios.post(apiBaseUrl + 'login', payload)
-        .then(function (response: any) {
-        if (response.data.code === 200) {
+        axios.post('http://localhost:8080/api/v1/user/login', payload, {
+            headers: {'Content-Type': 'application/json'}
+        }).then(function (response: any) {
+        if (response.status === 200) {
         alert('good job');
-        } else if (response.data.code === 204) {
+        } else if (response.status === 204) {
         alert('Username password do not match');
         } else {
-        alert('Username does not exist');
+        alert('dunno wtf you did');
         }
         })
         .catch(function (error: any) {
@@ -88,7 +90,7 @@ class Header extends React.Component<any, any> {
                 placeholder="Password" 
             />
             </div>
-            <input type="submit" value="Submit" onClick={this.handleSubmit} />
+            <input type="Submit" value="Submit" onClick={this.handleSubmit} />
             </form>
             </div>
             </div>
