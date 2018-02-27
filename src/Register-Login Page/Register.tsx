@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { State, Props, PassedProps } from '../types/Register';
+import { State, Props, PassedProps } from '../types/Register.d';
 import '../styles/Header.css';
-
+const fetch = require('isomorphic-fetch');
 class Register extends React.Component<PassedProps, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: ''
+            firstName: 'firstName',
+            lastName: 'firstName',
+            email: 'email',
+            password: 'password',
+            username: 'username'
         };
     }
 
@@ -21,6 +22,10 @@ class Register extends React.Component<PassedProps, State> {
         this.setState({ lastName: e.currentTarget.value });
     }
 
+    public handleUsernameChange(e: React.FormEvent<HTMLInputElement>): void {
+        this.setState({ username: e.currentTarget.value });
+    }
+
     public handleEmailChange(e: React.FormEvent<HTMLInputElement>): void {
         this.setState({ email: e.currentTarget.value });
     }
@@ -30,7 +35,34 @@ class Register extends React.Component<PassedProps, State> {
     }
 
     public handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
-        this.setState({});
+        const url = 'localhost:8080/api/v1/user/';
+
+        let bodyData = {
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            username: this.state.username,
+            email: this.state.email,
+            password: this.state.password,
+        };
+
+        let data = {
+            method: 'POST',
+            body: bodyData,
+            headers: new Headers()
+        };
+
+        fetch(url, data)
+            /* tslint:disable-next-line */ 
+            .then(function(res: any) {
+                if (res.status === 409) {
+                    alert('User already exists in database');
+                } else if (res.status === 200) {
+                    alert('User added to database');
+                } else {
+                    alert('Error ' + res.status + '; ' + res);
+                }
+            });
+
     }
     render() {
         return (
@@ -53,6 +85,17 @@ class Register extends React.Component<PassedProps, State> {
                         name="lastName" 
                         required={true} 
                         onChange={e => this.handleLastNameChange(e)}
+                    />
+
+                    <br />
+
+                    <label className="register-form-label">Username</label>
+                    <input 
+                        type="text" 
+                        placeholder="Username" 
+                        name="username" 
+                        required={true} 
+                        onChange={e => this.handleUsernameChange(e)}
                     />
 
                     <br />
