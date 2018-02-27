@@ -16,10 +16,21 @@ class Register extends React.Component<PassedProps, State> {
     public handleFirstNameChange(e: React.FormEvent<HTMLInputElement>): void {
         this.setState({ firstName: e.currentTarget.value });
     }
-    public handleSubmit(event: MouseEvent): void {
-        this.setState({
-            
-        });
+
+    public handleLastNameChange(e: React.FormEvent<HTMLInputElement>): void {
+        this.setState({ lastName: e.currentTarget.value });
+    }
+
+    public handleEmailChange(e: React.FormEvent<HTMLInputElement>): void {
+        this.setState({ email: e.currentTarget.value });
+    }
+
+    public handlePasswordChange(e: React.FormEvent<HTMLInputElement>): void {
+        this.setState({ password: e.currentTarget.value });
+    }
+
+    public handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
+        this.setState({});
     }
     render() {
         return (
@@ -36,17 +47,35 @@ class Register extends React.Component<PassedProps, State> {
                     />
 
                     <label className="register-form-label">Last Name</label>
-                    <input type="text" placeholder="Last Name" name="lastName" required={true} />
+                    <input 
+                        type="text" 
+                        placeholder="Last Name" 
+                        name="lastName" 
+                        required={true} 
+                        onChange={e => this.handleLastNameChange(e)}
+                    />
 
                     <br />
 
                     <label className="register-form-label">Your Email</label>
-                    <input type="email" placeholder="Email Address" name="email" required={true} />
+                    <input 
+                        type="email" 
+                        placeholder="Email Address" 
+                        name="email" 
+                        required={true} 
+                        onChange={e => this.handleEmailChange(e)}
+                    />
 
                     <br />
 
                     <label className="register-form-label">Password</label>
-                    <input type="password" placeholder="Password" name="password" required={true}  />
+                    <input 
+                        type="password" 
+                        placeholder="Password" 
+                        name="password" 
+                        required={true}  
+                        onChange={e => this.handlePasswordChange(e)}
+                    />
 
                     <br />
 
