@@ -15,7 +15,7 @@ class Header extends React.Component {
                         <a href="#"><h2 className="loginText">LOG IN</h2></a>
                     </div>
                     <div className="signUp">
-                        <button className="signUpButton"><h2 className="signUpText">SIGN UP FOR FREE</h2></button>
+                        <button className="signUpButton signUpText">SIGN UP FOR FREE</button>
                     </div>
                 </div>
             </div>
