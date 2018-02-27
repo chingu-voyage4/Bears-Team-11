@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './styles/Project.css';
-import { State, Props, ProjectsState, ProjectsInheritedProps, arrayOfTestProjects } from './types/Projects';
+import { State, Props, ProjectsState, ProjectsInheritedProps } from './types/Projects.d';
+import { arrayOfTestProjects } from './dummyData/Dummy Project Data';
 
 class Project extends React.Component<Props, State> {
     render() {
