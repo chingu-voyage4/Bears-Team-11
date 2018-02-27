@@ -9,9 +9,12 @@ passport.serializeUser(function(user, done) {
 
 // uses the user id to find the user and the user will be stored in req.user
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
+  const user = User.findById(id);
+  if (user) {
+    done(null, user);
+  } else {
+    done(new Error());
+  }
 });
 
 // authenticate user

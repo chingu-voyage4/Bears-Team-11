@@ -6,6 +6,7 @@ import ProjectFeatures from './ProjectFeatures';
 import RecentProjects from './RecentProjects';
 import ReadyToTry from './ReadyToTry';
 // import RecentProjects from './RecentProjects';
+
 class LandingPage extends React.Component {
   render() {
     return (
