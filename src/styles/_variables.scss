@@ -16,16 +16,40 @@ $light-grey: #D1D1D1;
 FONTS
 ==========================
 */
-$font: "Helvetica Neue", Helvetica, 'Varela Round', sans-serif;
+$font: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
 $header-font-size: 14px;
 $footer-font-size: 11px;
 $footer-subheader-font-size: 8px;
 $landing-header-size: 34px;
 $landing-subtext-size: 16px;
+$project-feature-header: 24px;
 $button-font-size: 14px;
+$project-title-size: 14px;
+$project-description-size: 12px;
 /*
 ==========================
 COMPONENTS
 ==========================
 */
 $box-shadow: 0px 3px 6px $light-grey;
+$border: 1px solid $light-grey;
+/*
+==========================
+BUTTON
+==========================
+*/
+@mixin white-text-blue-background-button {
+    border: none;
+    color: white;
+    background-color: $theme-blue;
+    padding: 15px;
+    font-size: $button-font-size;
+    font-weight: 700;
+    box-shadow: $box-shadow;
+    text-transform: uppercase;
+}
+
+@mixin hrline {
+    border-top: 1px solid $light-grey;
+    width: 1100px;
+}

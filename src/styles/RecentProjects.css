@@ -13,17 +13,22 @@ FONTS
 COMPONENTS
 ==========================
 */
+/*
+==========================
+BUTTON
+==========================
+*/
+.horizontal-line {
+  border-top: 1px solid #d1d1d1;
+  width: 1100px;
+}
+
 .recent-projects-header {
   text-align: center;
   color: #489be2;
-}
-
-.recent-projects-container {
-  display: grid;
-  grid-gap: 11px;
-  grid-template-columns: 200px 200px 200px;
-  grid-auto-rows: 200px 200px;
-  justify-content: center;
+  font-size: 34px;
+  padding-top: 50px;
+  padding-bottom: 30px;
 }
 
 .projectCard {
@@ -34,11 +39,12 @@ COMPONENTS
 
 .explore-projects-button {
   border: none;
-  box-shadow: 0px 3px 6px #d1d1d1;
-  background-color: #489be2;
-  vertical-align: middle;
-  margin: 2%;
   color: white;
-  width: 175px;
-  height: 31px;
+  background-color: #489be2;
+  padding: 15px;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0px 3px 6px #d1d1d1;
+  text-transform: uppercase;
+  margin: 75px;
 }

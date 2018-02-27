@@ -13,8 +13,14 @@ FONTS
 COMPONENTS
 ==========================
 */
+/*
+==========================
+BUTTON
+==========================
+*/
 .landing-image-container {
   display: block;
+  position: relative;
 }
 
 /*
@@ -23,7 +29,7 @@ MAIN IMAGE WITH SKY AND GRASS
 ==========================
 */
 .landing-image {
-  width: 950px;
+  height: 65vh;
   z-index: 3;
   margin-left: 23vw;
   position: relative;
@@ -34,14 +40,15 @@ MAIN IMAGE WITH SKY AND GRASS
   background-color: #e5e9fa;
   z-index: 1;
   position: relative;
+  height: 76vh;
 }
 
 .green-grass {
   background-color: #1ba572;
-  top: -78px;
   position: relative;
-  height: 100px;
-  z-index: 1;
+  height: 12vh;
+  z-index: 2;
+  top: -10.5vh;
 }
 
 /*
@@ -53,7 +60,8 @@ LANDING TEXT
 .landing-subtext,
 .exploreProjectsBtn {
   position: relative;
-  font-family: 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
+    sans-serif;
   color: #489be2;
   z-index: 4;
   display: block;
@@ -90,4 +98,5 @@ BUTTON
   font-size: 14px;
   font-weight: 700;
   box-shadow: 0px 3px 6px #d1d1d1;
+  text-transform: uppercase;
 }
