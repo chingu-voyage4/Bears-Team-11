@@ -17,6 +17,7 @@ FONTS
 ==========================
 */
 $font: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+$logo-font-size: 24px;
 $header-font-size: 14px;
 $footer-font-size: 11px;
 $footer-subheader-font-size: 8px;
@@ -52,4 +53,16 @@ BUTTON
 @mixin hrline {
     border-top: 1px solid $light-grey;
     width: 1100px;
+}
+/*
+==========================
+LOGIN / REGISTER COMPONENTS
+==========================
+*/
+@mixin login-register-container {
+    width: 350px;
+    height: 550px;
+    border: 3px solid $theme-blue;
+    box-shadow: 12px 12px 2px $light-blue;
+    background-color: white;
 }
