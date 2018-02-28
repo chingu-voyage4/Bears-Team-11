@@ -31,7 +31,6 @@ class Header extends React.Component<PassedProps, State> {
 
     handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
         var apiBaseUrl = 'localhost:8080/api/v1/user/';
-
         var payload = {
             username: this.state.Email,
             password: this.state.Password
