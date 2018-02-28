@@ -1,7 +1,8 @@
 import * as React from 'react';
-import axios from 'axios';
 import './styles/Header.css';
 import { PassedProps, State, Props } from './types/Header.d';
+
+const fetch = require('isomorphic-fetch');
 class Header extends React.Component<PassedProps, State> {
 
     constructor(props: Props) {
@@ -30,21 +31,27 @@ class Header extends React.Component<PassedProps, State> {
     }
 
     handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
-        var apiBaseUrl = 'localhost:8080/api/v1/user/';
+        var apiBaseUrl = 'http://localhost:8080/api/v1/user/login';
         var payload = {
             username: this.state.Email,
             password: this.state.Password
         };
 
-        axios.post(apiBaseUrl + 'login', payload)
+        let data = {
+            method: 'POST',
+            body: payload,
+            headers: new Headers()
+        };
+
+        fetch(apiBaseUrl, data)
             /* tslint:disable-next-line */
             .then(function (response: any) {
-                if (response.data.code === 200) {
+                if (response.status === 200) {
                     alert('good job');
-                } else if (response.data.code === 204) {
+                } else if (response.status === 204) {
                     alert('Username password do not match');
                 } else {
-                    alert('Username does not exist');
+                    alert(response.status);
                 }
             })
             /* tslint:disable-next-line */
