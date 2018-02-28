@@ -1,0 +1,71 @@
+/*
+==========================
+COLORS
+==========================
+*/
+/*
+==========================
+FONTS
+==========================
+*/
+/*
+==========================
+COMPONENTS
+==========================
+*/
+/*
+==========================
+BUTTON
+==========================
+*/
+/*
+==========================
+LOGIN / REGISTER COMPONENTS
+==========================
+*/
+/*
+==========================
+LOGIN SCREEN
+==========================
+*/
+.popupScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 5;
+  width: 350px;
+  height: 550px;
+  border: 3px solid #489be2;
+  box-shadow: 12px 12px 2px #e5e9fa;
+  background-color: white;
+}
+
+.extAuthBtn {
+  width: 325px;
+  height: 35px;
+  margin: 15px;
+  text-align: left;
+  background-color: white;
+  border: 1px solid #d1d1d1;
+  font-size: 11px;
+  color: #d1d1d1;
+  padding: auto;
+}
+
+.extAuthIcon {
+  object-fit: cover;
+  width: 24px;
+  height: 24px;
+}
+
+.emailDiv {
+  padding-top: 10%;
+  margin: 2%;
+}
+
+.passwordDiv {
+  margin: 2%;
+}
