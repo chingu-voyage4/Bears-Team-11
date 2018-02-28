@@ -1,9 +1,14 @@
 import { LOGIN, REGISTER, LOGOUT } from './actionTypes';
+import { Dispatch } from 'react-redux';
+
+interface Action {
+  type: string;
+}
 
 export function login(
   email: string,
   password: string
-): (dispatch: any) => void {
+): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     // make ajax call to api server to login user
     // if success dispatch login action
@@ -19,7 +24,7 @@ export function register(
   lastName: string,
   email: string,
   password: string
-): (dispatch: any) => void {
+): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     // make ajax call to api server to register user
     // if success dispatch register action
@@ -30,7 +35,7 @@ export function register(
   };
 }
 
-export function logout(): (dispatch: any) => void {
+export function logout(): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     // make ajax call to api server to logout user user
     // if success dispatch logout action
