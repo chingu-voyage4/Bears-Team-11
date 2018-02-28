@@ -15,19 +15,19 @@ class Header extends React.Component<PassedProps, State> {
         };
     }
 
-    handleEmail(e: React.FormEvent<HTMLInputElement>): void {
+    handleEmail = (e: React.FormEvent<HTMLInputElement>): void => {
         this.setState({
             Email: e.currentTarget.value
         });
     }
 
-    handlePassword(e: React.FormEvent<HTMLInputElement>): void {
+    handlePassword = (e: React.FormEvent<HTMLInputElement>): void => {
         this.setState({
             Password: e.currentTarget.value
         });
     }
 
-    handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
+    handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
       
         var apiBaseUrl = 'http://localhost:8080/api/v1/user/login';
 
@@ -37,9 +37,9 @@ class Header extends React.Component<PassedProps, State> {
         };
 
         let data = {
-            method: 'GET',
-            body: payload,
-            headers: new Headers()
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
         };
 
         fetch(apiBaseUrl, data)
@@ -50,7 +50,7 @@ class Header extends React.Component<PassedProps, State> {
                 } else if (response.status === 204) {
                     alert('Username password do not match');
                 } else {
-                    alert(response.status);
+                    alert('Status Code: ' + response.status + ' - ' + response.statusText);
                 }
             })
             /* tslint:disable-next-line */
@@ -59,7 +59,7 @@ class Header extends React.Component<PassedProps, State> {
             });
     }
 
-    loginPressed (e: React.MouseEventHandler<HTMLButtonElement>): void {
+    loginPressed = () => {
         this.setState({
             loginScreen: !this.state.loginScreen
         });
@@ -116,7 +116,7 @@ class Header extends React.Component<PassedProps, State> {
 
                     <div className="logo">project match</div>
                     <div className="login">
-                        <button onClick={e => this.loginPressed(e)} className="loginText">LOG IN</button>
+                        <button onClick={this.loginPressed} className="loginText">LOG IN</button>
                     </div>
                     <div className="signUp">
                         <button className="signUpButton">
