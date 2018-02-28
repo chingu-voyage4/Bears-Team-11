@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { State, Props, PassedProps } from '../types/Register.d';
-import '../styles/Header.css';
+import '../styles/Register-Login.css';
 const fetch = require('isomorphic-fetch');
 
 class Register extends React.Component<PassedProps, State> {
@@ -48,7 +48,7 @@ class Register extends React.Component<PassedProps, State> {
 
         let data = {
             method: 'post',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyData)
         };
 
@@ -67,9 +67,26 @@ class Register extends React.Component<PassedProps, State> {
     }
     render() {
         return (
-            <div className="register-page">
+            <div className="popupScreen">
                 <form className="register-form">
-                    <div className="register-title">project match</div>
+                    <br />
+                    <div className="logo">project match</div>
+                    <br />
+                    <button className="extAuthBtn">
+                        <img className="extAutIcon" src={require('../assets/google icon.png')} />
+                        Sign up with Google
+                    </button>
+                    <br />
+                    <button className="extAuthBtn">
+                        <img className="extAutIcon" src={require('../assets/facebook icon.png')} />
+                        Sign up with Facebook
+                    </button>
+                    <br />
+                    <button className="extAuthBtn">
+                        <img className="extAutIcon" src={require('../assets/chingu icon.png')} />
+                        Sign up with Chingu
+                    </button>
+                    <hr />
                     <label className="register-form-label">First Name</label>
                     <input
                         type="text"
@@ -123,10 +140,10 @@ class Register extends React.Component<PassedProps, State> {
 
                     <br />
 
-                    <button 
-                        onClick={e => this.handleSubmit(e)} 
-                        type="submit" 
-                        className="signUpBtn" 
+                    <button
+                        onClick={e => this.handleSubmit(e)}
+                        type="submit"
+                        className="signUpBtn"
                         name="registerBtn"
                     >
                         Sign Up For Free
