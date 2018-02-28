@@ -13,7 +13,6 @@ FONTS
 COMPONENTS
 ==========================
 */
-
 /*
 ==========================
 BUTTON
@@ -35,7 +34,6 @@ LOGIN / REGISTER COMPONENTS
 
 .ready-to-try-text {
   grid-area: t;
-
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
     sans-serif;
   color: #489be2;

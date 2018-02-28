@@ -1,7 +1,9 @@
 import * as React from 'react';
-import axios from 'axios';
 import './styles/Header.css';
 import { PassedProps, State, Props } from './types/Header.d';
+
+const fetch = require('isomorphic-fetch');
+
 class Header extends React.Component<PassedProps, State> {
 
     constructor(props: Props) {
@@ -11,10 +13,6 @@ class Header extends React.Component<PassedProps, State> {
             Email: '',
             Password: ''
         };
-        this.loginPressed = this.loginPressed.bind(this);
-        this.handleEmail = this.handleEmail.bind(this);
-        this.handlePassword = this.handlePassword.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleEmail(e: React.FormEvent<HTMLInputElement>): void {
@@ -30,21 +28,29 @@ class Header extends React.Component<PassedProps, State> {
     }
 
     handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
-        var apiBaseUrl = 'localhost:8080/api/v1/user/';
+
+        var apiBaseUrl = 'http://localhost:8080/api/v1/user/login';
+
         var payload = {
-            username: this.state.Email,
+            email: this.state.Email,
             password: this.state.Password
         };
 
-        axios.post(apiBaseUrl + 'login', payload)
+        let data = {
+            method: 'GET',
+            body: payload,
+            headers: new Headers()
+        };
+
+        fetch(apiBaseUrl, data)
             /* tslint:disable-next-line */
             .then(function (response: any) {
-                if (response.data.code === 200) {
-                    alert('good job');
-                } else if (response.data.code === 204) {
+                if (response.status === 200) {
+                    alert('User Logged In');
+                } else if (response.status === 204) {
                     alert('Username password do not match');
                 } else {
-                    alert('Username does not exist');
+                    alert(response.status);
                 }
             })
             /* tslint:disable-next-line */
@@ -53,7 +59,7 @@ class Header extends React.Component<PassedProps, State> {
             });
     }
 
-    loginPressed(): void {
+    loginPressed (e: React.MouseEventHandler<HTMLButtonElement>): void {
         this.setState({
             loginScreen: !this.state.loginScreen
         });
@@ -106,12 +112,11 @@ class Header extends React.Component<PassedProps, State> {
         return (
             <div>
                 <div className="header-container">
-                    <h1>EmailState:{this.state.Email} PasswordState:{this.state.Password}</h1>
                     {this.state.loginScreen === true ? login : null}
 
                     <div className="logo">project match</div>
                     <div className="login">
-                        <button onClick={this.loginPressed} className="loginText">LOG IN</button>
+                        <button onClick={e => this.loginPressed(e)} className="loginText">LOG IN</button>
                     </div>
                     <div className="signUp">
                         <button className="signUpButton">
