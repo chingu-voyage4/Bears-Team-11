@@ -47,9 +47,9 @@ class Register extends React.Component<PassedProps, State> {
         };
 
         let data = {
-            method: 'POST',
-            body: bodyData,
-            headers: new Headers()
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(bodyData)
         };
 
         fetch(url, data)
@@ -60,7 +60,7 @@ class Register extends React.Component<PassedProps, State> {
                 } else if (res.status === 200) {
                     alert('User added to database');
                 } else {
-                    alert('Error ' + res.status + '; ' + res);
+                    alert('Error ' + res.status + ' - ' + res.statusText);
                 }
             });
 
