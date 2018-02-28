@@ -1,37 +1,44 @@
 @import "_variables.scss";
-body{
+body {
     position: relative;
     z-index: -1;
 }
-.header-container{
+
+.header-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: auto;
-    grid-template-areas: 
-        "t t t . . . . .  . l s s s"
-    }
+    grid-template-areas: "t t t . . . . .  . l s s s"
+}
 
-a{
+a {
     text-decoration: none;
 }
+
 
 /*
 ==========================
 LOGO
 ==========================
 */
-.logo{
+
+.logo {
     grid-area: t;
     font-family: $font;
     color: $theme-blue;
-    font-size: $header-font-size;
+    font-size: $logo-font-size;
+    font-weight: 700;
+    margin: auto;
 }
+
+
 /*
 ==========================
 LOG IN
 ==========================
 */
-.login{
+
+.login {
     grid-area: l;
     background: none;
     border: none;
@@ -40,26 +47,32 @@ LOG IN
     margin: auto;
 }
 
-.loginText{
+.loginText {
     font-family: $font;
     color: #757575;
     text-align: center;
     vertical-align: middle;
     font-size: $header-font-size;
+    font-weight: 700;
+    border: none;
+    background-color: white !important;
 }
+
+
 /*
 ==========================
 SIGNUP BUTTON
 ==========================
 */
-.signUp{
+
+.signUp {
     grid-area: s;
     background: none;
     border: none;
     margin: auto;
 }
 
-.signUpText{
+.signUpText {
     font-family: $font;
     color: white;
     text-align: center;
@@ -69,12 +82,13 @@ SIGNUP BUTTON
     padding-right: 5px;
 }
 
-.signUpButton{
+.signUpButton {
     border: none;
     box-shadow: $box-shadow;
     background-color: $theme-blue;
     vertical-align: middle;
 }
+
 
 /*
 ==========================
@@ -82,49 +96,41 @@ LOGIN SCREEM
 ==========================
 */
 
-.loginScreen{
-  position: fixed;
-  width: 500px;
-  height: 650px;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  background-color: white;
-  z-index: 5;
-  //border-radius: 11%;
-  border: 5px solid $theme-blue;
+.loginScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+
+    z-index: 5; //border-radius: 11%;
+    @include login-register-container;
 }
 
-
-.loginScreen-header{
-    vertical-align: top;
-    color: $theme-blue;
-}
-
-.loginScreen-button-google{
-    border: 1px solid $light-grey;
-    background-color: white; 
-    color: grey;
+.extAuthBtn {
+    width: 325px;
     height: 35px;
-    width: 324px;
-}
-
-.loginScreen-button-facebook{
-    border: 1px solid $light-grey;
+    margin: 15px;
+    text-align: left;
     background-color: white;
-    vertical-align: middle;
-    color: grey;
-    height: 35px;
-    width: 324px;
+    border: 1px solid $light-grey;
+    font-size: 11px;
+    color: $light-grey;
+    padding: auto;
+}
+.extAuthIcon {
+    object-fit: cover;
+    width: 24px;
+    height: 24px;
 }
 
-.emailDiv{
-padding-top: 10%;
-margin: 2%;
+
+.emailDiv {
+    padding-top: 10%;
+    margin: 2%;
 }
 
-.passwordDiv{
-margin: 2%;
+.passwordDiv {
+    margin: 2%;
 }

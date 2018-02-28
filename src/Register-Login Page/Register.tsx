@@ -36,7 +36,7 @@ class Register extends React.Component<PassedProps, State> {
     }
 
     public handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
-        const url = 'localhost:8080/api/v1/user/';
+        const url = 'http://localhost:8080/api/v1/user/';
 
         let bodyData = {
             firstName: this.state.firstName,

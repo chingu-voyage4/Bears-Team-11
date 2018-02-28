@@ -54,7 +54,7 @@ class Header extends React.Component<PassedProps, State> {
             });
     }
 
-    loginPressed() {
+    loginPressed(): void {
         this.setState({
             loginScreen: !this.state.loginScreen
         });
@@ -63,30 +63,45 @@ class Header extends React.Component<PassedProps, State> {
     render() {
         const login = (
             <div className="loginScreen">
-                <div className="loginScreen-inner">
-                    <div className="loginScreen-header">project match</div>
-                    <button className="loginScreen-button-google">Sign in with Google</button>
-                    <button className="loginScreen-button-facebook">Sign in with Facebook</button>
-                    <form>
-                        <input
-                            className="emailDiv"
-                            type="email"
-                            name="email"
-                            value={this.state.Email}
-                            onChange={this.handleEmail}
-                            placeholder="Email"
-                        />
-                        <input
-                            className="passwordDiv"
-                            type="password"
-                            name="password"
-                            value={this.state.Password}
-                            onChange={this.handlePassword}
-                            placeholder="Password"
-                        />
-                        <input type="submit" value="Submit" onClick={this.handleSubmit} />
-                    </form>
-                </div>
+                <br />
+                <div className="logo">project match</div>
+                <br />
+                <button className="extAuthBtn">
+                    <img className="extAutIcon" src={require('./assets/google icon.png')} />
+                    Sign in with Google
+                </button>
+                <br />
+                <button className="extAuthBtn">
+                    <img className="extAutIcon" src={require('./assets/facebook icon.png')} />
+                    Sign in with Facebook
+                </button>
+                <br />
+                <button className="extAuthBtn">
+                    <img className="extAutIcon" src={require('./assets/chingu icon.png')} />
+                    Sign in with Chingu
+                </button>
+                <hr />
+                <form>
+                    <input
+                        className="emailDiv"
+                        type="email"
+                        name="email"
+                        value={this.state.Email}
+                        onChange={e => this.handleEmail(e)}
+                        placeholder="Email"
+                    />
+                    <br />
+                    <input
+                        className="passwordDiv"
+                        type="password"
+                        name="password"
+                        value={this.state.Password}
+                        onChange={e => this.handlePassword(e)}
+                        placeholder="Password"
+                    />
+                    <br />
+                    <input type="submit" value="Submit" onClick={e => this.handleSubmit(e)} />
+                </form>
             </div>
         );
         return (
@@ -94,11 +109,10 @@ class Header extends React.Component<PassedProps, State> {
                 <div className="header-container">
                     <h1>EmailState:{this.state.Email} PasswordState:{this.state.Password}</h1>
                     {this.state.loginScreen === true ? login : null}
-                    <div className="logo">
-                        <h1>project match</h1>
-                    </div>
+
+                    <div className="logo">project match</div>
                     <div className="login">
-                        <a onClick={this.loginPressed}><h2 className="loginText">LOG IN</h2></a>
+                        <button onClick={this.loginPressed} className="loginText">LOG IN</button>
                     </div>
                     <div className="signUp">
                         <button className="signUpButton">
