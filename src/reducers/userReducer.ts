@@ -1,4 +1,10 @@
-function userReducer(state: any = {}, action: any): any {
+interface UserState {}
+
+interface Action {
+  type: string;
+}
+
+function userReducer(state: UserState = {}, action: Action): UserState {
   switch (action.type) {
     default:
       return state;
