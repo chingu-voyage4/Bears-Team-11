@@ -19,8 +19,8 @@ passport.deserializeUser(function(id, done) {
 
 // authenticate user
 passport.use(
-  new LocalStrategy(function(username, password, done) {
-    const user = User.find({ username: username });
+  new LocalStrategy(function(email, password, done) {
+    const user = User.find({ email });
     if (!user || user.password !== password) {
       return done(null, false);
     } else {

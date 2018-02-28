@@ -18,6 +18,11 @@ COMPONENTS
 BUTTON
 ==========================
 */
+/*
+==========================
+LOGIN / REGISTER COMPONENTS
+==========================
+*/
 body {
   position: relative;
   z-index: -1;
@@ -44,7 +49,9 @@ LOGO
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
     sans-serif;
   color: #489be2;
-  font-size: 14px;
+  font-size: 24px;
+  font-weight: 700;
+  margin: auto;
 }
 
 /*
@@ -69,6 +76,9 @@ LOG IN
   text-align: center;
   vertical-align: middle;
   font-size: 14px;
+  font-weight: 700;
+  border: none;
+  background-color: white !important;
 }
 
 /*
@@ -108,38 +118,35 @@ LOGIN SCREEM
 */
 .loginScreen {
   position: fixed;
-  width: 500px;
-  height: 650px;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto;
-  background-color: white;
   z-index: 5;
-  border: 5px solid #489be2;
-}
-
-.loginScreen-header {
-  vertical-align: top;
-  color: #489be2;
-}
-
-.loginScreen-button-google {
-  border: 1px solid #d1d1d1;
+  width: 350px;
+  height: 550px;
+  border: 3px solid #489be2;
+  box-shadow: 12px 12px 2px #e5e9fa;
   background-color: white;
-  color: grey;
-  height: 35px;
-  width: 324px;
 }
 
-.loginScreen-button-facebook {
-  border: 1px solid #d1d1d1;
-  background-color: white;
-  vertical-align: middle;
-  color: grey;
+.extAuthBtn {
+  width: 325px;
   height: 35px;
-  width: 324px;
+  margin: 15px;
+  text-align: left;
+  background-color: white;
+  border: 1px solid #d1d1d1;
+  font-size: 11px;
+  color: #d1d1d1;
+  padding: auto;
+}
+
+.extAuthIcon {
+  object-fit: cover;
+  width: 24px;
+  height: 24px;
 }
 
 .emailDiv {
