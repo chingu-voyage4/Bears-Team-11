@@ -15,7 +15,7 @@ describe('User', function() {
   });
 
   test('find user by username', () => {
-    const user = User.find({ username: 'BlackPanther' });
+    const user = User.find({ email: 'blackpanther@wakanda.gov' });
     expect(user).toBeDefined;
     expect(user.id).toBe(1);
     expect(user.name).toBe(`King T'Challa`);

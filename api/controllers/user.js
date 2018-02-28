@@ -2,13 +2,13 @@ const auth = require('../utils/auth');
 const User = require('../stubs/User');
 
 function createUser(req, res) {
-  const user = User.find({ username: req.body.username });
+  const user = User.find({ email: req.body.email });
   if (user) {
     res.sendStatus(409);
   } else {
     const newUser = User.create({
-      username: req.body.username,
-      name: req.body.name,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       password: req.body.password,
       email: req.body.email
     });
