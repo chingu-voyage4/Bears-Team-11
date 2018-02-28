@@ -123,7 +123,14 @@ class Register extends React.Component<PassedProps, State> {
 
                     <br />
 
-                    <button type="submit" className="signUpBtn" name="registerBtn">Sign Up For Free</button>
+                    <button 
+                        onClick={e => this.handleSubmit(e)} 
+                        type="submit" 
+                        className="signUpBtn" 
+                        name="registerBtn"
+                    >
+                        Sign Up For Free
+                    </button>
                 </form>
             </div>
         );

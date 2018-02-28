@@ -3,6 +3,7 @@ import './styles/Header.css';
 import { PassedProps, State, Props } from './types/Header.d';
 
 const fetch = require('isomorphic-fetch');
+
 class Header extends React.Component<PassedProps, State> {
 
     constructor(props: Props) {
@@ -12,10 +13,6 @@ class Header extends React.Component<PassedProps, State> {
             Email: '',
             Password: ''
         };
-        this.loginPressed = this.loginPressed.bind(this);
-        this.handleEmail = this.handleEmail.bind(this);
-        this.handlePassword = this.handlePassword.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleEmail(e: React.FormEvent<HTMLInputElement>): void {
@@ -31,14 +28,16 @@ class Header extends React.Component<PassedProps, State> {
     }
 
     handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
+      
         var apiBaseUrl = 'http://localhost:8080/api/v1/user/login';
+
         var payload = {
-            username: this.state.Email,
+            email: this.state.Email,
             password: this.state.Password
         };
 
         let data = {
-            method: 'POST',
+            method: 'GET',
             body: payload,
             headers: new Headers()
         };
@@ -47,7 +46,7 @@ class Header extends React.Component<PassedProps, State> {
             /* tslint:disable-next-line */
             .then(function (response: any) {
                 if (response.status === 200) {
-                    alert('good job');
+                    alert('User Logged In');
                 } else if (response.status === 204) {
                     alert('Username password do not match');
                 } else {
@@ -60,7 +59,7 @@ class Header extends React.Component<PassedProps, State> {
             });
     }
 
-    loginPressed(): void {
+    loginPressed (e: React.MouseEventHandler<HTMLButtonElement>): void {
         this.setState({
             loginScreen: !this.state.loginScreen
         });
@@ -113,12 +112,11 @@ class Header extends React.Component<PassedProps, State> {
         return (
             <div>
                 <div className="header-container">
-                    <h1>EmailState:{this.state.Email} PasswordState:{this.state.Password}</h1>
                     {this.state.loginScreen === true ? login : null}
 
                     <div className="logo">project match</div>
                     <div className="login">
-                        <button onClick={this.loginPressed} className="loginText">LOG IN</button>
+                        <button onClick={e => this.loginPressed(e)} className="loginText">LOG IN</button>
                     </div>
                     <div className="signUp">
                         <button className="signUpButton">
