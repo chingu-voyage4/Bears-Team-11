@@ -12,7 +12,6 @@ function createUser(req, res) {
       password: req.body.password,
       email: req.body.email
     });
-    alert("Registered new user " + newUser);
     req.login(newUser, function(err) {
       if (err) {
         return next(err);
