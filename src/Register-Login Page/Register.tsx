@@ -10,7 +10,7 @@ class Register extends React.Component<PassedProps, State> {
             firstName: 'firstName',
             lastName: 'firstName',
             email: 'email',
-            password: 'password',
+            password: '',
             username: 'username'
         };
     }
@@ -66,6 +66,16 @@ class Register extends React.Component<PassedProps, State> {
 
     }
     render() {
+        let inputStyle = {
+            border: '1px solid black',
+            color: 'black'
+        };
+        if (this.state.password.length > 8) {
+            inputStyle = {
+                border: '3px solid red',
+                color: 'red'
+            };
+        }
         return (
             <div className="popupScreen">
                 <form className="register-form">
@@ -131,8 +141,11 @@ class Register extends React.Component<PassedProps, State> {
 
                     <label className="register-form-label">Password</label>
                     <input
+                        id="pasword"
+                        value={this.state.password}
                         type="password"
                         placeholder="Password"
+                        style={inputStyle}
                         name="password"
                         required={true}
                         onChange={e => this.handlePasswordChange(e)}
