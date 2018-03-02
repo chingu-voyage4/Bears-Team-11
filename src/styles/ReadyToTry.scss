@@ -1,0 +1,26 @@
+@import "_variables.scss";
+
+.ready-to-try-container {
+    margin-top: 70px;
+    margin-bottom: 100px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas: 
+        ". t t . . ."
+        ". b . . . ."
+}
+
+.ready-to-try-text {
+    grid-area: t;
+    font-family: $font;
+    color: $theme-blue;
+    font-size: $landing-header-size;
+    text-align: left;
+}
+
+.ready-to-try-button {
+    grid-area: b;
+    @include white-text-blue-background-button;
+    width: 200px;
+}
