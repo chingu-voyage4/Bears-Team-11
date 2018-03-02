@@ -72,18 +72,22 @@ class Register extends React.Component<PassedProps, State> {
                     <br />
                     <div className="logo">project match</div>
                     <br />
-                    <button className="extAuthBtn">
-                        <img className="extAutIcon" src={require('../assets/google icon.png')} />
+                    <img className="extAuthIcon" src={require('../assets/google icon.png')} />
+                    <button type="button" className="extAuthBtn">
                         Sign up with Google
                     </button>
+
                     <br />
+
+                    <img className="extAuthIcon" src={require('../assets/facebook icon.png')} />
                     <button className="extAuthBtn">
-                        <img className="extAutIcon" src={require('../assets/facebook icon.png')} />
                         Sign up with Facebook
                     </button>
+
                     <br />
+
+                    <img className="extAuthIcon" src={require('../assets/chingu icon.png')} />
                     <button className="extAuthBtn">
-                        <img className="extAutIcon" src={require('../assets/chingu icon.png')} />
                         Sign up with Chingu
                     </button>
 

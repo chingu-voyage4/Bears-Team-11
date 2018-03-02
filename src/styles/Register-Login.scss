@@ -25,9 +25,15 @@ AUTHENTICATION BUTTONS
     font-size: 11px;
     color: $light-grey;
     padding: auto;
+    display: inline-block;
 }
 
-.extAuthBtn, .emailDiv, .passwordDiv, .usernameDiv {
+.extAuthBtn {
+    width: 290px;
+    box-shadow: $box-shadow;
+    border:none;
+}
+ .emailDiv, .passwordDiv, .usernameDiv {
     width: 325px;
 }
 .emailDiv, .passwordDiv, .usernameDiv, .nameDiv {
@@ -40,15 +46,17 @@ AUTHENTICATION BUTTONS
 }
 
 .extAuthIcon {
-    object-fit: cover;
+    object-fit: contain;
     width: 24px;
     height: 24px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.extAuthBtn {
+    display: inline-block;
+    // border: 1px solid $light-grey;
     box-shadow: $box-shadow;
+    padding: 4.5px;
+    margin: auto;
+    position: relative;
+    top: 13.5px;
+    left: 5px;
 }
 
 .emailDiv::placeholder, .passwordDiv::placeholder, .usernameDiv::placeholder, .nameDiv::placeholder {
@@ -56,9 +64,10 @@ AUTHENTICATION BUTTONS
     padding: 5px;
 }
 
-.extAuthBtn::placeholder {
+.extAuthBtn {
     color: $light-grey;
-    padding-left: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .form-label {
