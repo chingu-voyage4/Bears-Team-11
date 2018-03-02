@@ -10,7 +10,9 @@ var Schema = Mongoose.Schema;
 // Lets create Schema Object
 // The formet will be x = { variables like type and conditionals...} fallowed by ','
 var UserSchema = new Schema({
-    name:       {type: String},
+    firstName:  {type: String},
+    lastName:   {type: String},
+    username:   {type: String},
     email:      {type: String},
     password:   {type: String},
     location:   {type: String}, 
