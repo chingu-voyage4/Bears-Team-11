@@ -7,7 +7,7 @@
 - Index:  `/`
 - Home:  `/home`. ( only if already loged in otherwise redirects to `/`).
 - Login: `/login?email=ram@hello.com&password=123`.
-- Signup: `/signup?email=hello@hello.com&password=123&username=hello&firstName=yourFirstName&lastName=Your lastName`.
+- Signup: `/signup?email=hello@hello.com&password=123&username=hello&firstName=yourFirstName&lastName=yourLastName`.
 - SignOut: `/signout`.
 
 Currently using [nodemon](https://github.com/remy/nodemon) to watch and restart server for changes. We are also currently not using babel for trancompilation for the servside code.
