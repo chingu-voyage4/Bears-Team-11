@@ -75,8 +75,9 @@ class Login extends React.Component<PassedProps, State> {
                     <img className="extAutIcon" src={require('../assets/chingu icon.png')} />
                     Sign in with Chingu
                     </button>
-                <hr />
+                <hr className="horizontalDivider"/>
                 <form>
+                    <label className="form-label">Your Email</label>
                     <input
                         className="emailDiv"
                         type="email"
@@ -86,6 +87,7 @@ class Login extends React.Component<PassedProps, State> {
                         placeholder="Email"
                     />
                     <br />
+                    <label className="form-label">Password</label>
                     <input
                         className="passwordDiv"
                         type="password"
@@ -95,7 +97,7 @@ class Login extends React.Component<PassedProps, State> {
                         placeholder="Password"
                     />
                     <br />
-                    <input type="submit" value="Submit" onClick={e => this.handleSubmit(e)} />
+                    <input type="submit" className="signUpBtn" value="Submit" onClick={e => this.handleSubmit(e)} />
                 </form>
             </div>
         );
