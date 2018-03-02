@@ -59,24 +59,34 @@ class Login extends React.Component<PassedProps, State> {
         return (
             <div className="popupScreen">
                 <br />
+
                 <div className="logo">project match</div>
+
                 <br />
+
+                <img className="extAuthIcon" src={require('../assets/google icon.png')} />
                 <button className="extAuthBtn">
-                    <img className="extAutIcon" src={require('../assets/google icon.png')} />
                     Sign in with Google
-                    </button>
+                </button>
+
                 <br />
+
+                <img className="extAuthIcon" src={require('../assets/facebook icon.png')} />
                 <button className="extAuthBtn">
-                    <img className="extAutIcon" src={require('../assets/facebook icon.png')} />
                     Sign in with Facebook
-                    </button>
+                </button>
+
                 <br />
+
+                <img className="extAuthIcon" src={require('../assets/chingu icon.png')} />
                 <button className="extAuthBtn">
-                    <img className="extAutIcon" src={require('../assets/chingu icon.png')} />
                     Sign in with Chingu
-                    </button>
-                <hr />
+                </button>
+
+                <hr className="horizontalDivider" />
+
                 <form>
+                    <label className="form-label">Your Email</label>
                     <input
                         className="emailDiv"
                         type="email"
@@ -86,6 +96,7 @@ class Login extends React.Component<PassedProps, State> {
                         placeholder="Email"
                     />
                     <br />
+                    <label className="form-label">Password</label>
                     <input
                         className="passwordDiv"
                         type="password"
@@ -95,7 +106,7 @@ class Login extends React.Component<PassedProps, State> {
                         placeholder="Password"
                     />
                     <br />
-                    <input type="submit" value="Submit" onClick={e => this.handleSubmit(e)} />
+                    <input type="submit" className="signUpBtn" value="Submit" onClick={e => this.handleSubmit(e)} />
                 </form>
             </div>
         );

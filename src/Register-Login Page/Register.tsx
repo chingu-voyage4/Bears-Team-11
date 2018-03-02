@@ -77,69 +77,79 @@ class Register extends React.Component<PassedProps, State> {
             };
         }
         return (
-            <div className="popupScreen">
+            <div className="registerPopupScreen">
                 <form className="register-form">
                     <br />
                     <div className="logo">project match</div>
                     <br />
-                    <button className="extAuthBtn">
-                        <img className="extAutIcon" src={require('../assets/google icon.png')} />
+                    <img className="extAuthIcon" src={require('../assets/google icon.png')} />
+                    <button type="button" className="extAuthBtn">
                         Sign up with Google
                     </button>
+
                     <br />
+
+                    <img className="extAuthIcon" src={require('../assets/facebook icon.png')} />
                     <button className="extAuthBtn">
-                        <img className="extAutIcon" src={require('../assets/facebook icon.png')} />
                         Sign up with Facebook
                     </button>
+
                     <br />
+
+                    <img className="extAuthIcon" src={require('../assets/chingu icon.png')} />
                     <button className="extAuthBtn">
-                        <img className="extAutIcon" src={require('../assets/chingu icon.png')} />
                         Sign up with Chingu
                     </button>
-                    <hr />
-                    <label className="register-form-label">First Name</label>
+
+                    <hr className="horizontalDivider"/>
+
+                    <label className="form-label">First Name</label>
                     <input
                         type="text"
                         placeholder="First Name"
                         name="firstName"
                         required={true}
+                        className="nameDiv"
                         onChange={e => this.handleFirstNameChange(e)}
                     />
 
-                    <label className="register-form-label">Last Name</label>
+                    <label className="form-label">Last Name</label>
                     <input
                         type="text"
                         placeholder="Last Name"
                         name="lastName"
                         required={true}
+                        className="nameDiv"
                         onChange={e => this.handleLastNameChange(e)}
                     />
 
                     <br />
 
-                    <label className="register-form-label">Username</label>
+                    <label className="form-label">Username</label>
                     <input
                         type="text"
                         placeholder="Username"
                         name="username"
                         required={true}
+                        className="usernameDiv"
                         onChange={e => this.handleUsernameChange(e)}
                     />
 
                     <br />
 
-                    <label className="register-form-label">Your Email</label>
+                    <label className="form-label">Your Email</label>
                     <input
                         type="email"
                         placeholder="Email Address"
                         name="email"
                         required={true}
+                        className="emailDiv"
                         onChange={e => this.handleEmailChange(e)}
                     />
 
                     <br />
 
-                    <label className="register-form-label">Password</label>
+                    <label className="form-label">Password</label>
                     <input
                         id="pasword"
                         value={this.state.password}
@@ -148,6 +158,7 @@ class Register extends React.Component<PassedProps, State> {
                         style={inputStyle}
                         name="password"
                         required={true}
+                        className="passwordDiv"
                         onChange={e => this.handlePasswordChange(e)}
                     />
 

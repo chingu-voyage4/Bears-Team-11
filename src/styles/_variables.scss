@@ -60,9 +60,15 @@ LOGIN / REGISTER COMPONENTS
 ==========================
 */
 @mixin login-register-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 5;
     width: 350px;
-    height: 550px;
     border: 3px solid $theme-blue;
-    box-shadow: 12px 12px 2px $light-blue;
+    // box-shadow: 12px 12px 2px $light-blue;
     background-color: white;
 }
