@@ -1,7 +1,6 @@
 import * as React from 'react';
 import '../styles/RecentProjects.css';
 import Projects from '../Projects';
-
 class RecentProjects extends React.Component {
   render() {
     return (

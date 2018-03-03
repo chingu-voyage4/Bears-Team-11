@@ -3,6 +3,7 @@ import './styles/Header.css';
 import { PassedProps, State, Props } from './types/Header.d';
 import Login from './Register-Login Page/Login';
 import Register from './Register-Login Page/Register';
+import { BrowserRouter as Route } from 'react-router-dom';
 class Header extends React.Component<PassedProps, State> {
 
     constructor(props: Props) {

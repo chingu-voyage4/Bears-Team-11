@@ -3,7 +3,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import Projects from '../Projects';
 import '../styles/ProjectsPage.css';
-import '../styles/Projects.css';
+import '../styles/Project.css';
 import { PassedProps, State, Props } from '../types/ProjectsPage.d';
 
 class ProjectsPage extends React.Component<PassedProps, State> {
@@ -17,7 +17,7 @@ class ProjectsPage extends React.Component<PassedProps, State> {
                 <Projects count={24} />
                 <Footer />
             </div>
-        )
+        );
     }
 }
 
