@@ -112,7 +112,6 @@ SIGNUP BUTTON
   box-shadow: 0px 3px 6px #d1d1d1;
   background-color: #489be2;
   vertical-align: middle;
-  min-width: 145px;
   max-height: 45px;
 }
 
@@ -121,7 +120,7 @@ SIGNUP BUTTON
 MEDIA QUERIES
 ==========================
 */
-@media all and (max-width: 900px) and (min-width: 600px) {
+@media all and (max-width: 1000px) and (min-width: 600px) {
   .header-container {
     grid-template-areas: 't t t . . . . l s s';
   }
@@ -140,6 +139,8 @@ MEDIA QUERIES
   }
   .signUpText {
     font-size: 1.5vw;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
   }
   .loginText {
     font-size: 1.5vw;

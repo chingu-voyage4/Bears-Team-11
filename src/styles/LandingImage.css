@@ -132,7 +132,7 @@ MEDIA QUERIES
   }
 }
 
-@media all and (max-width: 899px) and (min-width: 600px) {
+@media all and (max-width: 899px) and (min-width: 750px) {
   .landing-image {
     margin-top: -200px;
   }
@@ -153,5 +153,36 @@ MEDIA QUERIES
   .exploreProjectsBtn {
     margin-top: 1vw;
     font-size: 1.25vw;
+  }
+}
+
+@media all and (max-width: 749px) and (min-width: 700px) {
+  .landing-image {
+    margin-top: 0px;
+    margin-left: 4vw;
+    width: 95vw;
+  }
+  .landing-header {
+    font-size: 20px;
+    padding-top: 5vw;
+    margin-left: 37vw;
+  }
+  .landing-subtext {
+    margin-left: 34vw;
+    font-size: 12px;
+    width: 275px;
+    padding-top: 10vw;
+    line-height: 1.9vw;
+  }
+  .exploreProjectsBtn {
+    margin-top: 1.5vw;
+    font-size: 1.25vw;
+    margin-left: 44vw;
+  }
+  .blue-sky {
+    height: 73vw;
+  }
+  .green-grass {
+    top: -5.5vh;
   }
 }
