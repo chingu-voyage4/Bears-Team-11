@@ -132,7 +132,7 @@ MEDIA QUERIES
 
 @media all and (max-width: 800px) and (min-width: 600px) {
   .header-container {
-    grid-template-areas: 't t t . . . l s s s';
+    grid-template-areas: 't t t . . . . l s s';
   }
   .logo {
     margin-left: 0px;
@@ -140,7 +140,6 @@ MEDIA QUERIES
   }
   .signUpText {
     font-size: 1.5vw;
-    margin-right: 0px;
   }
   .loginText {
     font-size: 1.5vw;
