@@ -6,9 +6,9 @@ body {
 
 .header-container {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(10, 1fr);
     grid-template-rows: auto;
-    grid-template-areas: "t t t . . . . .  . l s s s"
+    grid-template-areas: "t t . . . . . l s s"
 }
 
 a {
@@ -29,6 +29,7 @@ LOGO
     font-size: $logo-font-size;
     font-weight: 700;
     margin: auto;
+    padding-left: 2vw;
 }
 
 
@@ -89,6 +90,37 @@ SIGNUP BUTTON
     box-shadow: $box-shadow;
     background-color: $theme-blue;
     vertical-align: middle;
+    min-width: 145px;
+    max-height: 45px;
+}
+/*
+==========================
+MEDIA QUERIES
+==========================
+*/
+@media all and (max-width: 900px) and (min-width: 600px) {
+    .header-container {
+        grid-template-areas: "t t t . . . . l s s"
+    }
+    .logo {
+        margin-left: 0px;
+    }
 }
 
-
+@media all and (max-width: 800px) and (min-width: 600px) {
+    .header-container {
+        grid-template-areas: "t t t . . . l s s s"
+    }
+    .logo {
+        margin-left: 0px;
+        font-size: 2.5vw;
+    }
+    .signUpText {
+        font-size: 1.5vw;
+        margin-right: 0px;
+    }
+    
+    .loginText {
+        font-size: 1.5vw;
+    }
+}

@@ -11,26 +11,26 @@ MAIN IMAGE WITH SKY AND GRASS
 ==========================
 */
 .landing-image{
-    height: 65vh;
+    width: 80vw;
     z-index: 3;
-    margin-left: 23vw;
+    margin-left: 20vw;
     position: relative;
     margin-top: -270px;
+    object-fit: contain;
 }
 
 .blue-sky {
     background-color: $light-blue;
     z-index: 1;
-    position: relative;
-    height: 76vh;
+    height: 52vw;
 }
 
 .green-grass {
     background-color: $grass-green;
     position: relative;
-    height: 12vh;
+    height: 10vw;
     z-index: 2;
-    top: -10.5vh;
+    top: -6.5vh;
 }
 
 /*
@@ -44,7 +44,7 @@ LANDING TEXT
     color: $theme-blue;
     z-index: 4;
     display: block;
-    margin-left: 18vw;
+    margin-left: 10vw;
 }
 .landing-header {
     font-size: $landing-header-size;
@@ -69,4 +69,52 @@ BUTTON
 .exploreProjectsBtn {
     margin-top: 25px;
     @include white-text-blue-background-button;
+}
+
+/*
+==========================
+MEDIA QUERIES
+==========================
+*/
+
+@media all and (max-width: 1000px) and (min-width: 100px) {
+    .landing-header,.landing-subtext, .exploreProjectsBtn   {
+        margin-left: 6vw;
+    }
+    .landing-header {
+        font-size: 3vw;
+        padding-top: 12vw;
+    }
+    .landing-subtext {
+        font-size: 1.5vw;
+        width: 330px;
+        padding-top: 16vw;
+    }
+    .exploreProjectsBtn {
+        margin-top: 1vw;
+        font-size: 1.25vw;
+    }
+}
+
+@media all and (max-width: 899px) and (min-width: 600px) {
+    .landing-image{
+        margin-top: -200px;
+    }
+    
+    .landing-header,.landing-subtext, .exploreProjectsBtn   {
+        margin-left: 6vw;
+    }
+    .landing-header {
+        font-size: 3vw;
+        padding-top: 12vw;
+    }
+    .landing-subtext {
+        font-size: 1.5vw;
+        width: 300px;
+        padding-top: 17vw;
+    }
+    .exploreProjectsBtn {
+        margin-top: 1vw;
+        font-size: 1.25vw;
+    }
 }
