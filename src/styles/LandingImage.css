@@ -34,9 +34,9 @@ MAIN IMAGE WITH SKY AND GRASS
 ==========================
 */
 .landing-image {
-  width: 80vw;
+  width: 900px;
   z-index: 3;
-  margin-left: 20vw;
+  left: 25vw;
   position: relative;
   margin-top: -270px;
   object-fit: contain;
@@ -45,13 +45,12 @@ MAIN IMAGE WITH SKY AND GRASS
 .blue-sky {
   background-color: #e5e9fa;
   z-index: 1;
-  height: 52vw;
 }
 
 .green-grass {
   background-color: #1ba572;
   position: relative;
-  height: 10vw;
+  height: 100px;
   z-index: 2;
   top: -6.5vh;
 }
@@ -70,7 +69,7 @@ LANDING TEXT
   color: #489be2;
   z-index: 4;
   display: block;
-  margin-left: 10vw;
+  margin-left: 6vw;
 }
 
 .landing-header {
@@ -111,7 +110,7 @@ BUTTON
 MEDIA QUERIES
 ==========================
 */
-@media all and (max-width: 1000px) and (min-width: 100px) {
+@media all and (max-width: 1000px) and (min-width: 900px) {
   .landing-header,
   .landing-subtext,
   .exploreProjectsBtn {
@@ -178,11 +177,5 @@ MEDIA QUERIES
     margin-top: 1.5vw;
     font-size: 1.25vw;
     margin-left: 44vw;
-  }
-  .blue-sky {
-    height: 73vw;
-  }
-  .green-grass {
-    top: -5.5vh;
   }
 }
