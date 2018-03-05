@@ -10,7 +10,9 @@ var Schema = Mongoose.Schema;
 // Lets create Schema Object
 // The formet will be x = { variables like type and conditionals...} fallowed by ','
 var UserSchema = new Schema({
-    name:       {type: String},
+    firstName:  {type: String},
+    lastName:   {type: String},
+    username:   {type: String},
     email:      {type: String},
     password:   {type: String},
     location:   {type: String}, 
@@ -20,9 +22,8 @@ var UserSchema = new Schema({
     projects:   {type: Array},//?
     bookmarked: {type: Array},//?
     links:      {type: Array}
-
-
 });
+
 
 // This will creates database named "Users" in the Database
 var Users =  Mongoose.model("Users",UserSchema);
