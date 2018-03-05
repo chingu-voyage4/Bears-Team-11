@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../styles/ProjectsPage.css';
-import { PassedProps, State, Props } from '../types/ProjectsPage.d';
+import { PassedProps, State, Props } from '../types/ProjectsFilter.d';
 // import { connect } from 'react-redux';
 
 let listOfAllTags = ['web app', 'full stack', 'AI', 'chingu'];
@@ -10,9 +10,9 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
     this.state = {
       sortBy: '',
       roles: '',
-      categories: [],
+      categories: '',
       status: '',
-      tags: []
+      tags: ['']
     };
   }
 
@@ -24,13 +24,23 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
 
   public onTagsChange(e: React.FormEvent<HTMLInputElement>): void {
     /* tslint:disable-next-line */
-    let updatedTags = [...this.state.tags, e.currentTarget.value];
-    this.setState({
-      tags: updatedTags
-    });
+    if (this.state.tags) {
+      let updatedTags = [...this.state.tags, e.currentTarget.value];
+      this.setState({
+        tags: updatedTags
+      });
+    } 
   }
 
   render() {
+    let tags;
+    if (this.state.tags) {
+      tags = (this.state.tags).map((tag) => (
+        <div className="selectedTag">{tag}</div>
+      ));
+    } else {
+      tags = null;
+    }
     return (
       <form className="project-filters">
         <div className="project-filter-dropdown">
@@ -172,12 +182,10 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
             <div className="unselectedTags">{tag}</div>
           ))};
           </div>
-          {(this.state.tags).map((tag) => (
-            <div className="selectedTag">{tag}</div>
-          ))};
+          {/* display available tags */}
+          {tags};
 
         </div>
-
 
         <div className="project-filter-dropdown">
           <div className="project-filter-title">

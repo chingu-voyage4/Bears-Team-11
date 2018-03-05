@@ -9,6 +9,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import LandingPage from './Landing Page/LandingPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ProjectsPage from './Projects Page/ProjectsPage';
+import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 // tslint:disable-next-line
 const store = createStore(
   userReducer,
@@ -22,6 +23,7 @@ class App extends React.Component {
           <Switch>
             <Route exact={true} path="/" component={LandingPage} />
             <Route exact={true} path="/projects" component={ProjectsPage} />
+            <Route exact={true} path="/addproject" component={AddProjectsPage} />
           </Switch>
         </Router>
       </Provider>
