@@ -231,3 +231,26 @@ RADIO STYLING
 .radio input[type='radio']:focus + label::before {
   outline: #e5e9fa auto 5px;
 }
+
+/*
+==========================
+TAGS
+==========================
+*/
+.tagSearch {
+  border: 1px solid #489be2;
+  font-size: 12px;
+  color: #757575;
+  padding: 5px;
+  display: none;
+  position: absolute;
+  min-width: 180px;
+}
+
+.unselectedTags {
+  display: block;
+}
+
+.selectedTag {
+  display: inline-block;
+}

@@ -2,6 +2,8 @@ import * as React from 'react';
 import '../styles/ProjectsPage.css';
 import { PassedProps, State, Props } from '../types/ProjectsPage.d';
 // import { connect } from 'react-redux';
+
+let listOfAllTags = ['web app', 'full stack', 'AI', 'chingu'];
 class ProjectsFilter extends React.Component<PassedProps, State> {
   constructor(props: Props) {
     super(props);
@@ -9,13 +11,22 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
       sortBy: '',
       roles: '',
       categories: [],
-      status: ''
+      status: '',
+      tags: []
     };
   }
 
-  public onFormChange(e: React.FormEvent<HTMLButtonElement>): void {
+  public onFormChange(e: React.FormEvent<HTMLInputElement>): void {
     this.setState({
       [e.currentTarget.name]: e.currentTarget.value
+    });
+  }
+
+  public onTagsChange(e: React.FormEvent<HTMLInputElement>): void {
+    /* tslint:disable-next-line */
+    let updatedTags = [...this.state.tags, e.currentTarget.value];
+    this.setState({
+      tags: updatedTags
     });
   }
 
@@ -152,6 +163,24 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
 
         <div className="project-filter-dropdown">
           <div className="project-filter-title">
+            Tags:
+          </div>
+
+          <input type="text" placeholder="Search Tags" onChange={e => this.onTagsChange(e)} />
+          <div className="tagSearch">
+          {listOfAllTags.map((tag) => (
+            <div className="unselectedTags">{tag}</div>
+          ))};
+          </div>
+          {(this.state.tags).map((tag) => (
+            <div className="selectedTag">{tag}</div>
+          ))};
+
+        </div>
+
+
+        <div className="project-filter-dropdown">
+          <div className="project-filter-title">
             Status:
           </div>
 
@@ -178,7 +207,7 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
               />
               <label htmlFor="project-filter-status-completed">Completed</label>
             </div>
-            
+
             <div className="radio">
               <input
                 type="radio"

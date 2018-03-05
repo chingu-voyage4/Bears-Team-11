@@ -3,6 +3,7 @@ export interface State {
   roles: string;
   categories: string[];
   status: string;
+  tags: string[];
 }
 
 export interface Props { }

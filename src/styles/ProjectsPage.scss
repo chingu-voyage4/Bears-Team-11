@@ -194,3 +194,26 @@ RADIO STYLING
 .radio input[type=radio]:focus + label::before {
     outline: $light-blue auto 5px;
 }
+
+/*
+==========================
+TAGS
+==========================
+*/
+.tagSearch {
+    border: 1px solid $theme-blue;
+    font-size: 12px;
+    color: $dark-grey;
+    padding: 5px;
+    display: none;
+    position: absolute;
+    min-width: 180px;
+}
+
+.unselectedTags {
+    display: block;
+}
+
+.selectedTag {
+    display: inline-block
+}
