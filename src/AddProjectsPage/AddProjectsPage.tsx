@@ -14,7 +14,7 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
       team: [],
       githubLink: '',
       mockupLink: '',
-      publishedSiteLink: '',
+      liveLink: '',
       lookingFor: [],
       status: '',
       category: '',
@@ -33,46 +33,100 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
       <div>
         <Header />
         <form className="new-project-container">
-          <input
-            type="text"
-            name="title"
-            id="new-project-title"
-            onChange={e => this.onFormChange(e)}
-          />
-          <label className="newProjectSubText" htmlFor="new-project-title">Title</label>
+          <div className="box-1">
+            <div className="box-1-a">
+              <label className="newProjectSubText" htmlFor="new-project-title">Title</label>
+              <input
+                type="text"
+                name="title"
+                id="new-project-title"
+                className="new-project-input"
+                onChange={e => this.onFormChange(e)}
+              />
 
-          <input
-            type="text"
-            name="description"
-            id="new-project-description"
-            onChange={e => this.onFormChange(e)}
-          />
-          <label className="newProjectSubText" htmlFor="new-project-description">Description</label>
+              <label className="newProjectSubText" htmlFor="new-project-description">Description</label>
+              <input
+                type="text"
+                name="description"
+                id="new-project-description"
+                className="new-project-input"
+                onChange={e => this.onFormChange(e)}
+              />
 
-          <input
-            type="text"
-            name="dueDate"
-            id="new-project-dueDate"
-            onChange={e => this.onFormChange(e)}
-          />
-          <label className="newProjectSubText" htmlFor="new-project-dueDate">Due Date</label>
+              <label className="newProjectSubText" htmlFor="new-project-dueDate">Due Date</label>
+              <input
+                type="text"
+                name="dueDate"
+                id="new-project-dueDate"
+                className="new-project-input"
+                onChange={e => this.onFormChange(e)}
+              />
 
-          <input
-            type="text"
-            name="team"
-            id="new-project-team"
-            onChange={e => this.onFormChange(e)}
-          />
-          <label className="newProjectSubText" htmlFor="new-project-team">Team</label>
+              <label className="newProjectSubText" htmlFor="new-project-team">Team</label>
+              <input
+                type="text"
+                name="team"
+                id="new-project-team"
+                className="new-project-input"
+                onChange={e => this.onFormChange(e)}
+              />
+            </div> {/* end of box 1 A */}
+            <div className="box-1-B">
+              <label className="newProjectSubText" htmlFor="new-project-githubLink">Github Link</label>
+              <input
+                type="text"
+                name="githubLink"
+                id="new-project-githubLink"
+                className="new-project-input"
+                onChange={e => this.onFormChange(e)}
+              />
 
-          <input
-            type="text"
-            name="githubLink"
-            id="new-project-githubLink"
-            onChange={e => this.onFormChange(e)}
-          />
-          <label className="newProjectSubText" htmlFor="new-project-githubLink">Github Link</label>
+              <label className="newProjectSubText" htmlFor="new-project-mockupLink">Mockup Link</label>
+              <input
+                type="text"
+                name="mockupLink"
+                id="new-project-mockupLink"
+                className="new-project-input"
+                onChange={e => this.onFormChange(e)}
+              />
 
+              <label className="newProjectSubText" htmlFor="new-project-liveLink">Live Link</label>
+              <input
+                type="text"
+                name="liveLink"
+                id="new-project-liveLink"
+                className="new-project-input"
+                onChange={e => this.onFormChange(e)}
+              />
+            </div> {/* end of box 1 B */}
+          </div> {/* end of box 1 */}
+          <div className="box-2">
+            <label className="newProjectSubText" htmlFor="new-project-lookingFor">Looking For</label>
+            <div className="new-project-lookingFor">
+              <div className="checkbox">
+                <input
+                  type="checkbox"
+                  name="roles"
+                  value="Programmer"
+                  id="new-project-role-p"
+                  onChange={e => this.onFormChange(e)}
+                />
+                <label htmlFor="new-project-role-p">Programmer</label>
+              </div>
+
+              <div className="checkbox">
+                <input
+                  type="checkbox"
+                  name="roles"
+                  value="Designer"
+                  id="new-project-role-d"
+                  onChange={e => this.onFormChange(e)}
+                />
+                <label htmlFor="new-project-role-d">Designer</label>
+              </div>
+            </div>
+
+          </div> {/* end of box 2 */}
         </form>
         <Footer />
       </div>
