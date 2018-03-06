@@ -5,6 +5,7 @@ body {
 }
 
 .logged-in-header-container {
+    max-height: 75px;
     background-color: $theme-blue;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -48,6 +49,7 @@ LOGGED IN
     margin: auto;
     margin-top: 25px;
     margin-bottom: 25px;
+    white-space: nowrap;
 }
 
 .logged-in-header-createButton {
@@ -86,8 +88,8 @@ PROFILE IMAGE
 
 .profileImage {
     border-radius: 50%;
-    height: 2.5vw;
-    width: 2.5vw;
+    height: 50px;
+    width: 50px;
 }
 
 /*
@@ -103,6 +105,8 @@ DROPDOWN MENU
     font-family: $font;
     font-size: $logo-font-size;
     border: none;
+    white-space: nowrap;
+    margin: 5px;
 }
 
 .dropdown {

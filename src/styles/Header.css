@@ -29,10 +29,11 @@ body {
 }
 
 .header-container {
+  max-height: 75px;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 't t t . . . . .  . l s s s';
+  grid-template-areas: 't t t . . . . . . l s s s';
 }
 
 a {

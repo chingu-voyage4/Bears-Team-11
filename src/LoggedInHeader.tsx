@@ -21,7 +21,7 @@ class LoggedInHeader extends React.Component<PassedProps, State> {
                         <button className="logged-in-header-createButton">CREATE NEW PROJECT</button>
                     </div>
                     <div className="dropdown">
-                        <button className="dropbtn">Choose A Portal &#x25BC;</button>
+                        <button className="dropbtn"><p className="dropbtn-text">Choose A Portal &#x25BC;</p></button>
                         <div className="dropdown-content">
                             <a href="#">Test Project #1</a>
                             <a href="#">Test Project #2</a>
