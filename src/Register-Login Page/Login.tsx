@@ -9,24 +9,24 @@ class Login extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      Email: '',
-      Password: ''
+      email: '',
+      password: ''
     };
   }
   handleEmail = (e: React.FormEvent<HTMLInputElement>): void => {
     this.setState({
-      Email: e.currentTarget.value
+      email: e.currentTarget.value
     });
   };
 
   handlePassword = (e: React.FormEvent<HTMLInputElement>): void => {
     this.setState({
-      Password: e.currentTarget.value
+      email: e.currentTarget.value
     });
   };
 
   handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
-    this.props.login(this.state.Email, this.state.Password);
+    this.props.login(this.state.email, this.state.password);
   };
   render() {
     return (
@@ -67,7 +67,7 @@ class Login extends React.Component<Props, State> {
             className="emailDiv"
             type="email"
             name="email"
-            value={this.state.Email}
+            value={this.state.email}
             onChange={e => this.handleEmail(e)}
             placeholder="Email"
           />
@@ -77,7 +77,7 @@ class Login extends React.Component<Props, State> {
             className="passwordDiv"
             type="password"
             name="password"
-            value={this.state.Password}
+            value={this.state.password}
             onChange={e => this.handlePassword(e)}
             placeholder="Password"
           />
