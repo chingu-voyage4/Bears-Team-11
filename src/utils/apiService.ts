@@ -1,6 +1,10 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
 
+function generateRandomDelay(): number {
+  return Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
+}
+
 /* Mock Objects */
 var users: Array<User> = [
   {
@@ -34,12 +38,17 @@ var projects: Array<Project> = [
 ];
 
 /* User */
-function login(email: string, password: string): User | boolean {
-  const user = users.filter(currentUser => {
-    return currentUser.email === email && currentUser.password === password;
-  })[0];
-
-  return user ? user : false;
+function login(email: string, password: string): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const user = users.filter(currentUser => {
+        return currentUser.email === email && currentUser.password === password;
+      })[0];
+      user
+        ? resolve(user)
+        : reject(new Error('Wrong username and/or password.'));
+    }, generateRandomDelay());
+  });
 }
 
 function register(
@@ -47,20 +56,32 @@ function register(
   lastName: string,
   email: string,
   password: string
-): boolean {
-  var emails = users.filter(user => {
-    return user.email === email;
+): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const user = users.filter(currentUser => {
+        return currentUser.email === email;
+      })[0];
+      user ? resolve(user) : reject(new Error('Email is already in use.'));
+    }, generateRandomDelay());
   });
-  return emails.length === 0 ? true : false;
 }
 
-function logout(): boolean {
-  return true;
+function logout(): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(true);
+    }, generateRandomDelay());
+  });
 }
 
 /* Project */
-function getProjects(): Array<Project> {
-  return projects;
+function getProjects(): Promise<Array<Project>> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(projects);
+    }, generateRandomDelay());
+  });
 }
 
 /* Service Module */
