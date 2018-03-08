@@ -8,7 +8,7 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      title: '',
+      name: '',
       description: '',
       dueDate: '',
       team: [],
@@ -18,7 +18,11 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
       lookingFor: [],
       status: '',
       category: '',
-      tags: []
+      tags: [],
+      images: [],
+      contact: '',
+      createdAt: '',
+      creator: ''
     };
   }
 
@@ -35,10 +39,10 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
         <form className="new-project-container">
           <div className="box-1">
             <div className="box-1-a">
-              <label className="newProjectSubText" htmlFor="new-project-title">Title</label>
+              <label className="newProjectSubText" htmlFor="new-project-title">Project Title</label>
               <input
                 type="text"
-                name="title"
+                name="name"
                 id="new-project-title"
                 className="new-project-input"
                 onChange={e => this.onFormChange(e)}
