@@ -1,6 +1,7 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
 
+/* Mock Objects */
 var users: Array<User> = [
   {
     firstName: 'Gorden',
@@ -32,6 +33,7 @@ var projects: Array<Project> = [
   }
 ];
 
+/* User */
 function login(email: string, password: string): User | boolean {
   const user = users.filter(currentUser => {
     return currentUser.email === email && currentUser.password === password;
@@ -49,7 +51,6 @@ function register(
   var emails = users.filter(user => {
     return user.email === email;
   });
-
   return emails.length === 0 ? true : false;
 }
 
@@ -57,10 +58,12 @@ function logout(): boolean {
   return true;
 }
 
+/* Project */
 function getProjects(): Array<Project> {
   return projects;
 }
 
+/* Service Module */
 var apiService = {
   login,
   register,
