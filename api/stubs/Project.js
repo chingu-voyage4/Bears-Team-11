@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 var projects = {
-  [1]: {
+  [2]: {
     id: 2,
     name: 'Momentum Dash',
     creator: 'lilgangwolf',
@@ -30,7 +30,7 @@ class Project {
     const user = _.filter(projects, function(project) {
       return projects[project.id].name === name;
     });
-    return project;
+    return projects;
   }
 
   static findById(id) {
@@ -53,8 +53,7 @@ class Project {
     views,
     category,
     status,
-    upVotes,
-    creator
+    upVotes
   }) {
     return (projects[id] = {
     id,
@@ -72,8 +71,7 @@ class Project {
     views,
     category,
     status,
-    upVotes,
-    creator
+    upVotes
     });
   }
 }
