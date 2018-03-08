@@ -7,7 +7,7 @@ import {
   LOGOUT_ERROR
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
-import { loginAPI, registerAPI, logoutAPI } from '../stubs/api';
+import apiService from '../utils/apiService';
 import { UserAction } from '../types/Redux';
 
 export function login(
@@ -18,7 +18,7 @@ export function login(
     // make ajax call to api server to login user
     // if success dispatch login action
     // otherwise if error dispatch error action
-    var user = loginAPI(email, password);
+    var user = apiService.login(email, password);
     if (user) {
       dispatch({
         type: LOGIN,
@@ -43,7 +43,7 @@ export function register(
     // make ajax call to api server to register user
     // if success dispatch register action
     // otherwise if error dispatch error action
-    if (registerAPI(firstName, lastName, email, password)) {
+    if (apiService.register(firstName, lastName, email, password)) {
       dispatch({
         type: REGISTER,
         data: {
@@ -66,7 +66,7 @@ export function logout(): (dispatch: Dispatch<UserAction>) => void {
     // make ajax call to api server to logout user user
     // if success dispatch logout action
     // otherwise if error dispatch error action
-    if (logoutAPI()) {
+    if (apiService.logout()) {
       dispatch({
         type: LOGOUT
       });
