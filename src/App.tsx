@@ -23,7 +23,7 @@ class App extends React.Component {
           <Switch>
             <Route exact={true} path="/" component={LandingPage} />
             <Route exact={true} path="/projects" component={ProjectsPage} />
-            <Route exact={true} path="/add" component={AddProjectsPage} />
+            <Route exact={true} path="/projects/add" component={AddProjectsPage} />
           </Switch>
         </Router>
       </Provider>

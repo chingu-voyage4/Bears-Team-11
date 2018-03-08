@@ -1,4 +1,4 @@
-const Project = require('../api/stubs/project');
+const Project = require('../api/stubs/Project');
 
 describe('Project', function() {
   test('find project by id', () => {

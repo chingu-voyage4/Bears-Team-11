@@ -21,7 +21,6 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
       tags: [],
       images: [],
       contact: '',
-      createdAt: '',
       creator: ''
     };
   }

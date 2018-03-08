@@ -26,13 +26,15 @@ var projects = {
 }
 
 class Project {
-  static find({ name }) {
+  // find projects by project name
+  static findByName({ name }) {
     const user = _.filter(projects, function(project) {
       return projects[project.id].name === name;
     });
     return projects;
   }
 
+  // find projects by id
   static findById(id) {
     return projects[id];
   }

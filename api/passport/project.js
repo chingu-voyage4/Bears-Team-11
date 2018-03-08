@@ -1,17 +1,8 @@
-var Projects = require('../models/Projects');
+var Project = require('../models/Projects');
 
-var express = require('express');
-var router = express.Router();
-
-module.exports = function () {
-
-router.get('/',function(req,res){
-  res.send('This is the projects page');
-});  
-
-router.post('/add', function (req, res) {
+newProject = function() {
+  var newProject = new Project();
   
-  var newProject = new Projects();
   newProject.name = req.query.name;
   newProject.description = req.query.description;
   newProject.dueDate = req.query.dueDate;
@@ -38,20 +29,4 @@ router.post('/add', function (req, res) {
    res.redirect('/home');
 
   });
-
-});
-
-router.post('/delete', function (req, res) {
-// get the _id
-// delete
-
-});
-
-router.post('/update', function (req, res) {
-     
-
-});
-
-return router;
-
 }
