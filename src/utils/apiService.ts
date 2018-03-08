@@ -1,28 +1,7 @@
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
+import { Project } from '../types/Projects.d';
+import { User } from '../types/User.d';
 
-interface Project {
-  name: string;
-  creator: string;
-  link: string;
-  image: string;
-  teamMembers: string[];
-  description: string;
-  contact: string;
-  lookingFor: string[];
-  comments: string;
-  createdAt: number;
-  dueDate: number;
-  views: number;
-  category: string;
-  status: boolean;
-  upVotes: number;
-}
-
+/* Mock Objects */
 var users: Array<User> = [
   {
     firstName: 'Gorden',
@@ -54,7 +33,8 @@ var projects: Array<Project> = [
   }
 ];
 
-export function loginAPI(email: string, password: string): User | boolean {
+/* User */
+function login(email: string, password: string): User | boolean {
   const user = users.filter(currentUser => {
     return currentUser.email === email && currentUser.password === password;
   })[0];
@@ -62,7 +42,7 @@ export function loginAPI(email: string, password: string): User | boolean {
   return user ? user : false;
 }
 
-export function registerAPI(
+function register(
   firstName: string,
   lastName: string,
   email: string,
@@ -71,17 +51,24 @@ export function registerAPI(
   var emails = users.filter(user => {
     return user.email === email;
   });
-
   return emails.length === 0 ? true : false;
 }
 
-export function logoutAPI(): boolean {
+function logout(): boolean {
   return true;
 }
 
-export function getProjectsAPI(): Array<Project> {
+/* Project */
+function getProjects(): Array<Project> {
   return projects;
 }
 
-// mongodb <-> redux
-// mongodb <-> transformer <-> redux
+/* Service Module */
+var apiService = {
+  login,
+  register,
+  logout,
+  getProjects
+};
+
+export default apiService;
