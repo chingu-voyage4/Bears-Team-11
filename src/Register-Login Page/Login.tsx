@@ -114,12 +114,12 @@ class Login extends React.Component<PassedProps, State> {
   }
 }
 
-function mapStateToProps(state: Store) {
-  return {
-    user: state.user,
-    projects: state.projects
-  };
-}
+// function mapStateToProps(state: Store) {
+//   return {
+//     user: state.user,
+//     projects: state.projects
+//   };
+// }
 
 //   function mapDispatchToProps(dispatch: Dispatch<Action>) {
 //     return {
@@ -128,3 +128,5 @@ function mapStateToProps(state: Store) {
 //   }
 
 //   export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+export default Login;

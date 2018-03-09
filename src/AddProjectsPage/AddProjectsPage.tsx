@@ -31,6 +31,33 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
     });
   }
 
+  public onSubmit(e: React.FormEvent<HTMLButtonElement>): void {
+    const url = 'http://localhost:8080/api/projects/add';
+
+    let bodyData = {
+      // name: this.state.name,
+      // description:
+    };
+
+    let data = {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(bodyData)
+    };
+
+    fetch(url, data)
+      /* tslint:disable-next-line */
+      .then(function(res: any) {
+        if (res.status === 409) {
+          alert('User already exists in database');
+        } else if (res.status === 200) {
+          alert('User added to database');
+        } else {
+          alert('Error ' + res.status + ' - ' + res.statusText);
+        }
+      });
+  }
+
   render() {
     return (
       <div>
@@ -38,7 +65,9 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
         <form className="new-project-container">
           <div className="box-1">
             <div className="box-1-a">
-              <label className="newProjectSubText" htmlFor="new-project-title">Project Title</label>
+              <label className="newProjectSubText" htmlFor="new-project-title">
+                Project Title
+              </label>
               <input
                 type="text"
                 name="name"
@@ -47,7 +76,12 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 onChange={e => this.onFormChange(e)}
               />
 
-              <label className="newProjectSubText" htmlFor="new-project-description">Description</label>
+              <label
+                className="newProjectSubText"
+                htmlFor="new-project-description"
+              >
+                Description
+              </label>
               <input
                 type="text"
                 name="description"
@@ -56,7 +90,12 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 onChange={e => this.onFormChange(e)}
               />
 
-              <label className="newProjectSubText" htmlFor="new-project-dueDate">Due Date</label>
+              <label
+                className="newProjectSubText"
+                htmlFor="new-project-dueDate"
+              >
+                Due Date
+              </label>
               <input
                 type="text"
                 name="dueDate"
@@ -65,7 +104,9 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 onChange={e => this.onFormChange(e)}
               />
 
-              <label className="newProjectSubText" htmlFor="new-project-team">Team</label>
+              <label className="newProjectSubText" htmlFor="new-project-team">
+                Team
+              </label>
               <input
                 type="text"
                 name="team"
@@ -73,9 +114,15 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 className="new-project-input"
                 onChange={e => this.onFormChange(e)}
               />
-            </div> {/* end of box 1 A */}
+            </div>{' '}
+            {/* end of box 1 A */}
             <div className="box-1-B">
-              <label className="newProjectSubText" htmlFor="new-project-githubLink">Github Link</label>
+              <label
+                className="newProjectSubText"
+                htmlFor="new-project-githubLink"
+              >
+                Github Link
+              </label>
               <input
                 type="text"
                 name="githubLink"
@@ -84,7 +131,12 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 onChange={e => this.onFormChange(e)}
               />
 
-              <label className="newProjectSubText" htmlFor="new-project-mockupLink">Mockup Link</label>
+              <label
+                className="newProjectSubText"
+                htmlFor="new-project-mockupLink"
+              >
+                Mockup Link
+              </label>
               <input
                 type="text"
                 name="mockupLink"
@@ -93,7 +145,12 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 onChange={e => this.onFormChange(e)}
               />
 
-              <label className="newProjectSubText" htmlFor="new-project-liveLink">Live Link</label>
+              <label
+                className="newProjectSubText"
+                htmlFor="new-project-liveLink"
+              >
+                Live Link
+              </label>
               <input
                 type="text"
                 name="liveLink"
@@ -101,10 +158,17 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 className="new-project-input"
                 onChange={e => this.onFormChange(e)}
               />
-            </div> {/* end of box 1 B */}
-          </div> {/* end of box 1 */}
+            </div>{' '}
+            {/* end of box 1 B */}
+          </div>{' '}
+          {/* end of box 1 */}
           <div className="box-2">
-            <label className="newProjectSubText" htmlFor="new-project-lookingFor">Looking For</label>
+            <label
+              className="newProjectSubText"
+              htmlFor="new-project-lookingFor"
+            >
+              Looking For
+            </label>
             <div className="new-project-lookingFor">
               <div className="checkbox">
                 <input
@@ -128,8 +192,8 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 <label htmlFor="new-project-role-d">Designer</label>
               </div>
             </div>
-
-          </div> {/* end of box 2 */}
+          </div>{' '}
+          {/* end of box 2 */}
         </form>
         <Footer />
       </div>

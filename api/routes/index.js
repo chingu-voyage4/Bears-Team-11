@@ -31,24 +31,53 @@ module.exports = function (passport) {
 	});
 
 	/* Handle Registration POST */
-	router.post('/signup', function(req, res, next) {
-		passport.authenticate('signup', function(err, user, info) {
-		  if (err) { return next(err); }
-		  if (!user) { return res.send('No user'); }
-		  return res.send('Success');
+	router.post('/signup', function (req, res, next) {
+		passport.authenticate('signup', function (err, user, info) {
+			if (err) { return next(err); }
+			if (!user) { return res.send('No user'); }
+			return res.send('Success');
 		})(req, res, next);
+	});
+
+
+	/* Handle LOGIN POST  */
+	router.post('/login', function (req, res, next) {
+		passport.authenticate('login', function (err, user, info) {
+			if (err) { return next(err); }
+			if (!user) { return res.send('No user'); }
+			return res.send('Success');
+		})(req, res, next);
+	});
+
+	/* Handle New Project POST  */
+	router.post('/projects/add', function (req, res, next) {
+		var newProject = new Project();
+
+		newProject.name = req.query.name;
+		newProject.description = req.query.description;
+		newProject.dueDate = req.query.dueDate;
+		newProject.team = req.query.team;
+		newProject.githubLink = req.query.githubLink;
+		newProject.mockupLink = req.query.mockupLink;
+		newProject.liveLink = req.query.liveLink;
+		newProject.lookingFor = req.query.lookingFor;
+		newProject.status = req.query.status;
+		newProject.category = req.query.category;
+		newProject.tags = req.query.tags;
+		newProject.images = req.query.images;
+		newProject.contact = req.query.contact;
+		newProject.creator = req.query.creator;
+		newProject.views = 0;
+		newProject.upVotes = 0;
+
+		newProject.save(function (err) {
+			if (err) {
+				console.log('Error in saving project: ' + err);
+			}
+			console.log('New project saved successfully');
 		});
-
-
-		/* Handle LOGIN POST  */
-		router.post('/login', function(req, res, next) {
-			passport.authenticate('login', function(err, user, info) {
-				if (err) { return next(err); }
-				if (!user) { return res.send('No user'); }
-				return res.send('Success');
-			})(req, res, next);
-			});
-
+		res.send(newProject)
+	})
 
 	/* GET Home Page 
 	 * This route is protected and if it is not authenticated,
@@ -59,13 +88,13 @@ module.exports = function (passport) {
 	});
 
 
-/* Handle Logout */
-router.get('/signout', function (req, res) {
-	req.logout();
-	res.redirect('/');
-});
+	/* Handle Logout */
+	router.get('/signout', function (req, res) {
+		req.logout();
+		res.redirect('/');
+	});
 
-return router;
+	return router;
 }
 
 

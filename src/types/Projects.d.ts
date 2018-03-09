@@ -1,19 +1,19 @@
 export interface TestProjectObject {
-  name: string;
-  creator: string;
-  link: string;
-  image: string;
-  teamMembers: string[];
-  description: string;
-  contact: string;
-  lookingFor: string[];
-  comments: string;
-  createdAt: number;
-  dueDate: number;
-  views: number;
-  category: string;
-  status: boolean;
-  upVotes: number;
+  name?: string;
+  creator?: string;
+  link?: string;
+  image?: string;
+  teamMembers?: string[];
+  description?: string;
+  contact?: string;
+  lookingFor?: string[];
+  comments?: string;
+  createdAt?: number;
+  dueDate?: number;
+  views?: number;
+  category?: string;
+  status?: boolean;
+  upVotes?: number;
 }
 
 export type Project = TestProjectObject;
