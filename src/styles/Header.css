@@ -29,6 +29,7 @@ body {
 }
 
 .header-container {
+  max-height: 75px;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: auto;
