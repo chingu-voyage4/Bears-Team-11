@@ -34,7 +34,7 @@ body {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 't t t . d d d d . l s s s';
+  grid-template-areas: '. t . d d d d d . l s s s';
 }
 
 a {
@@ -54,6 +54,7 @@ LOGO
   font-size: 24px;
   font-weight: 700;
   margin: auto;
+  justify-self: start;
 }
 
 /*
@@ -120,6 +121,7 @@ DROPDOWN MENU
 */
 .dropbtn {
   background-color: #489be2;
+  width: 100%;
   color: white;
   font-weight: 700;
   padding: 16px;
