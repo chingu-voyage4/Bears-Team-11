@@ -1,0 +1,219 @@
+@import "_variables.scss";
+/*
+==========================
+TITLE
+==========================
+*/
+.projects-header-text {
+    color: $theme-blue;
+    font-size: 45px;
+    font-weight: 700;
+    text-align: center;
+    padding-top: 60px;
+    padding-bottom: 30px;
+}
+/*
+==========================
+SEARCH
+==========================
+*/
+.projects-search-form {
+    text-align: center;
+    padding-bottom: 60px;
+}
+
+.projects-search-box {
+    border: 1px solid $theme-blue;
+    width: 350px;
+    height: 50px;
+    color: $dark-grey;
+    padding: 5px;
+}
+
+.projects-search-box::placeholder {
+    color: $theme-blue;
+    padding: 5px;
+}
+
+
+.projects-search-btn {
+    border: none;
+    background-color: $theme-blue;
+    color: white;
+    width: 100px;
+    height: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+/*
+==========================
+PROJECT FILTERS
+==========================
+*/
+.project-filters {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid $theme-blue;
+    min-width: 1000px;
+    max-width: 1000px;
+}
+
+.project-filter-title {
+    color: $theme-blue;
+    font-size: 12px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    margin-left: 11px;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: left;
+    border-bottom: 1px solid $theme-blue;
+}
+
+.project-filter-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.project-filter-dropdown-content {
+    position: relative;
+    min-width: 180px;
+    z-index: 2;
+    width: 100%;
+    overflow: auto;
+    text-align: left;
+    color: $dark-grey;
+    font-size: 12px;
+    max-height: 75px;
+}
+
+.project-filter-submit-btn {
+    border: 1px solid $theme-blue;
+    background-color: $theme-blue;
+    color: white;
+    text-transform: uppercase;
+    padding: 10px;
+    margin: 10px;
+    min-width: 75px;
+}
+/*
+==========================
+CHECKBOX STYLING
+==========================
+*/
+.checkbox > input[type=checkbox], input[type=radio] {
+    opacity: 0;
+}
+.checkbox label {
+    position: relative;
+    padding-left: 12px;
+}
+.checkbox label::before, .checkbox label::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+}
+.checkbox label::before {
+    height: 12px;
+    width: 12px;
+    border: 1px solid $theme-blue;
+    top: 0px;
+    left: -8px;
+}
+
+.checkbox label::after {
+    height: 4px;
+    width: 6px;
+    border-left: 2px solid;
+    border-bottom: 2px solid;
+    transform: rotate(-45deg);
+    color: $theme-blue;
+    left: -5px;
+    top: 3px;
+}
+
+/*Hide the checkmark by default*/
+.checkbox input[type=checkbox] + label::after {
+    content: none;
+}
+/*Unhide the checkmark on the checked state*/
+.checkbox input[type=checkbox]:checked + label::after {
+    content: "";
+}
+/*Adding focus styles on the outer-box of the fake checkbox*/
+.checkbox input[type=checkbox]:focus + label::before {
+    outline: $light-blue auto 5px;
+}
+
+/*
+==========================
+RADIO STYLING
+==========================
+*/
+
+.radio label {
+    position: relative;
+    padding-left: 12px;
+}
+.radio label::before, .radio label::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+}
+.radio label::before {
+    border-radius: 50%;
+    height: 12px;
+    width: 12px;
+    border: 1px solid $theme-blue;
+    top: 0px;
+    left: -8px;
+}
+
+.radio label::after {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: $theme-blue;
+    left: -5px;
+    top: 3px;
+}
+
+/*Hide the checkmark by default*/
+.radio input[type=radio] + label::after {
+    content: none;
+}
+/*Unhide the checkmark on the checked state*/
+.radio input[type=radio]:checked + label::after {
+    content: "";
+}
+/*Adding focus styles on the outer-box of the fake checkbox*/
+.radio input[type=radio]:focus + label::before {
+    outline: $light-blue auto 5px;
+}
+
+/*
+==========================
+TAGS
+==========================
+*/
+.tagSearch {
+    border: 1px solid $theme-blue;
+    font-size: 12px;
+    color: $dark-grey;
+    padding: 5px;
+    display: none;
+    position: absolute;
+    min-width: 180px;
+}
+
+.unselectedTags {
+    display: block;
+}
+
+.selectedTag {
+    display: inline-block
+}

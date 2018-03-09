@@ -7,9 +7,13 @@ body {
 .header-container {
     max-height: 75px;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(10, 1fr);
     grid-template-rows: auto;
+<<<<<<< HEAD
     grid-template-areas: "t t t . . . . . . l s s s"
+=======
+    grid-template-areas: "t t . . . . . l s s"
+>>>>>>> 41344a99e3a07f138849175ca479df57220e69da
 }
 
 a {
@@ -30,6 +34,7 @@ LOGO
     font-size: $logo-font-size;
     font-weight: 700;
     margin: auto;
+    padding-left: 2vw;
 }
 
 
@@ -90,6 +95,37 @@ SIGNUP BUTTON
     box-shadow: $box-shadow;
     background-color: $theme-blue;
     vertical-align: middle;
+    max-height: 45px;
+}
+/*
+==========================
+MEDIA QUERIES
+==========================
+*/
+@media all and (max-width: 1000px) and (min-width: 600px) {
+    .header-container {
+        grid-template-areas: "t t t . . . . l s s"
+    }
+    .logo {
+        margin-left: 0px;
+    }
 }
 
+@media all and (max-width: 800px) and (min-width: 600px) {
+    .header-container {
+        grid-template-areas: "t t t . . . . l s s"
+    }
+    .logo {
+        margin-left: 0px;
+        font-size: 2.5vw;
+    }
+    .signUpText {
+        font-size: 1.5vw;
+        padding-left: 0.5vw;
+        padding-right: 0.5vw;
+    }
+    .loginText {
+        font-size: 1.5vw;
+    }
+}
 

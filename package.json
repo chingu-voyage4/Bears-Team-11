@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/lodash": "^4.14.104",
+    "@types/react-router-dom": "^4.2.4",
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
@@ -34,7 +36,8 @@
   "scripts": {
     "precommit": "lint-staged",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts-ts start",
     "start-server": "nodemon api",
     "start": "npm-run-all -p watch-css start-js",
@@ -56,13 +59,10 @@
     "typescript": "^2.7.2"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css}": [
+    "src/**/*.{ts,tsx,js,jsx,json,scss,css}": [
       "prettier --single-quote --write",
       "git add"
     ],
-    "api/**/*.{js}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "api/**/*.{js}": ["prettier --single-quote --write", "git add"]
   }
 }
