@@ -30,7 +30,7 @@ class Login extends React.Component<PassedProps, State> {
     var referenceToThis = this;
     var error;
 
-    var apiBaseUrl = 'http://localhost:8080/api/v1/user/login';
+    var apiBaseUrl = 'http://localhost:8080/api/login';
 
     var payload = {
       email: this.state.email,

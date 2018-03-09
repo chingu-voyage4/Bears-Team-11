@@ -39,6 +39,17 @@ module.exports = function (passport) {
 		})(req, res, next);
 		});
 
+
+		/* Handle LOGIN POST  */
+		router.post('/login', function(req, res, next) {
+			passport.authenticate('login', function(err, user, info) {
+				if (err) { return next(err); }
+				if (!user) { return res.send('No user'); }
+				return res.send('Success');
+			})(req, res, next);
+			});
+
+
 	/* GET Home Page 
 	 * This route is protected and if it is not authenticated,
 	 * it will redirects to login page.
