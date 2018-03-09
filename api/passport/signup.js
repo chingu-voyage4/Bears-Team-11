@@ -2,7 +2,7 @@
  * SignUp functionality to the user using Local Strategy
  * First checks if the email or username already regestered in the DB,
  * Creates an user in the DB with user credentials 
- * We are hashig password using bcrypt-nodejs to make it secure
+ * We are hashing password using bcrypt-nodejs to make it secure
 */
 var LocalStrategy   = require('passport-local').Strategy;
 var User = require('../models/Users');
@@ -25,7 +25,7 @@ module.exports = function(passport){
                 User.findOne({$or:[{ 'email': email },{'username': req.query.username}]}, function(err, user) {
                     // In case of any error, return using the done method
                     if (err){
-                        console.log('Error in SignUp: '+err);
+                        console.log('Error in SignUp: '+ err);
                         return done(err);
                     }
                     // already exists
@@ -47,10 +47,10 @@ module.exports = function(passport){
                         // save the user
                         newUser.save(function(err) {
                             if (err){
-                                console.log('Error in Saving user: '+err);  
+                                console.log('Error in Saving User: '+err);  
                                 throw err;  
                             }
-                            console.log('User Registration succesful');    
+                            console.log('User Registration succesfull');    
                             return done(null, newUser);
                         });
                     }

@@ -34,7 +34,7 @@ LOGIN / REGISTER COMPONENTS
   width: 350px;
   border: 3px solid #489be2;
   background-color: white;
-  height: 500px;
+  height: 400px;
 }
 
 .registerPopupScreen {
@@ -48,7 +48,7 @@ LOGIN / REGISTER COMPONENTS
   width: 350px;
   border: 3px solid #489be2;
   background-color: white;
-  height: 650px;
+  height: 550px;
 }
 
 /*
@@ -67,7 +67,7 @@ AUTHENTICATION BUTTONS
   background-color: white;
   border: 1px solid #d1d1d1;
   font-size: 11px;
-  color: #d1d1d1;
+  color: #757575;
   padding: auto;
   display: inline-block;
 }
@@ -115,6 +115,11 @@ AUTHENTICATION BUTTONS
 .nameDiv::placeholder {
   color: #d1d1d1;
   padding: 5px;
+}
+
+.emailDiv:invalid,
+.passwordDiv:invalid {
+  border: 1px solid red;
 }
 
 .extAuthBtn {

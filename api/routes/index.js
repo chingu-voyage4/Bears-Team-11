@@ -52,8 +52,6 @@ module.exports = function (passport) {
 		res.send('Welcome to the Home');
 	});
 
-	/* Handle Logout */
-
 
 /* Handle Logout */
 router.get('/signout', function (req, res) {

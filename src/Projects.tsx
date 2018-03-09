@@ -13,7 +13,7 @@ class Project extends React.Component<Props, State> {
             roles = data.lookingFor;
         }
         return (
-            <div className="project">
+            <div className="project" key={this.props.index}>
                 <img className="project-image" alt={data.name} src={data.image} />
                 <div className="project-info">
                     <div className="project-name">{data.name}</div>
@@ -38,8 +38,8 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
         let projectArray = arrayOfTestProjects.slice(0, this.props.count + 1);
         return (
             <div className="projects-container">
-                {projectArray.map((projectData) => (
-                    <Project project={projectData} />
+                {projectArray.map((projectData, index) => (
+                    <Project project={projectData} index={index}/>
                 ))}
             </div>
         );

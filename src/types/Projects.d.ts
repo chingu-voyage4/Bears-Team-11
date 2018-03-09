@@ -23,6 +23,7 @@ export interface State {}
 // In this case, there are no props passed in, so its an empty object
 export interface Props {
     project: TestProjectObject;
+    index?: number;
 }
 
 export interface EmptyProp {}

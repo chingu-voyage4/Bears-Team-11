@@ -8,19 +8,19 @@ class Login extends React.Component<PassedProps, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            Email: '',
-            Password: ''
+            email: '',
+            password: ''
         };
     }
     handleEmail = (e: React.FormEvent<HTMLInputElement>): void => {
         this.setState({
-            Email: e.currentTarget.value
+            email: e.currentTarget.value
         });
     }
 
     handlePassword = (e: React.FormEvent<HTMLInputElement>): void => {
         this.setState({
-            Password: e.currentTarget.value
+            password: e.currentTarget.value
         });
     }
 
@@ -29,8 +29,8 @@ class Login extends React.Component<PassedProps, State> {
         var apiBaseUrl = 'http://localhost:8080/api/v1/user/login';
 
         var payload = {
-            email: this.state.Email,
-            password: this.state.Password
+            email: this.state.email,
+            password: this.state.password
         };
 
         let data = {
@@ -71,18 +71,6 @@ class Login extends React.Component<PassedProps, State> {
 
                 <br />
 
-                <img className="extAuthIcon" src={require('../assets/facebook icon.png')} />
-                <button className="extAuthBtn">
-                    Sign in with Facebook
-                </button>
-
-                <br />
-
-                <img className="extAuthIcon" src={require('../assets/chingu icon.png')} />
-                <button className="extAuthBtn">
-                    Sign in with Chingu
-                </button>
-
                 <hr className="horizontalDivider" />
 
                 <form>
@@ -91,7 +79,7 @@ class Login extends React.Component<PassedProps, State> {
                         className="emailDiv"
                         type="email"
                         name="email"
-                        value={this.state.Email}
+                        value={this.state.email}
                         onChange={e => this.handleEmail(e)}
                         placeholder="Email"
                     />
@@ -101,7 +89,7 @@ class Login extends React.Component<PassedProps, State> {
                         className="passwordDiv"
                         type="password"
                         name="password"
-                        value={this.state.Password}
+                        value={this.state.password}
                         onChange={e => this.handlePassword(e)}
                         placeholder="Password"
                     />
