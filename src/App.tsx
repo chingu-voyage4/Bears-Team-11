@@ -11,6 +11,9 @@ import ReduxTestPage from './ReduxTestPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ProjectsPage from './Projects Page/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
+import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
+import PublicProfile from './UserProfileAndSettingsPage/PublicProfile';
+
 const store = createStore(
   userReducer,
   composeWithDevTools(applyMiddleware(thunk))
@@ -31,11 +34,22 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
           <Router>
             <Switch>
               <Route exact={true} path="/" component={LandingPage} />
+              <Route exact={true} path="/home" component={LandingPage} />
               <Route exact={true} path="/projects" component={ProjectsPage} />
               <Route
                 exact={true}
                 path="/projects/add"
                 component={AddProjectsPage}
+              />
+              <Route
+                exact={true}
+                path="/user/settings"
+                component={SettingsPage}
+              />
+              <Route
+                exact={true}
+                path="/user/profile"
+                component={PublicProfile}
               />
             </Switch>
           </Router>

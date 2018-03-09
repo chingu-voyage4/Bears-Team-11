@@ -26,7 +26,7 @@ newProject = function() {
     }
     console.log('New project saved successfully');
 
-   res.redirect('/home');
-
+  
+  res.send(newProject)
   });
 }

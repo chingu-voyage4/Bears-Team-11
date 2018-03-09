@@ -8,12 +8,12 @@ var isAuthenticated = function (req, res, next) {
 	// Passport adds this method to request object. A middleware is allowed to add properties to
 	// request and response objects
 	if (req.isAuthenticated()) {
-		console.log('You are authrized to go to home page');
+		console.log('You are authorized to go to home page');
 		return next();
 	}
 
 	// if the user is not authenticated then redirect him to the login page
-	console.log('You are not authourized');
+	console.log('You are not authorized');
 	res.redirect('/');
 }
 
@@ -31,18 +31,13 @@ module.exports = function (passport) {
 	});
 
 	/* Handle Registration POST */
-	router.post('/signup', passport.authenticate('signup', {
-		successRedirect: '/home',
-		failureRedirect: '/signup',
-		failureFlash: true
-	}));
-
-	/* Handle Login POST */
-	router.post('/login', passport.authenticate('login', {
-		successRedirect: '/home',
-		failureRedirect: '/',
-		failureFlash: true
-	}));
+	router.post('/signup', function(req, res, next) {
+		passport.authenticate('signup', function(err, user, info) {
+		  if (err) { return next(err); }
+		  if (!user) { return res.send('No user'); }
+		  return res.send('Success');
+		})(req, res, next);
+		});
 
 	/* GET Home Page 
 	 * This route is protected and if it is not authenticated,
