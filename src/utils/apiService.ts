@@ -10,8 +10,7 @@ var users: Array<User> = [
   {
     firstName: 'Gorden',
     lastName: 'Ramsay',
-    email: 'gramsy@gmail.com',
-    password: 'masterchef'
+    email: 'gramsy@gmail.com'
   }
 ];
 
