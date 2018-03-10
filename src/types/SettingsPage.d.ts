@@ -3,5 +3,6 @@ export interface Props {}
 export interface PassedProps {}
 
 export interface State {
-  username: String;
+  personal: boolean;
+  public: boolean;
 }

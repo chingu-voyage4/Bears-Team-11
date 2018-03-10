@@ -1,19 +1,19 @@
 export interface TestProjectObject {
-  name: string;
-  creator: string;
-  link: string;
-  image: string;
-  teamMembers: string[];
-  description: string;
-  contact: string;
-  lookingFor: string[];
-  comments: string;
-  createdAt: number;
-  dueDate: number;
-  views: number;
-  category: string;
-  status: boolean;
-  upVotes: number;
+  name?: string;
+  creator?: string;
+  link?: string;
+  image?: string;
+  teamMembers?: string[];
+  description?: string;
+  contact?: string;
+  lookingFor?: string[];
+  comments?: string;
+  createdAt?: number;
+  dueDate?: number;
+  views?: number;
+  category?: string;
+  status?: boolean;
+  upVotes?: number;
 }
 
 export type Project = TestProjectObject;
@@ -25,6 +25,7 @@ export interface State {}
 // In this case, there are no props passed in, so its an empty object
 export interface Props {
   project: TestProjectObject;
+  index?: number;
 }
 
 export interface EmptyProp {}

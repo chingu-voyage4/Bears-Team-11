@@ -2,12 +2,12 @@
 
 .popupScreen {
     @include login-register-container;
-    height: 500px;
+    height: 400px;
 }
 
 .registerPopupScreen {
     @include login-register-container;
-    height: 650px;
+    height: 550px;
 }
 
 /*
@@ -23,7 +23,7 @@ AUTHENTICATION BUTTONS
     background-color: white;
     border: 1px solid $light-grey;
     font-size: 11px;
-    color: $light-grey;
+    color: $dark-grey;
     padding: auto;
     display: inline-block;
 }
@@ -50,7 +50,6 @@ AUTHENTICATION BUTTONS
     width: 24px;
     height: 24px;
     display: inline-block;
-    // border: 1px solid $light-grey;
     box-shadow: $box-shadow;
     padding: 4.5px;
     margin: auto;
@@ -62,6 +61,10 @@ AUTHENTICATION BUTTONS
 .emailDiv::placeholder, .passwordDiv::placeholder, .usernameDiv::placeholder, .nameDiv::placeholder {
     color: $light-grey;
     padding: 5px;
+}
+
+.emailDiv:invalid, .passwordDiv:invalid {
+    border: 1px solid red;
 }
 
 .extAuthBtn {

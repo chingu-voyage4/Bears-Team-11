@@ -26,7 +26,7 @@ class ProjectsPage extends React.Component<PassedProps, State> {
             <div>
                 <Header />
                 <div className="projects-header-text">
-                    Explore Roles
+                    Explore Projects
                 </div>
 
                 <form className="projects-search-form">

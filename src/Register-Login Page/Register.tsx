@@ -16,7 +16,7 @@ class Register extends React.Component<Props, State> {
       username: ''
     };
   }
-
+  
   public handleFirstNameChange(e: React.FormEvent<HTMLInputElement>): void {
     this.setState({ firstName: e.currentTarget.value });
   }
@@ -82,7 +82,6 @@ class Register extends React.Component<Props, State> {
             src={require('../assets/chingu icon.png')}
           />
           <button className="extAuthBtn">Sign up with Chingu</button>
-
           <hr className="horizontalDivider" />
 
           <label className="form-label">First Name</label>
@@ -159,5 +158,4 @@ class Register extends React.Component<Props, State> {
     );
   }
 }
-
 export default connect(null, { register })(Register);

@@ -21,7 +21,7 @@ class Login extends React.Component<Props, State> {
 
   handlePassword = (e: React.FormEvent<HTMLInputElement>): void => {
     this.setState({
-      email: e.currentTarget.value
+      password: e.currentTarget.value
     });
   };
 
@@ -44,7 +44,6 @@ class Login extends React.Component<Props, State> {
         <button className="extAuthBtn">Sign in with Google</button>
 
         <br />
-
         <img
           className="extAuthIcon"
           src={require('../assets/facebook icon.png')}
@@ -93,5 +92,4 @@ class Login extends React.Component<Props, State> {
     );
   }
 }
-
 export default connect(null, { login })(Login);
