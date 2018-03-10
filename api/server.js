@@ -14,11 +14,11 @@ var routes = require('./routes/index')(passport);
 
 // // Connect to DB-Local:
 // NOTE: Uncomment below line if you want to save data locally
- //mongoose.connect(config.db.local);
+mongoose.connect(config.db.local);
 
 // Connect to DB-Cloud
 // NOTE: Uncomment below line if you want to save data in the cloud(Mlab)
-mongoose.connect(config.db.mlab);
+// mongoose.connect(config.db.mlab);
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -39,8 +39,7 @@ app.use(passport.session());
 initPassport(passport);
 
 // for using routs
-app.use('/', routes);
-
+app.use('/api', routes);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

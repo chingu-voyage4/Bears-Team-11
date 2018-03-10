@@ -3,6 +3,8 @@ export interface Props {}
 export interface PassedProps {}
 
 export interface State {
-    Email: string;
-    Password: string;
+  email?: string;
+  password?: string;
+  userLoggedIn?: boolean;
+  error?: string;
 }

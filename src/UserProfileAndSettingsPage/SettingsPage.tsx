@@ -1,6 +1,6 @@
 import * as React from 'react';
-import './styles/SettingsPage.css';
-import { PassedProps, State, Props } from './types/SettingsPage.d';
+import '../styles/SettingsPage.css';
+import { PassedProps, State, Props } from '../types/SettingsPage.d';
 import PublicProfile from './PublicProfile';
 import PersonalDetails from './PersonalDetails';
 
@@ -18,21 +18,21 @@ class SettingsPage extends React.Component<PassedProps, State> {
       personal: true,
       public: false
     });
-  };
+  }
 
   publicSettings = () => {
     this.setState({
       personal: false,
       public: true
     });
-  };
+  }
 
   render() {
     return (
       <div className="settings-container">
         <div className="settings-menu-div">
           <button className="settings-profile-image">
-            <img src={require('./assets/blank image.png')} />
+            <img src={require('../assets/blank image.png')} />
           </button>
           <h2 className="settings-name">Name Here</h2>
           <div className="settins-buttton-div">
