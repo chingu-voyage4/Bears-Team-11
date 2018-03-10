@@ -5,10 +5,11 @@ import { Action } from '../types/Redux';
 
 export function getProjects(): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    var projects = apiService.getProjects();
-    return dispatch({
-      type: GET_PROJECTS,
-      data: projects
+    return apiService.getProjects().then(projects => {
+      return dispatch({
+        type: GET_PROJECTS,
+        data: projects
+      });
     });
   };
 }
