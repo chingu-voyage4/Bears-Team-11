@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './styles/Header.css';
 import { PassedProps, State, Props } from './types/Header.d';
-// import Login from './Register-Login Page/Login';
-// import Register from './Register-Login Page/Register';
+import Login from './Register-Login Page/Login';
+import Register from './Register-Login Page/Register';
 // import { BrowserRouter as Route } from 'react-router-dom';
 class Header extends React.Component<PassedProps, State> {
   constructor(props: Props) {
@@ -30,8 +30,8 @@ class Header extends React.Component<PassedProps, State> {
       <div>
         <div className="header-container">
           {/* controls login and register popup windows */}
-          {/* {this.state.loginScreen === true ? <Login /> : null} */}
-          {/* {this.state.registerScreen === true ? <Register /> : null} */}
+          {this.state.loginScreen === true ? <Login /> : null}
+          {this.state.registerScreen === true ? <Register /> : null}
 
           <div className="logo">project match</div>
           <div className="login">

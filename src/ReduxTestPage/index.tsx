@@ -2,9 +2,9 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
 import { login, register, logout } from '../actions/userActions';
-import { Store, Props, State } from '../types/Redux';
+import { Store, TestProps, State } from '../types/Redux';
 
-class ReduxTestPage extends React.Component<Props, State> {
+class ReduxTestPage extends React.Component<TestProps, State> {
   handleLogin = () => {
     this.props.login('gramsay@gmail.com', 'masterchef');
   };
