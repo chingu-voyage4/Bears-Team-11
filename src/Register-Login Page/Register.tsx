@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { State } from '../types/Register.d';
-import { Props } from '../types/Redux.d';
+import { RegisterProps } from '../types/Redux.d';
 import { register } from '../actions/userActions';
 import { connect } from 'react-redux';
 import '../styles/Register-Login.css';
 
-class Register extends React.Component<Props, State> {
-  constructor(props: Props) {
+class Register extends React.Component<RegisterProps, State> {
+  constructor(props: RegisterProps) {
     super(props);
     this.state = {
       firstName: '',
@@ -16,7 +16,7 @@ class Register extends React.Component<Props, State> {
       username: ''
     };
   }
-  
+
   public handleFirstNameChange(e: React.FormEvent<HTMLInputElement>): void {
     this.setState({ firstName: e.currentTarget.value });
   }
@@ -158,4 +158,5 @@ class Register extends React.Component<Props, State> {
     );
   }
 }
-export default connect(null, { register })(Register);
+
+export default connect<{}, RegisterProps, {}>(null, { register })(Register);

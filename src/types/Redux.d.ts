@@ -15,9 +15,13 @@ export interface ProjectAction extends Action {
 }
 
 // Reducers
-export interface UserState {}
+export interface UserState {
+  user?: object;
+}
 
-export interface ProjectState {}
+export interface ProjectState {
+  project?: object;
+}
 
 // ReduxTextPage Component
 export interface Store {
@@ -25,7 +29,7 @@ export interface Store {
   projects: Array<object>;
 }
 
-export interface Props extends Store {
+export interface TestProps extends Store {
   getProjects: () => (dispatch: Dispatch<ProjectAction>) => void;
   login: (
     email: string,
@@ -40,4 +44,26 @@ export interface Props extends Store {
   logout: () => (dispatch: Dispatch<UserAction>) => void;
 }
 
+// Login Component
+export interface LoginProps {
+  login: (
+    email: string,
+    password: string
+  ) => (dispatch: Dispatch<UserAction>) => void;
+}
+
+export interface RegisterProps {
+  register: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string
+  ) => (dispatch: Dispatch<UserAction>) => void;
+}
+
+export interface ProjectProps {
+  getProjects: () => (dispatch: Dispatch<ProjectAction>) => void;
+}
+
+// Register Component
 export interface State {}
