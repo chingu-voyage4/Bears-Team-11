@@ -1,3 +1,5 @@
+// FS initial comment from newBranch
+
 import * as React from 'react';
 import { State } from '../types/Register.d';
 import { RegisterProps } from '../types/Redux.d';
