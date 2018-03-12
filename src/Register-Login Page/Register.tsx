@@ -16,25 +16,11 @@ class Register extends React.Component<Props, State> {
       username: ''
     };
   }
-  
-  public handleFirstNameChange(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ firstName: e.currentTarget.value });
-  }
 
-  public handleLastNameChange(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ lastName: e.currentTarget.value });
-  }
-
-  public handleUsernameChange(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ username: e.currentTarget.value });
-  }
-
-  public handleEmailChange(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ email: e.currentTarget.value });
-  }
-
-  public handlePasswordChange(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ password: e.currentTarget.value });
+  public handleFormChange(e: React.FormEvent<HTMLInputElement>): void {
+    this.setState({
+      [e.currentTarget.name]: e.currentTarget.value
+    });
   }
 
   public handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
@@ -43,16 +29,6 @@ class Register extends React.Component<Props, State> {
   }
 
   render() {
-    let inputStyle = {
-      border: '1px solid black',
-      color: 'black'
-    };
-    if (this.state.password.length > 8) {
-      inputStyle = {
-        border: '3px solid red',
-        color: 'red'
-      };
-    }
     return (
       <div className="registerPopupScreen">
         <form className="register-form">
@@ -69,19 +45,6 @@ class Register extends React.Component<Props, State> {
 
           <br />
 
-          <img
-            className="extAuthIcon"
-            src={require('../assets/facebook icon.png')}
-          />
-          <button className="extAuthBtn">Sign up with Facebook</button>
-
-          <br />
-
-          <img
-            className="extAuthIcon"
-            src={require('../assets/chingu icon.png')}
-          />
-          <button className="extAuthBtn">Sign up with Chingu</button>
           <hr className="horizontalDivider" />
 
           <label className="form-label">First Name</label>
@@ -91,7 +54,7 @@ class Register extends React.Component<Props, State> {
             name="firstName"
             required={true}
             className="nameDiv"
-            onChange={e => this.handleFirstNameChange(e)}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <label className="form-label">Last Name</label>
@@ -101,7 +64,7 @@ class Register extends React.Component<Props, State> {
             name="lastName"
             required={true}
             className="nameDiv"
-            onChange={e => this.handleLastNameChange(e)}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
@@ -113,7 +76,7 @@ class Register extends React.Component<Props, State> {
             name="username"
             required={true}
             className="usernameDiv"
-            onChange={e => this.handleUsernameChange(e)}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
@@ -125,7 +88,7 @@ class Register extends React.Component<Props, State> {
             name="email"
             required={true}
             className="emailDiv"
-            onChange={e => this.handleEmailChange(e)}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
@@ -136,11 +99,10 @@ class Register extends React.Component<Props, State> {
             value={this.state.password}
             type="password"
             placeholder="Password"
-            style={inputStyle}
             name="password"
             required={true}
             className="passwordDiv"
-            onChange={e => this.handlePasswordChange(e)}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />

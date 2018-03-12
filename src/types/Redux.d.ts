@@ -28,8 +28,8 @@ export interface Store {
 export interface Props extends Store {
   getProjects: () => (dispatch: Dispatch<ProjectAction>) => void;
   login: (
-    email: string,
-    password: string
+    email?: string,
+    password?: string
   ) => (dispatch: Dispatch<UserAction>) => void;
   register: (
     firstName: string,

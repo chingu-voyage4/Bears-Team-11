@@ -35,8 +35,20 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
     const url = 'http://localhost:8080/api/projects/add';
 
     let bodyData = {
-      // name: this.state.name,
-      // description:
+      name: this.state.name,
+      description: '',
+      dueDate: '',
+      team: [],
+      githubLink: '',
+      mockupLink: '',
+      liveLink: '',
+      lookingFor: [],
+      status: '',
+      category: '',
+      tags: [],
+      images: [],
+      contact: '',
+      creator: ''
     };
 
     let data = {
