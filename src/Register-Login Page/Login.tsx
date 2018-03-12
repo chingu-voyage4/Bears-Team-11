@@ -1,12 +1,12 @@
 import * as React from 'react';
 import '../styles/Register-Login.css';
 import { State } from '../types/Login.d';
-import { Props } from '../types/Redux.d';
+import { LoginProps } from '../types/Redux.d';
 import { connect } from 'react-redux';
 import { login } from '../actions/userActions';
 
-class Login extends React.Component<Props, State> {
-  constructor(props: Props) {
+class Login extends React.Component<LoginProps, State> {
+  constructor(props: LoginProps) {
     super(props);
     this.state = {
       email: '',
@@ -73,4 +73,5 @@ class Login extends React.Component<Props, State> {
     );
   }
 }
-export default connect(null, { login })(Login);
+
+export default connect<{}, LoginProps, {}>(null, { login })(Login);
