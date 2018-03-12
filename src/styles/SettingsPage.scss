@@ -1,0 +1,82 @@
+@import '_variables.scss';
+
+.settingsContainer {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 'm m m m i i i i i i';
+}
+
+.settings-menu-div {
+  grid-area: m;
+  display: inline-block;
+  height: 1000px;
+  width: 25%;
+  text-align: center;
+  vertical-align: top;
+  margin-top: 5%;
+}
+
+.settings-profile-image {
+  height: 250px;
+  width: 250px;
+  background-color: grey;
+}
+
+.personal-details-button {
+  border: none;
+  height: 77px;
+  width: 150px;
+  background-color: white;
+  vertical-align: middle;
+  max-height: 45px;
+  border-top: 1px solid black;
+}
+
+.public-profile-button {
+  border: none;
+  height: 77px;
+  width: 150px;
+  background-color: white;
+  vertical-align: middle;
+  max-height: 45px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.settings-info-div {
+  grid-area: i;
+  height: 100%;
+  display: inline-block;
+  width: 65%;
+  box-shadow: 0px 0px 5px 5px lightgrey;
+  max-height: 100%;
+  margin-top: 5%;
+}
+
+.settings-headers {
+  color: grey;
+  border-bottom: 1px solid black;
+}
+
+.settings-labels {
+  color: grey;
+}
+
+.info-container {
+  margin: 5%;
+}
+
+.settings-textarea {
+  color: grey;
+  float: right;
+  width: 90%;
+  margin-top: 1%;
+}
+
+.settings-labels-aboutme {
+  color: grey;
+}
+h3 {
+  display: inline-block;
+}

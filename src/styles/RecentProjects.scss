@@ -1,0 +1,23 @@
+@import "_variables.scss";
+
+.horizontal-line {
+    @include hrline;
+}
+.recent-projects-header{
+    text-align: center;
+    color: $theme-blue;
+    font-size: $landing-header-size;
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+
+.projectCard{
+    height: 200px;
+    width: 200px;
+    background-color: grey;
+}
+
+.explore-projects-button {
+    @include white-text-blue-background-button;
+    margin: 75px;
+}
