@@ -1,17 +1,16 @@
 import * as React from 'react';
 import '../styles/Register-Login.css';
-import { PassedProps, State, Props } from '../types/Login.d';
+import { State } from '../types/Login.d';
+import { Props } from '../types/Redux.d';
+import { connect } from 'react-redux';
+import { login } from '../actions/userActions';
 
-const fetch = require('isomorphic-fetch');
-
-class Login extends React.Component<PassedProps, State> {
+class Login extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       email: '',
-      password: '',
-      userLoggedIn: false,
-      error: ''
+      password: ''
     };
   }
   handleEmail = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -27,40 +26,7 @@ class Login extends React.Component<PassedProps, State> {
   };
 
   handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
-    var referenceToThis = this;
-    var error;
-
-    var apiBaseUrl = 'http://localhost:8080/api/login';
-
-    var payload = {
-      email: this.state.email,
-      password: this.state.password
-    };
-
-    let data = {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    };
-
-    fetch(apiBaseUrl, data)
-      /* tslint:disable-next-line */
-      .then(function(response: any) {
-        if (response.status === 200) {
-          referenceToThis.setState({ userLoggedIn: true });
-        } else if (response.status === 204) {
-          error = 'Username password do not match';
-          referenceToThis.setState({ error: error });
-        } else {
-          error =
-            'Status Code: ' + response.status + ' - ' + response.statusText;
-          referenceToThis.setState({ error: error });
-        }
-      })
-      /* tslint:disable-next-line */
-      .catch(function(error: any) {
-        alert(error);
-      });
+    this.props.login(this.state.email, this.state.password);
   };
   render() {
     return (
@@ -78,6 +44,19 @@ class Login extends React.Component<PassedProps, State> {
         <button className="extAuthBtn">Sign in with Google</button>
 
         <br />
+        <img
+          className="extAuthIcon"
+          src={require('../assets/facebook icon.png')}
+        />
+        <button className="extAuthBtn">Sign in with Facebook</button>
+
+        <br />
+
+        <img
+          className="extAuthIcon"
+          src={require('../assets/chingu icon.png')}
+        />
+        <button className="extAuthBtn">Sign in with Chingu</button>
 
         <hr className="horizontalDivider" />
 
@@ -113,20 +92,4 @@ class Login extends React.Component<PassedProps, State> {
     );
   }
 }
-
-// function mapStateToProps(state: Store) {
-//   return {
-//     user: state.user,
-//     projects: state.projects
-//   };
-// }
-
-//   function mapDispatchToProps(dispatch: Dispatch<Action>) {
-//     return {
-
-//     };
-//   }
-
-//   export default connect(mapStateToProps, mapDispatchToProps)(Login);
-
-export default Login;
+export default connect(null, { login })(Login);

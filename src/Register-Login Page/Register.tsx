@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { State, Props, PassedProps } from '../types/Register.d';
+import { State } from '../types/Register.d';
+import { Props } from '../types/Redux.d';
+import { register } from '../actions/userActions';
+import { connect } from 'react-redux';
 import '../styles/Register-Login.css';
 
-class Register extends React.Component<PassedProps, State> {
+class Register extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -13,41 +16,43 @@ class Register extends React.Component<PassedProps, State> {
       username: ''
     };
   }
+  
+  public handleFirstNameChange(e: React.FormEvent<HTMLInputElement>): void {
+    this.setState({ firstName: e.currentTarget.value });
+  }
 
-  public handleChange(e: React.FormEvent<HTMLInputElement>): void {
-    this.setState({ [e.currentTarget.name]: e.currentTarget.value });
+  public handleLastNameChange(e: React.FormEvent<HTMLInputElement>): void {
+    this.setState({ lastName: e.currentTarget.value });
+  }
+
+  public handleUsernameChange(e: React.FormEvent<HTMLInputElement>): void {
+    this.setState({ username: e.currentTarget.value });
+  }
+
+  public handleEmailChange(e: React.FormEvent<HTMLInputElement>): void {
+    this.setState({ email: e.currentTarget.value });
+  }
+
+  public handlePasswordChange(e: React.FormEvent<HTMLInputElement>): void {
+    this.setState({ password: e.currentTarget.value });
   }
 
   public handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
-    const url = 'http://localhost:8080/api/signup';
-
-    let bodyData = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password
-    };
-
-    let data = {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(bodyData)
-    };
-
-    fetch(url, data)
-      /* tslint:disable-next-line */
-      .then(function(res: any) {
-        if (res.status === 409) {
-          alert('User already exists in database');
-        } else if (res.status === 200) {
-          alert('User added to database');
-        } else {
-          alert('Error ' + res.status + ' - ' + res.statusText);
-        }
-      });
+    const { firstName, lastName, email, password } = this.state;
+    this.props.register(firstName, lastName, email, password);
   }
+
   render() {
+    let inputStyle = {
+      border: '1px solid black',
+      color: 'black'
+    };
+    if (this.state.password.length > 8) {
+      inputStyle = {
+        border: '3px solid red',
+        color: 'red'
+      };
+    }
     return (
       <div className="registerPopupScreen">
         <form className="register-form">
@@ -64,6 +69,19 @@ class Register extends React.Component<PassedProps, State> {
 
           <br />
 
+          <img
+            className="extAuthIcon"
+            src={require('../assets/facebook icon.png')}
+          />
+          <button className="extAuthBtn">Sign up with Facebook</button>
+
+          <br />
+
+          <img
+            className="extAuthIcon"
+            src={require('../assets/chingu icon.png')}
+          />
+          <button className="extAuthBtn">Sign up with Chingu</button>
           <hr className="horizontalDivider" />
 
           <label className="form-label">First Name</label>
@@ -73,7 +91,7 @@ class Register extends React.Component<PassedProps, State> {
             name="firstName"
             required={true}
             className="nameDiv"
-            onChange={e => this.handleChange(e)}
+            onChange={e => this.handleFirstNameChange(e)}
           />
 
           <label className="form-label">Last Name</label>
@@ -83,7 +101,7 @@ class Register extends React.Component<PassedProps, State> {
             name="lastName"
             required={true}
             className="nameDiv"
-            onChange={e => this.handleChange(e)}
+            onChange={e => this.handleLastNameChange(e)}
           />
 
           <br />
@@ -95,7 +113,7 @@ class Register extends React.Component<PassedProps, State> {
             name="username"
             required={true}
             className="usernameDiv"
-            onChange={e => this.handleChange(e)}
+            onChange={e => this.handleUsernameChange(e)}
           />
 
           <br />
@@ -107,7 +125,7 @@ class Register extends React.Component<PassedProps, State> {
             name="email"
             required={true}
             className="emailDiv"
-            onChange={e => this.handleChange(e)}
+            onChange={e => this.handleEmailChange(e)}
           />
 
           <br />
@@ -115,22 +133,23 @@ class Register extends React.Component<PassedProps, State> {
           <label className="form-label">Password</label>
           <input
             id="pasword"
+            value={this.state.password}
             type="password"
             placeholder="Password"
-            className="passwordDiv"
-            minLength={8}
+            style={inputStyle}
             name="password"
             required={true}
-            onChange={e => this.handleChange(e)}
+            className="passwordDiv"
+            onChange={e => this.handlePasswordChange(e)}
           />
 
           <br />
 
           <button
+            onClick={e => this.handleSubmit(e)}
             type="submit"
             className="signUpBtn"
             name="registerBtn"
-            onClick={e => this.handleSubmit(e)}
           >
             Sign Up For Free
           </button>
@@ -139,5 +158,4 @@ class Register extends React.Component<PassedProps, State> {
     );
   }
 }
-
-export default Register;
+export default connect(null, { register })(Register);

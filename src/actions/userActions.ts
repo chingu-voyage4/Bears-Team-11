@@ -15,21 +15,20 @@ export function login(
   password: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
-    // make ajax call to api server to login user
-    // if success dispatch login action
-    // otherwise if error dispatch error action
-    var user = apiService.login(email, password);
-    if (user) {
-      dispatch({
-        type: LOGIN,
-        data: user
+    return apiService
+      .login(email, password)
+      .then(user => {
+        return dispatch({
+          type: LOGIN,
+          data: user
+        });
+      })
+      .catch(error => {
+        return dispatch({
+          type: LOGIN_ERROR,
+          error: 'Invalid email and/or password.'
+        });
       });
-    } else {
-      dispatch({
-        type: LOGIN_ERROR,
-        error: 'Invalid email and/or password.'
-      });
-    }
   };
 }
 
@@ -40,41 +39,37 @@ export function register(
   password: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
-    // make ajax call to api server to register user
-    // if success dispatch register action
-    // otherwise if error dispatch error action
-    if (apiService.register(firstName, lastName, email, password)) {
-      dispatch({
-        type: REGISTER,
-        data: {
-          firstName,
-          lastName,
-          email
-        }
+    return apiService
+      .register(firstName, lastName, email, password)
+      .then(user => {
+        return dispatch({
+          type: REGISTER,
+          data: user
+        });
+      })
+      .catch(error => {
+        return dispatch({
+          type: REGISTER_ERROR,
+          error
+        });
       });
-    } else {
-      dispatch({
-        type: REGISTER_ERROR,
-        error: 'Email is already in use.'
-      });
-    }
   };
 }
 
 export function logout(): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
-    // make ajax call to api server to logout user user
-    // if success dispatch logout action
-    // otherwise if error dispatch error action
-    if (apiService.logout()) {
-      dispatch({
-        type: LOGOUT
+    return apiService
+      .logout()
+      .then(res => {
+        return dispatch({
+          type: LOGOUT
+        });
+      })
+      .catch(error => {
+        return dispatch({
+          type: LOGOUT_ERROR,
+          error
+        });
       });
-    } else {
-      dispatch({
-        type: LOGOUT_ERROR,
-        error: 'There was an error logging out.'
-      });
-    }
   };
 }
