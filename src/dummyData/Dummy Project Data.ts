@@ -15,7 +15,7 @@ export let testProject = {
   views: 100,
   category: 'Productivity Tool',
   status: true,
-  upVotes: 12
+  upVotes: 100
 };
 
 export let arrayOfTestProjects = [
