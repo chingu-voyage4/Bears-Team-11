@@ -2,7 +2,16 @@ import * as React from 'react';
 import '../styles/Register-Login.css';
 import { PassedProps, State, Props } from '../types/Login.d';
 
+// for Google Auth
+import { GoogleLogin } from 'react-google-login';
+
 const fetch = require('isomorphic-fetch');
+/* tslint:disable-next-line */
+const responseGoogle = (response:any) => {
+    /* tslint:disable-next-line */
+    console.log(response.googelid);
+    alert('Yor are succefully logged in' + response.googelid);
+  };
 
 class Login extends React.Component<PassedProps, State> {
     constructor(props: Props) {
@@ -12,6 +21,7 @@ class Login extends React.Component<PassedProps, State> {
             Password: ''
         };
     }
+
     handleEmail = (e: React.FormEvent<HTMLInputElement>): void => {
         this.setState({
             Email: e.currentTarget.value
@@ -26,7 +36,7 @@ class Login extends React.Component<PassedProps, State> {
 
     handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
 
-        var apiBaseUrl = 'http://localhost:8080/api/v1/user/login';
+        var apiBaseUrl = 'http://localhost:8080/login';
 
         var payload = {
             email: this.state.Email,
@@ -63,7 +73,13 @@ class Login extends React.Component<PassedProps, State> {
                 <br />
                 <button className="extAuthBtn">
                     <img className="extAutIcon" src={require('../assets/google icon.png')} />
-                    Sign in with Google
+
+                    <GoogleLogin
+                        clientId="634604962663-nis01un3inph896c1unjj53l8o3pmjho.apps.googleusercontent.com"
+                        buttonText="Login"
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                    />
                     </button>
                 <br />
                 <button className="extAuthBtn">
