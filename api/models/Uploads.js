@@ -9,10 +9,10 @@ var Schema = Mongoose.Schema;
 // Lets create Schema Object
 // The formet will be x = { variables like type and conditionals...} followed by ','
 var UploadsSchema = new Schema({
-    user:    {type: String},
-    fileName:    {type: String},
-    fileLocation:{type: String},
-    createdAt:  {type: Date,default: Date.now},
+    user:           {type: String},
+    fileName:       {type: String},
+    fileLocation:   {type: String},
+    createdAt:      {type: Date,default: Date.now},
 });
 
 // This will creates database named "Uploads" in the Database

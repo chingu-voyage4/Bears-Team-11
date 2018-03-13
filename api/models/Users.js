@@ -14,6 +14,7 @@ var UserSchema = new Schema({
     username:   {type: String},
     email:      {type: String},
     password:   {type: String},
+<<<<<<< HEAD
     resetToken: {type: String},
     resetTokenExpires: {type: Date}
     
@@ -21,6 +22,19 @@ var UserSchema = new Schema({
 
 
 // This will creates database collection named "Users" in the Database
+=======
+    location:   {type: String}, 
+    roles:      {type: Array}, //?
+    descreption:{type: String},
+    techstack:  {type: Array},//?
+    projects:   {type: Array},//?
+    bookmarked: {type: Array},//?
+    links:      {type: Array}
+});
+
+
+// This will creates database named "Users" in the Database
+>>>>>>> 4ed8682411a815ae7d3720712f4a324b05281132
 var Users =  Mongoose.model("Users",UserSchema);
 
 // We are making available it to other files

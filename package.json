@@ -3,7 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "async": "^2.6.0",
+=======
+    "@types/lodash": "^4.14.104",
+    "@types/react-router-dom": "^4.2.4",
+>>>>>>> 4ed8682411a815ae7d3720712f4a324b05281132
     "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
@@ -16,7 +21,7 @@
     "lint-staged": "^6.1.1",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
-    "mongodb": "^3.0.2",
+    "mongodb": "^3.0.4",
     "mongoose": "^5.0.6",
     "morgan": "^1.9.0",
     "node-sass-chokidar": "0.0.3",
@@ -38,7 +43,8 @@
   "scripts": {
     "precommit": "lint-staged",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts-ts start",
     "start-server": "nodemon api",
     "start": "npm-run-all -p watch-css start-js",
@@ -60,13 +66,10 @@
     "typescript": "^2.7.2"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css}": [
+    "src/**/*.{ts,tsx,js,jsx,json,scss,css}": [
       "prettier --single-quote --write",
       "git add"
     ],
-    "api/**/*.{js}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+    "api/**/*.{js}": ["prettier --single-quote --write", "git add"]
   }
 }

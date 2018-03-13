@@ -1,7 +1,11 @@
 import * as React from 'react';
 import '../styles/Register-Login.css';
-import { PassedProps, State, Props } from '../types/Login.d';
+import { State } from '../types/Login.d';
+import { LoginProps } from '../types/Redux.d';
+import { connect } from 'react-redux';
+import { login } from '../actions/userActions';
 
+<<<<<<< HEAD
 // for Google Auth
 import { GoogleLogin } from 'react-google-login';
 
@@ -27,28 +31,49 @@ class Login extends React.Component<PassedProps, State> {
             Email: e.currentTarget.value
         });
     }
+=======
+class Login extends React.Component<LoginProps, State> {
+  constructor(props: LoginProps) {
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
+  handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    this.setState({
+      [e.currentTarget.name]: e.currentTarget.value
+    });
+  };
 
-    handlePassword = (e: React.FormEvent<HTMLInputElement>): void => {
-        this.setState({
-            Password: e.currentTarget.value
-        });
-    }
+  handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
+    this.props.login(this.state.email, this.state.password);
+  };
+  render() {
+    return (
+      <div className="popupScreen">
+        <br />
+>>>>>>> 4ed8682411a815ae7d3720712f4a324b05281132
 
-    handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
+        <div className="logo">project match</div>
 
+        <br />
+
+<<<<<<< HEAD
         var apiBaseUrl = 'http://localhost:8080/login';
+=======
+        <img
+          className="extAuthIcon"
+          src={require('../assets/google icon.png')}
+        />
+        <button className="extAuthBtn">Sign in with Google</button>
+>>>>>>> 4ed8682411a815ae7d3720712f4a324b05281132
 
-        var payload = {
-            email: this.state.Email,
-            password: this.state.Password
-        };
+        <br />
 
-        let data = {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        };
+        <hr className="horizontalDivider" />
 
+<<<<<<< HEAD
         fetch(apiBaseUrl, data)
             /* tslint:disable-next-line */
             .then(function (response: any) {
@@ -116,6 +141,39 @@ class Login extends React.Component<PassedProps, State> {
             </div>
         );
     }
+=======
+        <form>
+          <label className="form-label">Your Email</label>
+          <input
+            className="emailDiv"
+            type="email"
+            name="email"
+            value={this.state.email}
+            onChange={e => this.handleChange(e)}
+            placeholder="Email"
+          />
+          <br />
+          <label className="form-label">Password</label>
+          <input
+            className="passwordDiv"
+            type="password"
+            name="password"
+            value={this.state.password}
+            onChange={e => this.handleChange(e)}
+            placeholder="Password"
+          />
+          <br />
+          <input
+            type="submit"
+            className="signUpBtn"
+            value="Submit"
+            onClick={e => this.handleSubmit(e)}
+          />
+        </form>
+      </div>
+    );
+  }
+>>>>>>> 4ed8682411a815ae7d3720712f4a324b05281132
 }
 
-export default Login;
+export default connect<{}, LoginProps, {}>(null, { login })(Login);

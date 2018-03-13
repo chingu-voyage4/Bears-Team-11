@@ -1,46 +1,96 @@
 @import "_variables.scss";
 
+.popupScreen {
+    @include login-register-container;
+    height: 400px;
+}
+
+.registerPopupScreen {
+    @include login-register-container;
+    height: 550px;
+}
+
 /*
 ==========================
-LOGIN SCREEN
+AUTHENTICATION BUTTONS
 ==========================
 */
 
-.popupScreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-
-    z-index: 5; //border-radius: 11%;
-    @include login-register-container;
-}
-
-.extAuthBtn {
-    width: 325px;
+.extAuthBtn, .emailDiv, .passwordDiv, .usernameDiv, .nameDiv {
     height: 35px;
-    margin: 15px;
+    margin: 8px;
     text-align: left;
     background-color: white;
     border: 1px solid $light-grey;
     font-size: 11px;
-    color: $light-grey;
+    color: $dark-grey;
     padding: auto;
+    display: inline-block;
 }
+
+.extAuthBtn {
+    width: 290px;
+    box-shadow: $box-shadow;
+    border:none;
+}
+ .emailDiv, .passwordDiv, .usernameDiv {
+    width: 325px;
+}
+.emailDiv, .passwordDiv, .usernameDiv, .nameDiv {
+    margin-top: 25px;
+}
+
+.nameDiv {
+    width: 155px;
+    display: inline-block;
+}
+
 .extAuthIcon {
-    object-fit: cover;
+    object-fit: contain;
     width: 24px;
     height: 24px;
+    display: inline-block;
+    box-shadow: $box-shadow;
+    padding: 4.5px;
+    margin: auto;
+    position: relative;
+    top: 13.5px;
+    left: 5px;
 }
 
-
-.emailDiv {
-    padding-top: 10%;
-    margin: 2%;
+.emailDiv::placeholder, .passwordDiv::placeholder, .usernameDiv::placeholder, .nameDiv::placeholder {
+    color: $light-grey;
+    padding: 5px;
 }
 
-.passwordDiv {
-    margin: 2%;
+.emailDiv:invalid, .passwordDiv:invalid {
+    border: 1px solid red;
+}
+
+.extAuthBtn {
+    color: $light-grey;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.form-label {
+    color: $dark-grey;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 8px;
+    margin-top: 5px;
+    position: absolute;
+}
+
+.signUpBtn {
+    @include white-text-blue-background-button;
+    margin: 20px;
+}
+
+.horizontalDivider {
+    border-top: 1px solid $light-grey;
+    width: 320px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
