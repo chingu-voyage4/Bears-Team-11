@@ -13,15 +13,9 @@ class Login extends React.Component<LoginProps, State> {
       password: ''
     };
   }
-  handleEmail = (e: React.FormEvent<HTMLInputElement>): void => {
+  handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
     this.setState({
-      email: e.currentTarget.value
-    });
-  };
-
-  handlePassword = (e: React.FormEvent<HTMLInputElement>): void => {
-    this.setState({
-      password: e.currentTarget.value
+      [e.currentTarget.name]: e.currentTarget.value
     });
   };
 
@@ -44,19 +38,6 @@ class Login extends React.Component<LoginProps, State> {
         <button className="extAuthBtn">Sign in with Google</button>
 
         <br />
-        <img
-          className="extAuthIcon"
-          src={require('../assets/facebook icon.png')}
-        />
-        <button className="extAuthBtn">Sign in with Facebook</button>
-
-        <br />
-
-        <img
-          className="extAuthIcon"
-          src={require('../assets/chingu icon.png')}
-        />
-        <button className="extAuthBtn">Sign in with Chingu</button>
 
         <hr className="horizontalDivider" />
 
@@ -67,7 +48,7 @@ class Login extends React.Component<LoginProps, State> {
             type="email"
             name="email"
             value={this.state.email}
-            onChange={e => this.handleEmail(e)}
+            onChange={e => this.handleChange(e)}
             placeholder="Email"
           />
           <br />
@@ -77,7 +58,7 @@ class Login extends React.Component<LoginProps, State> {
             type="password"
             name="password"
             value={this.state.password}
-            onChange={e => this.handlePassword(e)}
+            onChange={e => this.handleChange(e)}
             placeholder="Password"
           />
           <br />

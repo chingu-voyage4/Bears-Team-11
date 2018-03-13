@@ -32,8 +32,8 @@ export interface Store {
 export interface TestProps extends Store {
   getProjects: () => (dispatch: Dispatch<ProjectAction>) => void;
   login: (
-    email: string,
-    password: string
+    email?: string,
+    password?: string
   ) => (dispatch: Dispatch<UserAction>) => void;
   register: (
     firstName: string,
