@@ -22,6 +22,18 @@ To runs tests use the command `npm test`.
 Open Postman app or use your browser to reach `http://localhost:8080/`
 Connect with the API calls above
 
+## Git Workflow
+1. Work from each developer takes place in their own individual branch
+2. Before pushing your work into development, merge development branch into your own branch first and work out any conflicts
+3. Once there are no merge conflicts, do a pull request from your individual branch to the development branch. See below for authoritative figures per section:
+⋅⋅⋅ @serpient: Front End, Projects
+⋅⋅⋅ @luoto: Redux
+⋅⋅⋅ @ram: Back-end
+⋅⋅⋅ @eric-miller: Login / Register / User Settings
+
+## Git Pull Request Guidelines
+⋅⋅* Do not use `git push --force`. If you are having troubles with merge conflicts, resolve them correctly with `git pull` or rebase your code with `git pull --rebase`. A forced push overwrites the structure and sequence of commits on the authoritative repository, throwing away other people's commits.
+
 ## Project Bootstrap
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
