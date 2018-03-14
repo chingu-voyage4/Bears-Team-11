@@ -1,11 +1,11 @@
 import * as React from 'react';
 import '../styles/Register-Login.css';
-import { State } from '../types/Login.d';
+import { LoginState } from '../types/Login.d';
 import { LoginProps } from '../types/Redux.d';
 import { connect } from 'react-redux';
 import { login } from '../actions/userActions';
 
-class Login extends React.Component<LoginProps, State> {
+class Login extends React.Component<LoginProps, LoginState> {
   constructor(props: LoginProps) {
     super(props);
     this.state = {
@@ -14,9 +14,20 @@ class Login extends React.Component<LoginProps, State> {
     };
   }
   handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    var { name, value } = e.currentTarget;
+
+    /*
+     * There is a current bug in typescript that does not correctly identify the string literal
+     * type in a computed property key.
+     * 
+     * ref: https://github.com/Microsoft/TypeScript/issues/15534
+     * ref: https://github.com/Microsoft/TypeScript/issues/13948
+     * ref: https://github.com/Microsoft/TypeScript/pull/21070
+     */
     this.setState({
-      [e.currentTarget.name]: e.currentTarget.value
-    });
+      [name]: value
+      // tslint:disable-next-line
+    } as any);
   };
 
   handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
@@ -48,7 +59,7 @@ class Login extends React.Component<LoginProps, State> {
             type="email"
             name="email"
             value={this.state.email}
-            onChange={e => this.handleChange(e)}
+            onChange={this.handleChange}
             placeholder="Email"
           />
           <br />
@@ -58,7 +69,7 @@ class Login extends React.Component<LoginProps, State> {
             type="password"
             name="password"
             value={this.state.password}
-            onChange={e => this.handleChange(e)}
+            onChange={this.handleChange}
             placeholder="Password"
           />
           <br />
@@ -66,7 +77,7 @@ class Login extends React.Component<LoginProps, State> {
             type="submit"
             className="signUpBtn"
             value="Submit"
-            onClick={e => this.handleSubmit(e)}
+            onClick={this.handleSubmit}
           />
         </form>
       </div>
