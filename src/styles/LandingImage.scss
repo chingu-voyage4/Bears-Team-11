@@ -1,8 +1,21 @@
-@import "_variables.scss";
-
+@import '_variables.scss';
 .landing-image-container {
-    display: block;
-    position:relative;
+  display: block;
+  position: relative;
+}
+
+.landing-image-container-2 {
+  max-width: 1080px;
+  margin: auto;
+  padding: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 't t i i i i';
+}
+
+.landing-text-block {
+  grid-area: t;
 }
 
 /*
@@ -10,26 +23,28 @@
 MAIN IMAGE WITH SKY AND GRASS
 ==========================
 */
-.landing-image{
-    width: 900px;
-    z-index: 3;
-    left: 25vw;
-    position: relative;
-    margin-top: -270px;
-    object-fit: contain;
+
+.landing-image {
+  grid-area: i;
+  width: 100%;
+  min-width: 750px;
+  z-index: 3;
+  position: relative;
+  padding-top: 70px;
+  object-fit: contain;
 }
 
 .blue-sky {
-    background-color: $light-blue;
-    z-index: 1;
+  background-color: $light-blue;
+  z-index: 1;
 }
 
 .green-grass {
-    background-color: $grass-green;
-    position: relative;
-    height: 100px;
-    z-index: 2;
-    top: -6.5vh;
+  background-color: $grass-green;
+  position: relative;
+  height: 100px;
+  z-index: 2;
+  top: -75px;
 }
 
 /*
@@ -37,37 +52,41 @@ MAIN IMAGE WITH SKY AND GRASS
 LANDING TEXT
 ==========================
 */
-.landing-header,.landing-subtext, .exploreProjectsBtn   {
-    position: relative;
-    font-family: $font;
-    color: $theme-blue;
-    z-index: 4;
-    display: block;
-    margin-left: 6vw;
+
+.landing-header,
+.landing-subtext,
+.exploreProjectsBtn {
+  position: relative;
+  font-family: $font;
+  color: $theme-blue;
+  z-index: 4;
+  display: block;
 }
+
 .landing-header {
-    font-size: $landing-header-size;
-    font-weight: 700;
-    padding-top: 150px;
-    float: left;
+  font-size: $landing-header-size;
+  font-weight: 700;
+  text-align: left;
+  padding-top: 150px;
 }
 
 .landing-subtext {
-    font-size: $landing-subtext-size;
-    text-align: left;
-    font-weight: 300;
-    padding-top: 210px;
-    width: 400px;
-    line-height: 20px;
+  font-size: $landing-subtext-size;
+  text-align: left;
+  min-width: 400px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  line-height: 24px;
 }
+
 /*
 ==========================
 BUTTON
 ==========================
 */
+
 .exploreProjectsBtn {
-    margin-top: 25px;
-    @include white-text-blue-background-button;
+  @include white-text-blue-background-button;
 }
 
 /*
@@ -76,69 +95,29 @@ MEDIA QUERIES
 ==========================
 */
 
-@media all and (max-width: 1000px) and (min-width: 900px) {
-    .landing-header,.landing-subtext, .exploreProjectsBtn   {
-        margin-left: 6vw;
-    }
-    .landing-header {
-        font-size: 3vw;
-        padding-top: 12vw;
-    }
-    .landing-subtext {
-        font-size: 1.5vw;
-        width: 330px;
-        padding-top: 16vw;
-    }
-    .exploreProjectsBtn {
-        margin-top: 1vw;
-        font-size: 1.25vw;
-    }
-}
-
-@media all and (max-width: 899px) and (min-width: 750px) {
-    .landing-image{
-        margin-top: -200px;
-    }
-    
-    .landing-header,.landing-subtext, .exploreProjectsBtn   {
-        margin-left: 6vw;
-    }
-    .landing-header {
-        font-size: 3vw;
-        padding-top: 12vw;
-    }
-    .landing-subtext {
-        font-size: 1.5vw;
-        width: 300px;
-        padding-top: 17vw;
-    }
-    .exploreProjectsBtn {
-        margin-top: 1vw;
-        font-size: 1.25vw;
-    }
-}
-
-@media all and (max-width: 749px) and (min-width: 700px) {
-    .landing-image{
-        margin-top: 0px;
-        margin-left: 4vw;
-        width: 95vw;
-    }
-    .landing-header {
-        font-size: 20px;
-        padding-top: 5vw;
-        margin-left: 37vw;
-    }
-    .landing-subtext {
-        margin-left: 34vw;
-        font-size: 12px;
-        width: 275px;
-        padding-top: 10vw;
-        line-height: 1.9vw;
-    }
-    .exploreProjectsBtn {
-        margin-top: 1.5vw;
-        font-size: 1.25vw;
-        margin-left: 44vw;
-    }
+@media all and (max-width: 1079px) and (min-width: 0px) {
+  .landing-image-container-2 {
+    grid-template-columns: repeat(3, 1fr) / auto-flow 1fr;
+    grid-template-areas: '. t .' 'i i i';
+  }
+  .landing-header,
+  .landing-subtext,
+  .exploreProjectsBtn {
+    text-align: center;
+  }
+  .landing-subtext {
+    max-width: 70vw;
+  }
+  .exploreProjectsBtn {
+    margin: auto;
+  }
+  .landing-header {
+    padding-top: 50px;
+  }
+  .landing-image {
+    min-width: 100%;
+  }
+  .green-grass {
+    top: -9.5vw;
+  }
 }

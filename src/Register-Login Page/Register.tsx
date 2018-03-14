@@ -1,13 +1,12 @@
 // FS initial comment from newBranch
 
 import * as React from 'react';
-import { State } from '../types/Register.d';
+import { RegisterState } from '../types/Register.d';
 import { RegisterProps } from '../types/Redux.d';
 import { register } from '../actions/userActions';
 import { connect } from 'react-redux';
 import '../styles/Register-Login.css';
-
-class Register extends React.Component<RegisterProps, State> {
+class Register extends React.Component<RegisterProps, RegisterState> {
   constructor(props: RegisterProps) {
     super(props);
     this.state = {
@@ -20,9 +19,20 @@ class Register extends React.Component<RegisterProps, State> {
   }
 
   public handleFormChange(e: React.FormEvent<HTMLInputElement>): void {
+    var { name, value } = e.currentTarget;
+
+    /*
+     * There is a current bug in typescript that does not correctly identify the string literal
+     * type in a computed property key.
+     * 
+     * ref: https://github.com/Microsoft/TypeScript/issues/15534
+     * ref: https://github.com/Microsoft/TypeScript/issues/13948
+     * ref: https://github.com/Microsoft/TypeScript/pull/21070
+     */
     this.setState({
-      [e.currentTarget.name]: e.currentTarget.value
-    });
+      [name]: value
+      // tslint:disable-next-line
+    } as any);
   }
 
   public handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
@@ -56,7 +66,7 @@ class Register extends React.Component<RegisterProps, State> {
             name="firstName"
             required={true}
             className="nameDiv"
-            onChange={e => this.handleFormChange(e)}
+            onChange={this.handleFormChange}
           />
 
           <label className="form-label">Last Name</label>
@@ -66,7 +76,7 @@ class Register extends React.Component<RegisterProps, State> {
             name="lastName"
             required={true}
             className="nameDiv"
-            onChange={e => this.handleFormChange(e)}
+            onChange={this.handleFormChange}
           />
 
           <br />
@@ -78,7 +88,7 @@ class Register extends React.Component<RegisterProps, State> {
             name="username"
             required={true}
             className="usernameDiv"
-            onChange={e => this.handleFormChange(e)}
+            onChange={this.handleFormChange}
           />
 
           <br />
@@ -104,13 +114,13 @@ class Register extends React.Component<RegisterProps, State> {
             name="password"
             required={true}
             className="passwordDiv"
-            onChange={e => this.handleFormChange(e)}
+            onChange={this.handleFormChange}
           />
 
           <br />
 
           <button
-            onClick={e => this.handleSubmit(e)}
+            onClick={this.handleSubmit}
             type="submit"
             className="signUpBtn"
             name="registerBtn"
