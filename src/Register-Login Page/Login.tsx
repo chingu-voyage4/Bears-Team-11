@@ -5,7 +5,7 @@ import { LoginProps } from '../types/Redux.d';
 import { connect } from 'react-redux';
 import { login } from '../actions/userActions';
 
-class Login extends React.Component<LoginProps, LoginState> {
+class Login extends React.Component<LoginProps, State> {
   constructor(props: LoginProps) {
     super(props);
     this.state = {
@@ -41,7 +41,7 @@ class Login extends React.Component<LoginProps, LoginState> {
         <div className="logo">project match</div>
 
         <br />
-
+      
         <img
           className="extAuthIcon"
           src={require('../assets/google icon.png')}
@@ -51,7 +51,7 @@ class Login extends React.Component<LoginProps, LoginState> {
         <br />
 
         <hr className="horizontalDivider" />
-
+          
         <form>
           <label className="form-label">Your Email</label>
           <input
