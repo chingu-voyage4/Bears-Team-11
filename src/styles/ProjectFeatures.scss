@@ -1,4 +1,4 @@
-@import "_variables.scss";
+@import '_variables.scss';
 
 /*
 ==========================
@@ -6,18 +6,20 @@ COMPONENTS
 ==========================
 */
 
-.project-match-container, .team-collaboration-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: auto;
+.project-match-container,
+.team-collaboration-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) / auto-flow 1fr;
+  grid-template-rows: auto;
+  max-width: 1080px;
+  margin: auto;
+  padding: auto;
 }
 .project-match-container {
-    grid-template-areas: 
-        ". t i i ."
+  grid-template-areas: 't i';
 }
 .team-collaboration-container {
-    grid-template-areas: 
-        ". i i t ."
+  grid-template-areas: 'i t';
 }
 /*
 ==========================
@@ -25,21 +27,21 @@ TEXT
 ==========================
 */
 .project-feature-heading {
-    grid-area: t;
-    font-size: $project-feature-header;
-    color: $theme-blue;
-    text-align: left;
-    margin-top: 150px;
-    padding-left: 25px;
+  grid-area: t;
+  font-size: $project-feature-header;
+  color: $theme-blue;
+  text-align: left;
+  margin-top: 150px;
+  // padding-left: 25px;
 }
 .project-feature-text {
-    padding-top: 175px;
-    grid-area: t;
-    color: $theme-blue;
-    text-align: left;
-    font-size: $landing-subtext-size;
-    font-weight: 300;
-    padding-left: 25px;
+  padding-top: 175px;
+  grid-area: t;
+  color: $theme-blue;
+  text-align: left;
+  font-size: $landing-subtext-size;
+  font-weight: 300;
+  // padding-left: 25px;
 }
 
 /*
@@ -47,13 +49,12 @@ TEXT
 IMAGE
 ==========================
 */
-.project-feature-image-div{
-    grid-area: i;
+.project-feature-image-div {
+  grid-area: i;
 }
-.project-feature-imac{
-    margin: 50px;
-    flex: 100%;
-    max-width: 600px;
-    object-fit: cover;
+.project-feature-imac {
+  margin: 50px;
+  flex: 100%;
+  max-width: 600px;
+  object-fit: cover;
 }
-
