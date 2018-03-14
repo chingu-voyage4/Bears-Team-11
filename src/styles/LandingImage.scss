@@ -95,7 +95,7 @@ MEDIA QUERIES
 ==========================
 */
 
-@media all and (max-width: 1079px) and (min-width: 640px) {
+@media all and (max-width: 1079px) and (min-width: 0px) {
   .landing-image-container-2 {
     grid-template-columns: repeat(3, 1fr) / auto-flow 1fr;
     grid-template-areas: '. t .' 'i i i';
@@ -106,7 +106,7 @@ MEDIA QUERIES
     text-align: center;
   }
   .landing-subtext {
-    max-width: 500px;
+    max-width: 70vw;
   }
   .exploreProjectsBtn {
     margin: auto;
@@ -116,5 +116,8 @@ MEDIA QUERIES
   }
   .landing-image {
     min-width: 100%;
+  }
+  .green-grass {
+    top: -7.5vw;
   }
 }
