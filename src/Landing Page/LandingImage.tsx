@@ -18,7 +18,7 @@ class LandingImage extends React.Component {
             </div>
             <img
               className="landing-image"
-              src={require('../assets/Landing_Image-02.png')}
+              src={require('../assets/Landing Image-02.png')}
             />
           </div>
         </div>

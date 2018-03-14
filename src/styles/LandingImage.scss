@@ -11,7 +11,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 't t t i i i i';
+  grid-template-areas: 't t i i i i i';
 }
 
 .landing-text-block {
@@ -44,7 +44,7 @@ MAIN IMAGE WITH SKY AND GRASS
   position: relative;
   height: 100px;
   z-index: 2;
-  top: -65px;
+  top: -75px;
 }
 
 /*
@@ -118,6 +118,6 @@ MEDIA QUERIES
     min-width: 100%;
   }
   .green-grass {
-    top: -7.5vw;
+    top: -9.5vw;
   }
 }
