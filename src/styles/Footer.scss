@@ -5,15 +5,17 @@
 COMPONENTS
 ==========================
 */
-
-.footer-container {
+.footer-max-container {
+  background-color: $theme-blue;
   font-family: $font;
+}
+.footer-container {
+  max-width: 1080px;
   margin: 0 auto;
   padding: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, 1fr);
   grid-template-areas: '. c . n . a . s .';
-  background-color: $theme-blue;
   color: white;
   padding: 60px 0px 80px 0px;
 }
@@ -99,8 +101,9 @@ Subscribe Area
   color: $theme-blue;
   text-transform: capitalize;
   font-size: $footer-subheader-font-size;
-  padding: 9px;
+  padding: 5px;
   font-weight: 700;
+  max-width: 120px;
 }
 
 /*
@@ -110,6 +113,24 @@ MEDIA QUERIES
 */
 
 @media all and (max-width: 1079px) and (min-width: 0px) {
+  .footer-container {
+    grid-template-areas: 'c n' 'a s';
+    margin: auto;
+    padding-bottom: 0px;
+  }
+  .contactUs,
+  .needHelp,
+  .about,
+  .subscribe {
+    margin-bottom: 60px;
+    margin-left: 30px;
+  }
+  .subscribe {
+    max-width: 300px;
+  }
+}
+
+@media all and (max-width: 600px) and (min-width: 0px) {
   .footer-container {
     grid-template-areas: 'c ' 'n' 'a' 's';
     margin: auto;
