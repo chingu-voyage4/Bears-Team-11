@@ -11,7 +11,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 't t i i i i i';
+  grid-template-areas: 't t i i i i';
 }
 
 .landing-text-block {
@@ -27,7 +27,7 @@ MAIN IMAGE WITH SKY AND GRASS
 .landing-image {
   grid-area: i;
   width: 100%;
-  min-width: 800px;
+  min-width: 750px;
   z-index: 3;
   position: relative;
   padding-top: 70px;
