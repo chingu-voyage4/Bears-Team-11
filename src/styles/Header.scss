@@ -5,11 +5,13 @@ body {
 }
 
 .header-container {
+  max-width: 1080px;
   max-height: 75px;
+  margin: auto;
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(auto-fit, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 't t . . . . . l s s';
+  grid-template-areas: 't . . l s';
 }
 
 a {
@@ -29,7 +31,7 @@ LOGO
   font-size: $logo-font-size;
   font-weight: 700;
   margin: auto;
-  padding-left: 2vw;
+  margin-left: 0px;
 }
 
 /*
@@ -47,6 +49,7 @@ LOG IN
   margin: auto;
   margin-top: 25px;
   margin-bottom: 25px;
+  margin-right: 0px;
 }
 
 .loginText {
@@ -71,6 +74,7 @@ SIGNUP BUTTON
   background: none;
   border: none;
   margin: auto;
+  margin-right: 0px;
 }
 
 .signUpText {
@@ -95,19 +99,7 @@ SIGNUP BUTTON
 MEDIA QUERIES
 ==========================
 */
-@media all and (max-width: 1000px) and (min-width: 600px) {
-  .header-container {
-    grid-template-areas: 't t t . . . . l s s';
-  }
-  .logo {
-    margin-left: 0px;
-  }
-}
-
-@media all and (max-width: 800px) and (min-width: 600px) {
-  .header-container {
-    grid-template-areas: 't t t . . . . l s s';
-  }
+@media all and (max-width: 1080px) and (min-width: 0px) {
   .logo {
     margin-left: 0px;
     font-size: 2.5vw;

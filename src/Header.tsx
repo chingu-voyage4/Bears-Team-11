@@ -27,7 +27,7 @@ class Header extends React.Component<PassedProps, State> {
 
   render() {
     return (
-      <div>
+      <div className="header-color-container">
         <div className="header-container">
           {/* controls login and register popup windows */}
           {this.state.loginScreen === true ? <Login /> : null}
