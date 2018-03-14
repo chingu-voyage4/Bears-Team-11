@@ -1,6 +1,5 @@
 /* This is The User Schema For MongoDB and Mongoose
- * It contain fields for id, name,password,email,location,roles,
- * description,techstack,projects,projects_bookmarked,
+ * It contain fields for id, name,password,email.
  */
 // Require Mongose ORM 
 var Mongoose = require('mongoose');
@@ -15,6 +14,15 @@ var UserSchema = new Schema({
     username:   {type: String},
     email:      {type: String},
     password:   {type: String},
+<<<<<<< HEAD
+    resetToken: {type: String},
+    resetTokenExpires: {type: Date}
+    
+});
+
+
+// This will creates database collection named "Users" in the Database
+=======
     location:   {type: String}, 
     roles:      {type: Array}, //?
     descreption:{type: String},
@@ -26,6 +34,7 @@ var UserSchema = new Schema({
 
 
 // This will creates database named "Users" in the Database
+>>>>>>> 4ed8682411a815ae7d3720712f4a324b05281132
 var Users =  Mongoose.model("Users",UserSchema);
 
 // We are making available it to other files
