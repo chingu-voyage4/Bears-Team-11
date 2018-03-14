@@ -2,36 +2,39 @@ import * as React from 'react';
 import './styles/Footer.css';
 
 class Footer extends React.Component {
-
-    render() {
-
-        return (
-            <div>
-                <div className="footer-container">
-                    <div className="contactUs">
-                        <h5 className="footer-subtitle">Contact Us</h5>
-                        <h5 className="footer-subcategories">hello@projectmatch.com</h5>
-                    </div>
-                    <div className="needHelp">
-                        <h5 className="footer-subtitle">Need Help?</h5>
-                        <h5 className="footer-subcategories">FAQ</h5>
-                        <h5 className="footer-subcategories">Support / Contact Us</h5>
-                    </div>
-                    <div className="about">
-                        <h5 className="footer-subtitle">About Project Match</h5>
-                        <h5 className="footer-subcategories">About Project Match</h5>
-                        <h5 className="footer-subcategories">Github</h5>
-                    </div>
-                    <div className="subscribe">
-                        <h5 className="footer-subtitle">Subscribe to Project Match via Email</h5>
-                        <input className="emailInput" type="text" placeholder="Email Address" />
-                        <button className="subscribeButton">SUBSCRIBE</button>
-                    </div>
-                </div>
+  render() {
+    return (
+      <div>
+        <div className="footer-container">
+          <div className="contactUs">
+            <div className="footer-subtitle">Contact Us</div>
+            <div className="footer-subcategories">hello@projectmatch.com</div>
+          </div>
+          <div className="needHelp">
+            <div className="footer-subtitle">Need Help?</div>
+            <div className="footer-subcategories">FAQ</div>
+            <div className="footer-subcategories">Support / Contact Us</div>
+          </div>
+          <div className="about">
+            <div className="footer-subtitle">About Project Match</div>
+            <div className="footer-subcategories">About Project Match</div>
+            <div className="footer-subcategories">Github</div>
+          </div>
+          <div className="subscribe">
+            <div className="footer-subtitle subscribe-subtitle">
+              Subscribe to Project Match via Email
             </div>
-        );
-    }
-
+            <input
+              className="emailInput"
+              type="text"
+              placeholder="Email Address"
+            />
+            <button className="subscribeButton">SUBSCRIBE</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default Footer;

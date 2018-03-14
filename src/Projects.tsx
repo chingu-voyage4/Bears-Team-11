@@ -13,7 +13,7 @@ class Project extends React.Component<Props, State> {
     var data = this.props.project;
     var roles;
     if (data.lookingFor && data.lookingFor.length > 1) {
-      roles = data.lookingFor[0] + ', ' + data.lookingFor[1];
+      roles = data.lookingFor[0] + ',  ' + data.lookingFor[1];
     } else {
       roles = data.lookingFor;
     }

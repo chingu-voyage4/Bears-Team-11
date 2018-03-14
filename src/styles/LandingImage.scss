@@ -9,9 +9,9 @@
   margin: auto;
   padding: auto;
   display: grid;
-  grid-template-columns: repeat(7, 1fr) / auto-flow 1fr;
+  grid-template-columns: repeat(auto-fit, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: ' t t t i i i i';
+  grid-template-areas: 't t t i i i i';
 }
 
 .landing-text-block {

@@ -3,14 +3,26 @@
 COLORS
 ==========================
 */
-$theme-blue: #489BE2;
-$light-blue: #E5E9FA;
-$grass-green: #1BA572;
+$theme-blue: #489be2;
+$light-blue: #e5e9fa;
+$grass-green: #1ba572;
 
-$grey: #95989A;
+$grey: #95989a;
 $dark-grey: #757575;
-$light-grey: #D1D1D1;
-
+$light-grey: #d1d1d1;
+/*
+==========================
+FILE SETUP
+==========================
+*/
+@mixin html-body-fontfamily {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+  font-family: $font;
+}
 /*
 ==========================
 FONTS
@@ -19,10 +31,10 @@ FONTS
 $font: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
 $logo-font-size: 24px;
 $header-font-size: 14px;
-$footer-font-size: 11px;
-$footer-subheader-font-size: 8px;
+$footer-font-size: 14px;
+$footer-subheader-font-size: 14px;
 $landing-header-size: 34px;
-$landing-subtext-size: 16px;
+$landing-subtext-size: 17px;
 $project-feature-header: 24px;
 $button-font-size: 14px;
 $project-title-size: 14px;
@@ -40,19 +52,19 @@ BUTTON
 ==========================
 */
 @mixin white-text-blue-background-button {
-    border: none;
-    color: white;
-    background-color: $theme-blue;
-    padding: 15px;
-    font-size: $button-font-size;
-    font-weight: 700;
-    box-shadow: $box-shadow;
-    text-transform: uppercase;
+  border: none;
+  color: white;
+  background-color: $theme-blue;
+  padding: 15px;
+  font-size: $button-font-size;
+  font-weight: 700;
+  box-shadow: $box-shadow;
+  text-transform: uppercase;
 }
 
 @mixin hrline {
-    border-top: 1px solid $light-grey;
-    width: 1100px;
+  border-top: 1px solid $light-grey;
+  width: 1100px;
 }
 /*
 ==========================
@@ -60,15 +72,15 @@ LOGIN / REGISTER COMPONENTS
 ==========================
 */
 @mixin login-register-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    z-index: 5;
-    width: 350px;
-    border: 3px solid $theme-blue;
-    // box-shadow: 12px 12px 2px $light-blue;
-    background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 5;
+  width: 350px;
+  border: 3px solid $theme-blue;
+  // box-shadow: 12px 12px 2px $light-blue;
+  background-color: white;
 }
