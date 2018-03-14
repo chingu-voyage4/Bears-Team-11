@@ -15,12 +15,12 @@ git clone https://github.com/chingu-voyage4/Bears-Team-11.git
 git remote add upstream https://github.com/chingu-voyage4/Bears-Team-11.git
 npm install -g create-react-app
 npm install
-cd bears-team-11/
+cd Bears-Team-11/
 npm start
 ```
 ## Running the Server
 - `npm run start-server` runs the express server on port `8080`.
-- Open Postman app or use your browser to reach `http://localhost:8080/`
+- Open [Postman](https://www.getpostman.com/) app or use your browser to reach `http://localhost:8080/`
 - Connect with the API calls above
 
 Currently using [nodemon](https://github.com/remy/nodemon) to watch and restart server for changes. We are also currently not using babel for trancompilation for the servside code.
