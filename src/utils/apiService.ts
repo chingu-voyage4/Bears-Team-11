@@ -133,7 +133,7 @@ function updateProject(name: string, update: Project): Promise<Project> {
   });
 }
 
-function removeProject(name: string): Promise<Project> {
+function deleteProject(name: string): Promise<Project> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       var removeIndex;
@@ -160,7 +160,7 @@ var apiService = {
   getProjects,
   addProject,
   updateProject,
-  removeProject
+  deleteProject
 };
 
 export default apiService;
