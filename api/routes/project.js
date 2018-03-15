@@ -12,6 +12,15 @@ router.get('/', function(req, res) {
     res.json(projects);
   })
 });
+// retrieves project by id
+router.get('/:id', function(req,res) {
+  Project.findOne({_id: req.params.id}, function(err, project) {
+    if (err || !project) {
+      res.sendStatus('Error in saving project: ' + err);
+    }
+    res.json(project);
+  })
+})
 // add new projects
 router.post('/add', function (req, res) {
   var newProject = new Project();
@@ -42,4 +51,16 @@ router.post('/add', function (req, res) {
     res.send(newProject)
   });
 })
+// 5aaa098db4beefe12c6fe5cb
+// delete a single project by id
+router.delete('/delete/one', function(req,res) {
+  Project.findByIdAndRemove(req.query.id, function(err) {
+    if (err) {
+      console.log('Error in deleting project: ' + err);
+    }
+    console.log('Project successfully deleted');
+    res.sendStatus(200);
+  })
+})
+
 module.exports = router;
