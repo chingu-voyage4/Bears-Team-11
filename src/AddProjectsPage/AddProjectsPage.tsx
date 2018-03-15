@@ -26,49 +26,30 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
   }
 
   public onFormChange(e: React.FormEvent<HTMLInputElement>): void {
+    var { name, value } = e.currentTarget;
+    /*
+     * There is a current bug in typescript that does not correctly identify the string literal
+     * type in a computed property key.
+     * 
+     * ref: https://github.com/Microsoft/TypeScript/issues/15534
+     * ref: https://github.com/Microsoft/TypeScript/issues/13948
+     * ref: https://github.com/Microsoft/TypeScript/pull/21070
+     */
     this.setState({
-      [e.currentTarget.name]: e.currentTarget.value
-    });
+      [name]: value
+      // tslint:disable-next-line
+    } as any);
   }
 
-  public onSubmit(e: React.FormEvent<HTMLButtonElement>): void {
-    const url = 'http://localhost:8080/api/projects/add';
+  handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
+    // this.props.addProject(this.state.email, this.state.password);
+  };
 
-    let bodyData = {
-      name: this.state.name,
-      description: '',
-      dueDate: '',
-      team: [],
-      githubLink: '',
-      mockupLink: '',
-      liveLink: '',
-      lookingFor: [],
-      status: '',
-      category: '',
-      tags: [],
-      images: [],
-      contact: '',
-      creator: ''
-    };
-
-    let data = {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(bodyData)
-    };
-
-    fetch(url, data)
-      /* tslint:disable-next-line */
-      .then(function(res: any) {
-        if (res.status === 409) {
-          alert('User already exists in database');
-        } else if (res.status === 200) {
-          alert('User added to database');
-        } else {
-          alert('Error ' + res.status + ' - ' + res.statusText);
-        }
-      });
-  }
+  toggleCategoryDropdown = (e: React.FormEvent<HTMLButtonElement>): void => {
+    // toggle show/hide of category dropdown
+    var doc = document.getElementById('new-project-dropdown')!;
+    doc.classList.toggle('new-project-show');
+  };
 
   render() {
     return (
@@ -128,7 +109,7 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
               />
             </div>{' '}
             {/* end of box 1 A */}
-            <div className="box-1-B">
+            <div className="box-1-b">
               <label
                 className="newProjectSubText"
                 htmlFor="new-project-githubLink"
@@ -190,7 +171,12 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                   id="new-project-role-p"
                   onChange={e => this.onFormChange(e)}
                 />
-                <label htmlFor="new-project-role-p">Programmer</label>
+                <label
+                  className="new-project-text"
+                  htmlFor="new-project-role-p"
+                >
+                  Programmer
+                </label>
               </div>
 
               <div className="checkbox">
@@ -201,10 +187,62 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                   id="new-project-role-d"
                   onChange={e => this.onFormChange(e)}
                 />
-                <label htmlFor="new-project-role-d">Designer</label>
+                <label
+                  className="new-project-text"
+                  htmlFor="new-project-role-d"
+                >
+                  Designer
+                </label>
               </div>
             </div>
-          </div>{' '}
+
+            <div className="new-project-category">
+              <label
+                className="newProjectSubText"
+                htmlFor="new-project-dropdown"
+              >
+                Category
+              </label>
+              <button
+                onClick={this.toggleCategoryDropdown}
+                className="new-project-dropdown-btn"
+              >
+                Choose A Category
+              </button>
+              <div
+                id="new-project-dropdown"
+                className="new-project-category-content"
+              >
+                <a href="#" className="new-project-dropdown-text">
+                  Design Tools
+                </a>
+                <a href="#" className="new-project-dropdown-text">
+                  Developer Tools
+                </a>
+                <a href="#" className="new-project-dropdown-text">
+                  Fun
+                </a>
+                <a href="#" className="new-project-dropdown-text">
+                  News & Weather
+                </a>
+                <a href="#" className="new-project-dropdown-text">
+                  Productivity
+                </a>
+                <a href="#" className="new-project-dropdown-text">
+                  Search Tools
+                </a>
+                <a href="#" className="new-project-dropdown-text">
+                  Shopping
+                </a>
+                <a href="#" className="new-project-dropdown-text">
+                  Social & Communication{' '}
+                </a>
+                <a href="#" className="new-project-dropdown-text">
+                  Sports
+                </a>
+              </div>
+            </div>
+          </div>
           {/* end of box 2 */}
         </form>
         <Footer />

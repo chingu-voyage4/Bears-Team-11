@@ -1,4 +1,4 @@
-@import "_variables.scss";
+@import '_variables.scss';
 
 /*
 ==========================
@@ -7,22 +7,31 @@ GRID
 */
 
 .new-project-container {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: auto;
-    grid-template-areas: ". a a a b b .";
-    grid-gap: 10px;
+  max-width: 1080px;
+  font-family: $font;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 100px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: '. a a a b b .';
+  grid-gap: 10px;
 }
 
 .box-1 {
   grid-area: a;
+  margin: 0 auto;
+  padding: 30px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-areas: "c d";
+  grid-template-areas: 'c d';
   border: 1px solid $light-grey;
 }
 
 .box-2 {
+  margin: 0 auto;
+  padding: 30px;
   grid-area: b;
   border: 1px solid $light-grey;
 }
@@ -33,6 +42,7 @@ GRID
 
 .box-1-b {
   grid-area: d;
+  margin-left: 30px;
 }
 
 /*
@@ -40,6 +50,7 @@ GRID
 FORM LABELS
 ==========================
 */
+
 .newProjectSubText {
   display: block;
   font-size: 10px;
@@ -49,9 +60,52 @@ FORM LABELS
   font-weight: 700;
 }
 
-.new-project-input { 
+.new-project-input {
   height: 25px;
-  color: $light-grey;
+  color: $dark-grey;
   padding: 5px;
   margin-bottom: 20px;
+  border: 1px solid $light-grey;
+}
+
+.new-project-text {
+  font-size: 14px;
+  color: $dark-grey;
+}
+
+/*
+==========================
+DROPDOWNS
+==========================
+*/
+.new-project-dropdown-btn {
+  background-color: white;
+  border: 1px solid $light-grey;
+  width: 250px;
+  padding: 10px;
+  color: $dark-grey;
+}
+.new-project-category-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  box-shadow: $box-shadow;
+  border: 1px solid $light-grey;
+  z-index: 1;
+  width: 250px;
+}
+.new-project-dropdown-text {
+  display: block;
+  text-decoration: none;
+  color: $dark-grey;
+  padding: 5px 10px 5px 10px;
+}
+.new-project-dropdown-text:hover {
+  display: block;
+  text-decoration: none;
+  color: $theme-blue;
+  background-color: $light-blue;
+}
+.new-project-show {
+  display: block;
 }
