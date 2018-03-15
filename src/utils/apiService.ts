@@ -83,12 +83,84 @@ function getProjects(): Promise<Array<Project>> {
   });
 }
 
+function addProject(project: Project): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      var projectExists;
+
+      projects.forEach(currentProject => {
+        if (currentProject.name === project.name) {
+          projectExists = true;
+        }
+      });
+
+      if (!projectExists) {
+        projects.push(project);
+        resolve(project);
+      } else {
+        reject(new Error('Project already exists.'));
+      }
+    }, generateRandomDelay());
+  });
+}
+
+/*
+ * DISCUSSION: projects should probably have and use id as an unique identifier
+ * currently name is being used as an unique identifier
+ */
+function updateProject(name: string, update: Project): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      var filteredProjects = projects.filter(currentProject => {
+        return currentProject.name === update.name;
+      });
+
+      if (filteredProjects.length === 0) {
+        reject(new Error('Cannot update a project that does not exist.'));
+      } else {
+        var projectToBeUpdated = filteredProjects[0];
+        var updatedObject = Object.assign(projectToBeUpdated, update);
+
+        for (let i = 0; i < projects.length; i++) {
+          if (projects[i].name === update.name) {
+            projects[i] = updatedObject;
+          }
+        }
+
+        resolve(updatedObject);
+      }
+    }, generateRandomDelay());
+  });
+}
+
+function removeProject(name: string): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      var removeIndex;
+
+      for (var i = 0; i < projects.length; i++) {
+        if (projects[i].name === name) {
+          removeIndex = i;
+        }
+      }
+      if (removeIndex) {
+        resolve(projects.splice(removeIndex, removeIndex)[0]);
+      } else {
+        reject(new Error('Project does not exist'));
+      }
+    }, generateRandomDelay());
+  });
+}
+
 /* Service Module */
 var apiService = {
   login,
   register,
   logout,
-  getProjects
+  getProjects,
+  addProject,
+  updateProject,
+  removeProject
 };
 
 export default apiService;
