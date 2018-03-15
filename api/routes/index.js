@@ -6,12 +6,12 @@ var isAuthenticated = function (req, res, next) {
 	// Passport adds this method to request object. A middleware is allowed to add properties to
 	// request and response objects
 	if (req.isAuthenticated()){
-		console.log('You are authrized to go to home page');
+		console.log('You are authorized to go to home page');
 		return next();
 	}
 	    
 	// if the user is not authenticated then redirect him to the login page
-	console.log('You are not authourized');
+	console.log('You are not authorized');
 	res.redirect('/');
 }
 
