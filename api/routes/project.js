@@ -6,12 +6,12 @@ var Project = require('../models/Projects');
 router.get('/', function(req, res) {
   Project.find({}, function(err, projects) {
     if (err) {
-      console.log('Error in retrieving projects: ' + err)
+      res.sendStatus('Error in retrieving projects: ' + err)
     }
-    console.log(projects);
     res.json(projects);
   })
 });
+
 // retrieves project by id
 router.get('/:id', function(req,res) {
   Project.findOne({_id: req.params.id}, function(err, project) {
@@ -21,6 +21,17 @@ router.get('/:id', function(req,res) {
     res.json(project);
   })
 })
+
+// update project by id
+router.post('/update/:id', function(req,res) {
+  Project.findOne({_id: req.params.id}, function(err, project) {
+    if (err || !project) {
+      res.sendStatus('Error in updating project: ' + err);
+    }
+    res.json(project);
+  })
+})
+
 // add new projects
 router.post('/add', function (req, res) {
   var newProject = new Project();
@@ -45,18 +56,18 @@ router.post('/add', function (req, res) {
 
   newProject.save(function (err) {
     if (err) {
-      console.log('Error in saving project: ' + err);
+      res.sendStatus('Error in saving project: ' + err);
     }
     console.log('New project saved successfully');
     res.send(newProject)
   });
 })
-// 5aaa098db4beefe12c6fe5cb
+
 // delete a single project by id
 router.delete('/delete/one', function(req,res) {
   Project.findByIdAndRemove(req.query.id, function(err) {
     if (err) {
-      console.log('Error in deleting project: ' + err);
+      res.sendStatus('Error in deleting project: ' + err);
     }
     console.log('Project successfully deleted');
     res.sendStatus(200);
