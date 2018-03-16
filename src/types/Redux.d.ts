@@ -1,4 +1,5 @@
 import { Dispatch } from 'react-redux';
+import { Project } from './Projects.d';
 
 // Action
 export interface Action {
@@ -11,7 +12,7 @@ export interface UserAction extends Action {
 }
 
 export interface ProjectAction extends Action {
-  data: object;
+  data: Project;
 }
 
 // Reducers
@@ -19,9 +20,7 @@ export interface UserState {
   user?: object;
 }
 
-export interface ProjectState {
-  project?: object;
-}
+export type ProjectState = Array<Project>;
 
 // ReduxTextPage Component
 export interface Store {
