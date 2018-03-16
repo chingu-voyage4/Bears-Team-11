@@ -43,16 +43,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## API Calls
 
-| ENDPOINT                       | METHOD        | URL Params      |Returns        |
-| ------------------------------ |:-------------:|:---------------:|:-------------:|
-| /api/login                     | POST          | email, password |               |
-| /api/signup                    | POST          | firstName, lastName, username, email, password |               |
-| /api/signout                   | GET           |                 |               |
-| /api/forgot                    | POST          | email           |               |
-| /api/reset                     | POST          | token, password |               |
-| /api/user/:username            | GET           | username        |               |
-| /api/projects                  | GET           |                 |               |
-| /api/projects/add              | POST          |                 |               |
-| /api/projects/:id              | GET           |id               |               |
-| /api/projects/update/:id       | POST          |id               |               |
-| /api/projects/delete/one/:id   | DELETE        |id               |               |
+| ENDPOINT                       | METHOD    | URL PARAMS      |Purpose        |
+| ------------------------------ |:---------:|:---------------:|:-------------:|
+| /api/login                     | POST      | email, password | Signs in user |
+| /api/signup                    | POST      | firstName, lastName, username, email, password | Adds new user |
+| /api/signout                   | GET       |                 | Signs out user |
+| /api/forgot                    | POST      | email           | Sends an email you forget your password |
+| /api/reset                     | POST      | token, password | Resets your password |
+| /api/user/:username            | GET       | username        | Returns individual user data |
+| /api/user/delete/:username     | DELETE    | username        | Deletes individual user data |
+| /api/user/update/:username     | POST      | username        | Updates individual user data |
+| /api/projects                  | GET       |                 | Returns all projects |
+| /api/projects/add              | POST      |                 | Adds new project |
+| /api/projects/:id              | GET       | id              | Returns individual project filtered by id |
+| /api/projects/update/:id       | POST      | id, updateKey, updateValue | Updates single project by id |
+| /api/projects/delete/one/:id   | DELETE    | id              | Deletes single project by id|
