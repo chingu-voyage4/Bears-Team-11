@@ -27,7 +27,14 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
     };
   }
 
-  public onFormChange(e: React.FormEvent<HTMLInputElement>): void {
+  toggleCategoryDropdown = (e: React.FormEvent<HTMLButtonElement>): void => {
+    // toggle show/hide of category dropdown
+    e.preventDefault();
+    var doc = document.getElementById('new-project-dropdown')!;
+    doc.classList.toggle('new-project-show');
+  };
+
+  public onFormChange = (e: React.FormEvent<HTMLInputElement>): void => {
     var { name, value } = e.currentTarget;
     /*
      * There is a current bug in typescript that does not correctly identify the string literal
@@ -40,13 +47,14 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
     if (name === 'category') {
       // tslint:disable-next-line
       this.setState({ categoryPlaceholder: value } as any);
+      this.toggleCategoryDropdown(e);
     } else {
       this.setState({
         [name]: value
         // tslint:disable-next-line
       } as any);
     }
-  }
+  };
 
   public onTextAreaFormChange(e: React.FormEvent<HTMLTextAreaElement>): void {
     var { name, value } = e.currentTarget;
@@ -58,13 +66,6 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
 
   handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
     // this.props.addProject(this.state.email, this.state.password);
-  };
-
-  toggleCategoryDropdown = (e: React.FormEvent<HTMLButtonElement>): void => {
-    // toggle show/hide of category dropdown
-    e.preventDefault();
-    var doc = document.getElementById('new-project-dropdown')!;
-    doc.classList.toggle('new-project-show');
   };
 
   render() {
