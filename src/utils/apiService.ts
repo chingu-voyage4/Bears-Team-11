@@ -10,7 +10,8 @@ var users: Array<User> = [
   {
     firstName: 'Gorden',
     lastName: 'Ramsay',
-    email: 'gramsy@gmail.com'
+    email: 'gramsy@gmail.com',
+    password: 'ilovetoocook'
   }
 ];
 
@@ -44,7 +45,11 @@ function login(email: string, password: string): Promise<User | Error> {
         return currentUser.email === email && currentUser.password === password;
       })[0];
       user
-        ? resolve(user)
+        ? resolve({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email
+          })
         : reject(new Error('Wrong username and/or password.'));
     }, generateRandomDelay());
   });
@@ -61,7 +66,13 @@ function register(
       const user = users.filter(currentUser => {
         return currentUser.email === email;
       })[0];
-      user ? resolve(user) : reject(new Error('Email is already in use.'));
+      user
+        ? resolve({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email
+          })
+        : reject(new Error('Email is already in use.'));
     }, generateRandomDelay());
   });
 }

@@ -1,5 +1,6 @@
 import { Dispatch } from 'react-redux';
 import { Project } from './Projects.d';
+import { User } from './User.d';
 
 // Action
 export interface Action {
@@ -7,8 +8,8 @@ export interface Action {
 }
 
 export interface UserAction extends Action {
-  data: object;
-  error?: string;
+  data?: User;
+  error?: Error;
 }
 
 export interface ProjectAction extends Action {
@@ -16,9 +17,7 @@ export interface ProjectAction extends Action {
 }
 
 // Reducers
-export interface UserState {
-  user?: object;
-}
+export type UserState = User | {};
 
 export type ProjectState = Array<Project>;
 
