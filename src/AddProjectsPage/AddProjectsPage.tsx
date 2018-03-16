@@ -7,6 +7,7 @@ import { PassedProps, State, Props } from '../types/AddProjectsPage.d';
 class AddProjectsPage extends React.Component<PassedProps, State> {
   constructor(props: Props) {
     super(props);
+
     this.state = {
       name: '',
       description: '',
@@ -21,7 +22,8 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
       tags: [],
       images: [],
       contact: '',
-      creator: ''
+      creator: '',
+      categoryPlaceholder: 'Choose A Category'
     };
   }
 
@@ -35,6 +37,19 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
      * ref: https://github.com/Microsoft/TypeScript/issues/13948
      * ref: https://github.com/Microsoft/TypeScript/pull/21070
      */
+    if (name === 'category') {
+      // tslint:disable-next-line
+      this.setState({ categoryPlaceholder: value } as any);
+    } else {
+      this.setState({
+        [name]: value
+        // tslint:disable-next-line
+      } as any);
+    }
+  }
+
+  public onTextAreaFormChange(e: React.FormEvent<HTMLTextAreaElement>): void {
+    var { name, value } = e.currentTarget;
     this.setState({
       [name]: value
       // tslint:disable-next-line
@@ -47,6 +62,7 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
 
   toggleCategoryDropdown = (e: React.FormEvent<HTMLButtonElement>): void => {
     // toggle show/hide of category dropdown
+    e.preventDefault();
     var doc = document.getElementById('new-project-dropdown')!;
     doc.classList.toggle('new-project-show');
   };
@@ -75,12 +91,11 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
               >
                 Description
               </label>
-              <input
-                type="text"
+              <textarea
                 name="description"
                 id="new-project-description"
-                className="new-project-input"
-                onChange={e => this.onFormChange(e)}
+                className="new-project-textarea"
+                onChange={e => this.onTextAreaFormChange(e)}
               />
 
               <label
@@ -90,7 +105,7 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 Due Date
               </label>
               <input
-                type="text"
+                type="date"
                 name="dueDate"
                 id="new-project-dueDate"
                 className="new-project-input"
@@ -207,39 +222,75 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 onClick={this.toggleCategoryDropdown}
                 className="new-project-dropdown-btn"
               >
-                Choose A Category
+                {this.state.categoryPlaceholder}
               </button>
               <div
                 id="new-project-dropdown"
                 className="new-project-category-content"
               >
-                <a href="#" className="new-project-dropdown-text">
-                  Design Tools
-                </a>
-                <a href="#" className="new-project-dropdown-text">
-                  Developer Tools
-                </a>
-                <a href="#" className="new-project-dropdown-text">
-                  Fun
-                </a>
-                <a href="#" className="new-project-dropdown-text">
-                  News & Weather
-                </a>
-                <a href="#" className="new-project-dropdown-text">
-                  Productivity
-                </a>
-                <a href="#" className="new-project-dropdown-text">
-                  Search Tools
-                </a>
-                <a href="#" className="new-project-dropdown-text">
-                  Shopping
-                </a>
-                <a href="#" className="new-project-dropdown-text">
-                  Social & Communication{' '}
-                </a>
-                <a href="#" className="new-project-dropdown-text">
-                  Sports
-                </a>
+                <input
+                  type="button"
+                  name="category"
+                  value="Design Tools"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Developer Tools"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Fun"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="News & Weather"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Producitivity"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Search Tools"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Shopping"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Social & Communication"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Sports"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
               </div>
             </div>
           </div>
