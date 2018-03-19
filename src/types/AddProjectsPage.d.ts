@@ -14,10 +14,11 @@ export interface State {
   contact?: string;
   createdAt?: string;
   creator?: string;
+  categoryPlaceholder: string;
 }
 
-export interface Props { }
+export interface Props {}
 
 export interface PassedProps {
   creator?: string;
- }
+}

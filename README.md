@@ -43,17 +43,28 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## API Calls
 
-| ENDPOINT                       | METHOD        | URL Params      |Returns        |
-| ------------------------------ |:-------------:|:---------------:|:-------------:|
-| /api/home                      | GET           |                 |               |
-| /api/login                     | POST          | email, password |               |
-| /api/signup                    | POST          | firstName, lastName, username, email, password |               |
-| /api/signout                   | GET           |                 |               |
-| /api/forgot                    | POST          | email           |               |
-| /api/reset/:token              | POST          | token, password |               |
-| /api/user/:username            | GET           | username        |               |
-| /api/projects                  | GET           |                 |               |
-| /api/projects/add              | POST          |                 |               |
-| /api/projects/:id              | GET           |id               |               |
-| /api/projects/update/:id       | POST          |id               |               |
-| /api/projects/delete/one/:id   | DELETE        |id               |               |
+| ENDPOINT                       | METHOD    | URL PARAMS      | PURPOSE       |
+| ------------------------------ |:---------:|:---------------:|:-------------:|
+| /api/home                      | GET       |                 |               |
+| /api/login                     | POST      | email, password | Signs in user |
+| /api/signup                    | POST      | firstName, lastName, username, email, password | Adds new user |
+| /api/signout                   | GET       |                 | Signs out user |
+| /api/forgot                    | POST      | email           | Sends an email you forget your password |
+| /api/reset/:token              | POST      | token, password | Resets your password |
+| /api/users                     | GET       |                 | Returns list of all users |
+| /api/user/:username            | GET       | username        | Returns individual user data |
+| /api/user/delete/:username     | DELETE    | username        | Deletes individual user data |
+| /api/user/update/:username     | POST      | username        | Updates individual user data |
+| /api/user/:username/settings   | GET       |                 | Return individual user settings |
+| /api/user/:username/settings/update | POST |                 | Edit individual user settings |
+| /api/projects                  | GET       |                 | Returns all projects |
+| /api/projects/add              | POST      |                 | Adds new project |
+| /api/projects/:id              | GET       | id              | Returns individual project filtered by id |
+| /api/projects/update/:id       | POST      | id, updateKey, updateValue | Updates single project by id |
+| /api/projects/delete/one/:id   | DELETE    | id              | Deletes single project by id |
+| /api/projects/filter           | GET       | name, category, r ole, tags, sortBy, status | Returns list of projects filtered by params |
+| /api/projects/tags             | GET       |                 | Returns all available tags |
+| /api/projects/tags/add         | POST      | tagName         | Adds new project tag |
+| /api/projects/categories       | GET       |                 | Returns all available categories |
+| /api/projects/categories/add   | POST      | categoryName    | Adds new category |
+
