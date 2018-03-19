@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Project = require('../models/Projects');
+var isAuthenticated = require('../utils/authentication');
 
 // retrieves all projects
 router.get('/', function(req, res) {
@@ -23,7 +24,7 @@ router.get('/:id', function(req,res) {
 })
 
 // update project by id
-router.post('/update', function(req,res) {
+router.post('/update', isAuthenticated, function(req,res) {
   Project.findOneAndUpdate({_id: req.query.id}, {[req.query.updateKey]: req.query.updateObject, modifiedAt: new Date()}, function(err, project) {
     if (err || !project) {
       res.send('Error in updating project: ' + err);
@@ -33,7 +34,7 @@ router.post('/update', function(req,res) {
 })
 
 // add new projects
-router.post('/add', function (req, res) {
+router.post('/add', isAuthenticated, function (req, res) {
   var newProject = new Project();
 
   newProject.name = req.query.name;
@@ -60,12 +61,12 @@ router.post('/add', function (req, res) {
       res.send('Error in saving project: ' + err);
     }
     console.log('New project saved successfully');
-    res.sendStatus(200).send(newProject)
-  });
+    res.send(newProject)
+  }); 
 })
 
 // delete a single project by id
-router.delete('/delete/one', function(req,res) {
+router.delete('/delete/one', isAuthenticated, function(req,res) {
   Project.findByIdAndRemove(req.query.id, function(err) {
     if (err) {
       res.send('Error in deleting project: ' + err);

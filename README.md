@@ -45,11 +45,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 | ENDPOINT                       | METHOD        | URL Params      |Returns        |
 | ------------------------------ |:-------------:|:---------------:|:-------------:|
+| /api/home                      | GET           |                 |               |
 | /api/login                     | POST          | email, password |               |
 | /api/signup                    | POST          | firstName, lastName, username, email, password |               |
 | /api/signout                   | GET           |                 |               |
 | /api/forgot                    | POST          | email           |               |
-| /api/reset                     | POST          | token, password |               |
+| /api/reset/:token              | POST          | token, password |               |
 | /api/user/:username            | GET           | username        |               |
 | /api/projects                  | GET           |                 |               |
 | /api/projects/add              | POST          |                 |               |
