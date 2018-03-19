@@ -45,11 +45,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 | ENDPOINT                       | METHOD    | URL PARAMS      | PURPOSE       |
 | ------------------------------ |:---------:|:---------------:|:-------------:|
+| /api/home                      | GET       |                 |               |
 | /api/login                     | POST      | email, password | Signs in user |
 | /api/signup                    | POST      | firstName, lastName, username, email, password | Adds new user |
 | /api/signout                   | GET       |                 | Signs out user |
 | /api/forgot                    | POST      | email           | Sends an email you forget your password |
-| /api/reset                     | POST      | token, password | Resets your password |
+| /api/reset/:token              | POST      | token, password | Resets your password |
 | /api/users                     | GET       |                 | Returns list of all users |
 | /api/user/:username            | GET       | username        | Returns individual user data |
 | /api/user/delete/:username     | DELETE    | username        | Deletes individual user data |
@@ -66,3 +67,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 | /api/projects/tags/add         | POST      | tagName         | Adds new project tag |
 | /api/projects/categories       | GET       |                 | Returns all available categories |
 | /api/projects/categories/add   | POST      | categoryName    | Adds new category |
+
