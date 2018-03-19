@@ -25,10 +25,11 @@ module.exports = function(passport){
 	router.post('/signup', function(req, res, next) {
 		passport.authenticate('signup', function(err, user, info) {
 		  if (err) { return next(err); }
-		  if (!user) { return res.send('No user'); }
+			if (!user) { return res.send('No user'); }
+			// console.log(res.body.message);
 		  return res.send('Success');
 		})(req, res, next);
-	  });
+	});
 
 	
 

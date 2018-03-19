@@ -4,28 +4,28 @@
  * Creates an user in the DB with user credentials 
  * We are hashig password using bcrypt-nodejs to make it secure
 */
-var LocalStrategy   = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/Users');
 var bCrypt = require('bcrypt-nodejs');
 
-module.exports = function(passport){
+module.exports = function (passport) {
 
-	passport.use('signup', new LocalStrategy({
-         // by default, local strategy uses username and password, 
-            // we should override with email if we want to override it.
-            usernameField : 'email',
-            passwordField : 'password',
-            // allows us to pass back the entire request to the callback
-            passReqToCallback : true 
-        },
-        function(req, email, password, done) {
+    passport.use('signup', new LocalStrategy({
+        // by default, local strategy uses username and password, 
+        // we should override with email if we want to override it.
+        usernameField: 'email',
+        passwordField: 'password',
+        // allows us to pass back the entire request to the callback
+        passReqToCallback: true
+    },
+        function (req, email, password, done) {
 
-            findOrCreateUser = function(){
+            findOrCreateUser = function () {
                 // find a user in Mongo with provided username and email
-                User.findOne({$or:[{ 'email': email },{'username': req.query.username}]}, function(err, user) {
+                User.findOne({ $or: [{ 'email': email }, { 'username': req.query.username }] }, function (err, user) {
                     // In case of any error, return using the done method
-                    if (err){
-                        console.log('Error in SignUp: '+err);
+                    if (err) {
+                        console.log('Error in SignUp: ' + err);
                         return done(err);
                     }
                     // already exists
@@ -45,16 +45,17 @@ module.exports = function(passport){
                         newUser.lastName = req.query.lastName;
 
                         // save the user
-                        newUser.save(function(err) {
-                            if (err){
-                                console.log('Error in Saving user: '+err);  
-                                throw err;  
+                        newUser.save(function (err) {
+                            if (err) {
+                                console.log('Error in Saving user: ' + err);
+                                throw err;
                             }
-                            console.log('User Registration succesful');    
+                            console.log('User Registration succesful');
                             return done(null, newUser);
                         });
                     }
                 });
+
             };
             // Delay the execution of findOrCreateUser and execute the method
             // in the next tick of the event loop
@@ -63,7 +64,7 @@ module.exports = function(passport){
     );
 
     // Generates hash using bCrypt
-    var createHash = function(password){
+    var createHash = function (password) {
         return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
     }
 
