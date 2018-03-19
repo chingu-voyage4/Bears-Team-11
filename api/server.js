@@ -13,7 +13,7 @@ const initPassport = require('./passport/init');
 var routes = require('./routes/index')(passport);
 var forgetPasswordRout = require('./routes/forgetPassword');
 var passwordResetRout = require('./routes/reset');
-
+var projectsRoute = require('./routes/project');
 // // Connect to DB-Local:
 // NOTE: Uncomment below line if you want to save data locally
  mongoose.connect(config.db.local);
@@ -45,7 +45,7 @@ initPassport(passport);
 app.use('/api', routes);
 app.use('/api/forgot',forgetPasswordRout);
 app.use('/api/reset',passwordResetRout);
-
+app.use('/api/projects/', projectsRoute);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
