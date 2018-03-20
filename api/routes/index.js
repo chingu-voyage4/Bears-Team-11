@@ -28,12 +28,22 @@ module.exports = function(passport){
 		res.render('Welcome to the Register page');
     });
     
-    /* Handle Registration POST */
-	router.post('/signup', passport.authenticate('signup', {
-		successRedirect: '/home',
-		failureRedirect: '/signup',
-		failureFlash : true  
-	}));
+    // /* Handle Registration POST */
+	// router.post('/signup', passport.authenticate('signup', {
+	// 	successRedirect: '/home',
+	// 	failureRedirect: '/signup',
+	// 	failureFlash : true  
+	// }));
+
+	router.post('/signup', function(req, res, next) {
+		passport.authenticate('signup', function(err, user, info) {
+		  if (err) { return next(err); }
+		  if (!user) { return res.send('No user'); }
+		  return res.send('Success');
+		})(req, res, next);
+	  });
+
+	
 
 	/* Handle Login POST */
 	router.post('/login', passport.authenticate('login', {
