@@ -48,7 +48,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 | /api/home                      | GET       |                 |               |
 | /api/login                     | POST      | email, password | Signs in user |
 | /api/signup                    | POST      | firstName, lastName, username, email, password | Adds new user |
-| /api/signout                   | GET       |                 | Signs out user |
+| /api/logout                    | GET       |                 | Signs out user |
 | /api/forgot                    | POST      | email           | Sends an email you forget your password |
 | /api/reset/:token              | POST      | token, password | Resets your password |
 | /api/users                     | GET       |                 | Returns list of all users |

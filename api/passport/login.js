@@ -28,12 +28,12 @@ module.exports = function(passport){
                     // Username does not exist, log the error and redirect back
                     if (!user){
                         console.log('User Not Found with Email '+email);
-                        return done(null, false);                 
+                        return done(null, false, { message: 'User Not Found with Email' });                 
                     }
                     // User exists but wrong password, log the error 
                     if (!isValidPassword(user, password)){
                         console.log('Invalid Password');
-                        return done(null, false); // redirect back to login page
+                        return done(null, false, { message: 'Invalid Password' }); // redirect back to login page
                     }
                     // User and password both match, return user from done method
                     // which will be treated like success

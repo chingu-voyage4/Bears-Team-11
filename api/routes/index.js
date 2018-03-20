@@ -19,41 +19,37 @@ module.exports = function (passport) {
 	router.post('/signup', function (req, res, next) {
 		passport.authenticate('signup', function (err, user, info) {
 			if (err) { return next(err); }
-			if (!user) { return res.send('User already exists'); }
-		  return res.send('Success');
+			if (!user) { return res.send(info.message); }
+			return res.send(info.message);
 		})(req, res, next);
 	});
 
 	/* Handle Login POST */
 	router.post('/login', function (req, res, next) {
+		console.log(req.query);
 		passport.authenticate('login', function (err, user, info) {
 			if (err) { return next(err); }
-			if (!user) { return res.send('Account not registered'); }
+			if (!user) { return res.send(info.message); }
 			return res.send('Login Successful');
 		})(req, res, next);
-});
+	});
 
-/* GET Home Page 
- * This route is protected and if it is not authenticated,
- * it will redirects to login page.
-*/
-router.get('/home', isAuthenticated, function (req, res) {
-	res.send('Welcome to the Home');
-});
+	/* Handle Logout */
+	router.get('/logout', function (req, res, next) {
+		console.log('logging out!');
+		req.logout()
+		res.send('Successfully Logged Out');
+	});
 
-/* Handle Logout */
-router.get('/signout', function (req, res, next) {
-	req.logout()
-	req.session.destroy(function (err) {
-	if (err) { return next(err); }
-	console.log(res);
-	return res.send({text: 'Successfully Logged Out', authenticated: req.isAuthenticated() });
-});
-	
-});
+	/* GET Home Page 
+	 * This route is protected and if it is not authenticated,
+	 * it will redirects to login page.
+	*/
+	router.get('/home', isAuthenticated, function (req, res) {
+		res.send('Welcome to the Home');
+	});
 
-
-return router;
+	return router;
 }
 
 
