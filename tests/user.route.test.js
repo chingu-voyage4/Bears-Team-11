@@ -1,9 +1,9 @@
 const request = require('supertest');
 const app = require('../api/server');
 
-describe('posting new user', function() {
+describe('posting new user', function () {
   test('create user', () => {
-    request(app)
+    return request(app)
       .post('/api/signup')
       .send({
         firstName: 'Joe',
@@ -14,17 +14,73 @@ describe('posting new user', function() {
       })
       .expect(200)
       .then(res => {
-        console.log(res.body.message);
-        expect(typeof res.body.message).toBe('json');
-        expect(res.body.message).toBe({
-          firstName: 'Joe',
-          lastName: 'Smol',
-          username: 'joesmol',
-          email: 'joe@gmail.com'
-        })
+        expect(res.text).toBe('Success');
       });
   });
+
+  // test('duplicate email should reject new user', () => {
+  //   return request(app)
+  //     .post('/api/signup')
+  //     .send({
+  //       firstName: 'Peter',
+  //       lastName: 'Rabbit',
+  //       username: 'prabbit',
+  //       password: 'secret',
+  //       email: 'peter@gmail.com'
+  //     })
+  //     .expect(res => {
+  //       expect(res.text).toBe('User already exists');
+  //     });
+  // });
 });
+
+describe('login user', function () {
+  test('log in existing user', () => {
+    return request(app)
+      .post('/api/login')
+      .send({
+        password: 'secret',
+        email: 'peter@gmail.com'
+      })
+      .expect(res => {
+        expect(res.text).toBe('Login Successful');
+      });
+  });
+
+  // test('log in unregistered user', () => {
+  //   return request(app)
+  //     .post('/api/login')
+  //     .send({
+  //       password: 'testingNonUser',
+  //       email: 'testingNonUser@gmail.com'
+  //     })
+  //     .expect(res => {
+  //       expect(res.text).toBe('Account not registered');
+  //     });
+  // });
+
+  test('logout user', () => {
+    return request(app)
+      .get('api/signout')
+      .expect(res => {
+        console.log('res is ' + res);
+        expect(res.text).toBe('Successfully Logged Out');
+      });
+  })
+
+  // test('log in user with incorrect password', () => {
+  //   return request(app)
+  //     .post('/api/login')
+  //     .send({
+  //       password: 'wrongpassword',
+  //       email: 'peter@gmail.com'
+  //     })
+  //     .expect(res => {
+  //       expect(res.text).toBe('Account not registered');
+  //     });
+  // });
+});
+
 
 // describe('POST/api/v1/user/login', function() {
 //   test('login user', () => {

@@ -19,7 +19,7 @@ module.exports = function(passport){
         // We must call done which is like the response to the passport
         function(req, email, password, done) { 
             // check in mongo if a user with email exists or not
-            console.log(email, password);
+            // console.log(email, password);
             User.findOne({ 'email' :  email }, 
                 function(err, user) {
                     // In case of any error, return using the done method
@@ -27,7 +27,7 @@ module.exports = function(passport){
                         return done(err);
                     // Username does not exist, log the error and redirect back
                     if (!user){
-                        console.log('User Not Found with email '+email);
+                        console.log('User Not Found with Email '+email);
                         return done(null, false);                 
                     }
                     // User exists but wrong password, log the error 
@@ -37,7 +37,7 @@ module.exports = function(passport){
                     }
                     // User and password both match, return user from done method
                     // which will be treated like success
-                    console.log('Successfully loged in', user);
+                    console.log('Successfully logged in', user);
                     return done(null, user);
                 }
             );
