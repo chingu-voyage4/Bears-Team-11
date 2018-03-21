@@ -3,10 +3,13 @@
  * team_members,contact,looking_for,comments,due_date,
  * # of Views,tags,category,creation_date,status,upvotes
 */
+
 // Require Mongose ORM 
 var Mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 // Require Mongoose Schema to Make Mongoose Object
 var Schema = Mongoose.Schema;
+// Schema.plugin(mongoosePaginate);
 
 // Lets create Schema Object
 // The formet will be x = { variables like type and conditionals...} fallowed by ','
@@ -33,7 +36,7 @@ var ProjectSchema = new Schema({
 });
 
 // This will creates database named "Projects" in the Database
-var Projects =  Mongoose.model("Projects",ProjectSchema);
+var Projects =  Mongoose.model("Projects", ProjectSchema);
 
 // We are making available it to other files
 module.exports = Projects;

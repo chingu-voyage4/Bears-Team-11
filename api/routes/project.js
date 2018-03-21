@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 var Project = require('../models/Projects');
 var isAuthenticated = require('../utils/authentication');
+var mongoosePaginate = require('mongoose-paginate');
 
 // retrieves all projects
 router.get('/', function(req, res) {
-  Project.find({}, function(err, projects) {
-    if (err) {
-      res.send('Error in retrieving projects: ' + err)
-    }
-    res.json(projects);
+  console.log(req.query);
+  Project.paginate({}, req.query.options, function(err, result) {
+    if (err) { return res.send('Error retrieving project: ' + err) };
+    res.json(result);
   })
 });
 
@@ -61,7 +61,7 @@ router.post('/add', isAuthenticated, function (req, res) {
       res.send('Error in saving project: ' + err);
     }
     console.log('New project saved successfully');
-    res.send(newProject)
+    res.send({message: 'New project saved successfully', newProject: newProject})
   }); 
 })
 
@@ -71,7 +71,7 @@ router.delete('/delete/one', isAuthenticated, function(req,res) {
     if (err) {
       res.send('Error in deleting project: ' + err);
     }
-    res.status(200).send({message: 'Project successfully deleted'});
+    res.send({message: 'Project successfully deleted'});
   })
 })
 

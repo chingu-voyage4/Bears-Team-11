@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "async": "^2.6.0",
     "@types/lodash": "^4.14.104",
     "@types/react-router-dom": "^4.2.4",
+    "async": "^2.6.0",
     "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
@@ -20,6 +20,7 @@
     "moment": "^2.20.1",
     "mongodb": "^3.0.4",
     "mongoose": "^5.0.6",
+    "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.0",
     "node-sass-chokidar": "0.0.3",
     "nodemailer": "^4.6.2",

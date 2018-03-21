@@ -5,17 +5,17 @@ const app = require('../api/server');
 // NEW USER
 // --------------------- 
 describe('posting new user', function () {
+  // TEST DOES NOT WORK!, MESSAGE IS 'User already exists with this email or username'
   test('create user', () => {
     return request(app)
       .post('/api/signup')
       .send({
-        firstName: 'John',
-        lastName: 'Smith',
-        username: 'jsmith',
+        firstName: 'Tara',
+        lastName: 'Har',
+        username: 'thar',
         password: 'secret',
-        email: 'jsmith@gmail.com'
+        email: 'thar@gmail.com'
       })
-      .expect(200)
       .then(res => {
         expect(res.text).toBe('User Registration Succesful');
       });

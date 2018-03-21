@@ -57,7 +57,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 | /api/user/update/:username     | POST      | username        | Updates individual user data |
 | /api/user/:username/settings   | GET       |                 | Return individual user settings |
 | /api/user/:username/settings/update | POST |                 | Edit individual user settings |
-| /api/projects                  | GET       |                 | Returns all projects |
+| /api/projects                  | GET       | options         | Returns all projects |
 | /api/projects/add              | POST      |                 | Adds new project |
 | /api/projects/:id              | GET       | id              | Returns individual project filtered by id |
 | /api/projects/update/:id       | POST      | id, updateKey, updateValue | Updates single project by id |
