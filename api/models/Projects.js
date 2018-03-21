@@ -4,12 +4,23 @@
  * # of Views,tags,category,creation_date,status,upvotes
 */
 
+// interface mongoosePaginateOptions {
+//     query?: object,
+//     options?: object
+// }
+// interface mongoosePaginatePlugin extends Schema {
+//     plugin(
+//         plugin: (schema: mongoosePaginatePlugin, options?:mongoosePaginateOptions) => void,
+//         options?: mongoosePaginateOptions
+//      ): Schema;
+// }
+
 // Require Mongose ORM 
 var Mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 // Require Mongoose Schema to Make Mongoose Object
 var Schema = Mongoose.Schema;
-// Schema.plugin(mongoosePaginate);
+Schema.plugin(mongoosePaginate);
 
 // Lets create Schema Object
 // The formet will be x = { variables like type and conditionals...} fallowed by ','

@@ -38,7 +38,7 @@ module.exports = function(passport){
                     // User and password both match, return user from done method
                     // which will be treated like success
                     console.log('Successfully logged in', user);
-                    return done(null, user);
+                    return done(null, user, { message: 'Successfully logged in' });
                 }
             );
 

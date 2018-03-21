@@ -38,11 +38,14 @@ module.exports = function (passport) {
 	});
 
 	/* Handle Login POST */
-	router.post('/login', function (req, res, next) {
-		passport.authenticate('login', function (err, user, info) {
+	router.post('/login', function(req, res, next) {
+		passport.authenticate('login', function(err, user, info) {
 			if (err) { return next(err); }
 			if (!user) { return res.send(info.message); }
-			return res.send('Login Successful');
+			req.logIn(user, function(err) {
+				if (err) { return next(err); }
+				return res.send(info.message);
+			});
 		})(req, res, next);
 	});
 
