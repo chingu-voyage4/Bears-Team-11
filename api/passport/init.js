@@ -37,5 +37,4 @@ module.exports = function(passport){
     login(passport);
     //TODO: Reset Password and Change Password
     
-
 }

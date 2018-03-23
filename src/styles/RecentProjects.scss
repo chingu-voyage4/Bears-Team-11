@@ -1,0 +1,34 @@
+@import '_variables.scss';
+/*
+==========================
+DOCUMENT SETUP
+==========================
+*/
+.recent-projects-container {
+  @include html-body-fontfamily;
+}
+/*
+==========================
+HEADER & HORIZONTAL LINE
+==========================
+*/
+.horizontal-line {
+  @include hrline;
+}
+.recent-projects-header {
+  text-align: center;
+  color: $theme-blue;
+  font-size: $landing-header-size;
+  padding-top: 50px;
+  padding-bottom: 30px;
+}
+/*
+==========================
+PROJECT
+==========================
+*/
+.explore-projects-button {
+  @include white-text-blue-background-button;
+  margin: 60px auto;
+  display: block;
+}

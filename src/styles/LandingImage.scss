@@ -1,0 +1,123 @@
+@import '_variables.scss';
+.landing-image-container {
+  display: block;
+  position: relative;
+}
+
+.landing-image-container-2 {
+  max-width: 1080px;
+  margin: auto;
+  padding: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 't t i i i i';
+}
+
+.landing-text-block {
+  grid-area: t;
+}
+
+/*
+==========================
+MAIN IMAGE WITH SKY AND GRASS
+==========================
+*/
+
+.landing-image {
+  grid-area: i;
+  width: 100%;
+  min-width: 750px;
+  z-index: 3;
+  position: relative;
+  padding-top: 70px;
+  object-fit: contain;
+}
+
+.blue-sky {
+  background-color: $light-blue;
+  z-index: 1;
+}
+
+.green-grass {
+  background-color: $grass-green;
+  position: relative;
+  height: 100px;
+  z-index: 2;
+  top: -75px;
+}
+
+/*
+==========================
+LANDING TEXT
+==========================
+*/
+
+.landing-header,
+.landing-subtext,
+.exploreProjectsBtn {
+  position: relative;
+  font-family: $font;
+  color: $theme-blue;
+  z-index: 4;
+  display: block;
+}
+
+.landing-header {
+  font-size: $landing-header-size;
+  font-weight: 700;
+  text-align: left;
+  padding-top: 150px;
+}
+
+.landing-subtext {
+  font-size: $landing-subtext-size;
+  text-align: left;
+  min-width: 400px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  line-height: 24px;
+}
+
+/*
+==========================
+BUTTON
+==========================
+*/
+
+.exploreProjectsBtn {
+  @include white-text-blue-background-button;
+}
+
+/*
+==========================
+MEDIA QUERIES
+==========================
+*/
+
+@media all and (max-width: 1079px) and (min-width: 0px) {
+  .landing-image-container-2 {
+    grid-template-columns: repeat(3, 1fr) / auto-flow 1fr;
+    grid-template-areas: '. t .' 'i i i';
+  }
+  .landing-header,
+  .landing-subtext,
+  .exploreProjectsBtn {
+    text-align: center;
+  }
+  .landing-subtext {
+    max-width: 70vw;
+  }
+  .exploreProjectsBtn {
+    margin: auto;
+  }
+  .landing-header {
+    padding-top: 50px;
+  }
+  .landing-image {
+    min-width: 100%;
+  }
+  .green-grass {
+    top: -9.5vw;
+  }
+}

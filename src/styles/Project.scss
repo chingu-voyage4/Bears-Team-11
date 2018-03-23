@@ -1,0 +1,104 @@
+@import '_variables.scss';
+/*
+==========================
+DOCUMENT SETUP
+==========================
+*/
+.project {
+  display: inline-block;
+  font-family: $font;
+}
+
+.projects-container {
+  max-width: 1080px;
+  display: grid;
+  grid-gap: 40px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: row dense;
+  padding: auto;
+  margin: auto;
+  justify-items: center;
+}
+
+.project-info {
+  width: 300px;
+  height: 125px;
+  border: $border;
+  position: relative;
+  object-position: center;
+  top: -5px;
+}
+
+/*
+==========================
+IMAGE
+==========================
+*/
+.project-image {
+  height: 200px;
+  width: 300px;
+  object-fit: cover;
+  border: $border;
+}
+
+/*
+==========================
+NAME & DESCRIPTION
+==========================
+*/
+.project-name {
+  font-size: $project-title-size;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 10px 10px 5px 10px;
+  color: $dark-grey;
+}
+
+.project-description {
+  font-size: $project-description-size;
+  overflow: hidden;
+  white-space: pre-line;
+  text-overflow: ellipsis;
+  height: 55px;
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: $dark-grey;
+}
+
+/*
+==========================
+ROLES
+==========================
+*/
+.project-roles-needed,
+.project-roles {
+  display: inline-block;
+  font-size: 11px;
+}
+.project-roles-needed {
+  padding: 10px;
+  color: $dark-grey;
+  text-transform: lowercase;
+  float: left;
+}
+.project-roles {
+  color: $theme-blue;
+  text-transform: uppercase;
+  padding-left: 5px;
+  text-decoration: underline;
+}
+/*
+==========================
+SAVE PROJECT BUTTON
+==========================
+*/
+.project-save {
+  padding: 10px;
+  object-fit: cover;
+  width: 14px;
+  height: 18px;
+  display: inline-block;
+  float: right;
+}

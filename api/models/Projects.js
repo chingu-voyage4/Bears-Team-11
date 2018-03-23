@@ -13,10 +13,12 @@ var Schema = Mongoose.Schema;
 var ProjectSchema = new Schema({
     name:       {type: String},
     creator:    {type: String},
-    link:       {type: String},
-    image:      {type: String}, 
-    teamMembers:{type: Array},
-    descreption:{type: String},
+    githubLink: {type: String},
+    mockupLink: {type: String},
+    liveLink:   {type: String},
+    image:      {type: Array}, 
+    team:       {type: Array},
+    description:{type: String},
     contact:    {type: String},
     lookingFor: {type: Array},
     comments:   {type: String},//?
@@ -24,8 +26,10 @@ var ProjectSchema = new Schema({
     dueDate:    {type: Date},
     views:      {type: Number},
     category:   {type: String},
-    status:     {type: Boolean},
-    upVotes:    {type:Number}
+    tags:       {type: Array},
+    status:     {type: String},
+    upVotes:    {type: Number},
+    modifiedAt: {type: Date,default: Date.now}
 });
 
 // This will creates database named "Projects" in the Database
