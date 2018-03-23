@@ -56,6 +56,17 @@ describe('CRUD project', function () {
         expect(res.body.message).toEqual('New project saved successfully');
       })
   })
+  test('get project', () => {
+    return request(app)
+      .get('/api/projects/5ab2ec07d2b3a87a59c00e5c')
+      .expect(res => {
+        expect(res.body).toMatchObject({
+          _id: '5ab2ec07d2b3a87a59c00e5c',
+          name: 'Google Labs'
+        });
+      })
+  })
+
   test('update project name to Momentum Dash Clone', () => {
     return request(app)
       .post('/api/projects/update')
@@ -69,8 +80,8 @@ describe('CRUD project', function () {
       .expect(res => {
         expect(res.body).toMatchObject(
           {
-            _id: '5ab2ec07d2b3a87a59c00e5c',
-            name: "Momentum Dash Chingu Clone"
+            _id: '5ab47860b2c84b65d5c4b017',
+            name: 'Momentum Dash Chingu Clone'
           }
         );
       })
@@ -90,25 +101,6 @@ describe('CRUD project', function () {
         expect(res.body).toMatchObject(
           {
             _id: '5ab47860b2c84b65d5c4b017',
-            name: "Momentum Dash Clone"
-          }
-        );
-      })
-  })
-  test('update project name back to Google', () => {
-    return request(app)
-      .post('/api/projects/update')
-      .set('Content-Type', 'application/json')
-      .send({
-        id: '5ab47860b2c84b65d5c4b017',
-        updateKey: 'name',
-        updateObject: 'Google'
-      })
-      .set('cookie', loginCookie)
-      .expect(res => {
-        expect(res.body).toMatchObject(
-          {
-            _id: '5ab2ec07d2b3a87a59c00e5c',
             name: 'Google Labs'
           }
         );
