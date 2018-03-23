@@ -7,6 +7,10 @@
 // TODO: Reset password and Change Password needs to be implemented 
 var login = require('./login');
 var signup = require('./signup');
+var deactivateUser = require('./deactivateUser');
+var activateUser = require('./activateUser');
+var deleteUser = require('./deleteUser');
+var addProject = require('./addProject');
 var User = require('../models/Users');
 
 module.exports = function(passport){
@@ -15,7 +19,7 @@ module.exports = function(passport){
     // to support persistent login sessions
     passport.serializeUser(function(user, done) {
         
-        console.log('serializing user: ');console.log(user);
+        console.log('serializing user: ' + user.email);
         // Passport saves userId as a local refference in the server
         // To recognize and get the details of the user
         done(null, user._id);
@@ -26,7 +30,7 @@ module.exports = function(passport){
         // deatails
         User.findById(id, function(err, user) {
             // TODO: remove when pusing into the production 
-            console.log('deserializing user:',user);
+            console.log('deserializing user: ' + user.email);
             done(err, user);
         });
     });
@@ -35,6 +39,10 @@ module.exports = function(passport){
     //LogIn and Reset Password
     signup(passport);
     login(passport);
+    deactivateUser(passport);
+    activateUser(passport);
+    deleteUser(passport);
+    addProject(passport);
     //TODO: Reset Password and Change Password
     
 
