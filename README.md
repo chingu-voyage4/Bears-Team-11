@@ -4,8 +4,8 @@
 Project Match is a web app created with the MERN stack with typescript integration. It's primary function is to help programmers and designers match with projects they would be interested in. Project Match will then provide team collaboration tools to support new teams with features such as a dedicated platform for mockup reviews/redlines and group chat.
 
 ## Contributors
-* [Francesca Sadikin (PM and Designer)](https://github.com/serpient)
-* [luoto](https://github.com/luoto)
+* [Francesca Sadikin (Co-PM and Designer)](https://github.com/serpient)
+* [luoto (Co-PM)](https://github.com/luoto)
 * [ram](https://github.com/ilvcs)
 * [Eric Miller](https://github.com/ericmiller777)
 
@@ -48,16 +48,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 | /api/home                      | GET       |                 |               |
 | /api/login                     | POST      | email, password | Signs in user |
 | /api/signup                    | POST      | firstName, lastName, username, email, password | Adds new user |
-| /api/signout                   | GET       |                 | Signs out user |
+| /api/logout                    | GET       |                 | Signs out user |
 | /api/forgot                    | POST      | email           | Sends an email you forget your password |
 | /api/reset/:token              | POST      | token, password | Resets your password |
 | /api/users                     | GET       |                 | Returns list of all users |
 | /api/user/:username            | GET       | username        | Returns individual user data |
-| /api/user/delete/:username     | DELETE    | username        | Deletes individual user data |
-| /api/user/update/:username     | POST      | username        | Updates individual user data |
+| /api/user/delete               | POST      | username, password | Deletes user |
+| /api/user/deactivate           | POST      | username, password | Deactivates user |
+| /api/user/activate             | POST      | username, password | Re-activates user |
+| /api/user/update               | POST      | username        | Updates individual user data |
 | /api/user/:username/settings   | GET       |                 | Return individual user settings |
 | /api/user/:username/settings/update | POST |                 | Edit individual user settings |
-| /api/projects                  | GET       |                 | Returns all projects |
+| /api/projects                  | GET       | options         | Returns all projects |
 | /api/projects/add              | POST      |                 | Adds new project |
 | /api/projects/:id              | GET       | id              | Returns individual project filtered by id |
 | /api/projects/update/:id       | POST      | id, updateKey, updateValue | Updates single project by id |
