@@ -60,10 +60,30 @@ describe('CRUD project', function () {
     return request(app)
       .post('/api/projects/update')
       .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
       .send({
         id: '5ab47860b2c84b65d5c4b017',
         updateKey: 'name',
-        updateObject: 'Momentum Dash Clone'
+        updateObject: 'Momentum Dash Chingu Clone'
+      })
+      .expect(res => {
+        expect(res.body).toMatchObject(
+          {
+            _id: '5ab2ec07d2b3a87a59c00e5c',
+            name: "Momentum Dash Chingu Clone"
+          }
+        );
+      })
+  })
+  test('update project name to Google', () => {
+    return request(app)
+      .post('/api/projects/update')
+      .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
+      .send({
+        id: '5ab47860b2c84b65d5c4b017',
+        updateKey: 'name',
+        updateObject: 'Google Labs'
       })
       .set('cookie', loginCookie)
       .expect(res => {
@@ -88,13 +108,13 @@ describe('CRUD project', function () {
       .expect(res => {
         expect(res.body).toMatchObject(
           {
-            _id: '5ab47860b2c84b65d5c4b017',
-            name: 'Google'
+            _id: '5ab2ec07d2b3a87a59c00e5c',
+            name: 'Google Labs'
           }
         );
       })
   })
-  // the delete project test fails because I cannot grab replicate the _id created in the first unit test (new project).
+  // the delete project test fails because I cannot grab replicate the _id created in the first unit test (new)
   test('delete project', () => {
     return request(app)
       .post('/api/projects/delete/one')

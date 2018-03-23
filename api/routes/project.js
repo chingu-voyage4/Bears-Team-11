@@ -27,11 +27,11 @@ router.get('/:id', function(req,res) {
 
 // update project by id
 router.post('/update', isAuthenticated, function(req,res) {
-  Project.findOneAndUpdate({_id: req.body.id}, {[req.body.updateKey]: req.body.updateObject, modifiedAt: new Date()}, function(err, project) {
+  Project.findOneAndUpdate({_id: req.body.id}, {[req.body.updateKey]: req.body.updateObject, modifiedAt: new Date()}, {new: true}, function(err, project) {
     if (err || !project) {
       res.send({message: 'Error in updating project: ' + err});
     }
-    res.json(project);
+    res.send(project);
   })
 })
 
