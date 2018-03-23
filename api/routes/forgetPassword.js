@@ -81,5 +81,4 @@ router.post('/', function(req,res){
         res.send('Password reset successfull');
     });
 });
-
 module.exports = router;

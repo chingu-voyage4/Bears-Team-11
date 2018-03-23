@@ -19,7 +19,7 @@ module.exports = function(passport){
     // to support persistent login sessions
     passport.serializeUser(function(user, done) {
         
-        console.log('serializing user: ' + user.email);
+        console.log('serializing user: ');console.log(user);
         // Passport saves userId as a local refference in the server
         // To recognize and get the details of the user
         done(null, user._id);
@@ -30,7 +30,7 @@ module.exports = function(passport){
         // deatails
         User.findById(id, function(err, user) {
             // TODO: remove when pusing into the production 
-            console.log('deserializing user: ' + user.email);
+            console.log('deserializing user:',user);
             done(err, user);
         });
     });
@@ -44,6 +44,5 @@ module.exports = function(passport){
     deleteUser(passport);
     addProject(passport);
     //TODO: Reset Password and Change Password
-    
 
 }

@@ -69,5 +69,4 @@ router.post('/:token', function(req, res) {
       res.send('Password Reset is successfull')
     });
   });
-
   module.exports = router;
