@@ -1,48 +1,42 @@
 const request = require('supertest');
 const app = require('../api/server');
-
+const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 // --------------------- 
 // SETUP
 // --------------------- 
-// beforeAll(() => {
-//   return request(app)
-//     .post('/api/login')
-//     .set('Content-Type', 'application/json')
-//     .send({
-//       password: 'secret',
-//       email: 'peter@gmail.com'
-//     })
-// });
+let loginCookie;
 
-// afterAll(() => {
-//   return request(app).get('/api/logout')
-// });
+beforeAll(() => {
+  return request(app)
+    .post('/api/login')
+    .set('Content-Type', 'application/json')
+    .send({
+      password: 'secret',
+      email: 'peter@gmail.com'
+    })
+    .then(res => {
+      loginCookie = res.header['set-cookie'];
+    })
+});
+
+afterAll(() => {
+  return request(app).get('/api/logout')
+});
 
 // --------------------- 
 // NEW PROJECT
 // --------------------- 
 describe('CRUD project', function () {
-
-  beforeAll(() => {
-    return request(app)
-      .post('/api/login')
-      .set('Content-Type', 'application/json')
-      .send({
-        password: 'secret',
-        email: 'peter@gmail.com'
-      })
-  });
-  
-  afterAll(() => {
-    return request(app).get('/api/logout')
-  });
-
+  var newId = new ObjectID();
+  console.log(newId);
   test('create new project', () => {
     return request(app)
       .post('/api/projects/add')
       .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
       .send({
-        _id: '5dsabdsa9dsakdas',
+        _id: newId,
         name: 'Google',
         description: 'Search for all websites on the internet',
         dueDate: '04/01/18',
@@ -62,44 +56,55 @@ describe('CRUD project', function () {
         expect(res.body.message).toEqual('New project saved successfully');
       })
   })
-  test('update project', () => {
+  test('update project name to Momentum Dash Clone', () => {
     return request(app)
       .post('/api/projects/update')
       .set('Content-Type', 'application/json')
       .send({
-        id: '5ab2ec07d2b3a87a59c00e5c',
+        id: '5ab47860b2c84b65d5c4b017',
         updateKey: 'name',
         updateObject: 'Momentum Dash Clone'
       })
+      .set('cookie', loginCookie)
       .expect(res => {
-        expect(res.body).toEqual({
-          name: 'Momentum Dash Clone',
-          description: 'Google Chrome Extension of a new tab app',
-          team: ['lilgangwolf'],
-          githubLink: 'www.gooogle.com',
-          mockupLink: 'www.google.com',
-          liveLink: 'www.google.com',
-          lookingFor: ['programmer'],
-          status: 'completed',
-          category: 'productivity',
-          tags: ['chrome extension'],
-          images: [''],
-          contact: 'lilgangwolf',
-          creator: 'lilgangwolf',
-          modifiedAt: new Date,
-          createdAt: '2018-03-21 16:34:31.621'
-        });
+        expect(res.body).toMatchObject(
+          {
+            _id: '5ab47860b2c84b65d5c4b017',
+            name: "Momentum Dash Clone"
+          }
+        );
       })
   })
+  test('update project name back to Google', () => {
+    return request(app)
+      .post('/api/projects/update')
+      .set('Content-Type', 'application/json')
+      .send({
+        id: '5ab47860b2c84b65d5c4b017',
+        updateKey: 'name',
+        updateObject: 'Google'
+      })
+      .set('cookie', loginCookie)
+      .expect(res => {
+        expect(res.body).toMatchObject(
+          {
+            _id: '5ab47860b2c84b65d5c4b017',
+            name: 'Google'
+          }
+        );
+      })
+  })
+  // the delete project test fails because I cannot grab replicate the _id created in the first unit test (new project).
   test('delete project', () => {
     return request(app)
       .post('/api/projects/delete/one')
       .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
       .send({
-        id: '5dsabdsa9dsakdas'
+        id: newId.str
       })
       .expect(res => {
-        expect(res.body.message).toEqual('Project successfully deleted');
+        expect(res).toEqual('Project successfully deleted');
       })
   })
 })

@@ -4,6 +4,7 @@ var mongoosePaginate = require('mongoose-paginate');
 var Schema = Mongoose.Schema;
 
 var ProjectSchema = new Schema({
+    // _id:        {type: Schema.Types.ObjectId },
     name:       {type: String},
     creator:    {type: String},
     githubLink: {type: String},

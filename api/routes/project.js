@@ -29,7 +29,7 @@ router.get('/:id', function(req,res) {
 router.post('/update', isAuthenticated, function(req,res) {
   Project.findOneAndUpdate({_id: req.body.id}, {[req.body.updateKey]: req.body.updateObject, modifiedAt: new Date()}, function(err, project) {
     if (err || !project) {
-      res.send('Error in updating project: ' + err);
+      res.send({message: 'Error in updating project: ' + err});
     }
     res.json(project);
   })
@@ -59,15 +59,15 @@ router.post('/add', isAuthenticated, function (req, res) {
       res.send('Error in saving project: ' + err);
     }
     console.log('New project saved successfully');
-    res.json({message: 'New project saved successfully', newProject: newProject})
+    res.send({message: 'New project saved successfully', newProject: newProject})
   }); 
 })
 
 // delete a single project by id
 router.delete('/delete/one', isAuthenticated, function(req,res) {
-  Project.findByIdAndRemove(req.body.id, function(err) {
-    if (err) {
-      res.send('Error in deleting project: ' + err);
+  Project.findByIdAndRemove(req.body.id, function(err, project) {
+    if (err || !project) {
+      res.send({message: 'Error in deleting project: ' + err});
     }
     res.send({message: 'Project successfully deleted'});
   })
