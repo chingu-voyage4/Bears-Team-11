@@ -5,10 +5,16 @@ var Project = require('../models/Projects');
 var isAuthenticated = require('../utils/authentication');
 var mongoosePaginate = require('mongoose-paginate');
 
-router.use(bodyParser.json());
-
 // retrieves all projects
 router.get('/', function(req, res) {
+  Project.paginate({}, req.body.options, function(err, result) {
+    if (err) { return res.send('Error retrieving project: ' + err) };
+    res.json(result);
+  })
+});
+
+// retrieves all projects
+router.post('/filter', function(req, res) {
   Project.paginate({}, req.body.options, function(err, result) {
     if (err) { return res.send('Error retrieving project: ' + err) };
     res.json(result);
@@ -21,7 +27,7 @@ router.get('/:id', function(req,res) {
     if (err || !project) {
       res.send('Error in saving project: ' + err);
     }
-    res.json(project);
+    res.send(project);
   })
 })
 
@@ -64,7 +70,7 @@ router.post('/add', isAuthenticated, function (req, res) {
 })
 
 // delete a single project by id
-router.delete('/delete/one', isAuthenticated, function(req,res) {
+router.post('/delete/one', isAuthenticated, function(req,res) {
   Project.findByIdAndRemove(req.body.id, function(err, project) {
     if (err || !project) {
       res.send({message: 'Error in deleting project: ' + err});

@@ -11,6 +11,9 @@ const app = express();
 const mongoose = require('mongoose');
 const initPassport = require('./passport/init');
 var routes = require('./routes/index')(passport);
+var forgetPasswordRout = require('./routes/forgetPassword');
+var passwordResetRout = require('./routes/reset');
+var projectsRoute = require('./routes/project');
 
 // // Connect to DB-Local:
 // NOTE: Uncomment below line if you want to save data locally
@@ -18,12 +21,21 @@ var routes = require('./routes/index')(passport);
 
 // Connect to DB-Cloud
 // NOTE: Uncomment below line if you want to save data in the cloud(Mlab)
-mongoose.connect(config.db.mlab);
+// mongoose.connect(config.db.mlab);
+
+// https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables
+if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
+  mongoose.connect(config.db.local)
+} 
+if (process.env.NODE_ENV === 'production') {
+  mongoose.connect(config.db.mlab);
+}
 
 app.use(cors());
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
@@ -39,8 +51,10 @@ app.use(passport.session());
 initPassport(passport);
 
 // for using routs
-app.use('/', routes);
-
+app.use('/api', routes);
+app.use('/api/forgot',forgetPasswordRout);
+app.use('/api/reset',passwordResetRout);
+app.use('/api/projects/', projectsRoute);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

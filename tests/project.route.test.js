@@ -2,6 +2,8 @@ const request = require('supertest');
 const app = require('../api/server');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
+
+process.env.NODE_ENV = 'test';
 // --------------------- 
 // SETUP
 // --------------------- 
@@ -28,15 +30,12 @@ afterAll(() => {
 // NEW PROJECT
 // --------------------- 
 describe('CRUD project', function () {
-  var newId = new ObjectID();
-  console.log(newId);
   test('create new project', () => {
     return request(app)
       .post('/api/projects/add')
       .set('Content-Type', 'application/json')
       .set('cookie', loginCookie)
       .send({
-        _id: newId,
         name: 'Google',
         description: 'Search for all websites on the internet',
         dueDate: '04/01/18',
@@ -58,10 +57,10 @@ describe('CRUD project', function () {
   })
   test('get project', () => {
     return request(app)
-      .get('/api/projects/5ab2ec07d2b3a87a59c00e5c')
+      .get('/api/projects/5ab47860b2c84b65d5c4b017')
       .expect(res => {
         expect(res.body).toMatchObject({
-          _id: '5ab2ec07d2b3a87a59c00e5c',
+          _id: '5ab47860b2c84b65d5c4b017',
           name: 'Google Labs'
         });
       })
@@ -96,7 +95,6 @@ describe('CRUD project', function () {
         updateKey: 'name',
         updateObject: 'Google Labs'
       })
-      .set('cookie', loginCookie)
       .expect(res => {
         expect(res.body).toMatchObject(
           {
@@ -106,17 +104,39 @@ describe('CRUD project', function () {
         );
       })
   })
-  // the delete project test fails because I cannot grab replicate the _id created in the first unit test (new)
+  var mostRecentProjectId;
+  test('get list of projects by created timestamp', () => {
+    return request(app)
+      .post('/api/projects/filter')
+      .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
+      .send({
+        options: {
+          sort: {createdAt: -1}
+        }
+      })
+      .expect(res => {
+        mostRecentProjectId = res.body.docs[0]["_id"];
+        expect(res.body.docs[0]).toMatchObject(
+          {
+            name: 'Google'
+          }
+
+        );
+      })
+  })
+
   test('delete project', () => {
+    console.log(mostRecentProjectId)
     return request(app)
       .post('/api/projects/delete/one')
       .set('Content-Type', 'application/json')
       .set('cookie', loginCookie)
       .send({
-        id: newId.str
+        id: mostRecentProjectId
       })
       .expect(res => {
-        expect(res).toEqual('Project successfully deleted');
+        expect(res.body.message).toEqual('Project successfully deleted');
       })
   })
 })
