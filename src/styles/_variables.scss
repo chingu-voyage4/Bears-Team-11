@@ -80,7 +80,7 @@ LOGIN / REGISTER COMPONENTS
   margin: auto;
   z-index: 5;
   width: 350px;
-  border: 3px solid $theme-blue;
-  // box-shadow: 12px 12px 2px $light-blue;
+  border: 2px solid $theme-blue;
+  box-shadow: $box-shadow;
   background-color: white;
 }

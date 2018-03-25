@@ -3,8 +3,6 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var isAuthenticated = require('../utils/authentication');
 
-router.use(bodyParser.json());
-
 module.exports = function (passport) {
 
 	/* GET login page. */

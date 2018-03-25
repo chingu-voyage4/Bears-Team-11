@@ -1,6 +1,7 @@
 const request = require('supertest');  // https://github.com/visionmedia/supertest
 const app = require('../api/server');
 
+process.env.NODE_ENV = 'test';
 // --------------------- 
 // NEW USER
 // --------------------- 
