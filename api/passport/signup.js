@@ -11,7 +11,7 @@ var bCrypt = require('bcrypt-nodejs');
 module.exports = function(passport){
 
 	passport.use('signup', new LocalStrategy({
-         // by default, local strategy uses username and password, 
+         // by default, local strategy uses email and password, 
             // we should override with email if we want to override it.
             usernameField : 'email',
             passwordField : 'password',
@@ -66,5 +66,4 @@ module.exports = function(passport){
     var createHash = function(password){
         return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
     }
-
 }

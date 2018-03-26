@@ -25,14 +25,6 @@ npm start
 
 Currently using [nodemon](https://github.com/remy/nodemon) to watch and restart server for changes. We are also currently not using babel for trancompilation for the servside code.
 
-## API Calls
-- Base Api Link: `/api/home`
-- Index:  `/`
-- Home:  `/home` ( only if already loged in otherwise redirects to `/`).
-- Login: `/login` (takes email and password params)
-- Signup: `/signup` (takes first name, last name, username, email, and password params)
-- SignOut: `/signout`
-
 ## Testing
 To runs tests use the command `npm test`.
 
@@ -48,3 +40,20 @@ To runs tests use the command `npm test`.
 
 ## Project Bootstrap
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
+## API Calls
+
+| ENDPOINT                       | METHOD        | URL Params      |Returns        |
+| ------------------------------ |:-------------:|:---------------:|:-------------:|
+| /api/home                      | GET           |                 |               |
+| /api/login                     | POST          | email, password |               |
+| /api/signup                    | POST          | firstName, lastName, username, email, password |               |
+| /api/signout                   | GET           |                 |               |
+| /api/forgot                    | POST          | email           |               |
+| /api/reset/:token              | POST          | token, password |               |
+| /api/user/:username            | GET           | username        |               |
+| /api/projects                  | GET           |                 |               |
+| /api/projects/add              | POST          |                 |               |
+| /api/projects/:id              | GET           |id               |               |
+| /api/projects/update/:id       | POST          |id               |               |
+| /api/projects/delete/one/:id   | DELETE        |id               |               |
