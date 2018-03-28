@@ -5,6 +5,10 @@ process.env.NODE_ENV = 'test';
 // --------------------- 
 // NEW USER
 // --------------------- 
+let lemonysnicketloginCookie;
+let loginCookie;
+
+
 describe('posting new user', function () {
   test('create user', () => {
     return request(app)
@@ -18,6 +22,7 @@ describe('posting new user', function () {
         email: 'lsnicket@gmail.com'
       })
       .expect(res => {
+        lemonysnicketloginCookie = res.header['set-cookie'];
         expect(res.text).toBe('User Registration Succesful');
       });
   });
@@ -26,6 +31,7 @@ describe('posting new user', function () {
     return request(app)
       .post('/api/user/delete')
       .set('Content-Type', 'application/json')
+      .set('cookie', lemonysnicketloginCookie)
       .send({
         username: 'lsnicket',
         password: 'secret'
@@ -63,6 +69,9 @@ describe('deactivate & activate user', function () {
         password: 'secret',
         email: 'peter@gmail.com'
       })
+      .then(res => {
+        loginCookie = res.header['set-cookie'];
+      })
   });
 
   afterAll(() => {
@@ -73,6 +82,7 @@ describe('deactivate & activate user', function () {
     return request(app)
       .post('/api/user/deactivate')
       .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
       .send({
         username: 'prabbit',
         password: 'secret'
@@ -86,6 +96,7 @@ describe('deactivate & activate user', function () {
     return request(app)
       .post('/api/user/activate')
       .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
       .send({
         username: 'prabbit',
         password: 'secret'

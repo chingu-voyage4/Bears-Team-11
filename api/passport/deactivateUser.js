@@ -18,29 +18,23 @@ module.exports = function(passport){
         // Request is automatically passed to the passport 
         // We must call done which is like the response to the passport
         function(req, username, password, done) { 
-            // check in mongo if a user with username exists or not
-            User.findOneAndUpdate({ 'username' :  username }, {'status': false}, 
-                function(err, user) {
-                    // In case of any error, return using the done method
-                    if (err)
-                        return done(err);
-                    // Username does not exist, log the error and redirect back
-                    if (!user){
-                        console.log(username + ' not found');
-                        return done(null, false, { message: username + ' not found' });                 
-                    }
-                    // User exists but wrong password, log the error 
-                    if (!isValidPassword(user, password)){
-                        console.log('Invalid Password');
-                        return done(null, false, { message: 'Invalid Password' }); 
-                    }
-                    // Username and password both match, return user from done method
-                    // which will be treated like success
-                    console.log('Deactivating user: ', user.username);
-                    return done(null, user, { user: user, message: 'Successfully deactivated user' });
+            // check for username and password, before doing FindOneAndUpdate() callback
+            User.findOne({ 'username' :  username }, function (err, user) {
+                // In case of any error, return using the done method
+                if (err)
+                    return done(err);
+                // Username does not exist, log the error and redirect back
+                if (!user) {
+                    console.log(user + ' not found');
+                    return done(null, false, { message: user + ' not found' });
                 }
-            );
-
+                // User exists but wrong password, log the error 
+                if (!isValidPassword(user, password)) {
+                    console.log('Invalid Password');
+                    return done(null, false, { message: 'Invalid Password' });
+                }
+                return done(null, user);
+            })
         })
     );
 

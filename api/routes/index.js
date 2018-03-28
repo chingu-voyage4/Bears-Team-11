@@ -26,30 +26,46 @@ module.exports = function (passport) {
 	});
 
 	/* POST deactivate User */
-	router.post('/user/deactivate', function (req, res, next) {
+	router.post('/user/deactivate', function (req, res) {
 		passport.authenticate('deactivateUser', function (err, user, info) {
-			if (err) { return next(err); }
+			if (err) { return res.send(err); }
 			if (!user) { return res.send(info.message); }
-			return res.send(info);
-		})(req, res, next);
+			if (user) {
+				User.findOneAndUpdate({ 'username': username }, { 'status': false }, function (err, user) {
+					if (err) { return res.send(err); }
+					console.log('Deactivating user: ', user.username);
+					return res.send({ user: user, message: 'Successfully deactivated user' });
+				});
+			}
+		});
 	});
 
 	/* POST re-activate User */
-	router.post('/user/activate', function (req, res, next) {
-		passport.authenticate('activateUser', function (err, user, info) {
-			if (err) { return next(err); }
-			if (!user) { return res.send(info.message); }
-			return res.send(info);
-		})(req, res, next);
+	router.post('/user/activate', isAuthenticated, function (req, res) {
+		User.findOneAndUpdate({ 'username': req.user.username }, { 'status': true },
+			function (err, user) {
+				// In case of any error, return using the done method
+				if (err) { return res.send(err); }
+				console.log('Activating user: ', user.username);
+				return res.send({ user: user, message: 'Successfully re-activated user' });
+			}
+		);
 	});
 
 	/* POST Delete User */
 	router.post('/user/delete', function (req, res, next) {
 		passport.authenticate('deleteUser', function (err, user, info) {
-			if (err) { return next(err); }
-			if (!user) { return res.send(info.message); }
-			return res.send(info.message);
-		})(req, res, next);
+			if (err) { return res.send(err); }
+			if (!user) {
+				return res.send(info.message);
+			}
+			console.log('delete user is ' + user)
+			User.findOneAndRemove({ 'username': user.username }, function (err, user) {
+				if (err) { return res.send(err); }
+				console.log('Deleting user: ', user.username);
+				return res.send({ message: 'Successfully deleted user' });
+			});
+		});
 	});
 
 	/* Handle Login POST */
