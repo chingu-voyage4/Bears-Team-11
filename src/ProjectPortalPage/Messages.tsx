@@ -4,7 +4,7 @@ import Message from './Message';
 class Messages extends React.PureComponent<{}, {}> {
   render() {
     return (
-      <div>
+      <div className="messages">
         <ul>
           <li>
             <Message />

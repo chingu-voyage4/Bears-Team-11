@@ -5,7 +5,9 @@ class Carousel extends React.PureComponent<{}, {}> {
   render() {
     return (
       <React.Fragment>
-        <a href="">Upload new document</a>
+        <a className="upload-link" href="">
+          upload new document
+        </a>
         <Revisions />
       </React.Fragment>
     );

@@ -6,7 +6,11 @@ class Chat extends React.PureComponent<{}, {}> {
     return (
       <React.Fragment>
         <Messages />
-        <input type="text" placeholder="Type something..." />
+        <input
+          className="message-input"
+          type="text"
+          placeholder="Type something..."
+        />
       </React.Fragment>
     );
   }

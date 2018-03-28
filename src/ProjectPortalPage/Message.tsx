@@ -3,15 +3,20 @@ import * as React from 'react';
 class Message extends React.PureComponent<{}, {}> {
   render() {
     return (
-      <div>
-        <div className="photo">
-          <img src="https://placeimg.com/50/50/people" alt="" />
-        </div>
-        <div>
-          <h3>
-            lilgangwolf <span>8:06am</span>
+      <div className="message">
+        <img
+          className="message__thumbnail"
+          src="https://placeimg.com/50/50/people"
+          alt=""
+        />
+        <div className="message__body">
+          <h3 className="message__sender">
+            lilgangwolf <span className="message__time">8:06am</span>
           </h3>
-          <p>message here</p>
+          <p className="message__text">
+            The updated mockup has been uploaded. Please give me any feedback
+            within the portals editor.
+          </p>
         </div>
       </div>
     );
