@@ -49,7 +49,7 @@ REVISIONS
 }
 
 .revision__author {
-  color: #d1d1d1;
+  color: $light-grey;
   font-size: 14px;
   margin: 5px 0 20px 0;
 }
@@ -99,6 +99,7 @@ ABOUT
   width: 1080px / 2 - 10px;
   display: inline-block;
   padding: 0 20px 0 0;
+  color: $dark-grey;
 }
 
 .about__description {
@@ -148,6 +149,7 @@ MESSAGES
   font-size: 16px;
   padding: 5px;
   outline: none;
+  color: $dark-grey;
 }
 
 /*
@@ -159,6 +161,7 @@ MESSAGE
   display: flex;
   align-items: center;
   padding: 5px 0;
+  color: $dark-grey;
 }
 
 .message__sender {
