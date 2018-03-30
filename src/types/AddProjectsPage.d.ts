@@ -1,3 +1,5 @@
+import { User } from './User.d';
+
 export interface State {
   name?: string;
   description?: string;
@@ -16,8 +18,9 @@ export interface State {
   creator?: string;
 }
 
-export interface Props { }
+export interface Props {}
 
 export interface PassedProps {
+  user: User;
   creator?: string;
- }
+}
