@@ -4,7 +4,7 @@ import Revision from './Revision';
 class Revisions extends React.PureComponent<{}, {}> {
   render() {
     return (
-      <div>
+      <div className="revisions-list">
         <Revision />
         <Revision />
         <Revision />

@@ -7,6 +7,7 @@ PROJECT PORTAL
 .project-portal__container {
   width: 1080px;
   margin: 0 auto;
+  font: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
 }
 
 .project-portal__info {
@@ -20,6 +21,7 @@ CAROUSEL
 */
 .project-portal__carousel {
   background: #2b353d;
+  width: 100%;
 }
 
 /*
@@ -28,9 +30,15 @@ REVISIONS
 ==========================
 */
 
+.revisions-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .revision {
   display: inline-block;
-  padding: 50px;
+  padding: 50px 75px;
 }
 
 .revision__title {
