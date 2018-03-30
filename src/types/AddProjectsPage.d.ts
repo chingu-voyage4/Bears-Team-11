@@ -10,11 +10,14 @@ export interface State {
   status?: string;
   category?: string;
   tags?: string[];
-  images?: string[];
+  images?: any;
   contact?: string;
   createdAt?: string;
   creator?: string;
   categoryPlaceholder: string;
+  tagPlaceholder: string | string[];
+  preview?: any;
+  files?: any;
 }
 
 export interface Props {}
