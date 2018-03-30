@@ -7,7 +7,8 @@ PROJECT PORTAL
 .project-portal__container {
   width: 1080px;
   margin: 0 auto;
-  font: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
+    sans-serif;
 }
 
 .project-portal__info {
@@ -44,10 +45,13 @@ REVISIONS
 
 .revision__title {
   color: #ffffff;
+  margin-bottom: 0;
 }
 
 .revision__author {
   color: #d1d1d1;
+  font-size: 14px;
+  margin: 5px 0 20px 0;
 }
 
 .revision__version {
@@ -94,6 +98,11 @@ ABOUT
 .project-portal__about {
   width: 1080px / 2 - 10px;
   display: inline-block;
+  padding: 0 20px 0 0;
+}
+
+.about__description {
+  font-size: 14px;
 }
 
 /*
@@ -136,7 +145,7 @@ MESSAGES
 .message-input {
   width: 100%;
   height: 25px;
-  font-size: 18px;
+  font-size: 16px;
   padding: 5px;
   outline: none;
 }
@@ -154,6 +163,7 @@ MESSAGE
 
 .message__sender {
   margin: 0;
+  font-size: 16px;
 }
 
 .message__thumbnail {
@@ -174,6 +184,7 @@ MESSAGE
 .message__text {
   padding: 5px 0;
   margin: 0;
+  font-size: 14px;
 }
 
 /*
@@ -203,8 +214,6 @@ UPLOAD LINK
 ABOUT
 ==========================
 */
-.about__heading {
-}
 
 .about__body {
   display: flex;
@@ -219,7 +228,14 @@ ABOUT
 }
 
 .about__links li {
-  padding: 0 0 5px 0;
+  padding: 0 0 10px 0;
+  font-size: 14px;
+}
+
+.about__links li a {
+  display: inline-block;
+  margin: 3px 0 0 0;
+  padding: 5px 25px;
 }
 
 .looking-for {
