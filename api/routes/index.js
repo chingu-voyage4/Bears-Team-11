@@ -1,74 +1,71 @@
-var express = require('express');
-var router = express.Router();
-
-var isAuthenticated = function (req, res, next) {
-	// if user is authenticated in the session, call the next() to call the next request handler 
-	// Passport adds this method to request object. A middleware is allowed to add properties to
-	// request and response objects
-	if (req.isAuthenticated()){
-		console.log('You are authrized to go to home page');
-		return next();
-	}
-	    
-	// if the user is not authenticated then redirect him to the login page
-	console.log('You are not authourized');
-	res.redirect('/');
-}
+/* 
+ * SignUp functionality to the user using Local Strategy
+ * First checks if the email or username already regestered in the DB,
+ * Creates an user in the DB with user credentials 
+ * We are hashig password using bcrypt-nodejs to make it secure
+*/
+var LocalStrategy   = require('passport-local').Strategy;
+var User = require('../models/Users');
+var bCrypt = require('bcrypt-nodejs');
 
 module.exports = function(passport){
 
-	/* GET login page. */
-	router.get('/', function(req, res) {
-    	// Display the Login page with any flash message, if any
-		res.send('Welcome to the index page');
-    });
-    
-    /* GET Registration Page */
-	router.get('/signup', function(req, res){
-		res.render('Welcome to the Register page');
-    });
-    
-    // /* Handle Registration POST */
-	// router.post('/signup', passport.authenticate('signup', {
-	// 	successRedirect: '/home',
-	// 	failureRedirect: '/signup',
-	// 	failureFlash : true  
-	// }));
+	passport.use('signup', new LocalStrategy({
+         // by default, local strategy uses username and password, 
+            // we should override with email if we want to override it.
+            usernameField : 'email',
+            passwordField : 'password',
+            // allows us to pass back the entire request to the callback
+            passReqToCallback : true 
+        },
+        function(req, email, password, done) {
 
-	router.post('/signup', function(req, res, next) {
-		passport.authenticate('signup', function(err, user, info) {
-		  if (err) { return next(err); }
-		  if (!user) { return res.send('No user'); }
-		  return res.send('Success');
-		})(req, res, next);
-	  });
+            findOrCreateUser = function(){
+                // find a user in Mongo with provided username and email
+                User.findOne({$or:[{ 'email': email },{'username': req.query.username}]}, function(err, user) {
+                    // In case of any error, return using the done method
+                    if (err){
+                        console.log('Error in SignUp: '+err);
+                        return done(err);
+                    }
+                    // already exists
+                    if (user) {
+                        console.log(user);
+                        console.log('User already exists with this email or username');
+                        return done(null, false);
+                    } else {
+                        // if there is no user with that email
+                        // create the user
+                        var newUser = new User();
 
-	
+                        // set the user's local credentials
+                        newUser.username = req.query.username;
+                        newUser.password = createHash(password);
+                        newUser.email = email;
+                        newUser.firstName = req.query.firstName;
+                        newUser.lastName = req.query.lastName;
 
-	/* Handle Login POST */
-	router.post('/login', passport.authenticate('login', {
-		successRedirect: '/home',
-		failureRedirect: '/',
-		failureFlash : true  
-	}));
+                        // save the user
+                        newUser.save(function(err) {
+                            if (err){
+                                console.log('Error in Saving user: '+err);  
+                                throw err;  
+                            }
+                            console.log('User Registration succesful');    
+                            return done(null, newUser);
+                        });
+                    }
+                });
+            };
+            // Delay the execution of findOrCreateUser and execute the method
+            // in the next tick of the event loop
+            process.nextTick(findOrCreateUser);
+        })
+    );
 
-    /* GET Home Page 
-     * This route is protected and if it is not authenticated,
-     * it will redirects to login page.
-    */
-    router.get('/home', isAuthenticated, function(req, res){
-		res.send('Welcome to the Home');
-	});
+    // Generates hash using bCrypt
+    var createHash = function(password){
+        return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+    }
 
-	/* Handle Logout */
-	router.get('/signout', function(req, res) {
-		req.logout();
-		res.redirect('/');
-	});
-
-	return router;
 }
-
-
-
-
