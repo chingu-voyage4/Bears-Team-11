@@ -22,6 +22,7 @@ CAROUSEL
 .project-portal__carousel {
   background: #2b353d;
   width: 100%;
+  position: relative;
 }
 
 /*
@@ -180,10 +181,21 @@ MESSAGE
 UPLOAD LINK
 ==========================
 */
+.upload-link__container {
+  height: 100px;
+  position: relative;
+}
 
 .upload-link {
+  position: absolute;
+  top: 50px;
+  right: 75px;
   color: #ffffff;
   text-decoration: none;
+}
+
+.upload-link svg {
+  padding: 0 0 0 10px;
 }
 
 /*
