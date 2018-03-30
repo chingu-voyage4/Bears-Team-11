@@ -28,7 +28,8 @@ var ProjectSchema = new Schema({
     category:   {type: String},
     tags:       {type: Array},
     status:     {type: String},
-    upVotes:    {type: Number}
+    upVotes:    {type: Number},
+    modifiedAt: {type: Date,default: Date.now}
 });
 
 // This will creates database named "Projects" in the Database
