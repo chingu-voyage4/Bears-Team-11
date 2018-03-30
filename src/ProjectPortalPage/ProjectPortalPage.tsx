@@ -10,8 +10,10 @@ class ProjectPortalPage extends React.Component<{}, {}> {
     return (
       <div className="project-portal__container">
         <Header />
-        <div className="project-portal__carousel">
-          <Carousel />
+        <div className="project-portal__carousel__background">
+          <div className="project-portal__carousel">
+            <Carousel />
+          </div>
         </div>
         <div className="project-portal__info">
           <div className="project-portal__about">

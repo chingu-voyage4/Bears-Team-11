@@ -5,14 +5,14 @@ PROJECT PORTAL
 ==========================
 */
 .project-portal__container {
-  width: 1080px;
-  margin: 0 auto;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
     sans-serif;
 }
 
 .project-portal__info {
   margin: 0 0 2rem 0;
+  width: 1080px;
+  margin: 0 auto;
 }
 
 /*
@@ -20,9 +20,15 @@ PROJECT PORTAL
 CAROUSEL
 ==========================
 */
-.project-portal__carousel {
+.project-portal__carousel__background {
   background: #2b353d;
   width: 100%;
+}
+
+.project-portal__carousel {
+  background: #2b353d;
+  width: 1080px;
+  margin: 0 auto;
   position: relative;
 }
 
