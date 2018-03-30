@@ -6,7 +6,7 @@ class Carousel extends React.PureComponent<{}, {}> {
     return (
       <React.Fragment>
         <a className="upload-link" href="">
-          upload new document
+          upload new document <i className="fas fa-cloud-upload-alt fa-2x" />
         </a>
         <Revisions />
       </React.Fragment>
