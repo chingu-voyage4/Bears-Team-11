@@ -2,7 +2,14 @@ import * as React from 'react';
 import Header from '../Header';
 import Footer from '../Footer';
 import '../styles/AddProjectsPage.css';
-import { PassedProps, State, Props } from '../types/AddProjectsPage.d';
+import {
+  AddProjectPassedProps,
+  AddProjectState,
+  AddProjectProps
+} from '../types/AddProjectsPage.d';
+import { connect } from 'react-redux';
+import { addProject } from '../actions/projectActions';
+import { Store } from '../types/Redux';
 
 let testTags = [
   { tagName: 'Chrome Extension', numOfProjects: 10 },
@@ -18,8 +25,11 @@ let testTags = [
   { tagName: 'Mobile App', numOfProjects: 20 }
 ];
 
-class AddProjectsPage extends React.Component<PassedProps, State> {
-  constructor(props: Props) {
+class AddProjectsPage extends React.Component<
+  AddProjectPassedProps,
+  AddProjectState
+> {
+  constructor(props: AddProjectProps) {
     super(props);
 
     this.state = {
@@ -512,4 +522,10 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
   }
 }
 
-export default AddProjectsPage;
+function mapStateToProps(state: Store) {
+  return {
+    tags: state.tags,
+    categories: state.categories
+  };
+}
+export default connect(mapStateToProps, { addProject })(AddProjectsPage);

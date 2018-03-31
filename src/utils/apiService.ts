@@ -163,6 +163,22 @@ function deleteProject(name: string): Promise<Project> {
   });
 }
 
+function getTags(): Promise<Array<Project>> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(projects);
+    }, generateRandomDelay());
+  });
+}
+
+function getCategories(): Promise<Array<Project>> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(projects);
+    }, generateRandomDelay());
+  });
+}
+
 /* Service Module */
 var apiService = {
   login,
@@ -171,7 +187,9 @@ var apiService = {
   getProjects,
   addProject,
   updateProject,
-  deleteProject
+  deleteProject,
+  getTags,
+  getCategories
 };
 
 export default apiService;

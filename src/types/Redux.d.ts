@@ -25,6 +25,8 @@ export type ProjectState = Array<Project>;
 export interface Store {
   user: object;
   projects: Array<object>;
+  tags: Array<object>;
+  categories: Array<object>;
 }
 
 export interface TestProps extends Store {

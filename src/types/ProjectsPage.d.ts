@@ -1,5 +1,5 @@
-export interface State {}
+export interface ProjectState {}
 
-export interface Props {}
+export interface ProjectsProps {}
 
 export interface PassedProps {}
