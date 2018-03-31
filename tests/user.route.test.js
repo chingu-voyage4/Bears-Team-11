@@ -22,22 +22,36 @@ describe('posting new user', function () {
         email: 'lsnicket@gmail.com'
       })
       .expect(res => {
+        console.log('res.header = ' + res + ' = ' + res.header['set-cookie']);
         lemonysnicketloginCookie = res.header['set-cookie'];
         expect(res.text).toBe('User Registration Succesful');
       });
   });
 
+  test('log in new user', () => {
+    return request(app)
+      .post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send({
+        password: 'secret',
+        email: 'lsnicket@gmail.com'
+      })
+      .expect(res => {
+        expect(res.text).toBe('Successfully logged in');
+      });
+  });
+
   test('delete user', () => {
+    console.log('lemonysnicketloginCookie ' + lemonysnicketloginCookie);
     return request(app)
       .post('/api/user/delete')
       .set('Content-Type', 'application/json')
-      .set('cookie', lemonysnicketloginCookie)
       .send({
         username: 'lsnicket',
         password: 'secret'
       })
       .expect(res => {
-        expect(res.text).toBe('Successfully deleted user');
+        expect(res.body.message).toBe('Successfully deleted user');
       });
   });
 

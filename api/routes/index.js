@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var isAuthenticated = require('../utils/authentication');
+var User = require('../models/Users');
 
 module.exports = function (passport) {
 
@@ -13,7 +14,7 @@ module.exports = function (passport) {
 
 	/* GET Registration Page */
 	router.get('/signup', function (req, res) {
-		res.render('Welcome to the Register page');
+		
 	});
 
 	/* POST New User */
@@ -26,18 +27,18 @@ module.exports = function (passport) {
 	});
 
 	/* POST deactivate User */
-	router.post('/user/deactivate', function (req, res) {
+	router.post('/user/deactivate', function (req, res, next) {
 		passport.authenticate('deactivateUser', function (err, user, info) {
 			if (err) { return res.send(err); }
 			if (!user) { return res.send(info.message); }
 			if (user) {
-				User.findOneAndUpdate({ 'username': username }, { 'status': false }, function (err, user) {
+				User.findOneAndUpdate({ 'username': user.username }, { 'status': false }, function (err, user) {
 					if (err) { return res.send(err); }
 					console.log('Deactivating user: ', user.username);
 					return res.send({ user: user, message: 'Successfully deactivated user' });
 				});
 			}
-		});
+		})(req, res, next);
 	});
 
 	/* POST re-activate User */
@@ -59,18 +60,19 @@ module.exports = function (passport) {
 			if (!user) {
 				return res.send(info.message);
 			}
-			console.log('delete user is ' + user)
 			User.findOneAndRemove({ 'username': user.username }, function (err, user) {
 				if (err) { return res.send(err); }
 				console.log('Deleting user: ', user.username);
 				return res.send({ message: 'Successfully deleted user' });
 			});
-		});
+		})(req, res, next);
 	});
 
 	/* Handle Login POST */
 	router.post('/login', function (req, res, next) {
+		console.log('loggin in authentication!');
 		passport.authenticate('login', function (err, user, info) {
+			console.log('loggin in hello');
 			if (err) { return next(err); }
 			if (!user) { return res.send(info.message); }
 			req.logIn(user, function (err) {
