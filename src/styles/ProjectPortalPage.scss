@@ -11,7 +11,7 @@ PROJECT PORTAL
 
 .project-portal__info {
   margin: 0 0 2rem 0;
-  width: 1080px;
+  width: 1280px;
   margin: 0 auto;
 }
 
@@ -92,7 +92,7 @@ CHAT
 ==========================
 */
 .project-portal__chat {
-  width: 1080px / 2 - 10px;
+  width: 1280px * 0.4;
   display: inline-block;
 }
 
@@ -102,7 +102,7 @@ ABOUT
 ==========================
 */
 .project-portal__about {
-  width: 1080px / 2 - 10px;
+  width: 1280px * 0.58;
   display: inline-block;
   padding: 0 20px 0 0;
   color: $dark-grey;
