@@ -13,11 +13,6 @@ module.exports = function (passport) {
 		res.send('Welcome to the index page');
 	});
 
-	/* GET Registration Page */
-	router.get('/signup', function (req, res) {
-
-	});
-
 	/* POST New User */
 	router.post('/signup', function (req, res, next) {
 		passport.authenticate('signup', function (err, user, info) {
@@ -92,14 +87,6 @@ module.exports = function (passport) {
 		console.log('logging out!');
 		req.logout()
 		res.send('Successfully Logged Out');
-	});
-
-	/* GET Home Page 
-	 * This route is protected and if it is not authenticated,
-	 * it will redirects to login page.
-	*/
-	router.get('/home', isAuthenticated, function (req, res) {
-		res.send('Welcome to the Home');
 	});
 
 	return router;

@@ -122,6 +122,59 @@ function register(
   });
 }
 
+function deactivate(
+  username: string,
+  password: string
+): Promise<string | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/deactivate';
+
+    var data: object = {
+      body: {
+        username: username,
+        password: password
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.body.message === 'Successfully deactivated user') {
+          resolve(res.body.message);
+        } else {
+          reject(res.text);
+        }
+      });
+  });
+}
+
+function activate(username: string, password: string): Promise<string | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/activate';
+
+    var data: object = {
+      body: {
+        username: username,
+        password: password
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.body.message === 'Successfully re-activated user') {
+          resolve(res.body.message);
+        } else {
+          reject(res.text);
+        }
+      });
+  });
+}
+
 function logout(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/logout';
@@ -134,7 +187,7 @@ function logout(): Promise<boolean> {
       // tslint:disable-next-line
       .then(function(res: any) {
         if (res.text === 'Successfully Logged Out') {
-          resolve(); // what should the result be?
+          resolve(res.text); // what should the result be?
         } else {
           reject(new Error('Could not log out'));
         }
@@ -144,11 +197,7 @@ function logout(): Promise<boolean> {
 
 /* Project */
 function getProjects(): Promise<Array<Project>> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(projects);
-    }, generateRandomDelay());
-  });
+  return new Promise((resolve, reject) => {});
 }
 
 function addProject(project: Project): Promise<Project> {
@@ -244,6 +293,8 @@ function getCategories(): Promise<Array<Project>> {
 var apiService = {
   login,
   register,
+  deactivate,
+  activate,
   logout,
   getProjects,
   addProject,
