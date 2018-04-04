@@ -1,4 +1,4 @@
-@import "_variables.scss";
+@import '_variables.scss';
 
 /*
 ==========================
@@ -7,32 +7,45 @@ GRID
 */
 
 .new-project-container {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: auto;
-    grid-template-areas: ". a a a b b .";
-    grid-gap: 10px;
+  max-width: 1080px;
+  font-family: $font;
+  margin: 0 auto;
+  margin-top: 50px;
+  margin-bottom: 100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: '. a a a b b .';
+  grid-gap: 10px;
 }
 
 .box-1 {
+  width: 85%;
   grid-area: a;
+  margin: 0 auto;
+  padding: 30px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-areas: "c d";
+  grid-template-areas: 'c d';
   border: 1px solid $light-grey;
 }
 
 .box-2 {
+  margin: 0 auto;
+  padding: 30px;
   grid-area: b;
   border: 1px solid $light-grey;
 }
 
 .box-1-a {
+  margin: 0 auto;
   grid-area: c;
 }
 
 .box-1-b {
+  margin: 0 auto;
   grid-area: d;
+  margin-left: 30px;
 }
 
 /*
@@ -40,6 +53,7 @@ GRID
 FORM LABELS
 ==========================
 */
+
 .newProjectSubText {
   display: block;
   font-size: 10px;
@@ -49,9 +63,92 @@ FORM LABELS
   font-weight: 700;
 }
 
-.new-project-input { 
+.new-project-text {
+  font-size: 14px;
+  color: $dark-grey;
+}
+
+/*
+==========================
+INPUT & TEXTAREA
+==========================
+*/
+
+.new-project-input,
+.new-project-textarea {
+  width: 250px;
   height: 25px;
-  color: $light-grey;
+  color: $dark-grey;
   padding: 5px;
   margin-bottom: 20px;
+  border: 1px solid $light-grey;
+}
+
+.new-project-textarea {
+  min-height: 150px;
+  max-width: 250px;
+  min-width: 250px;
+}
+
+/*
+==========================
+DROPDOWNS
+==========================
+*/
+.new-project-dropdown-btn,
+.new-project-category-content {
+  background-color: white;
+  border: 1px solid $light-grey;
+  width: 260px;
+}
+.new-project-dropdown-btn {
+  padding: 10px;
+  color: $dark-grey;
+}
+.new-project-category-content {
+  display: none;
+  position: absolute;
+  box-shadow: $box-shadow;
+  z-index: 1;
+}
+.new-project-dropdown-text {
+  display: block;
+  text-decoration: none;
+  color: $dark-grey;
+  padding: 5px 10px 5px 10px;
+  background-color: white;
+  border: none;
+  width: 100%;
+}
+.new-project-dropdown-text:hover {
+  display: block;
+  text-decoration: none;
+  color: $theme-blue;
+  background-color: $light-blue;
+}
+.new-project-show {
+  display: block;
+}
+
+/*
+==========================
+SCROLLBAR
+==========================
+*/
+.new-project-textarea::-webkit-scrollbar {
+  width: 10px;
+}
+
+.new-project-textarea::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px $light-grey;
+}
+
+.new-project-textarea::-webkit-scrollbar-thumb {
+  background-color: $light-grey;
+  outline: 1px solid $light-blue;
+  border-radius: 5px;
+}
+
+.new-project-textarea::-webkit-scrollbar-thumb:hover {
+  background-color: $theme-blue;
 }
