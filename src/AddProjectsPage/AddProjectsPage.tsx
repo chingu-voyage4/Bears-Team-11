@@ -7,6 +7,7 @@ import { PassedProps, State, Props } from '../types/AddProjectsPage.d';
 class AddProjectsPage extends React.Component<PassedProps, State> {
   constructor(props: Props) {
     super(props);
+
     this.state = {
       name: '',
       description: '',
@@ -21,54 +22,51 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
       tags: [],
       images: [],
       contact: '',
-      creator: ''
+      creator: '',
+      categoryPlaceholder: 'Choose A Category'
     };
   }
 
-  public onFormChange(e: React.FormEvent<HTMLInputElement>): void {
+  toggleCategoryDropdown = (e: React.FormEvent<HTMLButtonElement>): void => {
+    // toggle show/hide of category dropdown
+    e.preventDefault();
+    var doc = document.getElementById('new-project-dropdown')!;
+    doc.classList.toggle('new-project-show');
+  };
+
+  public onFormChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    var { name, value } = e.currentTarget;
+    /*
+     * There is a current bug in typescript that does not correctly identify the string literal
+     * type in a computed property key.
+     * 
+     * ref: https://github.com/Microsoft/TypeScript/issues/15534
+     * ref: https://github.com/Microsoft/TypeScript/issues/13948
+     * ref: https://github.com/Microsoft/TypeScript/pull/21070
+     */
+    if (name === 'category') {
+      // tslint:disable-next-line
+      this.setState({ categoryPlaceholder: value } as any);
+      this.toggleCategoryDropdown(e);
+    } else {
+      this.setState({
+        [name]: value
+        // tslint:disable-next-line
+      } as any);
+    }
+  };
+
+  public onTextAreaFormChange(e: React.FormEvent<HTMLTextAreaElement>): void {
+    var { name, value } = e.currentTarget;
     this.setState({
-      [e.currentTarget.name]: e.currentTarget.value
-    });
+      [name]: value
+      // tslint:disable-next-line
+    } as any);
   }
 
-  public onSubmit(e: React.FormEvent<HTMLButtonElement>): void {
-    const url = 'http://localhost:8080/api/projects/add';
-
-    let bodyData = {
-      name: this.state.name,
-      description: '',
-      dueDate: '',
-      team: [],
-      githubLink: '',
-      mockupLink: '',
-      liveLink: '',
-      lookingFor: [],
-      status: '',
-      category: '',
-      tags: [],
-      images: [],
-      contact: '',
-      creator: ''
-    };
-
-    let data = {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(bodyData)
-    };
-
-    fetch(url, data)
-      /* tslint:disable-next-line */
-      .then(function(res: any) {
-        if (res.status === 409) {
-          alert('User already exists in database');
-        } else if (res.status === 200) {
-          alert('User added to database');
-        } else {
-          alert('Error ' + res.status + ' - ' + res.statusText);
-        }
-      });
-  }
+  handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
+    // this.props.addProject(this.state.email, this.state.password);
+  };
 
   render() {
     return (
@@ -94,12 +92,11 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
               >
                 Description
               </label>
-              <input
-                type="text"
+              <textarea
                 name="description"
                 id="new-project-description"
-                className="new-project-input"
-                onChange={e => this.onFormChange(e)}
+                className="new-project-textarea"
+                onChange={e => this.onTextAreaFormChange(e)}
               />
 
               <label
@@ -109,7 +106,7 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                 Due Date
               </label>
               <input
-                type="text"
+                type="date"
                 name="dueDate"
                 id="new-project-dueDate"
                 className="new-project-input"
@@ -128,7 +125,7 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
               />
             </div>{' '}
             {/* end of box 1 A */}
-            <div className="box-1-B">
+            <div className="box-1-b">
               <label
                 className="newProjectSubText"
                 htmlFor="new-project-githubLink"
@@ -190,7 +187,12 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                   id="new-project-role-p"
                   onChange={e => this.onFormChange(e)}
                 />
-                <label htmlFor="new-project-role-p">Programmer</label>
+                <label
+                  className="new-project-text"
+                  htmlFor="new-project-role-p"
+                >
+                  Programmer
+                </label>
               </div>
 
               <div className="checkbox">
@@ -201,10 +203,98 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
                   id="new-project-role-d"
                   onChange={e => this.onFormChange(e)}
                 />
-                <label htmlFor="new-project-role-d">Designer</label>
+                <label
+                  className="new-project-text"
+                  htmlFor="new-project-role-d"
+                >
+                  Designer
+                </label>
               </div>
             </div>
-          </div>{' '}
+
+            <div className="new-project-category">
+              <label
+                className="newProjectSubText"
+                htmlFor="new-project-dropdown"
+              >
+                Category
+              </label>
+              <button
+                onClick={this.toggleCategoryDropdown}
+                className="new-project-dropdown-btn"
+              >
+                {this.state.categoryPlaceholder}
+              </button>
+              <div
+                id="new-project-dropdown"
+                className="new-project-category-content"
+              >
+                <input
+                  type="button"
+                  name="category"
+                  value="Design Tools"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Developer Tools"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Fun"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="News & Weather"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Producitivity"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Search Tools"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Shopping"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Social & Communication"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+                <input
+                  type="button"
+                  name="category"
+                  value="Sports"
+                  onClick={this.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+              </div>
+            </div>
+          </div>
           {/* end of box 2 */}
         </form>
         <Footer />

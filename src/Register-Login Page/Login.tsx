@@ -4,7 +4,7 @@ import { LoginState } from '../types/Login.d';
 import { LoginProps } from '../types/Redux.d';
 import { connect } from 'react-redux';
 import { login } from '../actions/userActions';
-
+import { GoogleSignIn } from '../GoogleSignIn/index';
 class Login extends React.Component<LoginProps, LoginState> {
   constructor(props: LoginProps) {
     super(props);
@@ -39,17 +39,11 @@ class Login extends React.Component<LoginProps, LoginState> {
       <div className="popupScreen">
         <br />
 
-        <div className="logo">project match</div>
+        <div className="logo-login_register">project match</div>
 
         <br />
 
-        <img
-          className="extAuthIcon"
-          src={require('../assets/google icon.png')}
-        />
-        <button className="extAuthBtn">Sign in with Google</button>
-
-        <br />
+        <GoogleSignIn />
 
         <hr className="horizontalDivider" />
 
@@ -76,8 +70,8 @@ class Login extends React.Component<LoginProps, LoginState> {
           <br />
           <input
             type="submit"
-            className="signUpBtn"
-            value="Submit"
+            className="loginBtn"
+            value="Log In"
             onClick={this.handleSubmit}
           />
         </form>

@@ -9,12 +9,12 @@ declare global {
 
 import * as React from 'react';
 
-class GoogleSignIn extends React.Component {
+export class GoogleSignIn extends React.Component {
   componentDidMount() {
     window.gapi.signin2.render('g-signin2', {
       scope: 'https://www.googleapis.com/auth/plus.login',
-      width: 240,
-      height: 50,
+      width: 325,
+      height: 40,
       longtitle: false,
       theme: 'light',
       onsuccess: this.onSignIn,
@@ -49,11 +49,8 @@ class GoogleSignIn extends React.Component {
 
   render() {
     return (
-      <div>
-        <div id="g-signin2" />;
-        <a href="#" onClick={this.signOut}>
-          Sign out
-        </a>
+      <div className="extAuthBtn">
+        <div id="g-signin2" />
       </div>
     );
   }
