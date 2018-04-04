@@ -23,7 +23,7 @@ module.exports = function (passport) {
 		passport.authenticate('signup', function (err, user, info) {
 			if (err) { return next(err); }
 			if (!user) { return res.send(info.message); }
-			return res.send(info.message);
+			return res.send({user: user, message: info.message});
 		})(req, res, next);
 	});
 

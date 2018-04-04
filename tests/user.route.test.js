@@ -24,7 +24,7 @@ describe('posting new user', function () {
       .expect(res => {
         console.log('res.header = ' + res + ' = ' + res.header['set-cookie']);
         lemonysnicketloginCookie = res.header['set-cookie'];
-        expect(res.text).toBe('User Registration Succesful');
+        expect(res.body.message).toBe('User Registration Succesful');
       });
   });
 

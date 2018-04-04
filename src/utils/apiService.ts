@@ -92,18 +92,33 @@ function register(
   password: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const user = users.filter(currentUser => {
-        return currentUser.email === email;
-      })[0];
-      user
-        ? resolve({
+    const endpoint = 'http://localhost:8080/api/signup';
+
+    var data: object = {
+      body: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.body.message === 'User Registration Succesful') {
+          var user = res.body.user;
+          resolve({
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email
-          })
-        : reject(new Error('Email is already in use.'));
-    }, generateRandomDelay());
+          });
+        } else {
+          reject(res.text);
+        }
+      });
   });
 }
 
