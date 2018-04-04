@@ -10,18 +10,23 @@ var Schema = Mongoose.Schema;
 // Lets create Schema Object
 // The formet will be x = { variables like type and conditionals...} fallowed by ','
 var UserDetailsSchema = new Schema({
-    user:       {type:String},
-    location:   {type: String}, 
-    roles:      {type: Array}, //?
-    descreption:{type: String},
-    techstack:  {type: Array},//?
-    projects:   {type: Array},//?
-    bookmarked: {type: Array},//?
-    links:      {type: Array}
+    username:       {type: String},
+    location:       {type: String}, 
+    roles:          {type: Array}, 
+    description:    {type: String},
+    techstack:      {type: Array},
+    projects:       {type: Array},
+    bookmarked:     {type: Array},
+    linkedInLink:   {type: String},
+    githubLink:     {type: String},
+    portfolioLink:  {type: String},
+    websiteLink:    {type: String},
+    twitterLink:    {type: String},
+    blogLink:       {type: String}
 });
 
 // This will creates database collection named "UserDetails" in the Database
-var UserDetails =  Mongoose.model("Users",UserDetailsSchema);
+var UserDetails =  Mongoose.model("UserDetails",UserDetailsSchema);
 
 // We are making available it to other files
 module.exports = UserDetails;

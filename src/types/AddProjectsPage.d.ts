@@ -1,4 +1,16 @@
-export interface State {
+import { Dispatch } from 'react-redux';
+import { Project } from './Projects.d';
+
+// Action
+export interface Action {
+  type: string;
+}
+
+export interface ProjectAction extends Action {
+  data: Project;
+}
+
+export interface AddProjectState {
   name?: string;
   description?: string;
   dueDate?: string;
@@ -10,15 +22,16 @@ export interface State {
   status?: string;
   category?: string;
   tags?: string[];
-  images?: string[];
+  images?: any;
   contact?: string;
   createdAt?: string;
   creator?: string;
   categoryPlaceholder: string;
+  tagPlaceholder: string | string[];
+  preview?: any;
+  files?: any;
 }
-
-export interface Props {}
-
-export interface PassedProps {
-  creator?: string;
+export interface AddProjectPassedProps {
+  projects: Array<Project>;
+  addProject: (project: Project) => (dispatch: Dispatch<ProjectAction>) => void;
 }
