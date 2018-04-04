@@ -31,6 +31,7 @@ class Login extends React.Component<LoginProps, LoginState> {
   };
 
   handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
     this.props.login(this.state.email, this.state.password);
   };
 
