@@ -17,13 +17,9 @@ module.exports = function (passport) {
         // Request is automatically passed to the passport 
         // We must call done which is like the response to the passport
         function (req, email, password, done) {
-            console.log('loggin in outer function');
             // check in mongo if a user with email exists or not
             loginUser = function () {
-                console.log('loggin before findone');
-                console.log(email);
                 User.findOne({ 'email': email }, function (err, user) {
-                    console.log('loggin in inside loginuser function');
                     // In case of any error, return using the done method
                     if (err)
                         return done(err);
@@ -39,6 +35,7 @@ module.exports = function (passport) {
                     }
                     // User and password both match, return user from done method
                     // which will be treated like success
+                    
                     console.log('Successfully logged in', user.email);
                     return done(null, user, { message: 'Successfully logged in' });
                 });

@@ -59,9 +59,9 @@ function login(email: string, password: string): Promise<User | Error> {
       // tslint:disable-next-line
       .then(function(res: any) {
         if (res.text === 'Successfully logged in') {
-          resolve(); // what should the result be?
+          resolve(res.text); // what should the result be?
         } else {
-          reject(new Error('Wrong username and/or password.'));
+          reject(res.text);
         }
       });
   });
