@@ -5,6 +5,10 @@ process.env.NODE_ENV = 'test';
 // --------------------- 
 // NEW USER
 // --------------------- 
+let lemonysnicketloginCookie;
+let loginCookie;
+
+
 describe('posting new user', function () {
   test('create user', () => {
     return request(app)
@@ -18,11 +22,27 @@ describe('posting new user', function () {
         email: 'lsnicket@gmail.com'
       })
       .expect(res => {
+        console.log('res.header = ' + res + ' = ' + res.header['set-cookie']);
+        lemonysnicketloginCookie = res.header['set-cookie'];
         expect(res.text).toBe('User Registration Succesful');
       });
   });
 
+  test('log in new user', () => {
+    return request(app)
+      .post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send({
+        password: 'secret',
+        email: 'lsnicket@gmail.com'
+      })
+      .expect(res => {
+        expect(res.text).toBe('Successfully logged in');
+      });
+  });
+
   test('delete user', () => {
+    console.log('lemonysnicketloginCookie ' + lemonysnicketloginCookie);
     return request(app)
       .post('/api/user/delete')
       .set('Content-Type', 'application/json')
@@ -31,7 +51,7 @@ describe('posting new user', function () {
         password: 'secret'
       })
       .expect(res => {
-        expect(res.text).toBe('Successfully deleted user');
+        expect(res.body.message).toBe('Successfully deleted user');
       });
   });
 
@@ -63,6 +83,9 @@ describe('deactivate & activate user', function () {
         password: 'secret',
         email: 'peter@gmail.com'
       })
+      .then(res => {
+        loginCookie = res.header['set-cookie'];
+      })
   });
 
   afterAll(() => {
@@ -73,6 +96,7 @@ describe('deactivate & activate user', function () {
     return request(app)
       .post('/api/user/deactivate')
       .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
       .send({
         username: 'prabbit',
         password: 'secret'
@@ -86,6 +110,7 @@ describe('deactivate & activate user', function () {
     return request(app)
       .post('/api/user/activate')
       .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
       .send({
         username: 'prabbit',
         password: 'secret'

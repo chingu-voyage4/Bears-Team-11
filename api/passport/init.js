@@ -8,9 +8,7 @@
 var login = require('./login');
 var signup = require('./signup');
 var deactivateUser = require('./deactivateUser');
-var activateUser = require('./activateUser');
 var deleteUser = require('./deleteUser');
-var addProject = require('./addProject');
 var User = require('../models/Users');
 
 module.exports = function(passport){
@@ -40,9 +38,8 @@ module.exports = function(passport){
     signup(passport);
     login(passport);
     deactivateUser(passport);
-    activateUser(passport);
     deleteUser(passport);
-    addProject(passport);
+
     //TODO: Reset Password and Change Password
 
 }
