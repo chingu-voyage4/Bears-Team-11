@@ -58,8 +58,26 @@ function login(email: string, password: string): Promise<User | Error> {
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
-        if (res.text === 'Successfully logged in') {
-          resolve(res.text); // what should the result be?
+        if (res.body.message === 'Successfully logged in') {
+          var user = res.body.user;
+          var userDetails = res.body.userDetails;
+          resolve({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
         } else {
           reject(res.text);
         }
