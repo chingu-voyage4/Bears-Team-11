@@ -11,6 +11,7 @@ var ProjectSchema = new Schema({
     mockupLink: {type: String},
     liveLink:   {type: String},
     image:      {type: Array}, 
+    mockups:    {type: Array}, // stores _Id for each mockup image
     team:       {type: Array},
     description:{type: String},
     contact:    {type: String},

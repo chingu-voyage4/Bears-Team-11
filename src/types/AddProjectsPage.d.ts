@@ -31,11 +31,7 @@ export interface AddProjectState {
   preview?: any;
   files?: any;
 }
-
-export interface AddProjectProps {
-  getProjects: () => (dispatch: Dispatch<ProjectAction>) => void;
-}
-
 export interface AddProjectPassedProps {
-  getProjects: () => (dispatch: Dispatch<ProjectAction>) => void;
+  projects: Array<Project>;
+  addProject: (project: Project) => (dispatch: Dispatch<ProjectAction>) => void;
 }

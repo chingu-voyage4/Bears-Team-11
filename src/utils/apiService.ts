@@ -37,21 +37,33 @@ var projects: Array<Project> = [
   }
 ];
 
+var headers: {
+  'content-type': 'application/json';
+};
+
 /* User */
 function login(email: string, password: string): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const user = users.filter(currentUser => {
-        return currentUser.email === email && currentUser.password === password;
-      })[0];
-      user
-        ? resolve({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email
-          })
-        : reject(new Error('Wrong username and/or password.'));
-    }, generateRandomDelay());
+    const endpoint = 'http://localhost:8080/api/login';
+
+    var data: object = {
+      body: {
+        email: email,
+        password: password
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.text === 'Successfully logged in') {
+          resolve(); // what should the result be?
+        } else {
+          reject(new Error('Wrong username and/or password.'));
+        }
+      });
   });
 }
 
@@ -79,9 +91,21 @@ function register(
 
 function logout(): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(true);
-    }, generateRandomDelay());
+    const endpoint = 'http://localhost:8080/api/logout';
+
+    var data: object = {
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.text === 'Successfully Logged Out') {
+          resolve(); // what should the result be?
+        } else {
+          reject(new Error('Could not log out'));
+        }
+      });
   });
 }
 
@@ -165,17 +189,21 @@ function deleteProject(name: string): Promise<Project> {
 
 function getTags(): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(projects);
-    }, generateRandomDelay());
+    // ajax call
+    // fetch api endpoint
+    // get tags
+    // if successfull call, then resolve. gets passed to action.
+    // if error, then reject
   });
 }
 
 function getCategories(): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(projects);
-    }, generateRandomDelay());
+    // ajax call
+    // fetch api endpoint
+    // get tags
+    // if successfull call, then resolve. gets passed to action.
+    // if error, then reject
   });
 }
 

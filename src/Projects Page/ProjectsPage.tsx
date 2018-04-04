@@ -5,17 +5,13 @@ import Projects from '../Projects';
 import ProjectsFilter from './ProjectsFilter';
 import '../styles/ProjectsPage.css';
 import '../styles/Project.css';
-import {
-  PassedProps,
-  ProjectState,
-  ProjectsProps
-} from '../types/ProjectsPage.d';
+import { PassedProps, ProjectState } from '../types/ProjectsPage.d';
 import { Store } from '../types/Redux';
 import { connect } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
 
 class ProjectsPage extends React.Component<PassedProps, ProjectState> {
-  constructor(props: ProjectsProps) {
+  constructor(props: PassedProps) {
     super(props);
     this.state = {
       searchTerm: ''

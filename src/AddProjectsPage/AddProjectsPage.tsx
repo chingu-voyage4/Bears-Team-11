@@ -4,8 +4,7 @@ import Footer from '../Footer';
 import '../styles/AddProjectsPage.css';
 import {
   AddProjectPassedProps,
-  AddProjectState,
-  AddProjectProps
+  AddProjectState
 } from '../types/AddProjectsPage.d';
 import { connect } from 'react-redux';
 import { addProject } from '../actions/projectActions';
@@ -29,7 +28,7 @@ class AddProjectsPage extends React.Component<
   AddProjectPassedProps,
   AddProjectState
 > {
-  constructor(props: AddProjectProps) {
+  constructor(props: AddProjectPassedProps) {
     super(props);
 
     this.state = {
@@ -107,7 +106,7 @@ class AddProjectsPage extends React.Component<
   }
 
   public handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
-    // this.props.addProject(this.state.email, this.state.password);
+    this.props.addProject({});
   };
 
   public handleImageText = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -524,8 +523,9 @@ class AddProjectsPage extends React.Component<
 
 function mapStateToProps(state: Store) {
   return {
-    tags: state.tags,
-    categories: state.categories
+    // tags: state.tags,
+    // categories: state.categories,
+    // team: state.team
   };
 }
 export default connect(mapStateToProps, { addProject })(AddProjectsPage);

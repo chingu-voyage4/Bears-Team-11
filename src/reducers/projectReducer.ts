@@ -8,6 +8,7 @@ import {
 } from '../actions/actionTypes';
 import { ProjectState, ProjectAction } from '../types/Redux';
 
+// watch out for references when copying state
 function projectReducer(
   state: ProjectState = [],
   action: ProjectAction
