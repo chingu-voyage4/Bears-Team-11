@@ -44,7 +44,7 @@ describe('CRUD project', function () {
         mockupLink: 'www.google.com',
         liveLink: 'www.google.com',
         lookingFor: ['programmer'],
-        status: 'completed',
+        status: true,
         category: 'Productivity Tool',
         tags: ['search'],
         images: [''],
@@ -57,10 +57,10 @@ describe('CRUD project', function () {
   })
   test('get project', () => {
     return request(app)
-      .get('/api/projects/5ab47860b2c84b65d5c4b017')
+      .get('/api/projects/5ac57429d5ddfb8d0c425952')
       .expect(res => {
         expect(res.body).toMatchObject({
-          _id: '5ab47860b2c84b65d5c4b017',
+          _id: '5ac57429d5ddfb8d0c425952',
           name: 'Google Labs'
         });
       })
@@ -72,14 +72,14 @@ describe('CRUD project', function () {
       .set('Content-Type', 'application/json')
       .set('cookie', loginCookie)
       .send({
-        id: '5ab47860b2c84b65d5c4b017',
+        id: '5ac57429d5ddfb8d0c425952',
         updateKey: 'name',
         updateObject: 'Momentum Dash Chingu Clone'
       })
       .expect(res => {
         expect(res.body).toMatchObject(
           {
-            _id: '5ab47860b2c84b65d5c4b017',
+            _id: '5ac57429d5ddfb8d0c425952',
             name: 'Momentum Dash Chingu Clone'
           }
         );
@@ -91,14 +91,14 @@ describe('CRUD project', function () {
       .set('Content-Type', 'application/json')
       .set('cookie', loginCookie)
       .send({
-        id: '5ab47860b2c84b65d5c4b017',
+        id: '5ac57429d5ddfb8d0c425952',
         updateKey: 'name',
         updateObject: 'Google Labs'
       })
       .expect(res => {
         expect(res.body).toMatchObject(
           {
-            _id: '5ab47860b2c84b65d5c4b017',
+            _id: '5ac57429d5ddfb8d0c425952',
             name: 'Google Labs'
           }
         );
@@ -116,6 +116,7 @@ describe('CRUD project', function () {
         }
       })
       .expect(res => {
+        // res.body.docs[0]
         mostRecentProjectId = res.body.docs[0]["_id"];
         expect(res.body.docs[0]).toMatchObject(
           {

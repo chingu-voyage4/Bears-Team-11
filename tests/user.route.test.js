@@ -175,38 +175,4 @@ describe('login & logout user', function () {
   });
 });
 
-// --------------------- 
-// HOME PAGE  
-// --------------------- 
-describe('get home page', function () {
-  let loginCookie;
-
-  beforeAll(() => {
-    return request(app)
-      .post('/api/login')
-      .set('Content-Type', 'application/json')
-      .send({
-        password: 'secret',
-        email: 'peter@gmail.com'
-      })
-      .then(res => {
-        loginCookie = res.header['set-cookie'];
-      })
-  });
-
-  afterAll(() => {
-    return request(app).get('/api/logout')
-  });
-
-
-  test('get home page', () => {
-    return request(app)
-      .get('/api/home')
-      .set('cookie', loginCookie)
-      .expect(res => {
-        expect(res.text).toBe('Welcome to the Home');
-      });
-  });
-});
-
 

@@ -6,14 +6,14 @@ function generateRandomDelay(): number {
 }
 
 /* Mock Objects */
-var users: Array<User> = [
-  {
-    firstName: 'Gorden',
-    lastName: 'Ramsay',
-    email: 'gramsy@gmail.com',
-    password: 'ilovetoocook'
-  }
-];
+// var users: Array<User> = [
+//   {
+//     firstName: 'Gorden',
+//     lastName: 'Ramsay',
+//     email: 'gramsy@gmail.com',
+//     password: 'ilovetoocook'
+//   }
+// ];
 
 var projects: Array<Project> = [
   {
@@ -197,27 +197,66 @@ function logout(): Promise<boolean> {
 
 /* Project */
 function getProjects(): Promise<Array<Project>> {
-  return new Promise((resolve, reject) => {});
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/projects';
+
+    var data: object = {
+      body: {
+        options: {
+          select: { status: true }, // returns active projects
+          sort: { createdAt: -1 } // returns by newest
+        }
+      },
+      headers: headers,
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.body.message === 'Succesfully retrieved projects') {
+          resolve(res.body.projects);
+        } else {
+          reject(res.text);
+        }
+      });
+  });
 }
 
 function addProject(project: Project): Promise<Project> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var projectExists;
+    const endpoint = 'http://localhost:8080/api/projects/add';
 
-      projects.forEach(currentProject => {
-        if (currentProject.name === project.name) {
-          projectExists = true;
+    var data: object = {
+      body: {
+        name: project.name,
+        description: project.description,
+        dueDate: project.dueDate,
+        team: project.team,
+        githubLink: project.githubLink,
+        mockupLink: project.mockupLink,
+        liveLink: project.liveLink,
+        lookingFor: project.lookingFor,
+        status: project.status,
+        category: project.category,
+        tags: project.tags,
+        images: project.images,
+        contact: project.contact,
+        creator: project.creator
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.body.message === 'New project saved successfully') {
+          resolve(res.body.newProject);
+        } else {
+          reject(res.text);
         }
       });
-
-      if (!projectExists) {
-        projects.push(project);
-        resolve(project);
-      } else {
-        reject(new Error('Project already exists.'));
-      }
-    }, generateRandomDelay());
   });
 }
 
