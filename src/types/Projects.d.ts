@@ -1,7 +1,7 @@
 export interface TestProjectObject {
   name?: string;
   creator?: string;
-  images?: string;
+  images?: string[];
   team?: string[];
   description?: string;
   contact?: string;

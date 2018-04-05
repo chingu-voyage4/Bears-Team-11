@@ -19,9 +19,8 @@ var projects: Array<Project> = [
   {
     name: 'Momentum Dash',
     creator: 'lilgangwolf',
-    link: 'https://github.com/chingu-coders/Voyage2-Turtles-11',
-    image: 'https://goo.gl/hBQdUP',
-    teamMembers: ['thorbw', 'eun park', 'miles burke'],
+    images: ['https://goo.gl/hBQdUP'],
+    team: ['thorbw', 'eun park', 'miles burke'],
     description: `TurtleTab is a Google Chrome Extension Built with React. It creates a new homepage 
         which features current Weather, Todo and Notes functionality. It also accesses your browser 
         data to see Bookmarks, enable/disable Apps and Extensions, and see/clear your History.`,

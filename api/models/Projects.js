@@ -10,7 +10,7 @@ var ProjectSchema = new Schema({
     githubLink: {type: String},
     mockupLink: {type: String},
     liveLink:   {type: String},
-    images:      {type: Array}, 
+    images:     {type: Array}, 
     mockups:    {type: Array}, // stores _Id for each mockup image
     team:       {type: Array},
     description:{type: String},
