@@ -1,41 +1,6 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
 
-function generateRandomDelay(): number {
-  return Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-}
-
-/* Mock Objects */
-// var users: Array<User> = [
-//   {
-//     firstName: 'Gorden',
-//     lastName: 'Ramsay',
-//     email: 'gramsy@gmail.com',
-//     password: 'ilovetoocook'
-//   }
-// ];
-
-var projects: Array<Project> = [
-  {
-    name: 'Momentum Dash',
-    creator: 'lilgangwolf',
-    images: ['https://goo.gl/hBQdUP'],
-    team: ['thorbw', 'eun park', 'miles burke'],
-    description: `TurtleTab is a Google Chrome Extension Built with React. It creates a new homepage 
-        which features current Weather, Todo and Notes functionality. It also accesses your browser 
-        data to see Bookmarks, enable/disable Apps and Extensions, and see/clear your History.`,
-    contact: 'lilgangwolf',
-    lookingFor: ['Programmer', 'Designer'],
-    comments: 'None',
-    createdAt: 1519337864764,
-    dueDate: 1519337864764,
-    views: 100,
-    category: 'Productivity Tool',
-    status: true,
-    upVotes: 10
-  }
-];
-
 var headers: {
   'content-type': 'application/json';
 };
@@ -259,10 +224,6 @@ function addProject(project: Project): Promise<Project> {
   });
 }
 
-/*
- * DISCUSSION: projects should probably have and use id as an unique identifier
- * currently name is being used as an unique identifier
- */
 function updateProject(
   name: string,
   update: string,
@@ -293,22 +254,27 @@ function updateProject(
   });
 }
 
-function deleteProject(name: string): Promise<Project> {
+function deleteProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var removeIndex;
+    const endpoint = 'http://localhost:8080/api/projects/delete/one';
 
-      for (var i = 0; i < projects.length; i++) {
-        if (projects[i].name === name) {
-          removeIndex = i;
+    var data: object = {
+      body: {
+        id: id
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.body.message === 'Project successfully deleted') {
+          resolve(res.body.project);
+        } else {
+          reject(res.body.message);
         }
-      }
-      if (removeIndex) {
-        resolve(projects.splice(removeIndex, removeIndex)[0]);
-      } else {
-        reject(new Error('Project does not exist'));
-      }
-    }, generateRandomDelay());
+      });
   });
 }
 

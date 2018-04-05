@@ -84,7 +84,7 @@ router.post('/delete/one', isAuthenticated, function (req, res) {
     if (err || !project) {
       res.send({ message: 'Error in deleting project: ' + err });
     } else {
-      res.send({ message: 'Project successfully deleted' });
+      res.send({ message: 'Project successfully deleted', project: project });
     }
   })
 })

@@ -51,10 +51,10 @@ export function updateProject(
 }
 
 export function deleteProject(
-  name: string
+  id: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.deleteProject(name).then(deletedProject => {
+    return apiService.deleteProject(id).then(deletedProject => {
       return dispatch({
         type: DELETE_PROJECT,
         data: deletedProject
