@@ -29,6 +29,7 @@ function login(email: string, password: string): Promise<User | Error> {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
+            username: user.username,
             location: userDetails.location,
             roles: userDetails.roles,
             description: userDetails.description,
@@ -53,7 +54,8 @@ function register(
   firstName: string,
   lastName: string,
   email: string,
-  password: string
+  password: string,
+  username: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/signup';
@@ -63,7 +65,8 @@ function register(
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: password
+        password: password,
+        username: username
       },
       headers: headers,
       method: 'POST'
@@ -77,7 +80,8 @@ function register(
           resolve({
             firstName: user.firstName,
             lastName: user.lastName,
-            email: user.email
+            email: user.email,
+            username: user.username
           });
         } else {
           reject(res.text);

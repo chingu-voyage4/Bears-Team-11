@@ -33,6 +33,7 @@ export function login(
 }
 
 export function register(
+  username: string,
   firstName: string,
   lastName: string,
   email: string,
@@ -40,7 +41,7 @@ export function register(
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService
-      .register(firstName, lastName, email, password)
+      .register(firstName, lastName, email, username, password)
       .then(user => {
         return dispatch({
           type: REGISTER,
