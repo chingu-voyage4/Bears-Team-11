@@ -3,6 +3,7 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var isAuthenticated = require('../utils/authentication');
 var User = require('../models/Users');
+var UserDetails = require('../models/UserDetails');
 
 module.exports = function (passport) {
 
@@ -14,7 +15,7 @@ module.exports = function (passport) {
 
 	/* GET Registration Page */
 	router.get('/signup', function (req, res) {
-		
+
 	});
 
 	/* POST New User */
@@ -77,7 +78,11 @@ module.exports = function (passport) {
 			if (!user) { return res.send(info.message); }
 			req.logIn(user, function (err) {
 				if (err) { return next(err); }
-				return res.send(info.message);
+				UserDetails.findOne({ 'username': user.username }, function (err, userDetail) {
+					if (err) { return res.send(err); }
+					console.log('Grabbing userDetails for: ', user.username);
+					return res.send({ user: user, userDetail: userDetail, message: info.message });
+				})
 			});
 		})(req, res, next);
 	});

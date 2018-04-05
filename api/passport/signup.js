@@ -7,6 +7,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/Users');
 var bCrypt = require('bcrypt-nodejs');
+var UserDetails = require('../models/UserDetails');
 
 module.exports = function (passport) {
     passport.use('signup', new LocalStrategy({
@@ -42,6 +43,16 @@ module.exports = function (passport) {
                         newUser.firstName = req.body.firstName;
                         newUser.lastName = req.body.lastName;
 
+                        // save newUserDetails
+                        var newUserDetails = new UserDetails({ username: req.body.username });
+                        newUserDetails.save(function(err, userDetail) {
+                            if (err) {
+                                console.log('Error in saving newUserDetails: ' + err);
+                                throw err;
+                            }
+                            console.log('New UserDetails document available')
+                        });
+
                         // save the user
                         newUser.save(function (err) {
                             if (err) {
@@ -51,6 +62,8 @@ module.exports = function (passport) {
                             console.log('User Registration succesful');
                             return done(null, newUser, {message: 'User Registration Succesful'});
                         });
+
+                    
                     }
                 });
 

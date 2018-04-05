@@ -37,7 +37,7 @@ describe('posting new user', function () {
         email: 'lsnicket@gmail.com'
       })
       .expect(res => {
-        expect(res.text).toBe('Successfully logged in');
+        expect(res.body.message).toBe('Successfully logged in');
       });
   });
 
@@ -148,7 +148,7 @@ describe('login & logout user', function () {
         email: 'peter@gmail.com'
       })
       .expect(res => {
-        expect(res.text).toBe('Successfully logged in');
+        expect(res.body.message).toBe('Successfully logged in');
       })
   });
 

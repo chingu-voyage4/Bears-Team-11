@@ -34,10 +34,21 @@ class Login extends React.Component<LoginProps, LoginState> {
     e.preventDefault();
     this.props.login(this.state.email, this.state.password);
   };
+
+  closeWindow = () => {
+    // this.props.visible = false;
+  };
   render() {
     return (
       <div className="popupScreen">
         <br />
+
+        <button
+          className="login-register-exit-window-btn"
+          onClick={this.closeWindow}
+        >
+          X
+        </button>
 
         <div className="logo-login_register">project match</div>
 
