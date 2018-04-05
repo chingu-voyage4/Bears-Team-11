@@ -77,7 +77,7 @@ describe('CRUD project', function () {
         updateObject: 'Momentum Dash Chingu Clone'
       })
       .expect(res => {
-        expect(res.body).toMatchObject(
+        expect(res.body.project).toMatchObject(
           {
             _id: '5ac57429d5ddfb8d0c425952',
             name: 'Momentum Dash Chingu Clone'
@@ -96,7 +96,7 @@ describe('CRUD project', function () {
         updateObject: 'Google Labs'
       })
       .expect(res => {
-        expect(res.body).toMatchObject(
+        expect(res.body.project).toMatchObject(
           {
             _id: '5ac57429d5ddfb8d0c425952',
             name: 'Google Labs'

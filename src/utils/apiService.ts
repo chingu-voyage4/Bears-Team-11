@@ -263,28 +263,33 @@ function addProject(project: Project): Promise<Project> {
  * DISCUSSION: projects should probably have and use id as an unique identifier
  * currently name is being used as an unique identifier
  */
-function updateProject(name: string, update: Project): Promise<Project> {
+function updateProject(
+  name: string,
+  update: string,
+  id: string
+): Promise<Project> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var filteredProjects = projects.filter(currentProject => {
-        return currentProject.name === update.name;
-      });
+    const endpoint = 'http://localhost:8080/api/projects/update';
 
-      if (filteredProjects.length === 0) {
-        reject(new Error('Cannot update a project that does not exist.'));
-      } else {
-        var projectToBeUpdated = filteredProjects[0];
-        var updatedObject = Object.assign(projectToBeUpdated, update);
+    var data: object = {
+      body: {
+        id: id,
+        updateKey: name,
+        updateObject: update
+      },
+      headers: headers,
+      method: 'POST'
+    };
 
-        for (let i = 0; i < projects.length; i++) {
-          if (projects[i].name === update.name) {
-            projects[i] = updatedObject;
-          }
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.body.message === 'Successfully updated project') {
+          resolve(res.body.project);
+        } else {
+          reject(res.text);
         }
-
-        resolve(updatedObject);
-      }
-    }, generateRandomDelay());
+      });
   });
 }
 

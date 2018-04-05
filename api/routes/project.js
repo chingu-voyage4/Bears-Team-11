@@ -44,7 +44,7 @@ router.post('/update', isAuthenticated, function (req, res) {
     if (err || !project) {
       res.send({ message: 'Error in updating project: ' + err });
     } else {
-      res.send(project);
+      res.send({project: project, message: 'Successfully updated project'});
     }
   })
 })
