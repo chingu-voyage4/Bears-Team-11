@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import HeaderContainer from '../HeaderContainer';
 import Footer from '../Footer';
 import Projects from '../Projects';
@@ -58,6 +57,7 @@ class ProjectsPage extends React.Component<PassedProps, ProjectState> {
 
 const mapStateToProps = (state: Store) => {
   return {
+    user: state.user,
     projects: state.projects
   };
 };
@@ -65,14 +65,3 @@ const mapStateToProps = (state: Store) => {
 export default connect(mapStateToProps, {
   getProjects
 })(ProjectsPage);
-
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ProjectsPage);
-function mapStateToProps(state: Store) {
-  return {
-    user: state.user
-  };
-}
-
-export default connect(mapStateToProps)(ProjectsPage);
-

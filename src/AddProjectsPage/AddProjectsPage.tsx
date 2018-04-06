@@ -1,11 +1,7 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import Footer from '../Footer';
 import '../styles/AddProjectsPage.css';
-import { Store } from '../types/Redux';
-import { PassedProps, State } from '../types/AddProjectsPage.d';
 import HeaderContainer from '../HeaderContainer';
-
 import {
   AddProjectPassedProps,
   AddProjectState
@@ -534,5 +530,3 @@ function mapStateToProps(state: Store) {
   };
 }
 export default connect(mapStateToProps, { addProject })(AddProjectsPage);
-
-
