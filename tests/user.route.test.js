@@ -1,107 +1,212 @@
-// need to update these set of tests
-
-const request = require('supertest');
+const request = require('supertest');  // https://github.com/visionmedia/supertest
 const app = require('../api/server');
 
-describe('POST/api/v1/user', function() {
+process.env.NODE_ENV = 'test';
+// --------------------- 
+// NEW USER
+// --------------------- 
+let lemonysnicketloginCookie;
+let loginCookie;
+
+
+describe('posting new user', function () {
   test('create user', () => {
-    request(app)
-      .post('/api/v1/user')
+    return request(app)
+      .post('/api/signup')
+      .set('Content-Type', 'application/json')
       .send({
-        firstName: 'Joe',
-        lastName: 'Smol',
+        firstName: 'Lemony',
+        lastName: 'Snicket',
+        username: 'lsnicket',
         password: 'secret',
-        email: 'joe@gmail.com'
+        email: 'lsnicket@gmail.com'
       })
+      .expect(res => {
+        console.log('res.header = ' + res + ' = ' + res.header['set-cookie']);
+        lemonysnicketloginCookie = res.header['set-cookie'];
+        expect(res.text).toBe('User Registration Succesful');
+      });
+  });
+
+  test('log in new user', () => {
+    return request(app)
+      .post('/api/login')
       .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      .expect(200)
+      .send({
+        password: 'secret',
+        email: 'lsnicket@gmail.com'
+      })
+      .expect(res => {
+        expect(res.body.message).toBe('Successfully logged in');
+      });
+  });
+
+  test('delete user', () => {
+    console.log('lemonysnicketloginCookie ' + lemonysnicketloginCookie);
+    return request(app)
+      .post('/api/user/delete')
+      .set('Content-Type', 'application/json')
+      .send({
+        username: 'lsnicket',
+        password: 'secret'
+      })
+      .expect(res => {
+        expect(res.body.message).toBe('Successfully deleted user');
+      });
+  });
+
+  test('duplicate email should reject new user', () => {
+    return request(app)
+      .post('/api/signup')
+      .set('Content-Type', 'application/json')
+      .send({
+        firstName: 'Peter',
+        lastName: 'Rabbit',
+        username: 'prabbit',
+        password: 'secret',
+        email: 'peter@gmail.com'
+      })
+      .expect(res => {
+        expect(res.text).toBe('User already exists with this email or username');
+      });
+  });
+});
+// --------------------- 
+// DEACTIVATE & REACTIVATE USER
+// --------------------- 
+describe('deactivate & activate user', function () {
+  beforeAll(() => {
+    return request(app)
+      .post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send({
+        password: 'secret',
+        email: 'peter@gmail.com'
+      })
       .then(res => {
-        expect(res.header['set-cookie']).toBeTruthy;
+        loginCookie = res.header['set-cookie'];
+      })
+  });
+
+  afterAll(() => {
+    return request(app).get('/api/logout')
+  });
+
+  test('deactivate user', () => {
+    return request(app)
+      .post('/api/user/deactivate')
+      .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
+      .send({
+        username: 'prabbit',
+        password: 'secret'
+      })
+      .expect(res => {
+        expect(res.body.message).toEqual('Successfully deactivated user');
+      });
+  });
+
+  test('re-activate user', () => {
+    return request(app)
+      .post('/api/user/activate')
+      .set('Content-Type', 'application/json')
+      .set('cookie', loginCookie)
+      .send({
+        username: 'prabbit',
+        password: 'secret'
+      })
+      .expect(res => {
+        expect(res.body.message).toEqual('Successfully re-activated user');
       });
   });
 });
 
-describe('POST/api/v1/user/login', function() {
-  test('login user', () => {
-    request(app)
-      .post('/api/v1/user/login')
-      .send({
-        email: 'blackpanther@wakanda.gov',
-        password: 'shouldbeencrypted'
-      })
+// --------------------- 
+// LOGIN & LOGOUT USER   
+// --------------------- 
+describe('login & logout user', function () {
+
+  test('log in unregistered user', () => {
+    return request(app)
+      .post('/api/login')
       .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      .expect(200)
-      .then(res => {
-        expect(res.header['set-cookie']).toBeTruthy;
+      .send({
+        password: 'testingNonUser',
+        email: 'testingNonUser@gmail.com'
+      })
+      .expect(res => {
+        expect(res.text).toBe('User Not Found with Email');
       });
   });
 
-  test('login user with incorrect password', () => {
-    request(app)
-      .post('/api/v1/user/login')
-      .send({
-        email: 'blackpanther@wakanda.gov',
-        password: 'password'
-      })
+  test('log in existing user', () => {
+    return request(app)
+      .post('/api/login')
       .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      .expect(401);
+      .send({
+        password: 'secret',
+        email: 'peter@gmail.com'
+      })
+      .expect(res => {
+        expect(res.body.message).toBe('Successfully logged in');
+      })
   });
 
-  test('login user with incorrect email', () => {
-    request(app)
-      .post('/api/v1/user/login')
-      .send({
-        email: 'BlackAngus@beef.com',
-        password: 'shouldbeencrypted'
-      })
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      .expect(401);
-  });
-
-  test('login user with incorrect email and password', () => {
-    request(app)
-      .post('/api/v1/user/login')
-      .send({
-        email: 'BlackAngus@beef.com',
-        password: 'password'
-      })
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      .expect(401);
-  });
-});
-
-describe('POST/api/v1/user/logout', function() {
   test('logout user', () => {
-    request(app)
-      .post('/api/v1/user/logout')
-      .expect(200);
-  });
-});
-
-describe('GET/api/v1/user/restricted', function() {
-  test('non-authenticated user', () => {
-    request(app)
-      .get('/api/v1/user/restricted')
-      .expect(401);
-  });
-
-  const agent = request.agent(app);
-
-  test('authenticated user', () => {
-    agent
-      .post('/api/v1/user/login')
-      .send({
-        email: 'blackpanther@wakanda.gov',
-        password: 'shouldbeencrypted'
-      })
+    return request(app)
+      .get('/api/logout')
       .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json');
+      .expect(res => {
+        expect(res.text).toBe('Successfully Logged Out');
+      });
+  })
 
-    agent.get('/api/v1/user/restricted').expect(200);
+  test('log in user with incorrect password', () => {
+    return request(app)
+      .post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send({
+        password: 'wrongpassword',
+        email: 'peter@gmail.com'
+      })
+      .expect(res => {
+        expect(res.text).toBe('Invalid Password');
+      });
   });
 });
+
+// --------------------- 
+// HOME PAGE  
+// --------------------- 
+describe('get home page', function () {
+  let loginCookie;
+
+  beforeAll(() => {
+    return request(app)
+      .post('/api/login')
+      .set('Content-Type', 'application/json')
+      .send({
+        password: 'secret',
+        email: 'peter@gmail.com'
+      })
+      .then(res => {
+        loginCookie = res.header['set-cookie'];
+      })
+  });
+
+  afterAll(() => {
+    return request(app).get('/api/logout')
+  });
+
+
+  test('get home page', () => {
+    return request(app)
+      .get('/api/home')
+      .set('cookie', loginCookie)
+      .expect(res => {
+        expect(res.text).toBe('Welcome to the Home');
+      });
+  });
+});
+
+

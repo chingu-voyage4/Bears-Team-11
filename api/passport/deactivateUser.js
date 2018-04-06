@@ -6,43 +6,42 @@ var User = require('../models/Users');
 var bCrypt = require('bcrypt-nodejs');//? I am using bcrypt-nodejs because i feel it less intuative we can change it if we want 
 
 module.exports = function (passport) {
-    passport.use('login', new LocalStrategy({
+
+    passport.use('deactivateUser', new LocalStrategy({
         // by default, local strategy uses email and password, 
         // we should override with email if we want to override it.
-        usernameField: 'email',
+        usernameField: 'username',
         passwordField: 'password',
         // allows us to pass back the entire request to the callback
         passReqToCallback: true
     },
         // Request is automatically passed to the passport 
         // We must call done which is like the response to the passport
-        function (req, email, password, done) {
-            // check in mongo if a user with email exists or not
-            loginUser = function () {
-                User.findOne({ 'email': email }, function (err, user) {
+        function (req, username, password, done) {
+            findAndVerifyUser = function () {
+                // check for username and password, before doing FindOneAndUpdate() callback
+                User.findOne({ 'username': username }, function (err, user) {
                     // In case of any error, return using the done method
                     if (err)
                         return done(err);
                     // Username does not exist, log the error and redirect back
                     if (!user) {
-                        console.log('User Not Found with Email ' + email);
-                        return done(null, false, { message: 'User Not Found with Email' });
+                        console.log(user + ' not found');
+                        return done(null, false, { message: user + ' not found' });
                     }
                     // User exists but wrong password, log the error 
                     if (!isValidPassword(user, password)) {
                         console.log('Invalid Password');
-                        return done(null, false, { message: 'Invalid Password' }); // redirect back to login page
+                        return done(null, false, { message: 'Invalid Password' });
                     }
-                    // User and password both match, return user from done method
-                    // which will be treated like success
-                    
-                    console.log('Successfully logged in', user.email);
-                    return done(null, user, { message: 'Successfully logged in' });
+                    console.log('User is authorized to deactivate their account');
+                    return done(null, user, {message: 'User is authorized to deactivate their account'});
                 });
             }
-            process.nextTick(loginUser);
+            process.nextTick(findAndVerifyUser);
         })
     );
+
 
     var isValidPassword = function (user, password) {
         return bCrypt.compareSync(password, user.password);

@@ -16,15 +16,21 @@ export interface ProjectAction extends Action {
   data: Project;
 }
 
+export interface CategoryAction extends Action {
+  // data: Category;
+  // make category.d.ts file
+}
+
 // Reducers
 export type UserState = User | {};
 
 export type ProjectState = Array<Project>;
 
-// ReduxTextPage Component
 export interface Store {
-  user: object;
-  projects: Array<object>;
+  user: User;
+  projects: Array<Project>;
+  tags: Array<object>;
+  categories: Array<object>;
 }
 
 export interface TestProps extends Store {
