@@ -1,5 +1,5 @@
 import { User } from './User.d';
 
-export interface LandingPageProps {
+export interface HeaderContainerProps {
   user: User;
 }

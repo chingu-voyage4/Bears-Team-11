@@ -11,10 +11,6 @@ import { Store, State } from '../types/Redux';
 
 class LandingPage extends React.Component<LandingPageProps, State> {
   render() {
-    // let isUserLoggedIn = false;
-    // if (this.props.user.email) {
-    // isUserLoggedIn = true;
-    // }
     return (
       <div>
         <HeaderContainer />

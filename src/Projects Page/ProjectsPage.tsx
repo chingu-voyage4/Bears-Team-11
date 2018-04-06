@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import LoggedInHeader from '../LoggedInHeader';
-import Header from '../Header';
+import HeaderContainer from '../HeaderContainer';
 import Footer from '../Footer';
 import Projects from '../Projects';
 import ProjectsFilter from './ProjectsFilter';
@@ -25,13 +24,9 @@ class ProjectsPage extends React.Component<PassedProps, State> {
   }
 
   render() {
-    let isUserLoggedIn = false;
-    if (this.props.user.email) {
-      isUserLoggedIn = true;
-    }
     return (
       <div>
-        {isUserLoggedIn === true ? <LoggedInHeader /> : <Header />}
+        <HeaderContainer />
         <div className="projects-header-text">Explore Projects</div>
 
         <form className="projects-search-form">

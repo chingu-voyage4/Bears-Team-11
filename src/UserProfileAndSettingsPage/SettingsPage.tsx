@@ -5,8 +5,7 @@ import { PassedProps, State } from '../types/SettingsPage.d';
 import { connect } from 'react-redux';
 import PublicProfile from './PublicProfile';
 import PersonalDetails from './PersonalDetails';
-import LoggedInHeader from '../LoggedInHeader';
-import Header from '../Header';
+import HeaderContainer from '../HeaderContainer';
 import Footer from '../Footer';
 
 class SettingsPage extends React.Component<PassedProps, State> {
@@ -33,13 +32,9 @@ class SettingsPage extends React.Component<PassedProps, State> {
   };
 
   render() {
-    let isUserLoggedIn = false;
-    if (this.props.user.email) {
-      isUserLoggedIn = true;
-    }
     return (
       <div className="settings-container">
-        {isUserLoggedIn === true ? <LoggedInHeader /> : <Header />}
+        <HeaderContainer />
         <div className="settings-menu-div">
           <button className="settings-profile-image">
             <img src={require('../assets/blank image.png')} />
