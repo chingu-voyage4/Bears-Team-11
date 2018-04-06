@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Header from '../Header';
+import HeaderContainer from '../HeaderContainer';
 import Footer from '../Footer';
 import Projects from '../Projects';
 import ProjectsFilter from './ProjectsFilter';
@@ -29,7 +29,7 @@ class ProjectsPage extends React.Component<PassedProps, ProjectState> {
   render() {
     return (
       <div>
-        <Header />
+        <HeaderContainer />
         <div className="projects-header-text">Explore Projects</div>
 
         <form className="projects-search-form">
@@ -57,6 +57,7 @@ class ProjectsPage extends React.Component<PassedProps, ProjectState> {
 
 const mapStateToProps = (state: Store) => {
   return {
+    user: state.user,
     projects: state.projects
   };
 };
@@ -64,5 +65,3 @@ const mapStateToProps = (state: Store) => {
 export default connect(mapStateToProps, {
   getProjects
 })(ProjectsPage);
-
-// export default ProjectsPage;
