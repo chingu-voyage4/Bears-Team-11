@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import LoggedInHeader from '../LoggedInHeader';
-import Header from '../Header';
 import Footer from '../Footer';
 import '../styles/AddProjectsPage.css';
 import { Store } from '../types/Redux';
 import { PassedProps, State } from '../types/AddProjectsPage.d';
+import HeaderContainer from '../HeaderContainer';
 
 class AddProjectsPage extends React.Component<PassedProps, State> {
   constructor(props: PassedProps) {
@@ -74,13 +73,9 @@ class AddProjectsPage extends React.Component<PassedProps, State> {
   }
 
   render() {
-    let isUserLoggedIn = false;
-    if (this.props.user.email) {
-      isUserLoggedIn = true;
-    }
     return (
       <div>
-        {isUserLoggedIn === true ? <LoggedInHeader /> : <Header />}
+        <HeaderContainer />
         <form className="new-project-container">
           <div className="box-1">
             <div className="box-1-a">
