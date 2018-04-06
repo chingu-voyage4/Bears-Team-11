@@ -60,7 +60,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             name="firstName"
             required={true}
             className="nameDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <label className="form-label">Last Name</label>
@@ -70,7 +70,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             name="lastName"
             required={true}
             className="nameDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
@@ -82,7 +82,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             name="username"
             required={true}
             className="usernameDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
@@ -107,7 +107,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             name="password"
             required={true}
             className="passwordDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
