@@ -2,10 +2,13 @@ import {
   GET_PROJECTS,
   ADD_PROJECT,
   UPDATE_PROJECT,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  GET_CATEGORIES,
+  GET_TAGS
 } from '../actions/actionTypes';
 import { ProjectState, ProjectAction } from '../types/Redux';
 
+// watch out for references when copying state
 function projectReducer(
   state: ProjectState = [],
   action: ProjectAction
@@ -36,6 +39,12 @@ function projectReducer(
       return newState;
     default:
       return state;
+    case GET_TAGS:
+      newState.push(action.data);
+      return newState;
+    case GET_CATEGORIES:
+      newState.push(action.data);
+      return newState;
   }
 }
 export default projectReducer;

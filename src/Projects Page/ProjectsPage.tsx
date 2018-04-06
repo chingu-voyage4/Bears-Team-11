@@ -6,10 +6,12 @@ import Projects from '../Projects';
 import ProjectsFilter from './ProjectsFilter';
 import '../styles/ProjectsPage.css';
 import '../styles/Project.css';
-import { PassedProps, State } from '../types/ProjectsPage.d';
+import { PassedProps, ProjectState } from '../types/ProjectsPage.d';
 import { Store } from '../types/Redux';
-// import { connect } from 'react-redux';
-class ProjectsPage extends React.Component<PassedProps, State> {
+import { connect } from 'react-redux';
+import { getProjects } from '../actions/projectActions';
+
+class ProjectsPage extends React.Component<PassedProps, ProjectState> {
   constructor(props: PassedProps) {
     super(props);
     this.state = {
@@ -18,15 +20,17 @@ class ProjectsPage extends React.Component<PassedProps, State> {
   }
 
   public onFormChange(e: React.FormEvent<HTMLButtonElement>): void {
+    var { name, value } = e.currentTarget;
     this.setState({
-      [e.currentTarget.name]: e.currentTarget.value
-    });
+      [name]: value
+      // tslint:disable-next-line
+    } as any);
   }
 
   render() {
     return (
       <div>
-        <HeaderContainer />
+        <HeaderContainer  />
         <div className="projects-header-text">Explore Projects</div>
 
         <form className="projects-search-form">
@@ -44,6 +48,7 @@ class ProjectsPage extends React.Component<PassedProps, State> {
 
         <Projects count={24} />
 
+
         <br />
 
         <Footer />
@@ -52,25 +57,12 @@ class ProjectsPage extends React.Component<PassedProps, State> {
   }
 }
 
-// const mapStateToProps = (state: State) => {
-//     return {
-//         projects: state.projects
-//     }
-// }
-
-// const mapDispatchToProps = (dispatch: Dispatch) => {
-//     return {
-//         searchProjects: () => dispatch({
-//             type: 'SEARCH_PROJECTS'
-//         })
-//     }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ProjectsPage);
-function mapStateToProps(state: Store) {
+const mapStateToProps = (state: Store) => {
   return {
-    user: state.user
+    projects: state.projects
   };
-}
+};
 
-export default connect(mapStateToProps)(ProjectsPage);
+export default connect(mapStateToProps, {
+  getProjects
+})(ProjectsPage);

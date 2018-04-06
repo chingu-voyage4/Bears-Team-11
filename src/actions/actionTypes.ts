@@ -9,3 +9,6 @@ export const GET_PROJECTS = 'API:GET_PROJECTS';
 export const ADD_PROJECT = 'API:ADD_PROJECT';
 export const UPDATE_PROJECT = 'API:UPDATE_PROJECT';
 export const DELETE_PROJECT = 'API:DELETE_PROJECT';
+
+export const GET_TAGS = 'API:GET_TAGS';
+export const GET_CATEGORIES = 'API:GET_CATEGORIES';

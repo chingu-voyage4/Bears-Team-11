@@ -1,11 +1,11 @@
-// FS initial comment from newBranch
-
 import * as React from 'react';
 import { RegisterState } from '../types/Register.d';
 import { RegisterProps } from '../types/Redux.d';
 import { register } from '../actions/userActions';
 import { connect } from 'react-redux';
 import '../styles/Register-Login.css';
+import { GoogleSignIn } from '../GoogleSignIn/index';
+
 class Register extends React.Component<RegisterProps, RegisterState> {
   constructor(props: RegisterProps) {
     super(props);
@@ -45,17 +45,11 @@ class Register extends React.Component<RegisterProps, RegisterState> {
       <div className="registerPopupScreen">
         <form className="register-form">
           <br />
-          <div className="logo">project match</div>
-          <br />
-          <img
-            className="extAuthIcon"
-            src={require('../assets/google icon.png')}
-          />
-          <button type="button" className="extAuthBtn">
-            Sign up with Google
-          </button>
+          <div className="logo-login_register">project match</div>
 
           <br />
+
+          <GoogleSignIn />
 
           <hr className="horizontalDivider" />
 

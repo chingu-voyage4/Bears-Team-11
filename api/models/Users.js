@@ -15,9 +15,9 @@ var UserSchema = new Schema({
     email:      {type: String},
     password:   {type: String},
     resetToken: {type: String},
-    resetTokenExpires: {type: Date}
+    resetTokenExpires: {type: Date},
+    status:     {type: Boolean, default: true}
 });
-
 
 // This will creates database collection named "Users" in the Database
 var Users =  Mongoose.model("Users",UserSchema);

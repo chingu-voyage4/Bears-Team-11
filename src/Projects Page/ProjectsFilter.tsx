@@ -17,25 +17,31 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
   }
 
   public onFormChange(e: React.FormEvent<HTMLInputElement>): void {
+    e.preventDefault();
+    var { name, value } = e.currentTarget;
     this.setState({
-      [e.currentTarget.name]: e.currentTarget.value
-    });
+      [name]: value
+      // tslint:disable-next-line
+    } as any);
   }
 
   public onTagsChange(e: React.FormEvent<HTMLInputElement>): void {
+    var { name, value } = e.currentTarget;
+    e.preventDefault();
     /* tslint:disable-next-line */
     if (this.state.tags) {
-      let updatedTags = [...this.state.tags, e.currentTarget.value];
+      let updatedTags = [...this.state.tags, value];
       this.setState({
-        tags: updatedTags
-      });
-    } 
+        [name]: updatedTags
+        // tslint:disable-next-line
+      } as any);
+    }
   }
 
   render() {
     let tags;
     if (this.state.tags) {
-      tags = (this.state.tags).map((tag) => (
+      tags = this.state.tags.map(tag => (
         <div className="selectedTag">{tag}</div>
       ));
     } else {
@@ -44,10 +50,7 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
     return (
       <form className="project-filters">
         <div className="project-filter-dropdown">
-
-          <div className="project-filter-title">
-            Sort By:
-          </div>
+          <div className="project-filter-title">Sort By:</div>
 
           <div className="project-filter-dropdown-content">
             <div className="radio">
@@ -70,7 +73,9 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
                 id="project-filter-sortBy-MostViewed"
                 onChange={e => this.onFormChange(e)}
               />
-              <label htmlFor="project-filter-sortBy-MostViewed">Most Viewed</label>
+              <label htmlFor="project-filter-sortBy-MostViewed">
+                Most Viewed
+              </label>
             </div>
 
             <div className="radio">
@@ -83,14 +88,11 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
               />
               <label htmlFor="project-filter-sortBy-newest">Newest</label>
             </div>
-
           </div>
         </div>
 
         <div className="project-filter-dropdown">
-          <div className="project-filter-title">
-            Roles:
-          </div>
+          <div className="project-filter-title">Roles:</div>
 
           <div className="project-filter-dropdown-content">
             <div className="radio">
@@ -113,7 +115,9 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
                 id="project-filter-roles-programmer"
                 onChange={e => this.onFormChange(e)}
               />
-              <label htmlFor="project-filter-roles-programmer">Programmer</label>
+              <label htmlFor="project-filter-roles-programmer">
+                Programmer
+              </label>
             </div>
 
             <div className="radio">
@@ -130,9 +134,7 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
         </div>
 
         <div className="project-filter-dropdown">
-          <div className="project-filter-title">
-            Categories:
-          </div>
+          <div className="project-filter-title">Categories:</div>
 
           <div className="project-filter-dropdown-content">
             <div className="checkbox">
@@ -140,7 +142,6 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
                 type="checkbox"
                 name="categories"
                 value="All Categories"
-                checked={true}
                 id="project-filter-cat-all"
                 onChange={e => this.onFormChange(e)}
               />
@@ -155,7 +156,9 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
                 id="project-filter-cat-productivity"
                 onChange={e => this.onFormChange(e)}
               />
-              <label htmlFor="project-filter-cat-productivity">Productivity</label>
+              <label htmlFor="project-filter-cat-productivity">
+                Productivity
+              </label>
             </div>
 
             <div className="checkbox">
@@ -166,31 +169,31 @@ class ProjectsFilter extends React.Component<PassedProps, State> {
                 id="project-filter-cat-designerTool"
                 onChange={e => this.onFormChange(e)}
               />
-              <label htmlFor="project-filter-cat-designerTool">Designer Tool</label>
+              <label htmlFor="project-filter-cat-designerTool">
+                Designer Tool
+              </label>
             </div>
           </div>
         </div>
 
         <div className="project-filter-dropdown">
-          <div className="project-filter-title">
-            Tags:
-          </div>
-
-          <input type="text" placeholder="Search Tags" onChange={e => this.onTagsChange(e)} />
+          <div className="project-filter-title">Tags:</div>
+          <input
+            type="text"
+            placeholder="Search Tags"
+            onChange={e => this.onTagsChange(e)}
+          />
           <div className="tagSearch">
-          {listOfAllTags.map((tag) => (
-            <div className="unselectedTags">{tag}</div>
-          ))};
+            {listOfAllTags.map(tag => (
+              <div className="unselectedTags">{tag}</div>
+            ))};
           </div>
           {/* display available tags */}
           {tags};
-
         </div>
 
         <div className="project-filter-dropdown">
-          <div className="project-filter-title">
-            Status:
-          </div>
+          <div className="project-filter-title">Status:</div>
 
           <div className="project-filter-dropdown-content">
             <div className="radio">

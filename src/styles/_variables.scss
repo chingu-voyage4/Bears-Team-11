@@ -10,6 +10,9 @@ $grass-green: #1ba572;
 $grey: #95989a;
 $dark-grey: #757575;
 $light-grey: #d1d1d1;
+
+$attention-red: #f37070;
+$light-red: #f5cbcb;
 /*
 ==========================
 FILE SETUP
@@ -80,7 +83,7 @@ LOGIN / REGISTER COMPONENTS
   margin: auto;
   z-index: 5;
   width: 350px;
-  border: 3px solid $theme-blue;
-  // box-shadow: 12px 12px 2px $light-blue;
+  border: 2px solid $theme-blue;
+  box-shadow: $box-shadow;
   background-color: white;
 }

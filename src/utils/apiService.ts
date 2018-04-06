@@ -37,21 +37,51 @@ var projects: Array<Project> = [
   }
 ];
 
+var headers: {
+  'content-type': 'application/json';
+};
+
 /* User */
 function login(email: string, password: string): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const user = users.filter(currentUser => {
-        return currentUser.email === email && currentUser.password === password;
-      })[0];
-      user
-        ? resolve({
+    const endpoint = 'http://localhost:8080/api/login';
+
+    var data: object = {
+      body: {
+        email: email,
+        password: password
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.body.message === 'Successfully logged in') {
+          var user = res.body.user;
+          var userDetails = res.body.userDetails;
+          resolve({
             firstName: user.firstName,
             lastName: user.lastName,
-            email: user.email
-          })
-        : reject(new Error('Wrong username and/or password.'));
-    }, generateRandomDelay());
+            email: user.email,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.text);
+        }
+      });
   });
 }
 
@@ -79,9 +109,21 @@ function register(
 
 function logout(): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(true);
-    }, generateRandomDelay());
+    const endpoint = 'http://localhost:8080/api/logout';
+
+    var data: object = {
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.text === 'Successfully Logged Out') {
+          resolve(); // what should the result be?
+        } else {
+          reject(new Error('Could not log out'));
+        }
+      });
   });
 }
 
@@ -163,6 +205,26 @@ function deleteProject(name: string): Promise<Project> {
   });
 }
 
+function getTags(): Promise<Array<Project>> {
+  return new Promise((resolve, reject) => {
+    // ajax call
+    // fetch api endpoint
+    // get tags
+    // if successfull call, then resolve. gets passed to action.
+    // if error, then reject
+  });
+}
+
+function getCategories(): Promise<Array<Project>> {
+  return new Promise((resolve, reject) => {
+    // ajax call
+    // fetch api endpoint
+    // get tags
+    // if successfull call, then resolve. gets passed to action.
+    // if error, then reject
+  });
+}
+
 /* Service Module */
 var apiService = {
   login,
@@ -171,7 +233,9 @@ var apiService = {
   getProjects,
   addProject,
   updateProject,
-  deleteProject
+  deleteProject,
+  getTags,
+  getCategories
 };
 
 export default apiService;

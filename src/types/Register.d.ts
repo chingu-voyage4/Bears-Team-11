@@ -5,3 +5,7 @@ export interface RegisterState {
   password: string;
   username: string;
 }
+
+export interface RegisterProps {
+  visible: boolean;
+}
