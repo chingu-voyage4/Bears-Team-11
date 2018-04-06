@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import Header from '../Header';
-import LoggedInHeader from '../LoggedInHeader';
+import HeaderContainer from '../HeaderContainer';
 import Footer from '../Footer';
 import LandingImage from './LandingImage';
 import ProjectFeatures from './ProjectFeatures';
@@ -12,13 +11,9 @@ import { Store, State } from '../types/Redux';
 
 class LandingPage extends React.Component<LandingPageProps, State> {
   render() {
-    let isUserLoggedIn = false;
-    if (this.props.user.email) {
-      isUserLoggedIn = true;
-    }
     return (
       <div>
-        {isUserLoggedIn === true ? <LoggedInHeader /> : <Header />}
+        <HeaderContainer />
         <LandingImage />
         <ProjectFeatures />
         <RecentProjects />
