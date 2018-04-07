@@ -28,10 +28,12 @@ function login(email: string, password: string): Promise<User | Error> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-
-        if (res.body.message === 'Successfully logged in') {
+        console.log(res);
+        if (res.message === 'Successfully logged in') {
           var user = res.user;
-          var userDetails = res.userDetails;
+          var userDetails = res.userDetail;
+          console.log('user=' + user);
+          console.log('userDetails=' + userDetails);
           resolve({
             firstName: user.firstName,
             lastName: user.lastName,
@@ -88,14 +90,9 @@ function register(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
+        // console.log('JSON.stringify=' + JSON.stringify(res));
         if (res.message === 'User Registration Succesful') {
           var user = res.user;
-          alert({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            username: user.username
-          });
           resolve({
             firstName: user.firstName,
             lastName: user.lastName,
@@ -133,7 +130,7 @@ function deactivate(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (res.body.message === 'Successfully deactivated user') {
+        if (res.message === 'Successfully deactivated user') {
           resolve(res.message);
         } else {
           reject(res.text);
