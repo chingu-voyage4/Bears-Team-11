@@ -11,7 +11,8 @@ router.get('/', function (req, res) {
     if (err) {
       return res.send('Error retrieving project: ' + err)
     } else {
-      res.send({ projects: result, message: 'Succesfully retrieved projects' });
+      res.setHeader("Content-Type", "application/json");
+      res.json({ projects: result, message: 'Succesfully retrieved projects' });
     }
   })
 });
@@ -22,7 +23,8 @@ router.post('/filter', function (req, res) {
     if (err) {
       return res.send('Error retrieving project: ' + err)
     } else {
-      res.send(result);
+      res.setHeader("Content-Type", "application/json");
+      res.json(result);
     }
   })
 });
@@ -33,7 +35,8 @@ router.get('/:id', function (req, res) {
     if (err || !project) {
       res.send('Error in saving project: ' + err);
     } else {
-      res.send(project);
+      res.setHeader("Content-Type", "application/json");
+      res.json(project);
     }
   })
 })
@@ -44,7 +47,8 @@ router.post('/update', isAuthenticated, function (req, res) {
     if (err || !project) {
       res.send({ message: 'Error in updating project: ' + err });
     } else {
-      res.send({project: project, message: 'Successfully updated project'});
+      res.setHeader("Content-Type", "application/json");
+      res.json({project: project, message: 'Successfully updated project'});
     }
   })
 })
@@ -73,7 +77,8 @@ router.post('/add', isAuthenticated, function (req, res) {
       res.send('Error in saving project: ' + err);
     } else {
       console.log('New project saved successfully');
-      res.send({ message: 'New project saved successfully', newProject: newProject })
+      res.setHeader("Content-Type", "application/json");
+      res.json({ message: 'New project saved successfully', newProject: newProject })
     }
   });
 })
@@ -84,7 +89,8 @@ router.post('/delete/one', isAuthenticated, function (req, res) {
     if (err || !project) {
       res.send({ message: 'Error in deleting project: ' + err });
     } else {
-      res.send({ message: 'Project successfully deleted', project: project });
+      res.setHeader("Content-Type", "application/json");
+      res.json({ message: 'Project successfully deleted', project: project });
     }
   })
 })

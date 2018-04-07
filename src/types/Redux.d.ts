@@ -9,7 +9,7 @@ export interface Action {
 
 export interface UserAction extends Action {
   data?: User;
-  error?: Error;
+  error?: string;
 }
 
 export interface ProjectAction extends Action {

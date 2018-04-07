@@ -1,30 +1,37 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
 
-var headers: {
-  'content-type': 'application/json';
+var headers = {
+  'Content-Type': 'application/json'
 };
 
 /* User */
 function login(email: string, password: string): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/login';
+    const endpoint: string = 'http://localhost:8080/api/login';
 
     var data: object = {
-      body: {
+      headers: headers,
+      method: 'POST',
+      credentials: 'same-origin',
+      body: JSON.stringify({
         email: email,
         password: password
-      },
-      headers: headers,
-      method: 'POST'
+      })
     };
 
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+
         if (res.body.message === 'Successfully logged in') {
-          var user = res.body.user;
-          var userDetails = res.body.userDetails;
+          var user = res.user;
+          var userDetails = res.userDetails;
           resolve({
             firstName: user.firstName,
             lastName: user.lastName,
@@ -53,30 +60,42 @@ function login(email: string, password: string): Promise<User | Error> {
 function register(
   firstName: string,
   lastName: string,
+  username: string,
   email: string,
-  password: string,
-  username: string
+  password: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/signup';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         firstName: firstName,
         lastName: lastName,
         email: email,
         password: password,
         username: username
-      },
+      }),
       headers: headers,
-      method: 'POST'
+      method: 'POST',
+      credentials: 'same-origin'
     };
 
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
-        if (res.body.message === 'User Registration Succesful') {
-          var user = res.body.user;
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'User Registration Succesful') {
+          var user = res.user;
+          alert({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username
+          });
           resolve({
             firstName: user.firstName,
             lastName: user.lastName,
@@ -109,8 +128,13 @@ function deactivate(
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
         if (res.body.message === 'Successfully deactivated user') {
-          resolve(res.body.message);
+          resolve(res.message);
         } else {
           reject(res.text);
         }
@@ -134,8 +158,13 @@ function activate(username: string, password: string): Promise<string | Error> {
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
-        if (res.body.message === 'Successfully re-activated user') {
-          resolve(res.body.message);
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully re-activated user') {
+          resolve(res.message);
         } else {
           reject(res.text);
         }
@@ -154,6 +183,11 @@ function logout(): Promise<boolean> {
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
         if (res.text === 'Successfully Logged Out') {
           resolve(res.text); // what should the result be?
         } else {
@@ -182,8 +216,13 @@ function getProjects(): Promise<Array<Project>> {
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
-        if (res.body.message === 'Succesfully retrieved projects') {
-          resolve(res.body.projects);
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Succesfully retrieved projects') {
+          resolve(res.projects);
         } else {
           reject(res.text);
         }
@@ -219,8 +258,13 @@ function addProject(project: Project): Promise<Project> {
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
-        if (res.body.message === 'New project saved successfully') {
-          resolve(res.body.newProject);
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'New project saved successfully') {
+          resolve(res.newProject);
         } else {
           reject(res.text);
         }
@@ -249,8 +293,13 @@ function updateProject(
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
-        if (res.body.message === 'Successfully updated project') {
-          resolve(res.body.project);
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully updated project') {
+          resolve(res.project);
         } else {
           reject(res.text);
         }
@@ -273,10 +322,15 @@ function deleteProject(id: string): Promise<Project> {
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
-        if (res.body.message === 'Project successfully deleted') {
-          resolve(res.body.project);
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Project successfully deleted') {
+          resolve(res.project);
         } else {
-          reject(res.body.message);
+          reject(res.message);
         }
       });
   });

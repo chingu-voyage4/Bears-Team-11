@@ -30,7 +30,7 @@ module.exports = function (passport) {
                     // already exists
                     if (user) {
                         console.log('User already exists with this email or username');
-                        return done(null, false, {message: 'User already exists with this email or username'});
+                        return done(null, false, { message: 'User already exists with this email or username' });
                     } else {
                         // if there is no user with that email
                         // create the user
@@ -45,7 +45,7 @@ module.exports = function (passport) {
 
                         // save newUserDetails
                         var newUserDetails = new UserDetails({ username: req.body.username });
-                        newUserDetails.save(function(err, userDetail) {
+                        newUserDetails.save(function (err, userDetail) {
                             if (err) {
                                 console.log('Error in saving newUserDetails: ' + err);
                                 throw err;
@@ -60,10 +60,10 @@ module.exports = function (passport) {
                                 throw err;
                             }
                             console.log('User Registration succesful');
-                            return done(null, newUser, {message: 'User Registration Succesful'});
+                            return done(null, newUser, { message: 'User Registration Succesful' });
                         });
 
-                    
+
                     }
                 });
 

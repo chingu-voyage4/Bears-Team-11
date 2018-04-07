@@ -20,7 +20,6 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
   public handleFormChange(e: React.FormEvent<HTMLInputElement>): void {
     var { name, value } = e.currentTarget;
-
     /*
      * There is a current bug in typescript that does not correctly identify the string literal
      * type in a computed property key.
@@ -36,6 +35,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 
   public handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
+    e.preventDefault();
     const { firstName, lastName, username, email, password } = this.state;
     this.props.register(firstName, lastName, username, email, password);
   }
@@ -113,7 +113,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
           <br />
 
           <button
-            onClick={this.handleSubmit}
+            onClick={e => this.handleSubmit(e)}
             type="submit"
             className="signUpBtn"
             name="registerBtn"
