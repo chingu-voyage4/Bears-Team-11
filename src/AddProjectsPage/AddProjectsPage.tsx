@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Header from '../Header';
 import Footer from '../Footer';
 import '../styles/AddProjectsPage.css';
+import HeaderContainer from '../HeaderContainer';
 import {
   AddProjectPassedProps,
   AddProjectState
@@ -222,7 +222,7 @@ class AddProjectsPage extends React.Component<
 
     return (
       <div className="new-project-body">
-        <Header />
+        <HeaderContainer />
         <form className="new-project-container">
           <div className="box-1">
             <div className="box-1-a">
@@ -523,6 +523,7 @@ class AddProjectsPage extends React.Component<
 
 function mapStateToProps(state: Store) {
   return {
+    user: state.user
     // tags: state.tags,
     // categories: state.categories,
     // team: state.team
