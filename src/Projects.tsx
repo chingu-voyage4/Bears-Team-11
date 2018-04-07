@@ -17,9 +17,14 @@ class Project extends React.Component<Props, State> {
     } else {
       roles = data.lookingFor;
     }
+
     return (
       <div className="project">
-        <img className="project-image" alt={data.name} src={data.image} />
+        <img
+          className="project-image"
+          alt={data.name}
+          src={data.images ? data.images[0] : undefined}
+        />
         <div className="project-info">
           <div className="project-name">{data.name}</div>
           <div className="project-description">{data.description}</div>

@@ -13,17 +13,21 @@ module.exports = function (passport) {
 		res.send('Welcome to the index page');
 	});
 
-	/* GET Registration Page */
-	router.get('/signup', function (req, res) {
-
-	});
-
 	/* POST New User */
 	router.post('/signup', function (req, res, next) {
 		passport.authenticate('signup', function (err, user, info) {
-			if (err) { return next(err); }
-			if (!user) { return res.send(info.message); }
-			return res.send(info.message);
+			if (err) { 
+				return next(err); 
+			}
+			else if (!user) {
+				return res.send(info.message);
+			} else {
+				console.log('Grabbing userDetails for: ', user.username);
+				console.log('User: ', user);
+				console.log('Message: ', info.message);
+				res.setHeader("Content-Type", "application/json");
+				return res.json({ user: user, message: info.message });
+			}
 		})(req, res, next);
 	});
 
@@ -36,7 +40,8 @@ module.exports = function (passport) {
 				User.findOneAndUpdate({ 'username': user.username }, { 'status': false }, function (err, user) {
 					if (err) { return res.send(err); }
 					console.log('Deactivating user: ', user.username);
-					return res.send({ user: user, message: 'Successfully deactivated user' });
+					res.setHeader("Content-Type", "application/json");
+					return res.json({ user: user, message: 'Successfully deactivated user' });
 				});
 			}
 		})(req, res, next);
@@ -49,7 +54,8 @@ module.exports = function (passport) {
 				// In case of any error, return using the done method
 				if (err) { return res.send(err); }
 				console.log('Activating user: ', user.username);
-				return res.send({ user: user, message: 'Successfully re-activated user' });
+				res.setHeader("Content-Type", "application/json");
+				return res.json({ user: user, message: 'Successfully re-activated user' });
 			}
 		);
 	});
@@ -64,24 +70,27 @@ module.exports = function (passport) {
 			User.findOneAndRemove({ 'username': user.username }, function (err, user) {
 				if (err) { return res.send(err); }
 				console.log('Deleting user: ', user.username);
-				return res.send({ message: 'Successfully deleted user' });
+				res.setHeader("Content-Type", "application/json");
+				return res.json({ message: 'Successfully deleted user' });
 			});
 		})(req, res, next);
 	});
 
 	/* Handle Login POST */
 	router.post('/login', function (req, res, next) {
-		console.log('loggin in authentication!');
 		passport.authenticate('login', function (err, user, info) {
-			console.log('loggin in hello');
-			if (err) { return next(err); }
+			if (err) { return res.send(err); }
 			if (!user) { return res.send(info.message); }
 			req.logIn(user, function (err) {
 				if (err) { return next(err); }
 				UserDetails.findOne({ 'username': user.username }, function (err, userDetail) {
 					if (err) { return res.send(err); }
 					console.log('Grabbing userDetails for: ', user.username);
-					return res.send({ user: user, userDetail: userDetail, message: info.message });
+					console.log('User: ', user);
+					console.log('UserDetail: ', userDetail);
+					console.log('Message: ', info.message);
+					res.set('Content-Type', 'application/json');
+					return res.json({ user: user, userDetail: userDetail, message: info.message });
 				})
 			});
 		})(req, res, next);
@@ -92,14 +101,6 @@ module.exports = function (passport) {
 		console.log('logging out!');
 		req.logout()
 		res.send('Successfully Logged Out');
-	});
-
-	/* GET Home Page 
-	 * This route is protected and if it is not authenticated,
-	 * it will redirects to login page.
-	*/
-	router.get('/home', isAuthenticated, function (req, res) {
-		res.send('Welcome to the Home');
 	});
 
 	return router;

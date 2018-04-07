@@ -9,7 +9,7 @@ export interface Action {
 
 export interface UserAction extends Action {
   data?: User;
-  error?: Error;
+  error?: string;
 }
 
 export interface ProjectAction extends Action {
@@ -43,7 +43,8 @@ export interface TestProps extends Store {
     firstName: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
+    username: string
   ) => (dispatch: Dispatch<UserAction>) => void;
   logout: () => (dispatch: Dispatch<UserAction>) => void;
 }
@@ -61,7 +62,8 @@ export interface RegisterProps {
     firstName: string,
     lastName: string,
     email: string,
-    password: string
+    password: string,
+    username: string
   ) => (dispatch: Dispatch<UserAction>) => void;
 }
 

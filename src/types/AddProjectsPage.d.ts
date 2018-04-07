@@ -1,5 +1,6 @@
 import { Dispatch } from 'react-redux';
 import { Project } from './Projects.d';
+import { User } from './User.d';
 
 // Action
 export interface Action {
@@ -32,6 +33,7 @@ export interface AddProjectState {
   files?: any;
 }
 export interface AddProjectPassedProps {
+  user: User;
   projects: Array<Project>;
   addProject: (project: Project) => (dispatch: Dispatch<ProjectAction>) => void;
 }

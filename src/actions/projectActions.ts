@@ -37,10 +37,11 @@ export function addProject(
 
 export function updateProject(
   name: string,
-  update: Project
+  update: string,
+  id: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.updateProject(name, update).then(updatedProject => {
+    return apiService.updateProject(name, update, id).then(updatedProject => {
       return dispatch({
         type: UPDATE_PROJECT,
         data: updatedProject
@@ -50,10 +51,10 @@ export function updateProject(
 }
 
 export function deleteProject(
-  name: string
+  id: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.deleteProject(name).then(deletedProject => {
+    return apiService.deleteProject(id).then(deletedProject => {
       return dispatch({
         type: DELETE_PROJECT,
         data: deletedProject
