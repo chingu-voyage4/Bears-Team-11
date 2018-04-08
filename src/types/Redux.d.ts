@@ -55,14 +55,14 @@ export interface TestProps extends Store {
   logout: () => (dispatch: Dispatch<UserAction>) => void;
 }
 
-// Login Component
 export interface LoginProps {
+  visibleLoginWindow: boolean;
   login: (
     email: string,
     password: string
   ) => (dispatch: Dispatch<UserAction>) => void;
+  showLoginWindow: () => (dispatch: Dispatch<AppAction>) => void;
 }
-
 export interface RegisterProps {
   register: (
     firstName: string,
@@ -71,6 +71,8 @@ export interface RegisterProps {
     password: string,
     username: string
   ) => (dispatch: Dispatch<UserAction>) => void;
+  visibleRegisterWindow: boolean;
+  showRegisterWindow: () => (dispatch: Dispatch<AppAction>) => void;
 }
 
 export interface ProjectProps {

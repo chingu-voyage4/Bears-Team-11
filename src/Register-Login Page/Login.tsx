@@ -1,10 +1,12 @@
 import * as React from 'react';
 import '../styles/Register-Login.css';
 import { LoginState } from '../types/Login.d';
-import { LoginProps } from '../types/Redux.d';
+import { LoginProps } from '../types/Redux';
 import { connect } from 'react-redux';
 import { login } from '../actions/userActions';
 import { GoogleSignIn } from '../GoogleSignIn/index';
+import { showLoginWindow } from '../actions/appActions';
+import { Store } from '../types/Redux';
 class Login extends React.Component<LoginProps, LoginState> {
   constructor(props: LoginProps) {
     super(props);
@@ -15,15 +17,6 @@ class Login extends React.Component<LoginProps, LoginState> {
   }
   handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
     var { name, value } = e.currentTarget;
-
-    /*
-     * There is a current bug in typescript that does not correctly identify the string literal
-     * type in a computed property key.
-     * 
-     * ref: https://github.com/Microsoft/TypeScript/issues/15534
-     * ref: https://github.com/Microsoft/TypeScript/issues/13948
-     * ref: https://github.com/Microsoft/TypeScript/pull/21070
-     */
     this.setState({
       [name]: value
       // tslint:disable-next-line
@@ -35,23 +28,21 @@ class Login extends React.Component<LoginProps, LoginState> {
     this.props.login(this.state.email, this.state.password);
   };
 
-  closeWindow = () => {
-    // this.props.visible = false;
+  windowVisibility = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    this.props.showLoginWindow();
   };
   render() {
     return (
       <div className="popupScreen">
         <br />
-
+        <div className="logo-login_register">project match</div>
         <button
           className="login-register-exit-window-btn"
-          onClick={this.closeWindow}
+          onClick={e => this.windowVisibility(e)}
         >
           X
         </button>
-
-        <div className="logo-login_register">project match</div>
-
         <br />
 
         <GoogleSignIn />
@@ -90,6 +81,9 @@ class Login extends React.Component<LoginProps, LoginState> {
     );
   }
 }
-
-// export default connect<{}, LoginProps, {}>(null, { login })(Login);
-export default connect(null, { login })(Login);
+function mapStateToProps(state: Store) {
+  return {
+    visibleLoginWindow: state.registerLoginWindow.visibleLoginWindow
+  };
+}
+export default connect(mapStateToProps, { login, showLoginWindow })(Login);

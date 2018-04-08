@@ -5,7 +5,8 @@ import { register } from '../actions/userActions';
 import { connect } from 'react-redux';
 import '../styles/Register-Login.css';
 import { GoogleSignIn } from '../GoogleSignIn/index';
-
+import { showRegisterWindow } from '../actions/appActions';
+import { Store } from '../types/Redux';
 class Register extends React.Component<RegisterProps, RegisterState> {
   constructor(props: RegisterProps) {
     super(props);
@@ -20,14 +21,6 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
   public handleFormChange(e: React.FormEvent<HTMLInputElement>): void {
     var { name, value } = e.currentTarget;
-    /*
-     * There is a current bug in typescript that does not correctly identify the string literal
-     * type in a computed property key.
-     * 
-     * ref: https://github.com/Microsoft/TypeScript/issues/15534
-     * ref: https://github.com/Microsoft/TypeScript/issues/13948
-     * ref: https://github.com/Microsoft/TypeScript/pull/21070
-     */
     this.setState({
       [name]: value
       // tslint:disable-next-line
@@ -40,13 +33,23 @@ class Register extends React.Component<RegisterProps, RegisterState> {
     this.props.register(firstName, lastName, username, email, password);
   }
 
+  windowVisibility = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    this.props.showRegisterWindow();
+  };
+
   render() {
     return (
       <div className="registerPopupScreen">
         <form className="register-form">
           <br />
           <div className="logo-login_register">project match</div>
-
+          <button
+            className="login-register-exit-window-btn"
+            onClick={e => this.windowVisibility(e)}
+          >
+            X
+          </button>
           <br />
 
           <GoogleSignIn />
@@ -126,5 +129,11 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 }
 
-// export default connect<{}, RegisterProps, {}>(null, { register })(Register);
-export default connect(null, { register })(Register);
+function mapStateToProps(state: Store) {
+  return {
+    visibleRegisterWindow: state.registerLoginWindow.visibleRegisterWindow
+  };
+}
+export default connect(mapStateToProps, { register, showRegisterWindow })(
+  Register
+);
