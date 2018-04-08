@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './styles/LoggedInHeader.css';
 import { PassedProps, State, Props } from './types/LoggedInHeader.d';
+import { Link } from 'react-router-dom';
 
 class LoggedInHeader extends React.Component<PassedProps, State> {
   constructor(props: Props) {
@@ -14,20 +15,22 @@ class LoggedInHeader extends React.Component<PassedProps, State> {
     return (
       <div>
         <div className="logged-in-header-container">
-          <div className="logged-in-header-logo">project match</div>
+          <Link to="/" className="logged-in-header-logo">
+            project match
+          </Link>
           <div className="logged-in-header-create">
-            <button className="logged-in-header-createButton">
+            <Link to="/projects/add" className="logged-in-header-createButton">
               CREATE NEW PROJECT
-            </button>
+            </Link>
           </div>
           <div className="dropdown">
             <button className="dropbtn">Choose A Portal &#x25BC;</button>
             <div className="dropdown-content">
-              <a href="#">Test Project #1</a>
-              <a href="#">Test Project #2</a>
-              <a className="dropdown-profileLink" href="#">
-                Profile
-              </a>
+              <Link to="/">Test Project #1</Link>
+              <Link to="/">Test Project #2</Link>
+              <Link to="/user/profile" className="dropdown-profileLink">
+                User Profile
+              </Link>
             </div>
           </div>
           <div className="logged-in-header-profileImageDiv">

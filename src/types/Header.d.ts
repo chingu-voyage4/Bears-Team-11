@@ -1,8 +1,13 @@
-export interface Props {}
+import { Dispatch } from 'react-redux';
+import { AppAction } from './Redux';
 
-export interface PassedProps {}
-
-export interface State {
-    loginScreen: boolean;
-    registerScreen: boolean;
+export interface PassedProps {
+  visibleLoginWindow: boolean;
+  visibleRegisterWindow: boolean;
+  showRegisterWindow: () => (dispatch: Dispatch<AppAction>) => void;
+  showLoginWindow: () => (dispatch: Dispatch<AppAction>) => void;
+}
+export interface HeaderState {
+  loginWindow: boolean;
+  registerWindow: boolean;
 }
