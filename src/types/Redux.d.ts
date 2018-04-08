@@ -1,7 +1,7 @@
 import { Dispatch } from 'react-redux';
 import { Project } from './Projects.d';
 import { User } from './User.d';
-
+import { RegisterLoginWindow } from './AppAction';
 // Action
 export interface Action {
   type: string;
@@ -12,6 +12,9 @@ export interface UserAction extends Action {
   error?: string;
 }
 
+export interface AppAction extends Action {
+  visible?: boolean;
+}
 export interface ProjectAction extends Action {
   data: Project;
 }
@@ -26,11 +29,14 @@ export type UserState = User | {};
 
 export type ProjectState = Array<Project>;
 
+export type AppState = RegisterLoginWindow;
+
 export interface Store {
   user: User;
   projects: Array<Project>;
   tags: Array<object>;
   categories: Array<object>;
+  registerLoginWindow: RegisterLoginWindow;
 }
 
 export interface TestProps extends Store {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './styles/Footer.css';
-
+import { Link } from 'react-router-dom';
 class Footer extends React.Component {
   render() {
     return (
@@ -17,8 +17,15 @@ class Footer extends React.Component {
           </div>
           <div className="about">
             <div className="footer-subtitle">About Project Match</div>
-            <div className="footer-subcategories">About Project Match</div>
-            <div className="footer-subcategories">Github</div>
+            <Link to="/" className="footer-subcategories">
+              About Project Match
+            </Link>
+            <a
+              href="https://github.com/chingu-voyage4/Bears-Team-11"
+              className="footer-subcategories"
+            >
+              Github
+            </a>
           </div>
           <div className="subscribe">
             <div className="footer-subtitle subscribe-subtitle">
