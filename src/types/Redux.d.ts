@@ -62,6 +62,7 @@ export interface LoginProps {
     password: string
   ) => (dispatch: Dispatch<UserAction>) => void;
   showLoginWindow: () => (dispatch: Dispatch<AppAction>) => void;
+  googleLogin: (idToken: string) => (dispatch: Dispatch<UserAction>) => void;
 }
 export interface RegisterProps {
   register: (

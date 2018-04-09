@@ -1,3 +1,7 @@
+import { googleLogin } from '../actions/userActions';
+import { connect } from 'react-redux';
+import * as React from 'react';
+import { GoogleProps } from '../types/GoogleLogin.d';
 // ref: https://developers.google.com/identity/sign-in/web/sign-in
 
 /* tslint:disable */
@@ -7,9 +11,7 @@ declare global {
   }
 }
 
-import * as React from 'react';
-
-export class GoogleSignIn extends React.Component {
+export class GoogleSignIn extends React.Component<GoogleProps> {
   componentDidMount() {
     window.gapi.signin2.render('g-signin2', {
       scope: 'https://www.googleapis.com/auth/plus.login',
@@ -34,6 +36,7 @@ export class GoogleSignIn extends React.Component {
     // Pass ID token to backend and verify with serverside secret
     var id_token = googleUser.getAuthResponse().id_token;
     console.log('ID Token: ' + id_token);
+    this.props.googleLogin(id_token);
   };
 
   onFailure = (error: any): void => {
@@ -56,4 +59,4 @@ export class GoogleSignIn extends React.Component {
   }
 }
 
-export default GoogleSignIn;
+export default connect(null, { googleLogin })(GoogleSignIn);

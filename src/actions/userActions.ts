@@ -1,4 +1,6 @@
 import {
+  GOOGLE_LOGIN,
+  GOOGLE_LOGIN_ERROR,
   LOGIN,
   REGISTER,
   LOGOUT,
@@ -27,6 +29,27 @@ export function login(
         return dispatch({
           type: LOGIN_ERROR,
           error: 'Invalid email and/or password.'
+        });
+      });
+  };
+}
+
+export function googleLogin(
+  idToken: string
+): (dispatch: Dispatch<UserAction>) => void {
+  return dispatch => {
+    return apiService
+      .googleLogin(idToken)
+      .then(user => {
+        return dispatch({
+          type: GOOGLE_LOGIN,
+          data: user
+        });
+      })
+      .catch(error => {
+        return dispatch({
+          type: GOOGLE_LOGIN_ERROR,
+          error: 'Could not login with google'
         });
       });
   };

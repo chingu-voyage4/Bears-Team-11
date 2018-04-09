@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var isAuthenticated = require('../utils/authentication');
 var User = require('../models/Users');
 var UserDetails = require('../models/UserDetails');
+const { OAuth2Client } = require('google-auth-library');
 
 module.exports = function (passport) {
 
@@ -16,8 +17,8 @@ module.exports = function (passport) {
 	/* POST New User */
 	router.post('/signup', function (req, res, next) {
 		passport.authenticate('signup', function (err, user, info) {
-			if (err) { 
-				return next(err); 
+			if (err) {
+				return next(err);
 			}
 			else if (!user) {
 				return res.send(info.message);
@@ -94,6 +95,28 @@ module.exports = function (passport) {
 				})
 			});
 		})(req, res, next);
+	});
+
+	// GOOGLE LOGIN ROUTE
+	router.post('/googlelogin', function (req, res, next) {
+		const CLIENT_ID = '197437121402-ugoc2jbtpkthc6ol2jlkchalncn9nh40';
+		let idToken = req.body.idToken;
+
+		// https://developers.google.com/identity/sign-in/web/backend-auth
+		// verify tokenID
+		const client = new OAuth2Client(CLIENT_ID);
+		async function verify() {
+			const ticket = await client.verifyIdToken({
+				idToken: idToken,
+				audience: CLIENT_ID,
+				// Specify the CLIENT_ID of the app that accesses the backend
+			});
+			const payload = ticket.getPayload();
+			const userid = payload['sub'];
+			// If request specified a G Suite domain:
+			//const domain = payload['hd'];
+		}
+		verify().catch(console.error);
 	});
 
 	/* Handle Logout */

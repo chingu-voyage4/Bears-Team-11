@@ -59,6 +59,59 @@ function login(email: string, password: string): Promise<User | Error> {
   });
 }
 
+function googleLogin(idToken: string): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint: string = 'http://localhost:8080/api/googlelogin';
+
+    var data: object = {
+      headers: headers,
+      method: 'POST',
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        idToken: idToken
+      })
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        console.log(res);
+        if (res.message === 'Successfully logged in with Google') {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('user=' + user);
+          console.log('userDetails=' + userDetails);
+          resolve({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.text);
+        }
+      });
+  });
+}
+
 function register(
   firstName: string,
   lastName: string,
@@ -356,6 +409,7 @@ function getCategories(): Promise<Array<Project>> {
 /* Service Module */
 var apiService = {
   login,
+  googleLogin,
   register,
   deactivate,
   activate,

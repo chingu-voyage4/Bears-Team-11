@@ -16,7 +16,9 @@ var UserSchema = new Schema({
     password:   {type: String},
     resetToken: {type: String},
     resetTokenExpires: {type: Date},
-    status:     {type: Boolean, default: true}
+    status:     {type: Boolean, default: true},
+    googleId:   {type: String},
+    profileImage: {type: String, default: ''}
 });
 
 // This will creates database collection named "Users" in the Database

@@ -3,7 +3,9 @@ export interface User {
   lastName: string;
   email: string;
   username: string;
+  profileImage: string;
   password?: string;
+  googleId?: string;
   location?: string;
   roles?: string[];
   description?: string;
