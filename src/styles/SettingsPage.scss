@@ -80,3 +80,19 @@
 h3 {
   display: inline-block;
 }
+
+.personal-details-save-button {
+  float: right;
+  border: none;
+  background-color: $theme-blue;
+  font-family: $font;
+  color: white;
+}
+
+.public-profile-save-button {
+  float: right;
+  border: none;
+  background-color: $theme-blue;
+  font-family: $font;
+  color: white;
+}

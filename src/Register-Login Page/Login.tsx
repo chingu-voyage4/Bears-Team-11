@@ -79,12 +79,7 @@ class Login extends React.Component<LoginProps, LoginState> {
             placeholder="Password"
           />
           <br />
-          <input
-            type="submit"
-            className="loginBtn"
-            value="Log In"
-            onClick={this.handleSubmit}
-          />
+          <input />
         </form>
       </div>
     );
