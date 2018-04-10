@@ -1,7 +1,7 @@
 import { Dispatch } from 'react-redux';
 import { AppAction } from './Redux';
 
-export interface PassedProps {
+export interface HeaderProps {
   visibleLoginWindow: boolean;
   visibleRegisterWindow: boolean;
   showRegisterWindow: () => (dispatch: Dispatch<AppAction>) => void;

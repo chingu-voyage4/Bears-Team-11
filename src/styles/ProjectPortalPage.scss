@@ -1,0 +1,284 @@
+@import '_variables.scss';
+/*
+==========================
+PROJECT PORTAL
+==========================
+*/
+.project-portal__container {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
+    sans-serif;
+}
+
+.project-portal__info {
+  margin: 0 0 2rem 0;
+  width: 1280px;
+  margin: 0 auto;
+}
+
+/*
+==========================
+CAROUSEL
+==========================
+*/
+.project-portal__carousel__background {
+  background: #2b353d;
+  width: 100%;
+}
+
+.project-portal__carousel {
+  background: #2b353d;
+  width: 1080px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/*
+==========================
+REVISIONS
+==========================
+*/
+
+.revisions-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.revision {
+  display: inline-block;
+  padding: 50px 75px;
+}
+
+.revision__title {
+  color: #ffffff;
+  margin-bottom: 0;
+}
+
+.revision__author {
+  color: $light-grey;
+  font-size: 14px;
+  margin: 5px 0 20px 0;
+}
+
+.revision__version {
+  color: #ffffff;
+  background: #fe0000;
+  padding: 5px 15px;
+  border: none;
+}
+
+.revision__image_container {
+  position: relative;
+}
+
+.revision__changes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  background: #fe0000;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #ffffff;
+}
+
+/*
+==========================
+CHAT
+==========================
+*/
+.project-portal__chat {
+  width: 1280px * 0.4;
+  display: inline-block;
+}
+
+/*
+==========================
+ABOUT
+==========================
+*/
+.project-portal__about {
+  width: 1280px * 0.58;
+  display: inline-block;
+  padding: 0 20px 0 0;
+  color: $dark-grey;
+}
+
+.about__heading {
+  h1 {
+    margin: 20px 0 5px 0;
+  }
+  p {
+    margin: 0 0 20px 0;
+  }
+}
+
+.about__description {
+  font-size: 14px;
+}
+
+/*
+==========================
+TEAM
+==========================
+*/
+.team__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.team__list-item {
+  display: inline-block;
+  padding: 0 0 0 10px;
+}
+
+.team__thumbnail {
+  width: 50px;
+  border-radius: 50%;
+}
+
+/*
+==========================
+MESSAGES
+==========================
+*/
+.messages {
+  overflow: scroll;
+  height: 300px;
+  width: 100%;
+}
+
+.messages ul {
+  padding: 0;
+  margin: 0;
+}
+
+.message-bar {
+  height: 45px;
+  display: flex;
+  justify-content: center;
+}
+
+.message-input {
+  width: 100%;
+  height: 25px;
+  font-size: 16px;
+  padding: 5px;
+  outline: none;
+  border: 1px solid $theme-blue;
+  color: $dark-grey;
+}
+
+.message-send {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $theme-blue;
+  color: #ffffff;
+  height: 37px;
+  width: 42px;
+}
+
+/*
+==========================
+MESSAGE
+==========================
+*/
+.message {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  color: $dark-grey;
+}
+
+.message__sender {
+  margin: 0;
+  font-size: 16px;
+}
+
+.message__thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 0 10px 0 0;
+}
+
+.message__body {
+  padding: 0;
+}
+
+.message__time {
+  font-size: 0.8rem;
+}
+
+.message__text {
+  padding: 5px 0;
+  margin: 0;
+  font-size: 14px;
+}
+
+/*
+==========================
+UPLOAD LINK
+==========================
+*/
+.upload-link__container {
+  height: 100px;
+  position: relative;
+}
+
+.upload-link {
+  position: absolute;
+  top: 50px;
+  right: 75px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.upload-link svg {
+  padding: 0 0 0 10px;
+}
+
+/*
+==========================
+ABOUT
+==========================
+*/
+
+.about__body {
+  display: flex;
+}
+
+.about__description {
+  width: 60%;
+}
+
+.about__links {
+  list-style: none;
+}
+
+.about__links li {
+  padding: 0 0 10px 0;
+  font-size: 14px;
+}
+
+.about__links li a {
+  display: inline-block;
+  margin: 3px 0 0 0;
+  padding: 5px 25px;
+}
+
+.looking-for {
+  color: #489be2;
+}
+
+.button {
+  background: #489be2;
+  color: #ffffff;
+  padding: 5px;
+}
