@@ -6,7 +6,7 @@ var headers = {
 };
 
 /* User */
-function login(email: string, password: string): Promise<User | Error> {
+function login(email: string, password: string): Promise<User | string> {
   return new Promise((resolve, reject) => {
     const endpoint: string = 'http://localhost:8080/api/login';
 

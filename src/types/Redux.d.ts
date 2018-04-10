@@ -62,7 +62,7 @@ export interface LoginProps {
     password: string
   ) => (dispatch: Dispatch<UserAction>) => void;
   showLoginWindow: () => (dispatch: Dispatch<AppAction>) => void;
-  googleLogin: (idToken: string) => (dispatch: Dispatch<UserAction>) => void;
+  // googleLogin: (idToken: string) => (dispatch: Dispatch<UserAction>) => void;
 }
 export interface RegisterProps {
   register: (
@@ -74,7 +74,7 @@ export interface RegisterProps {
   ) => (dispatch: Dispatch<UserAction>) => void;
   visibleRegisterWindow: boolean;
   showRegisterWindow: () => (dispatch: Dispatch<AppAction>) => void;
-  googleLogin: (idToken: string) => (dispatch: Dispatch<UserAction>) => void;
+  // googleLogin: (idToken: string) => (dispatch: Dispatch<UserAction>) => void;
 }
 
 export interface ProjectProps {

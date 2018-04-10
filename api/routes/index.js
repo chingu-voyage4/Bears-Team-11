@@ -95,6 +95,7 @@ module.exports = function (passport) {
 	// GOOGLE LOGIN ROUTE
 	router.post('/googlelogin', function (req, res, next) {
 		const CLIENT_ID = '197437121402-ugoc2jbtpkthc6ol2jlkchalncn9nh40';
+		const client = new OAuth2Client(CLIENT_ID);
 		let idToken = req.body.idToken;
 		let payload;
 		let userid;
@@ -105,7 +106,6 @@ module.exports = function (passport) {
 
 		// https://developers.google.com/identity/sign-in/web/backend-auth
 		// verify tokenID
-		const client = new OAuth2Client(CLIENT_ID);
 		async function verify() {
 			const ticket = await client.verifyIdToken({
 				idToken: idToken,

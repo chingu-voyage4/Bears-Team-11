@@ -3,7 +3,7 @@ import '../styles/Register-Login.css';
 import { LoginState } from '../types/Login.d';
 import { LoginProps } from '../types/Redux';
 import { connect } from 'react-redux';
-import { login, googleLogin } from '../actions/userActions';
+import { login } from '../actions/userActions';
 import { GoogleSignIn } from '../GoogleSignIn/index';
 import { showLoginWindow } from '../actions/appActions';
 import { Store } from '../types/Redux';
@@ -88,6 +88,5 @@ function mapStateToProps(state: Store) {
 }
 export default connect(mapStateToProps, {
   login,
-  showLoginWindow,
-  googleLogin
+  showLoginWindow
 })(Login);
