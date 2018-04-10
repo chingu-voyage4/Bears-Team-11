@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "async": "^2.6.0",
     "@types/lodash": "^4.14.104",
     "@types/react-router-dom": "^4.2.4",
+    "@types/shortid": "0.0.29",
+    "async": "^2.6.0",
     "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
@@ -35,7 +36,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts-ts": "2.13.0",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "shortid": "^2.2.8"
   },
   "scripts": {
     "precommit": "lint-staged",
