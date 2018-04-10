@@ -20,12 +20,11 @@ module.exports = function (passport) {
 				return next(err); 
 			}
 			else if (!user) {
-				return res.send(info.message);
+				return res.json({message: info.message});
 			} else {
-				console.log('Grabbing userDetails for: ', user.username);
+				console.log('Creating userDetails for: ', user.username);
 				console.log('User: ', user);
 				console.log('Message: ', info.message);
-				res.setHeader("Content-Type", "application/json");
 				return res.json({ user: user, message: info.message });
 			}
 		})(req, res, next);
@@ -34,13 +33,12 @@ module.exports = function (passport) {
 	/* POST deactivate User */
 	router.post('/user/deactivate', function (req, res, next) {
 		passport.authenticate('deactivateUser', function (err, user, info) {
-			if (err) { return res.send(err); }
-			if (!user) { return res.send(info.message); }
+			if (err) { return res.json({error: err}) }
+			if (!user) { return res.json({message: info.message}); }
 			if (user) {
 				User.findOneAndUpdate({ 'username': user.username }, { 'status': false }, function (err, user) {
-					if (err) { return res.send(err); }
+					if (err) { res.json({error: err}); }
 					console.log('Deactivating user: ', user.username);
-					res.setHeader("Content-Type", "application/json");
 					return res.json({ user: user, message: 'Successfully deactivated user' });
 				});
 			}
@@ -52,9 +50,8 @@ module.exports = function (passport) {
 		User.findOneAndUpdate({ 'username': req.user.username }, { 'status': true },
 			function (err, user) {
 				// In case of any error, return using the done method
-				if (err) { return res.send(err); }
+				if (err) { return res.json({error: err}) }
 				console.log('Activating user: ', user.username);
-				res.setHeader("Content-Type", "application/json");
 				return res.json({ user: user, message: 'Successfully re-activated user' });
 			}
 		);
@@ -63,14 +60,13 @@ module.exports = function (passport) {
 	/* POST Delete User */
 	router.post('/user/delete', function (req, res, next) {
 		passport.authenticate('deleteUser', function (err, user, info) {
-			if (err) { return res.send(err); }
+			if (err) { return res.json({error: err}); }
 			if (!user) {
-				return res.send(info.message);
+				return res.json({message: info.message});
 			}
 			User.findOneAndRemove({ 'username': user.username }, function (err, user) {
-				if (err) { return res.send(err); }
+				if (err) { return res.json({error: err}); }
 				console.log('Deleting user: ', user.username);
-				res.setHeader("Content-Type", "application/json");
 				return res.json({ message: 'Successfully deleted user' });
 			});
 		})(req, res, next);
@@ -79,17 +75,16 @@ module.exports = function (passport) {
 	/* Handle Login POST */
 	router.post('/login', function (req, res, next) {
 		passport.authenticate('login', function (err, user, info) {
-			if (err) { return res.send(err); }
-			if (!user) { return res.send(info.message); }
+			if (err) { return res.json({error: err}); }
+			if (!user) { return res.json({message: info.message}); }
 			req.logIn(user, function (err) {
 				if (err) { return next(err); }
 				UserDetails.findOne({ 'username': user.username }, function (err, userDetail) {
-					if (err) { return res.send(err); }
+					if (err) { return res.json({error: err}); }
 					console.log('Grabbing userDetails for: ', user.username);
 					console.log('User: ', user);
 					console.log('UserDetail: ', userDetail);
 					console.log('Message: ', info.message);
-					res.set('Content-Type', 'application/json');
 					return res.json({ user: user, userDetail: userDetail, message: info.message });
 				})
 			});
@@ -100,7 +95,7 @@ module.exports = function (passport) {
 	router.get('/logout', function (req, res, next) {
 		console.log('logging out!');
 		req.logout()
-		res.send('Successfully Logged Out');
+		res.json({message: 'Successfully Logged Out'});
 	});
 
 	return router;

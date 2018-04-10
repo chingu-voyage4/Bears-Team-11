@@ -18,10 +18,10 @@ module.exports = function (passport) {
         // allows us to pass back the entire request to the callback
         passReqToCallback: true
     },
-        function (req, email, password, done) {
+        function (req, username, password, done) {
             findOrCreateUser = function () {
                 // find a user in Mongo with provided username and email
-                User.findOne({ $or: [{ 'email': email }, { 'username': req.body.username }] }, function (err, user) {
+                User.findOne({ $or: [{ 'email': username }, { 'username': req.body.username }] }, function (err, user) {
                     // In case of any error, return using the done method
                     if (err) {
                         console.log('Error in SignUp: ' + err);
