@@ -13,6 +13,7 @@ import ProjectsPage from './Projects Page/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
 import PublicProfile from './UserProfileAndSettingsPage/PublicProfile';
+import Redline from './Redline';
 
 const store = createStore(
   userReducer,
@@ -36,6 +37,7 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
               <Route exact={true} path="/" component={LandingPage} />
               <Route exact={true} path="/home" component={LandingPage} />
               <Route exact={true} path="/projects" component={ProjectsPage} />
+              <Route exact={true} path="/redline" component={Redline} />
               <Route
                 exact={true}
                 path="/projects/add"
