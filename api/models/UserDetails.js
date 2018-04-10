@@ -11,6 +11,7 @@ var Schema = Mongoose.Schema;
 // The formet will be x = { variables like type and conditionals...} fallowed by ','
 var UserDetailsSchema = new Schema({
     username:       {type: String},
+    googleId:       {type: String},
     location:       {type: String, default: ''}, 
     roles:          {type: Array}, 
     description:    {type: String, default: ''},

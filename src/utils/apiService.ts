@@ -39,6 +39,7 @@ function login(email: string, password: string): Promise<User | Error> {
             lastName: user.lastName,
             email: user.email,
             username: user.username,
+            profileImage: user.profileImage,
             location: userDetails.location,
             roles: userDetails.roles,
             description: userDetails.description,
