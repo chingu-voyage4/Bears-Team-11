@@ -54,7 +54,7 @@ function login(email: string, password: string): Promise<User | Error> {
             blogLink: userDetails.blogLink
           });
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -157,7 +157,7 @@ function register(
             username: user.username
           });
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -190,7 +190,7 @@ function deactivate(
         if (res.message === 'Successfully deactivated user') {
           resolve(res.message);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -220,7 +220,7 @@ function activate(username: string, password: string): Promise<string | Error> {
         if (res.message === 'Successfully re-activated user') {
           resolve(res.message);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -245,7 +245,7 @@ function logout(): Promise<boolean> {
         if (res.text === 'Successfully Logged Out') {
           resolve(res.text); // what should the result be?
         } else {
-          reject(new Error('Could not log out'));
+          reject(res.error);
         }
       });
   });
@@ -278,7 +278,7 @@ function getProjects(): Promise<Array<Project>> {
         if (res.message === 'Succesfully retrieved projects') {
           resolve(res.projects);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -320,7 +320,7 @@ function addProject(project: Project): Promise<Project> {
         if (res.message === 'New project saved successfully') {
           resolve(res.newProject);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -355,7 +355,7 @@ function updateProject(
         if (res.message === 'Successfully updated project') {
           resolve(res.project);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -384,7 +384,7 @@ function deleteProject(id: string): Promise<Project> {
         if (res.message === 'Project successfully deleted') {
           resolve(res.project);
         } else {
-          reject(res.message);
+          reject(res.error);
         }
       });
   });

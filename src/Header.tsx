@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './styles/Header.css';
-import { PassedProps, HeaderState } from './types/Header.d';
+import { HeaderProps, HeaderState } from './types/Header.d';
 import Login from './Register-Login Page/Login';
 import Register from './Register-Login Page/Register';
 import { Link } from 'react-router-dom';
@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import { showRegisterWindow, showLoginWindow } from './actions/appActions';
 import { Store } from './types/Redux';
 
-class Header extends React.Component<PassedProps, HeaderState> {
-  constructor(props: PassedProps) {
+class Header extends React.Component<HeaderProps, HeaderState> {
+  constructor(props: HeaderProps) {
     super(props);
     this.state = {
       loginWindow: this.props.visibleLoginWindow,
