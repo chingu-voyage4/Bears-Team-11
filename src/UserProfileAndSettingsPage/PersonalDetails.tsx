@@ -9,14 +9,18 @@ class PersonalDetails extends React.Component<
   constructor(props: PersonalDetailsProps) {
     super(props);
     this.state = {
+      username: '',
+      email: '',
       password: ''
     };
   }
 
-  public handlePasswordChange(e: React.FormEvent<HTMLInputElement>): void {
+  public handleInputChange(e: React.FormEvent<HTMLInputElement>): void {
+    var { name, value } = e.currentTarget;
     this.setState({
-      password: e.currentTarget.value
-    });
+      [name]: value
+      // tslint:disable-next-line
+    } as any);
   }
 
   render() {
@@ -27,11 +31,29 @@ class PersonalDetails extends React.Component<
             <h1>Personal Stuff</h1>
           </div>
           <div className="settings-labels">
+            <h3>Username:</h3>
+            <input
+              className="settings-input"
+              name="username"
+              value={this.state.username}
+              onChange={e => this.handleInputChange(e)}
+            />
+          </div>
+          <div className="settings-labels">
+            <h3>Email:</h3>
+            <input
+              className="settings-input"
+              name="email"
+              value={this.state.email}
+              onChange={e => this.handleInputChange(e)}
+            />
+          </div>
+          <div className="settings-labels">
             <h3>Password:</h3>
             <input
-              className="settings-textarea"
+              className="settings-input"
               value={this.state.password}
-              onChange={e => this.handlePasswordChange(e)}
+              onChange={e => this.handleInputChange(e)}
             />
           </div>
           <button className="personal-details-save-button">Save</button>

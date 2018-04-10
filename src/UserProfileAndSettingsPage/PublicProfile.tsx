@@ -54,7 +54,7 @@ class PublicProfile extends React.Component<
           <div className="settings-labels">
             <h3>Headline:</h3>
             <input
-              className="settings-textarea"
+              className="settings-input"
               name="headline"
               value={this.state.headline}
               onChange={e => this.handleInputChange(e)}
@@ -63,7 +63,7 @@ class PublicProfile extends React.Component<
           <div className="settings-labels">
             <h3>Skills:</h3>
             <input
-              className="settings-textarea"
+              className="settings-input"
               name="skills"
               value={this.state.skills}
               onChange={e => this.handleInputChange(e)}
@@ -75,7 +75,7 @@ class PublicProfile extends React.Component<
           <div className="settings-labels">
             <h3>LinkedIn:</h3>
             <input
-              className="settings-textarea"
+              className="settings-input"
               name="linkedin"
               value={this.state.linkedin}
               onChange={e => this.handleInputChange(e)}
@@ -84,7 +84,7 @@ class PublicProfile extends React.Component<
           <div className="settings-labels">
             <h3>GitHub:</h3>
             <input
-              className="settings-textarea"
+              className="settings-input"
               name="github"
               value={this.state.github}
               onChange={e => this.handleInputChange(e)}
@@ -93,7 +93,7 @@ class PublicProfile extends React.Component<
           <div className="settings-labels">
             <h3>Portfolio:</h3>
             <input
-              className="settings-textarea"
+              className="settings-input"
               name="portfolio"
               value={this.state.portfolio}
               onChange={e => this.handleInputChange(e)}
@@ -102,7 +102,7 @@ class PublicProfile extends React.Component<
           <div className="settings-labels">
             <h3>Website:</h3>
             <input
-              className="settings-textarea"
+              className="settings-input"
               name="website"
               value={this.state.portfolio}
               onChange={e => this.handleInputChange(e)}
@@ -111,7 +111,7 @@ class PublicProfile extends React.Component<
           <div className="settings-labels">
             <h3>Twitter:</h3>
             <input
-              className="settings-textarea"
+              className="settings-input"
               name="twitter"
               value={this.state.twitter}
               onChange={e => this.handleInputChange(e)}
@@ -120,7 +120,7 @@ class PublicProfile extends React.Component<
           <div className="settings-labels">
             <h3>Blog:</h3>
             <input
-              className="settings-textarea"
+              className="settings-input"
               name="blog"
               value={this.state.blog}
               onChange={e => this.handleInputChange(e)}
