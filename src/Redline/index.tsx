@@ -4,6 +4,7 @@ import '../styles/Redlines.css';
 import Toolbar from './Toolbar';
 import ImageLayer from './ImageLayer';
 import AnnotationLayer from './AnnotationLayer';
+import CommentBox from './CommentBox';
 
 class Redline extends React.Component<{}, { tool: string }> {
   constructor(props: any) {
@@ -43,6 +44,9 @@ class Redline extends React.Component<{}, { tool: string }> {
         <div className="redline-canvas">
           <ImageLayer />
           <AnnotationLayer tool={this.state.tool} />
+        </div>
+        <div>
+          <CommentBox />
         </div>
       </div>
     );
