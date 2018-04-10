@@ -1,9 +1,8 @@
 export interface TestProjectObject {
   name?: string;
   creator?: string;
-  link?: string;
-  image?: string;
-  teamMembers?: string[];
+  images?: string[];
+  team?: string[];
   description?: string;
   contact?: string;
   lookingFor?: string[];
@@ -14,6 +13,10 @@ export interface TestProjectObject {
   category?: string;
   status?: boolean;
   upVotes?: number;
+  githubLink?: string;
+  mockupLink?: string;
+  liveLink?: string;
+  tags?: string[];
 }
 
 export type Project = TestProjectObject;

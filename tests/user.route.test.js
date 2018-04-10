@@ -24,7 +24,7 @@ describe('posting new user', function () {
       .expect(res => {
         console.log('res.header = ' + res + ' = ' + res.header['set-cookie']);
         lemonysnicketloginCookie = res.header['set-cookie'];
-        expect(res.text).toBe('User Registration Succesful');
+        expect(res.body.message).toBe('User Registration Succesful');
       });
   });
 
@@ -67,7 +67,7 @@ describe('posting new user', function () {
         email: 'peter@gmail.com'
       })
       .expect(res => {
-        expect(res.text).toBe('User already exists with this email or username');
+        expect(res.body.message).toBe('User already exists with this email or username');
       });
   });
 });
@@ -135,7 +135,7 @@ describe('login & logout user', function () {
         email: 'testingNonUser@gmail.com'
       })
       .expect(res => {
-        expect(res.text).toBe('User Not Found with Email');
+        expect(res.body.message).toBe('User Not Found with Email');
       });
   });
 
@@ -157,7 +157,7 @@ describe('login & logout user', function () {
       .get('/api/logout')
       .set('Content-Type', 'application/json')
       .expect(res => {
-        expect(res.text).toBe('Successfully Logged Out');
+        expect(res.body.message).toBe('Successfully Logged Out');
       });
   })
 
@@ -170,41 +170,7 @@ describe('login & logout user', function () {
         email: 'peter@gmail.com'
       })
       .expect(res => {
-        expect(res.text).toBe('Invalid Password');
-      });
-  });
-});
-
-// --------------------- 
-// HOME PAGE  
-// --------------------- 
-describe('get home page', function () {
-  let loginCookie;
-
-  beforeAll(() => {
-    return request(app)
-      .post('/api/login')
-      .set('Content-Type', 'application/json')
-      .send({
-        password: 'secret',
-        email: 'peter@gmail.com'
-      })
-      .then(res => {
-        loginCookie = res.header['set-cookie'];
-      })
-  });
-
-  afterAll(() => {
-    return request(app).get('/api/logout')
-  });
-
-
-  test('get home page', () => {
-    return request(app)
-      .get('/api/home')
-      .set('cookie', loginCookie)
-      .expect(res => {
-        expect(res.text).toBe('Welcome to the Home');
+        expect(res.body.message).toBe('Invalid Password');
       });
   });
 });

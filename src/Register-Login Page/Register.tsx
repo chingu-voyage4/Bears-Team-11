@@ -20,7 +20,6 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
   public handleFormChange(e: React.FormEvent<HTMLInputElement>): void {
     var { name, value } = e.currentTarget;
-
     /*
      * There is a current bug in typescript that does not correctly identify the string literal
      * type in a computed property key.
@@ -36,8 +35,9 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 
   public handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
-    const { firstName, lastName, email, password } = this.state;
-    this.props.register(firstName, lastName, email, password);
+    e.preventDefault();
+    const { firstName, lastName, username, email, password } = this.state;
+    this.props.register(firstName, lastName, username, email, password);
   }
 
   render() {
@@ -60,7 +60,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             name="firstName"
             required={true}
             className="nameDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <label className="form-label">Last Name</label>
@@ -70,7 +70,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             name="lastName"
             required={true}
             className="nameDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
@@ -82,7 +82,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             name="username"
             required={true}
             className="usernameDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
@@ -102,19 +102,18 @@ class Register extends React.Component<RegisterProps, RegisterState> {
           <label className="form-label">Password</label>
           <input
             id="pasword"
-            value={this.state.password}
             type="password"
             placeholder="Password"
             name="password"
             required={true}
             className="passwordDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
 
           <button
-            onClick={this.handleSubmit}
+            onClick={e => this.handleSubmit(e)}
             type="submit"
             className="signUpBtn"
             name="registerBtn"
@@ -127,4 +126,5 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 }
 
-export default connect<{}, RegisterProps, {}>(null, { register })(Register);
+// export default connect<{}, RegisterProps, {}>(null, { register })(Register);
+export default connect(null, { register })(Register);
