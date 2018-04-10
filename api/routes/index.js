@@ -115,7 +115,6 @@ module.exports = function (passport) {
 			const ticket = await client.verifyIdToken({
 				idToken: idToken,
 				audience: CLIENT_ID,
-				// Specify the CLIENT_ID of the app that accesses the backend
 			});
 			payload = ticket.getPayload();
 			userid = payload['sub'];
@@ -123,8 +122,6 @@ module.exports = function (passport) {
 			given_name = payload['given_name'];
 			family_name = payload['family_name'];
 			profilePic = payload['profilePic'];
-			// If request specified a G Suite domain:
-			//const domain = payload['hd'];
 		}
 		// verify token ID
 		verify().catch(console.error);
@@ -138,7 +135,8 @@ module.exports = function (passport) {
 					if (err) {
 						return res.json({ error: err });
 					} else if (userDetail) {
-						res.send({ user: user, userDetail: userDetail });
+						console.log('Signing in with Google Authentication');
+						res.json({ user: user, userDetail: userDetail, message: 'Successfully logged in with Google' });
 					}
 				});
 			} else {
@@ -169,10 +167,10 @@ module.exports = function (passport) {
 						console.log('Error in Saving user: ' + err);
 						throw err;
 					}
-					console.log('User Registration succesful');
+					console.log('User Registration w/ Google Authentication succesful');
 					user = user;
 					// send back user and userDetails
-					res.json({user: user, userDetail: userDetail})
+					res.json({user: user, userDetail: userDetail, message: 'Sucessfully registered with Google'})
 				});
 			}
 		});

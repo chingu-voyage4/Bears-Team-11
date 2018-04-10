@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RegisterState } from '../types/Register.d';
 import { RegisterProps } from '../types/Redux.d';
-import { register } from '../actions/userActions';
+import { register, googleLogin } from '../actions/userActions';
 import { connect } from 'react-redux';
 import '../styles/Register-Login.css';
 import { GoogleSignIn } from '../GoogleSignIn/index';
@@ -134,6 +134,8 @@ function mapStateToProps(state: Store) {
     visibleRegisterWindow: state.registerLoginWindow.visibleRegisterWindow
   };
 }
-export default connect(mapStateToProps, { register, showRegisterWindow })(
-  Register
-);
+export default connect(mapStateToProps, {
+  register,
+  showRegisterWindow,
+  googleLogin
+})(Register);

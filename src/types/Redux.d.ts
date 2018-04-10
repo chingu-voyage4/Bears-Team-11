@@ -74,6 +74,7 @@ export interface RegisterProps {
   ) => (dispatch: Dispatch<UserAction>) => void;
   visibleRegisterWindow: boolean;
   showRegisterWindow: () => (dispatch: Dispatch<AppAction>) => void;
+  googleLogin: (idToken: string) => (dispatch: Dispatch<UserAction>) => void;
 }
 
 export interface ProjectProps {

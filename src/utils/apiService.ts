@@ -82,7 +82,10 @@ function googleLogin(idToken: string): Promise<User | Error> {
       .then(function(res: any) {
         JSON.stringify(res);
         console.log(res);
-        if (res.message === 'Successfully logged in with Google') {
+        if (
+          res.message === 'Successfully logged in with Google' ||
+          res.message === 'Sucessfully registered with Google'
+        ) {
           var user = res.user;
           var userDetails = res.userDetail;
           console.log('user=' + user);
@@ -107,7 +110,7 @@ function googleLogin(idToken: string): Promise<User | Error> {
             blogLink: userDetails.blogLink
           });
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
