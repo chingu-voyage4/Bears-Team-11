@@ -19,9 +19,8 @@ cd Bears-Team-11/
 npm start
 ```
 ## Setting up MongoDB 
-- Install [MongoDB Community Server](https://www.mongodb.com/download-center?jmp=tutorials#community)
+- Install [MongoDB Community Server](https://www.mongodb.com/download-center?jmp=tutorials#community). Follow [install instructions](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
 - Install [MongoDB Compass](https://www.mongodb.com/download-center?filter=enterprise#compass) (for local copy of mongodb)
-
 ## Running the Server 
 - `npm run start-server` runs the express server on port `8080`.
 - Go to your mongodb files (ex, C:\Program Files\MongoDB\Server\3.6\bin)

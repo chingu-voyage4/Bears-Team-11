@@ -25,7 +25,12 @@ export class GoogleSignIn extends React.Component<GoogleProps> {
   }
 
   onSignIn = (googleUser: any): void => {
-    var profile = googleUser.getBasicProfile();
+    let auth2 = window.gapi.auth2.init({
+      client_id:
+        '634604962663-247j6obodp1clln54de1469euufj6vdj.apps.googleusercontent.com'
+    });
+
+    var profile = auth2.currentUser.get().getBasicProfile();
     console.log('ID: ' + profile.getId());
     console.log('Full Name: ' + profile.getName());
     console.log('Given Name: ' + profile.getGivenName());
