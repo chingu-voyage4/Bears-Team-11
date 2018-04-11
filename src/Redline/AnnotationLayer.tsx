@@ -9,7 +9,7 @@ declare global {
 }
 
 class AnnotationLayer extends React.Component<
-  { tool: any },
+  { tool: any; onMarkerAdd: any },
   { currentId: any; markers: any }
 > {
   constructor(props: any) {
@@ -123,6 +123,7 @@ class AnnotationLayer extends React.Component<
         markers: newMarkerState
       };
     });
+    this.props.onMarkerAdd();
   };
 
   removeLastMarker = () => {
