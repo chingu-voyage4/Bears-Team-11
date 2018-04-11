@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../styles/LandingImage.css';
-
+import { Link } from 'react-router-dom';
 class LandingImage extends React.Component {
   render() {
     return (
@@ -14,7 +14,9 @@ class LandingImage extends React.Component {
                 for budding ideas. Project Match will help find you projects and
                 then provide team collaboration tools to support mockup reviews.
               </div>
-              <button className="exploreProjectsBtn">EXPLORE PROJECTS</button>
+              <Link to="/projects" className="exploreProjectsBtn">
+                EXPLORE PROJECTS
+              </Link>
             </div>
             <img
               className="landing-image"

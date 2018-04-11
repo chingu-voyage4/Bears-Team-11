@@ -1,70 +1,44 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
 
-function generateRandomDelay(): number {
-  return Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-}
-
-/* Mock Objects */
-var users: Array<User> = [
-  {
-    firstName: 'Gorden',
-    lastName: 'Ramsay',
-    email: 'gramsy@gmail.com',
-    password: 'ilovetoocook'
-  }
-];
-
-var projects: Array<Project> = [
-  {
-    name: 'Momentum Dash',
-    creator: 'lilgangwolf',
-    link: 'https://github.com/chingu-coders/Voyage2-Turtles-11',
-    image: 'https://goo.gl/hBQdUP',
-    teamMembers: ['thorbw', 'eun park', 'miles burke'],
-    description: `TurtleTab is a Google Chrome Extension Built with React. It creates a new homepage 
-        which features current Weather, Todo and Notes functionality. It also accesses your browser 
-        data to see Bookmarks, enable/disable Apps and Extensions, and see/clear your History.`,
-    contact: 'lilgangwolf',
-    lookingFor: ['Programmer', 'Designer'],
-    comments: 'None',
-    createdAt: 1519337864764,
-    dueDate: 1519337864764,
-    views: 100,
-    category: 'Productivity Tool',
-    status: true,
-    upVotes: 10
-  }
-];
-
-var headers: {
-  'content-type': 'application/json';
+var headers = {
+  'Content-Type': 'application/json'
 };
 
 /* User */
 function login(email: string, password: string): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/login';
+    const endpoint: string = 'http://localhost:8080/api/login';
 
     var data: object = {
-      body: {
+      headers: headers,
+      method: 'POST',
+      credentials: 'same-origin',
+      body: JSON.stringify({
         email: email,
         password: password
-      },
-      headers: headers,
-      method: 'POST'
+      })
     };
 
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
-        if (res.body.message === 'Successfully logged in') {
-          var user = res.body.user;
-          var userDetails = res.body.userDetails;
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        console.log(res);
+        if (res.message === 'Successfully logged in') {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('user=' + user);
+          console.log('userDetails=' + userDetails);
           resolve({
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
+            username: user.username,
             location: userDetails.location,
             roles: userDetails.roles,
             description: userDetails.description,
@@ -88,22 +62,110 @@ function login(email: string, password: string): Promise<User | Error> {
 function register(
   firstName: string,
   lastName: string,
+  username: string,
   email: string,
   password: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const user = users.filter(currentUser => {
-        return currentUser.email === email;
-      })[0];
-      user
-        ? resolve({
+    const endpoint = 'http://localhost:8080/api/signup';
+
+    var data: object = {
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        username: username
+      }),
+      headers: headers,
+      method: 'POST',
+      credentials: 'same-origin'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        // console.log('JSON.stringify=' + JSON.stringify(res));
+        if (res.message === 'User Registration Succesful') {
+          var user = res.user;
+          resolve({
             firstName: user.firstName,
             lastName: user.lastName,
-            email: user.email
-          })
-        : reject(new Error('Email is already in use.'));
-    }, generateRandomDelay());
+            email: user.email,
+            username: user.username
+          });
+        } else {
+          reject(res.text);
+        }
+      });
+  });
+}
+
+function deactivate(
+  username: string,
+  password: string
+): Promise<string | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/deactivate';
+
+    var data: object = {
+      body: {
+        username: username,
+        password: password
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully deactivated user') {
+          resolve(res.message);
+        } else {
+          reject(res.text);
+        }
+      });
+  });
+}
+
+function activate(username: string, password: string): Promise<string | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/activate';
+
+    var data: object = {
+      body: {
+        username: username,
+        password: password
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully re-activated user') {
+          resolve(res.message);
+        } else {
+          reject(res.text);
+        }
+      });
   });
 }
 
@@ -118,8 +180,13 @@ function logout(): Promise<boolean> {
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
         if (res.text === 'Successfully Logged Out') {
-          resolve(); // what should the result be?
+          resolve(res.text); // what should the result be?
         } else {
           reject(new Error('Could not log out'));
         }
@@ -130,78 +197,139 @@ function logout(): Promise<boolean> {
 /* Project */
 function getProjects(): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(projects);
-    }, generateRandomDelay());
+    const endpoint = 'http://localhost:8080/api/projects';
+
+    var data: object = {
+      body: {
+        options: {
+          select: { status: true }, // returns active projects
+          sort: { createdAt: -1 } // returns by newest
+        }
+      },
+      headers: headers,
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Succesfully retrieved projects') {
+          resolve(res.projects);
+        } else {
+          reject(res.text);
+        }
+      });
   });
 }
 
 function addProject(project: Project): Promise<Project> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var projectExists;
+    const endpoint = 'http://localhost:8080/api/projects/add';
 
-      projects.forEach(currentProject => {
-        if (currentProject.name === project.name) {
-          projectExists = true;
+    var data: object = {
+      body: {
+        name: project.name,
+        description: project.description,
+        dueDate: project.dueDate,
+        team: project.team,
+        githubLink: project.githubLink,
+        mockupLink: project.mockupLink,
+        liveLink: project.liveLink,
+        lookingFor: project.lookingFor,
+        status: project.status,
+        category: project.category,
+        tags: project.tags,
+        images: project.images,
+        contact: project.contact,
+        creator: project.creator
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'New project saved successfully') {
+          resolve(res.newProject);
+        } else {
+          reject(res.text);
         }
       });
-
-      if (!projectExists) {
-        projects.push(project);
-        resolve(project);
-      } else {
-        reject(new Error('Project already exists.'));
-      }
-    }, generateRandomDelay());
   });
 }
 
-/*
- * DISCUSSION: projects should probably have and use id as an unique identifier
- * currently name is being used as an unique identifier
- */
-function updateProject(name: string, update: Project): Promise<Project> {
+function updateProject(
+  name: string,
+  update: string,
+  id: string
+): Promise<Project> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var filteredProjects = projects.filter(currentProject => {
-        return currentProject.name === update.name;
-      });
+    const endpoint = 'http://localhost:8080/api/projects/update';
 
-      if (filteredProjects.length === 0) {
-        reject(new Error('Cannot update a project that does not exist.'));
-      } else {
-        var projectToBeUpdated = filteredProjects[0];
-        var updatedObject = Object.assign(projectToBeUpdated, update);
+    var data: object = {
+      body: {
+        id: id,
+        updateKey: name,
+        updateObject: update
+      },
+      headers: headers,
+      method: 'POST'
+    };
 
-        for (let i = 0; i < projects.length; i++) {
-          if (projects[i].name === update.name) {
-            projects[i] = updatedObject;
-          }
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully updated project') {
+          resolve(res.project);
+        } else {
+          reject(res.text);
         }
-
-        resolve(updatedObject);
-      }
-    }, generateRandomDelay());
+      });
   });
 }
 
-function deleteProject(name: string): Promise<Project> {
+function deleteProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var removeIndex;
+    const endpoint = 'http://localhost:8080/api/projects/delete/one';
 
-      for (var i = 0; i < projects.length; i++) {
-        if (projects[i].name === name) {
-          removeIndex = i;
+    var data: object = {
+      body: {
+        id: id
+      },
+      headers: headers,
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Project successfully deleted') {
+          resolve(res.project);
+        } else {
+          reject(res.message);
         }
-      }
-      if (removeIndex) {
-        resolve(projects.splice(removeIndex, removeIndex)[0]);
-      } else {
-        reject(new Error('Project does not exist'));
-      }
-    }, generateRandomDelay());
+      });
   });
 }
 
@@ -229,6 +357,8 @@ function getCategories(): Promise<Array<Project>> {
 var apiService = {
   login,
   register,
+  deactivate,
+  activate,
   logout,
   getProjects,
   addProject,

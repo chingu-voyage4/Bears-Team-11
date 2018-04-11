@@ -30,7 +30,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     } as any);
   };
 
-  handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
+  handleSubmit = (e: React.FormEvent<HTMLInputElement>): void => {
     e.preventDefault();
     this.props.login(this.state.email, this.state.password);
   };
@@ -65,7 +65,7 @@ class Login extends React.Component<LoginProps, LoginState> {
             type="email"
             name="email"
             value={this.state.email}
-            onChange={this.handleChange}
+            onChange={e => this.handleChange(e)}
             placeholder="Email"
           />
           <br />
@@ -75,15 +75,21 @@ class Login extends React.Component<LoginProps, LoginState> {
             type="password"
             name="password"
             value={this.state.password}
-            onChange={this.handleChange}
+            onChange={e => this.handleChange(e)}
             placeholder="Password"
           />
           <br />
-          <input />
+          <input
+            type="submit"
+            className="loginBtn"
+            value="Log In"
+            onClick={e => this.handleSubmit(e)}
+          />
         </form>
       </div>
     );
   }
 }
 
-export default connect<{}, LoginProps, {}>(null, { login })(Login);
+// export default connect<{}, LoginProps, {}>(null, { login })(Login);
+export default connect(null, { login })(Login);

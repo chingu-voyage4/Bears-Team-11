@@ -6,6 +6,9 @@ import { HeaderContainerProps } from './types/HeaderContainer.d';
 import { Store, State } from './types/Redux';
 
 class HeaderContainer extends React.Component<HeaderContainerProps, State> {
+  constructor(props: HeaderContainerProps) {
+    super(props);
+  }
   render() {
     let isUserLoggedIn = false;
     if (this.props.user.email) {

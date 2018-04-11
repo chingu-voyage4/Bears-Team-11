@@ -10,7 +10,7 @@ var ProjectSchema = new Schema({
     githubLink: {type: String},
     mockupLink: {type: String},
     liveLink:   {type: String},
-    image:      {type: Array}, 
+    images:     {type: Array}, 
     mockups:    {type: Array}, // stores _Id for each mockup image
     team:       {type: Array},
     description:{type: String},
@@ -22,7 +22,7 @@ var ProjectSchema = new Schema({
     views:      {type: Number, default: 0},
     category:   {type: String},
     tags:       {type: Array},
-    status:     {type: String},
+    status:     {type: Boolean, default: true}, // true is active, false is completed
     upVotes:    {type: Number, default: 0},
     modifiedAt: {type: Date, default: Date.now}
 });
