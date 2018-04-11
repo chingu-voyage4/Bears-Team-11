@@ -1,6 +1,7 @@
 /* tslint:disable */
 import * as React from 'react';
 import * as shortid from 'shortid';
+import CommentBox from './CommentBox';
 
 declare global {
   interface Window {
@@ -84,8 +85,6 @@ class AnnotationLayer extends React.Component<
   addMarker = (e: any) => {
     var marker: any;
     switch (this.props.tool) {
-      case 'cursor':
-        break;
       case 'circle':
         // center the cursor (toolbar offset + height offset)
         marker = {
@@ -107,8 +106,6 @@ class AnnotationLayer extends React.Component<
           type: 'rectangle'
         };
         this.saveMarker(marker);
-        break;
-      case 'comment':
         break;
       default:
         break;
@@ -136,6 +133,12 @@ class AnnotationLayer extends React.Component<
     });
   };
 
+  showComments = (e: any) => {
+    if (this.props.tool === 'comment') {
+      console.log('show me some comments');
+    }
+  };
+
   drawRect = (id: any, x: any, y: any, width = 100, height = 100): any => {
     var style = {
       top: `${y}px`,
@@ -144,7 +147,15 @@ class AnnotationLayer extends React.Component<
       height: `${height}px`
     };
     return (
-      <div key={id} id={id} className="annotation-rectangle" style={style} />
+      <div
+        key={id}
+        id={id}
+        className="annotation-rectangle"
+        style={style}
+        onClick={this.showComments}
+      >
+        <CommentBox x={x} y={y} width={width} height={height} />
+      </div>
     );
   };
 
@@ -153,7 +164,17 @@ class AnnotationLayer extends React.Component<
       top: `${y}px`,
       left: `${x}px`
     };
-    return <div key={id} id={id} className="annotation-circle" style={style} />;
+    return (
+      <div
+        key={id}
+        id={id}
+        className="annotation-circle"
+        style={style}
+        onClick={this.showComments}
+      >
+        <CommentBox x={x} y={y} />
+      </div>
+    );
   };
 
   makeInteractive = () => {

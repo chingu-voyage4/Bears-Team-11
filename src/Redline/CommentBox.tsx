@@ -1,7 +1,12 @@
 /* tslint:disable */
 import * as React from 'react';
 
-class CommentBox extends React.Component {
+class CommentBox extends React.Component<{
+  x: any;
+  y: any;
+  width?: any;
+  height?: any;
+}> {
   render() {
     return (
       <div className="comment-box">

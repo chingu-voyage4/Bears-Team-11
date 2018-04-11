@@ -4,7 +4,6 @@ import '../styles/Redlines.css';
 import Toolbar from './Toolbar';
 import ImageLayer from './ImageLayer';
 import AnnotationLayer from './AnnotationLayer';
-import CommentBox from './CommentBox';
 
 class Redline extends React.Component<{}, { tool: string }> {
   constructor(props: any) {
@@ -47,9 +46,6 @@ class Redline extends React.Component<{}, { tool: string }> {
             tool={this.state.tool}
             onMarkerAdd={this.selectCursorTool}
           />
-        </div>
-        <div>
-          <CommentBox />
         </div>
       </div>
     );

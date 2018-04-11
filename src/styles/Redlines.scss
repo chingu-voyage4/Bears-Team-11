@@ -50,8 +50,7 @@
   position: absolute;
   width: 100px;
   height: 100px;
-  background: #7fc4fd;
-  opacity: 0.5;
+  background: rgba(127, 196, 253, 0.5);
   border: 2px solid #2699fb;
   border-radius: 5px;
 }
@@ -71,8 +70,8 @@
   flex-direction: column;
   background: #ffffff;
   border-radius: 5px;
-  top: 500px;
-  left: 500px;
+  left: -250px;
+  top: -5px;
   height: 150px;
   width: 200px;
   padding: 15px 20px 15px 15px;
