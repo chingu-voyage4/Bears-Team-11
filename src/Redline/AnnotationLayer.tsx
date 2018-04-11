@@ -133,9 +133,15 @@ class AnnotationLayer extends React.Component<
     });
   };
 
-  showComments = (e: any) => {
+  toggleCommentBox = (e: any) => {
     if (this.props.tool === 'comment') {
-      console.log('show me some comments');
+      var target = e.currentTarget;
+      var child = target.firstChild;
+      if (child.style.display === 'none') {
+        child.style.display = 'block';
+      } else {
+        child.style.display = 'none';
+      }
     }
   };
 
@@ -152,7 +158,7 @@ class AnnotationLayer extends React.Component<
         id={id}
         className="annotation-rectangle"
         style={style}
-        onClick={this.showComments}
+        onClick={this.toggleCommentBox}
       >
         <CommentBox x={x} y={y} width={width} height={height} />
       </div>
@@ -170,7 +176,7 @@ class AnnotationLayer extends React.Component<
         id={id}
         className="annotation-circle"
         style={style}
-        onClick={this.showComments}
+        onClick={this.toggleCommentBox}
       >
         <CommentBox x={x} y={y} />
       </div>

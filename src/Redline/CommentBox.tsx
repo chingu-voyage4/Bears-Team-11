@@ -11,7 +11,7 @@ class CommentBox extends React.Component<{
     return (
       <div className="comment-box">
         <div className="comment-box__menu">
-          <i className="far fa-times-circle" />
+          {/* <i className="far fa-times-circle" /> */}
         </div>
         <div className="comment-box__header">
           <img
