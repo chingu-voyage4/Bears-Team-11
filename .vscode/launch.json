@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\start-js"
+            "program": "${workspaceFolder}/api/routes/index.js"   // "${workspaceFolder}\\start-js"
         }
     ]
 }
