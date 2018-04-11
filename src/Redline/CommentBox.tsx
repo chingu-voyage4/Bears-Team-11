@@ -5,6 +5,9 @@ class CommentBox extends React.Component {
   render() {
     return (
       <div className="comment-box">
+        <div className="comment-box__menu">
+          <i className="far fa-times-circle" />
+        </div>
         <div className="comment-box__header">
           <img
             className="comment-box__profile_picture"
