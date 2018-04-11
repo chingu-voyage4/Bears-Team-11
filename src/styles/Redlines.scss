@@ -67,9 +67,9 @@
 .comment-box {
   position: absolute;
   display: flex;
+  z-index: 9;
   flex-direction: column;
   background: #ffffff;
-  border: 1px solid #d1d1d1;
   border-radius: 5px;
   top: 500px;
   left: 500px;
@@ -78,20 +78,21 @@
   padding: 15px 20px 15px 15px;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
     sans-serif;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .comment-box:after {
   content: '';
   position: absolute;
+  z-index: 1;
   top: 20px;
-  right: -6px;
+  right: -5px;
   width: 10px;
   height: 10px;
   background: #ffffff;
   border-radius: 1px;
-  border-bottom: 1px solid #d1d1d1;
-  border-right: 1px solid #d1d1d1;
   transform: rotate(-45deg);
+  box-shadow: 2px 3px 3px -1px rgba(0, 0, 0, 0.16);
 }
 
 .comment-box__header {
