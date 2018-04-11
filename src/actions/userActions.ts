@@ -73,3 +73,27 @@ export function logout(): (dispatch: Dispatch<UserAction>) => void {
       });
   };
 }
+
+export function PublicProfileUpdate(
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string
+): (dispatch: Dispatch<UserAction>) => void {
+  return dispatch => {
+    return apiService
+      .register(firstName, lastName, email, password)
+      .then(user => {
+        return dispatch({
+          type: REGISTER,
+          data: user
+        });
+      })
+      .catch(error => {
+        return dispatch({
+          type: REGISTER_ERROR,
+          error
+        });
+      });
+  };
+}
