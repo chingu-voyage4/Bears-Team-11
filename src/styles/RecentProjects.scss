@@ -19,8 +19,9 @@ HEADER & HORIZONTAL LINE
   text-align: center;
   color: $theme-blue;
   font-size: $landing-header-size;
-  padding-top: 50px;
-  padding-bottom: 30px;
+  padding-top: 80px;
+  padding-bottom: 50px;
+  font-weight: 700;
 }
 /*
 ==========================
@@ -31,4 +32,6 @@ PROJECT
   @include white-text-blue-background-button;
   margin: 60px auto;
   display: block;
+  width: 200px;
+  text-align: center;
 }

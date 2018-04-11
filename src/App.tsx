@@ -1,9 +1,8 @@
 import * as React from 'react';
 import './styles/App.css';
-
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import userReducer from './reducers';
+import rootReducer from './reducers';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import LandingPage from './Landing Page/LandingPage';
@@ -12,9 +11,10 @@ import ProjectsPage from './Projects Page/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
 import PublicProfile from './UserProfileAndSettingsPage/PublicProfile';
+import ProjectPortalPage from './ProjectPortalPage/ProjectPortalPage';
 
 const store = createStore(
-  userReducer,
+  rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
 class App extends React.Component<{}, { reduxManualTest: boolean }> {
@@ -34,6 +34,11 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
               <Route exact={true} path="/" component={LandingPage} />
               <Route exact={true} path="/home" component={LandingPage} />
               <Route exact={true} path="/projects" component={ProjectsPage} />
+              <Route
+                exact={true}
+                pah="/projects/:id"
+                component={ProjectPortalPage}
+              />
               <Route
                 exact={true}
                 path="/projects/add"

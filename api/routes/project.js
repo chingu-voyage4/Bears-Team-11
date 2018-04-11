@@ -6,38 +6,46 @@ var isAuthenticated = require('../utils/authentication');
 var mongoosePaginate = require('mongoose-paginate');
 
 // retrieves all projects
-router.get('/', function(req, res) {
-  Project.paginate({}, req.body.options, function(err, result) {
-    if (err) { return res.send('Error retrieving project: ' + err) };
-    res.json(result);
+router.get('/', function (req, res) {
+  Project.paginate({}, req.body.options, function (err, result) {
+    if (err) {
+      return res.json({message: 'Error retrieving project: ' + err})
+    } else {
+      res.json({ projects: result, message: 'Succesfully retrieved projects' });
+    }
   })
 });
 
-// retrieves all projects
-router.post('/filter', function(req, res) {
-  Project.paginate({}, req.body.options, function(err, result) {
-    if (err) { return res.send('Error retrieving project: ' + err) };
-    res.json(result);
+// retrieves filtered projects. placeholder => not yet implemented
+router.post('/filter', function (req, res) {
+  Project.paginate({}, req.body.options, function (err, result) {
+    if (err) {
+      return res.json({message: 'Error retrieving project: ' + err})
+    } else {
+      res.json(result);
+    }
   })
 });
 
 // retrieves project by id
-router.get('/:id', function(req,res) {
-  Project.findOne({_id: req.params.id}, function(err, project) {
+router.get('/:id', function (req, res) {
+  Project.findOne({ _id: req.params.id }, function (err, project) {
     if (err || !project) {
-      res.send('Error in saving project: ' + err);
+      res.json({message: 'Error in saving project: ' + err});
+    } else {
+      res.json(project);
     }
-    res.send(project);
   })
 })
 
 // update project by id
-router.post('/update', isAuthenticated, function(req,res) {
-  Project.findOneAndUpdate({_id: req.body.id}, {[req.body.updateKey]: req.body.updateObject, modifiedAt: new Date()}, {new: true}, function(err, project) {
+router.post('/update', isAuthenticated, function (req, res) {
+  Project.findOneAndUpdate({ _id: req.body.id }, { [req.body.updateKey]: req.body.updateObject, modifiedAt: new Date() }, { new: true }, function (err, project) {
     if (err || !project) {
-      res.send({message: 'Error in updating project: ' + err});
+      res.json({ message: 'Error in updating project: ' + err });
+    } else {
+      res.json({project: project, message: 'Successfully updated project'});
     }
-    res.send(project);
   })
 })
 
@@ -62,20 +70,22 @@ router.post('/add', isAuthenticated, function (req, res) {
 
   newProject.save(function (err) {
     if (err) {
-      res.send('Error in saving project: ' + err);
+      res.json({message: 'Error in saving project: ' + err});
+    } else {
+      console.log('New project saved successfully');
+      res.json({ message: 'New project saved successfully', newProject: newProject })
     }
-    console.log('New project saved successfully');
-    res.send({message: 'New project saved successfully', newProject: newProject})
-  }); 
+  });
 })
 
 // delete a single project by id
-router.post('/delete/one', isAuthenticated, function(req,res) {
-  Project.findByIdAndRemove(req.body.id, function(err, project) {
+router.post('/delete/one', isAuthenticated, function (req, res) {
+  Project.findByIdAndRemove(req.body.id, function (err, project) {
     if (err || !project) {
-      res.send({message: 'Error in deleting project: ' + err});
+      res.json({ message: 'Error in deleting project: ' + err });
+    } else {
+      res.json({ message: 'Project successfully deleted', project: project });
     }
-    res.send({message: 'Project successfully deleted'});
   })
 })
 

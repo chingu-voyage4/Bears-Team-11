@@ -10,7 +10,13 @@ class ReduxTestPage extends React.Component<TestProps, State> {
   };
 
   handleRegister = () => {
-    this.props.register('Hannah', 'Montana', 'montana@gmail.com', '123456');
+    this.props.register(
+      'Hannah',
+      'Montana',
+      'montana@gmail.com',
+      '123456',
+      'hmontana'
+    );
   };
 
   handleLogout = () => {

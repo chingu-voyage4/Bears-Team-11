@@ -1,28 +1,30 @@
 import * as React from 'react';
 import './styles/Header.css';
-import { PassedProps, State, Props } from './types/Header.d';
+import { HeaderProps, HeaderState } from './types/Header.d';
 import Login from './Register-Login Page/Login';
 import Register from './Register-Login Page/Register';
-// import { BrowserRouter as Route } from 'react-router-dom';
-class Header extends React.Component<PassedProps, State> {
-  constructor(props: Props) {
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { showRegisterWindow, showLoginWindow } from './actions/appActions';
+import { Store } from './types/Redux';
+
+class Header extends React.Component<HeaderProps, HeaderState> {
+  constructor(props: HeaderProps) {
     super(props);
     this.state = {
-      loginScreen: false,
-      registerScreen: false
+      loginWindow: this.props.visibleLoginWindow,
+      registerWindow: this.props.visibleRegisterWindow
     };
   }
 
-  loginPressed = () => {
-    this.setState({
-      loginScreen: !this.state.loginScreen
-    });
+  loginPressed = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    this.props.showLoginWindow();
   };
 
-  registerPressed = () => {
-    this.setState({
-      registerScreen: !this.state.registerScreen
-    });
+  registerPressed = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    this.props.showRegisterWindow();
   };
 
   render() {
@@ -30,18 +32,20 @@ class Header extends React.Component<PassedProps, State> {
       <div className="header-color-container">
         <div className="header-container">
           {/* controls login and register popup windows */}
-          {this.state.loginScreen === true ? <Login /> : null}
-          {this.state.registerScreen === true ? <Register /> : null}
+          {this.props.visibleLoginWindow ? <Login /> : null}
+          {this.props.visibleRegisterWindow ? <Register /> : null}
 
-          <div className="logo">project match</div>
+          <Link to="/" className="logo">
+            project match
+          </Link>
           <div className="login">
-            <button onClick={this.loginPressed} className="loginText">
+            <button onClick={e => this.loginPressed(e)} className="loginText">
               LOG IN
             </button>
           </div>
           <div className="signUp">
             <button onClick={this.registerPressed} className="signUpButton">
-              <h2 className="signUpText">SIGN UP FOR FREE</h2>
+              SIGN UP FOR FREE
             </button>
           </div>
         </div>
@@ -50,4 +54,14 @@ class Header extends React.Component<PassedProps, State> {
   }
 }
 
-export default Header;
+function mapStateToProps(state: Store) {
+  return {
+    visibleLoginWindow: state.registerLoginWindow.visibleLoginWindow,
+    visibleRegisterWindow: state.registerLoginWindow.visibleRegisterWindow
+  };
+}
+
+export default connect(mapStateToProps, {
+  showRegisterWindow,
+  showLoginWindow
+})(Header);
