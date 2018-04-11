@@ -39,7 +39,7 @@ class Redline extends React.Component<{}, { tool: string }> {
           selectCursorTool={this.selectCursorTool}
           selectCircleTool={this.selectCircleTool}
           selectRectangleTool={this.selectRectangleTool}
-          selectCommentTool={this.selectRectangleTool}
+          selectCommentTool={this.selectCommentTool}
         />
         <div className="redline-canvas">
           <ImageLayer />
