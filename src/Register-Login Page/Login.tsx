@@ -4,7 +4,7 @@ import { LoginState } from '../types/Login.d';
 import { LoginProps } from '../types/Redux';
 import { connect } from 'react-redux';
 import { login } from '../actions/userActions';
-import { GoogleSignIn } from '../GoogleSignIn/index';
+import GoogleSignIn from '../GoogleSignIn';
 import { showLoginWindow } from '../actions/appActions';
 import { Store } from '../types/Redux';
 class Login extends React.Component<LoginProps, LoginState> {

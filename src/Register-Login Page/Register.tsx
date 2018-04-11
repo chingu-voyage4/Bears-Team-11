@@ -4,7 +4,7 @@ import { RegisterProps } from '../types/Redux.d';
 import { register } from '../actions/userActions';
 import { connect } from 'react-redux';
 import '../styles/Register-Login.css';
-import { GoogleSignIn } from '../GoogleSignIn/index';
+import GoogleSignIn from '../GoogleSignIn';
 import { showRegisterWindow } from '../actions/appActions';
 import { Store } from '../types/Redux';
 class Register extends React.Component<RegisterProps, RegisterState> {
