@@ -45,25 +45,21 @@ class AnnotationLayer extends React.Component<
     };
   }
 
-  enableInteractivity = () => {
-    this.state.markers.forEach((marker: any) => {
-      this.makeDraggable(marker.id);
-      if (marker.type === 'rectangle') {
-        this.makeResizeable(marker.id);
-      }
-    });
-  };
+  componentDidMount() {
+    this.makeInteractive();
+  }
 
-  disableInteractivity = () => {
-    this.state.markers.forEach((marker: any) => {
-      this.disableDrag(marker.id);
-      if (marker.type === 'rectangle') {
-        this.disableResize(marker.id);
-      }
-    });
-  };
+  componentWillReceiveProps(nextProps: any) {
+    // TODO: need a better way to toggle states
+    this.makeInteractive();
+    if (nextProps.tool !== 'cursor' && this.props.tool === 'cursor') {
+      this.disableInteractivity();
+    } else if (nextProps.tool === 'cursor' && this.props.tool !== 'cursor') {
+      this.enableInteractivity();
+    }
+  }
 
-  hydrateMarkers = () => {
+  drawMarkers = () => {
     var markers: any = [];
     this.state.markers.forEach((annotation: any) => {
       if (annotation.type === 'rectangle') {
@@ -159,6 +155,33 @@ class AnnotationLayer extends React.Component<
     return <div key={id} id={id} className="annotation-circle" style={style} />;
   };
 
+  makeInteractive = () => {
+    this.state.markers.forEach((marker: any) => {
+      this.makeDraggable(marker.id);
+      if (marker.type === 'rectangle') {
+        this.makeResizeable(marker.id);
+      }
+    });
+  };
+
+  enableInteractivity = () => {
+    this.state.markers.forEach((marker: any) => {
+      this.enableDrag(marker.id);
+      if (marker.type === 'rectangle') {
+        this.enableResize(marker.id);
+      }
+    });
+  };
+
+  disableInteractivity = () => {
+    this.state.markers.forEach((marker: any) => {
+      this.disableDrag(marker.id);
+      if (marker.type === 'rectangle') {
+        this.disableResize(marker.id);
+      }
+    });
+  };
+
   makeDraggable = (id: any) => {
     window.$(`#${id}`).draggable();
   };
@@ -172,13 +195,21 @@ class AnnotationLayer extends React.Component<
   };
 
   disableResize = (id: any) => {
+    window.$(`#${id}`).resizable('disable');
+  };
+
+  enableDrag = (id: any) => {
     window.$(`#${id}`).draggable('enable');
+  };
+
+  enableResize = (id: any) => {
+    window.$(`#${id}`).resizable('enable');
   };
 
   render() {
     return (
       <div className="redline-annotations" onClick={this.addMarker}>
-        {this.hydrateMarkers()}
+        {this.drawMarkers()}
       </div>
     );
   }
