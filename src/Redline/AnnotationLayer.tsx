@@ -45,6 +45,24 @@ class AnnotationLayer extends React.Component<
     };
   }
 
+  enableInteractivity = () => {
+    this.state.markers.forEach((marker: any) => {
+      this.makeDraggable(marker.id);
+      if (marker.type === 'rectangle') {
+        this.makeResizeable(marker.id);
+      }
+    });
+  };
+
+  disableInteractivity = () => {
+    this.state.markers.forEach((marker: any) => {
+      this.disableDrag(marker.id);
+      if (marker.type === 'rectangle') {
+        this.disableResize(marker.id);
+      }
+    });
+  };
+
   hydrateMarkers = () => {
     var markers: any = [];
     this.state.markers.forEach((annotation: any) => {
@@ -147,6 +165,14 @@ class AnnotationLayer extends React.Component<
 
   makeResizeable = (id: any) => {
     window.$(`#${id}`).resizable({ autoHide: true });
+  };
+
+  disableDrag = (id: any) => {
+    window.$(`#${id}`).draggable('disable');
+  };
+
+  disableResize = (id: any) => {
+    window.$(`#${id}`).draggable('enable');
   };
 
   render() {
