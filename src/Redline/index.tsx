@@ -41,11 +41,13 @@ class Redline extends React.Component<{}, { tool: string }> {
           selectCommentTool={this.selectCommentTool}
         />
         <div className="redline-canvas">
-          <ImageLayer />
-          <AnnotationLayer
-            tool={this.state.tool}
-            onMarkerAdd={this.selectCursorTool}
-          />
+          <div>
+            <ImageLayer />
+            <AnnotationLayer
+              tool={this.state.tool}
+              onMarkerAdd={this.selectCursorTool}
+            />
+          </div>
         </div>
       </div>
     );
