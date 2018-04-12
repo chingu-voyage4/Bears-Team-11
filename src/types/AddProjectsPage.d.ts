@@ -1,7 +1,9 @@
 import { Dispatch } from 'react-redux';
 import { Project } from './Projects.d';
 import { User } from './User.d';
-
+import { UsersAction, Users } from './Redux.d';
+import { Categories } from './Category.d';
+import { Tags } from './Tags.d';
 // Action
 export interface Action {
   type: string;
@@ -29,11 +31,7 @@ export interface AddProjectState {
   creator?: string;
   categoryPlaceholder: string;
   tagPlaceholder: string | string[];
+  teamPlaceholder: string | string[];
   preview?: any;
   files?: any;
-}
-export interface AddProjectPassedProps {
-  user: User;
-  projects: Array<Project>;
-  addProject: (project: Project) => (dispatch: Dispatch<ProjectAction>) => void;
 }

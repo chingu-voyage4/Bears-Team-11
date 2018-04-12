@@ -151,6 +151,7 @@ module.exports = function (passport) {
 						newUser.email = googlePayload.email;
 						newUser.profileImage = googlePayload.profilePic;
 						newUser.googleId = googlePayload.userid;
+						newUser.username = googlePayload.given_name + '_' + googlePayload.family_name;
 
 						var newUserDetails = new UserDetails({ googleId: googlePayload.userid });
 

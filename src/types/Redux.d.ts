@@ -21,6 +21,10 @@ export interface ProjectAction extends Action {
   data: Project;
 }
 
+export interface UsersAction extends Action {
+  data: Users;
+}
+
 export interface TagAction extends Action {
   tags: Tags;
 }
@@ -28,10 +32,14 @@ export interface CategoryAction extends Action {
   categories: Categories;
 }
 
+export type Users = Array<User>;
+
 // Reducers
 export type UserState = User | {};
 
 export type ProjectState = Array<Project>;
+
+export type UsersState = Users | {};
 
 export type AppState = RegisterLoginWindow;
 
@@ -45,6 +53,7 @@ export interface Store {
   tags: Array<object>;
   categories: Array<object>;
   registerLoginWindow: RegisterLoginWindow;
+  allUsers: Users;
 }
 
 export interface TestProps extends Store {
@@ -82,11 +91,22 @@ export interface RegisterProps {
   ) => (dispatch: Dispatch<UserAction>) => void;
   visibleRegisterWindow: boolean;
   showRegisterWindow: () => (dispatch: Dispatch<AppAction>) => void;
-  // googleLogin: (idToken: string) => (dispatch: Dispatch<UserAction>) => void;
 }
 
 export interface ProjectProps {
   getProjects: () => (dispatch: Dispatch<ProjectAction>) => void;
+}
+
+export interface AddProjectProps {
+  user: User;
+  projects?: Array<Project>;
+  categories?: Categories | any;
+  tags?: Tags | any;
+  allUsers?: Users;
+  addProject: (project: Project) => (dispatch: Dispatch<ProjectAction>) => void;
+  getAllUsers: () => (dispatch: Dispatch<Action>) => void;
+  getCategories: () => (dispatch: Dispatch<Action>) => void;
+  getTags: () => (dispatch: Dispatch<Action>) => void;
 }
 
 // Register Component

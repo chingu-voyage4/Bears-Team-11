@@ -251,6 +251,32 @@ function logout(): Promise<boolean> {
   });
 }
 
+function getAllUsers(): Promise<Array<User>> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/users';
+
+    var data: object = {
+      headers: headers,
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved all users') {
+          resolve(res.users);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
 /* Project */
 function getProjects(): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
@@ -455,7 +481,8 @@ var apiService = {
   updateProject,
   deleteProject,
   getTags,
-  getCategories
+  getCategories,
+  getAllUsers
 };
 
 export default apiService;
