@@ -26,7 +26,7 @@ class AddProjectsPage extends React.Component<
       mockupLink: '',
       liveLink: '',
       lookingFor: [],
-      status: '',
+      status: true,
       category: '',
       tags: [],
       images: [],
@@ -118,7 +118,23 @@ class AddProjectsPage extends React.Component<
   }
 
   public handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
-    this.props.addProject({});
+    this.props.addProject({
+      name: this.state.name,
+      description: this.state.description,
+      dueDate: this.state.dueDate,
+      team: this.state.team,
+      githubLink: this.state.githubLink,
+      mockupLink: this.state.mockupLink,
+      liveLink: this.state.liveLink,
+      lookingFor: this.state.lookingFor,
+      status: this.state.status,
+      category: this.state.category,
+      tags: this.state.tags,
+      images: this.state.images,
+      contact: this.state.contact,
+      creator: this.state.creator,
+      files: this.state.files
+    });
   };
 
   public handleImageText = (e: React.FormEvent<HTMLInputElement>): void => {

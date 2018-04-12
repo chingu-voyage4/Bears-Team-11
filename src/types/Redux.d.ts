@@ -1,8 +1,8 @@
 import { Dispatch } from 'react-redux';
 import { Project } from './Projects.d';
 import { User } from './User.d';
-import { Tags } from './Tags.d';
-import { Categories } from './Category.d';
+import { Tags, Tag } from './Tags.d';
+import { Categories, Category } from './Category.d';
 import { RegisterLoginWindow } from './AppAction';
 // Action
 export interface Action {
@@ -50,8 +50,8 @@ export type CategoriesState = Categories | {};
 export interface Store {
   user: User;
   projects: Array<Project>;
-  tags: Array<object>;
-  categories: Array<object>;
+  tags: Array<Tag>;
+  categories: Array<Category>;
   registerLoginWindow: RegisterLoginWindow;
   allUsers: Users;
 }

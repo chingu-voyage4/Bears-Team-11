@@ -22,7 +22,7 @@ export interface AddProjectState {
   mockupLink?: string;
   liveLink?: string;
   lookingFor?: string[];
-  status?: string;
+  status?: boolean;
   category?: string;
   tags?: string[];
   images?: any;

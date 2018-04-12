@@ -8,7 +8,7 @@ export interface Projects {
   lookingFor?: string[];
   comments?: string;
   createdAt?: number;
-  dueDate?: number;
+  dueDate?: number | any;
   views?: number;
   category?: string;
   status?: boolean;
@@ -17,6 +17,7 @@ export interface Projects {
   mockupLink?: string;
   liveLink?: string;
   tags?: string[];
+  files?: any;
 }
 
 export type Project = Projects;
