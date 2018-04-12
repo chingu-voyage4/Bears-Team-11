@@ -87,6 +87,15 @@ class AddProjectsPage extends React.Component<
       // tslint:disable-next-line
       this.setState({ tags: arrayOfTags } as any);
       this.toggleTagsDropdown(e);
+    } else if (name === 'team') {
+      var arrayOfTeam = Object.assign([], this.state.team);
+      var lowercaseTeam = value.toLowerCase();
+      if (arrayOfTeam.indexOf(lowercaseTeam) === -1) {
+        arrayOfTeam.push(lowercaseTeam);
+      }
+      // tslint:disable-next-line
+      this.setState({ team: arrayOfTeam } as any);
+      this.toggleTeamDropdown(e);
     } else {
       // tslint:disable-next-line
       this.setState({ [name]: value } as any);
@@ -105,10 +114,10 @@ class AddProjectsPage extends React.Component<
   public handleTeamRemoval = (e: React.MouseEvent<HTMLButtonElement>): void => {
     let { value } = e.currentTarget.previousElementSibling as HTMLInputElement;
     var copyOfTeamArray = Object.assign([], this.state.team);
-    var indexOfTag = copyOfTeamArray.indexOf(value);
-    copyOfTeamArray.splice(indexOfTag, 1);
+    var indexOfTeam = copyOfTeamArray.indexOf(value);
+    copyOfTeamArray.splice(indexOfTeam, 1);
     // tslint:disable-next-line
-    this.setState({ tags: copyOfTeamArray });
+    this.setState({ team: copyOfTeamArray });
   };
 
   public onTextAreaFormChange(e: React.FormEvent<HTMLTextAreaElement>): void {
@@ -301,13 +310,13 @@ class AddProjectsPage extends React.Component<
     if (team.length === 0) {
       chosenTeam = null;
     } else {
-      chosenTeam = team.map(function(teamMemeber: string, index: number) {
-        return (
-          <div className="tag-container" key={index}>
+      if (team.length === 1) {
+        chosenTeam = (
+          <div className="tag-container" key={1}>
             <input
               type="button"
               className="new-project-chosen-tag"
-              value={teamMemeber}
+              value={team}
             />
             <button
               type="button"
@@ -318,7 +327,26 @@ class AddProjectsPage extends React.Component<
             </button>
           </div>
         );
-      });
+      } else {
+        chosenTeam = team.map(function(teamMemeber: string, index: number) {
+          return (
+            <div className="tag-container" key={index}>
+              <input
+                type="button"
+                className="new-project-chosen-tag"
+                value={teamMemeber}
+              />
+              <button
+                type="button"
+                className="remove-tag-btn"
+                onClick={referenceToThis.handleTeamRemoval}
+              >
+                X
+              </button>
+            </div>
+          );
+        });
+      }
     }
 
     return (
