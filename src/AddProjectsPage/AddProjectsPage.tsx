@@ -578,8 +578,8 @@ function mapStateToProps(state: Store) {
   return {
     user: state.user,
     projects: state.projects,
-    tags: state.tags,
     categories: state.categories,
+    tags: state.tags,
     allUsers: state.allUsers
   };
 }

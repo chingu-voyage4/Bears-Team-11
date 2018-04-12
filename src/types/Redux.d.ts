@@ -50,8 +50,8 @@ export type CategoriesState = Categories | {};
 export interface Store {
   user: User;
   projects: Array<Project>;
-  tags: Array<Tag>;
   categories: Array<Category>;
+  tags: Array<Tag>;
   registerLoginWindow: RegisterLoginWindow;
   allUsers: Users;
 }
@@ -99,10 +99,10 @@ export interface ProjectProps {
 
 export interface AddProjectProps {
   user: User;
-  projects?: Array<Project>;
-  categories?: Categories | any;
-  tags?: Tags | any;
-  allUsers?: Users;
+  projects: Array<Project>;
+  categories: Categories | any;
+  tags: Tags | any;
+  allUsers: Users;
   addProject: (project: Project) => (dispatch: Dispatch<ProjectAction>) => void;
   getAllUsers: () => (dispatch: Dispatch<Action>) => void;
   getCategories: () => (dispatch: Dispatch<Action>) => void;
