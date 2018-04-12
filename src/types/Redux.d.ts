@@ -26,10 +26,10 @@ export interface UsersAction extends Action {
 }
 
 export interface TagAction extends Action {
-  tags: Tags;
+  data: Tags;
 }
 export interface CategoryAction extends Action {
-  categories: Categories;
+  data: Categories;
 }
 
 export type Users = Array<User>;

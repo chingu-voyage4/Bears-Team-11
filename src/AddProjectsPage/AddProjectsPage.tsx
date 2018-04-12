@@ -368,13 +368,13 @@ class AddProjectsPage extends React.Component<
                 <label className="newProjectSubText" htmlFor="new-project-team">
                   Team
                 </label>
-                <input
+                {/* <input
                   type="text"
                   name="team"
                   id="new-project-team"
                   className="new-project-input"
                   onChange={e => this.onFormChange(e)}
-                />
+                /> */}
               </div>
               <button
                 onClick={this.toggleTeamDropdown}

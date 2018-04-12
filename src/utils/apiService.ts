@@ -1,5 +1,7 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
+import { Categories } from '../types/Category';
+import { Tags } from '../types/Tags';
 
 var headers = {
   'Content-Type': 'application/json'
@@ -416,7 +418,8 @@ function deleteProject(id: string): Promise<Project> {
   });
 }
 
-function getTags(): Promise<Array<Project>> {
+function getTags(): Promise<Tags> {
+  console.log('getting tags');
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/projects/tags';
 
@@ -442,7 +445,7 @@ function getTags(): Promise<Array<Project>> {
   });
 }
 
-function getCategories(): Promise<Array<Project>> {
+function getCategories(): Promise<Categories> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/projects/categories';
 

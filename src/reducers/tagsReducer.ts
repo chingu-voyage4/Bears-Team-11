@@ -5,7 +5,7 @@ import { TagsState, TagAction } from '../types/Redux';
 function tagsReducer(state: TagsState = {}, action: TagAction): TagsState {
   switch (action.type) {
     case GET_TAGS:
-      return action.tags as Tags;
+      return action.data as Tags;
     default:
       return state;
   }

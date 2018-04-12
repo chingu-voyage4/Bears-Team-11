@@ -8,7 +8,7 @@ function categoriesReducer(
 ): CategoriesState {
   switch (action.type) {
     case GET_CATEGORIES:
-      return action.categories as Categories;
+      return action.data as Categories;
     default:
       return state;
   }
