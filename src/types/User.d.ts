@@ -1,9 +1,11 @@
 export interface User {
   firstName: string;
   lastName: string;
-  email: string;
+  email?: string;
   username?: string;
+  profileImage?: string;
   password?: string;
+  googleId?: string;
   location?: string;
   roles?: string[];
   description?: string;

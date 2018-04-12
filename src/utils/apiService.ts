@@ -6,7 +6,7 @@ var headers = {
 };
 
 /* User */
-function login(email: string, password: string): Promise<User | Error> {
+function login(email: string, password: string): Promise<User | string> {
   return new Promise((resolve, reject) => {
     const endpoint: string = 'http://localhost:8080/api/login';
 
@@ -39,6 +39,7 @@ function login(email: string, password: string): Promise<User | Error> {
             lastName: user.lastName,
             email: user.email,
             username: user.username,
+            profileImage: user.profileImage,
             location: userDetails.location,
             roles: userDetails.roles,
             description: userDetails.description,
@@ -53,7 +54,63 @@ function login(email: string, password: string): Promise<User | Error> {
             blogLink: userDetails.blogLink
           });
         } else {
-          reject(res.text);
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function googleLogin(idToken: string): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint: string = 'http://localhost:8080/api/googlelogin';
+
+    var data: object = {
+      headers: headers,
+      method: 'POST',
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        idToken: idToken
+      })
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        console.log(res);
+        if (
+          res.message === 'Successfully logged in with Google' ||
+          res.message === 'Sucessfully registered with Google'
+        ) {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('user=' + user);
+          console.log('userDetails=' + userDetails);
+          resolve({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.error);
         }
       });
   });
@@ -100,7 +157,7 @@ function register(
             username: user.username
           });
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -133,7 +190,7 @@ function deactivate(
         if (res.message === 'Successfully deactivated user') {
           resolve(res.message);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -163,7 +220,7 @@ function activate(username: string, password: string): Promise<string | Error> {
         if (res.message === 'Successfully re-activated user') {
           resolve(res.message);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -188,7 +245,7 @@ function logout(): Promise<boolean> {
         if (res.text === 'Successfully Logged Out') {
           resolve(res.text); // what should the result be?
         } else {
-          reject(new Error('Could not log out'));
+          reject(res.error);
         }
       });
   });
@@ -221,7 +278,7 @@ function getProjects(): Promise<Array<Project>> {
         if (res.message === 'Succesfully retrieved projects') {
           resolve(res.projects);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -263,7 +320,7 @@ function addProject(project: Project): Promise<Project> {
         if (res.message === 'New project saved successfully') {
           resolve(res.newProject);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -298,7 +355,7 @@ function updateProject(
         if (res.message === 'Successfully updated project') {
           resolve(res.project);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -327,7 +384,7 @@ function deleteProject(id: string): Promise<Project> {
         if (res.message === 'Project successfully deleted') {
           resolve(res.project);
         } else {
-          reject(res.message);
+          reject(res.error);
         }
       });
   });
@@ -356,6 +413,7 @@ function getCategories(): Promise<Array<Project>> {
 /* Service Module */
 var apiService = {
   login,
+  googleLogin,
   register,
   deactivate,
   activate,
