@@ -22,22 +22,22 @@ class AnnotationLayer extends React.Component<
           type: 'circle',
           comments: 5,
           creator: 'lilgangwolf',
-          x: '20',
-          y: '20'
+          x: '416',
+          y: '77'
         },
         {
           id: 'lilgangwolf-2',
           type: 'circle',
           creator: 'lilgangwolf',
-          x: '100',
-          y: '100'
+          x: '717',
+          y: '223'
         },
         {
           id: 'lilgangwolf-3',
           type: 'rectangle',
           creator: 'lilgangwolf',
-          x: '200',
-          y: '200',
+          x: '1019',
+          y: '398',
           width: '100',
           height: '200'
         }
@@ -82,6 +82,7 @@ class AnnotationLayer extends React.Component<
     return markers;
   };
 
+  // BUG: annotation canvas does not wrap the image
   addMarker = (e: any) => {
     var marker: any;
     switch (this.props.tool) {
@@ -218,6 +219,7 @@ class AnnotationLayer extends React.Component<
     window.$(`#${id}`).resizable({ autoHide: true });
   };
 
+  // TODO: make into one function?
   disableDrag = (id: any) => {
     window.$(`#${id}`).draggable('disable');
   };
