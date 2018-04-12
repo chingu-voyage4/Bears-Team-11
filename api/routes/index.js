@@ -93,7 +93,7 @@ module.exports = function (passport) {
 	});
 
 	// GOOGLE LOGIN ROUTE
-	router.post('/googlelogin', function (req, res, next) {
+	router.post('/googlelogin', function (req, res) {
 		const CLIENT_ID = '634604962663-247j6obodp1clln54de1469euufj6vdj.apps.googleusercontent.com';
 		const client = new OAuth2Client(CLIENT_ID);
 
@@ -111,65 +111,72 @@ module.exports = function (passport) {
 			let email = payload['email'];
 			let given_name = payload['given_name'];
 			let family_name = payload['family_name'];
-			let profilePic = payload['profilePic'];
+			let profilePic = payload['picture'];
 
-			console.log('payload=' + payload);
-
-			return User.findOne({ googleId: userid }, function (err, user) {
-				console.log('finding User');
-				if (err) {
-					return res.json({ error: err });
-				} else if (user) {
-					// existing user , send back existing user data
-					UserDetails.findOne({ 'googleId': user.googleId }, function (err, userDetail) {
-						if (err) {
-							return res.json({ error: err });
-						} else if (userDetail) {
-							console.log('Signing in with Google Authentication');
-							res.json({ user: user, userDetail: userDetail, message: 'Successfully logged in with Google' });
-						}
-					});
-				} else {
-					// user not found, make new user and userDetails collection
-					var user;
-					var userDetail;
-					var newUser = new User();
-					newUser.firstName = given_name;
-					newUser.lastName = family_name;
-					newUser.email = email;
-					newUser.profileImage = profilePic;
-					newUser.googleId = userid;
-
-					var newUserDetails = new UserDetails({ googleId: userid });
-
-					newUserDetails.save(function (err, userDetail) {
-						if (err) {
-							console.log('Error in saving newUserDetails: ' + err);
-							throw err;
-						}
-						console.log('New UserDetails document available')
-						userDetail = userDetail;
-					});
-
-					// save the user
-					newUser.save(function (err, user) {
-						if (err) {
-							console.log('Error in Saving user: ' + err);
-							throw err;
-						}
-						console.log('User Registration w/ Google Authentication succesful');
-						user = user;
-						// send back user and userDetails
-						res.json({ user: user, userDetail: userDetail, message: 'Sucessfully registered with Google' })
-					});
-				}
-			});
-			
-
+			let returnedObject = {
+				userid: userid,
+				email: email,
+				given_name: given_name,
+				family_name: family_name,
+				profilePic: profilePic
+			}
+			return returnedObject;
 		}
 		// verify token ID
-		verify().catch(console.error);
+		verify()
+			.then(function (googlePayload) {
+				console.log(googlePayload);
+				// console.log(User.findOne({ googleId: googlePayload.userid }, function(err, user) { return user}));
+				return User.findOne({ googleId: googlePayload.userid }, function (err, user) {
+					console.log('finding User');
+					if (err) {
+						return res.json({ error: err });
+					} else if (user) {
+						// existing user , send back existing user data
+						UserDetails.findOne({ 'googleId': user.googleId }, function (err, userDetail) {
+							if (err) {
+								return res.json({ error: err });
+							} else if (userDetail) {
+								console.log('Signing in with Google Authentication');
+								res.json({ user: user, userDetail: userDetail, message: 'Successfully logged in with Google' });
+							}
+						});
+					} else {
+						// user not found, make new user and userDetails collection
+						var user;
+						var userDetail;
+						var newUser = new User();
+						newUser.firstName = googlePayload.given_name;
+						newUser.lastName = googlePayload.family_name;
+						newUser.email = googlePayload.email;
+						newUser.profileImage = googlePayload.profilePic;
+						newUser.googleId = googlePayload.userid;
 
+						var newUserDetails = new UserDetails({ googleId: googlePayload.userid });
+
+						// save the user
+						newUser.save(function (err, user) {
+							if (err) {
+								console.log('Error in Saving user: ' + err);
+								throw err;
+							} else {
+								newUserDetails.save(function (err, userDetail) {
+									if (err) {
+										console.log('Error in saving newUserDetails: ' + err);
+										throw err;
+									}
+									console.log('New UserDetails document available')
+									console.log('User Registration w/ Google Authentication succesful');
+									// send back user and userDetails
+									res.json({ user: user, userDetail: userDetail, message: 'Sucessfully registered with Google' })
+								});
+							}
+
+						});
+					}
+				});
+			})
+			.catch(console.error)
 	});
 
 	/* Handle Logout */
