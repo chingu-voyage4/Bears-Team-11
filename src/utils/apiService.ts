@@ -392,21 +392,53 @@ function deleteProject(id: string): Promise<Project> {
 
 function getTags(): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
-    // ajax call
-    // fetch api endpoint
-    // get tags
-    // if successfull call, then resolve. gets passed to action.
-    // if error, then reject
+    const endpoint = 'http://localhost:8080/api/projects/tags';
+
+    var data: object = {
+      headers: headers,
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved tags') {
+          resolve(res.tags);
+        } else {
+          reject(res.error);
+        }
+      });
   });
 }
 
 function getCategories(): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
-    // ajax call
-    // fetch api endpoint
-    // get tags
-    // if successfull call, then resolve. gets passed to action.
-    // if error, then reject
+    const endpoint = 'http://localhost:8080/api/projects/categories';
+
+    var data: object = {
+      headers: headers,
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved categories') {
+          resolve(res.categories);
+        } else {
+          reject(res.error);
+        }
+      });
   });
 }
 

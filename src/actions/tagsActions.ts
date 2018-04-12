@@ -6,10 +6,10 @@ import { Tags } from '../types/Tags';
 
 export function getTags(tags: Tags): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.getTags().then(tags => {
+    return apiService.getTags().then(tag => {
       return dispatch({
         type: GET_TAGS,
-        data: tags
+        data: tag
       });
     });
   };
