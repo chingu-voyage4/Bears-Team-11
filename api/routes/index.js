@@ -186,6 +186,19 @@ module.exports = function (passport) {
 		res.json({ message: 'Successfully Logged Out' });
 	});
 
+	router.get('/users', function(req,res) {
+		console.log('getting all users');
+		return User.find({}, function(err, users) {
+			console.log('found users');
+			if (err) {
+				return res.json({error: 'Error in retrieving users: ' + err});
+			} else {
+				console.log(users);
+				return res.json({users: users, message: 'Successfully retrieved all users'});
+			}
+		})
+	});
+
 	return router;
 }
 

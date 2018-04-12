@@ -54,7 +54,7 @@ class AddProjectsPage extends React.Component<
   }
 
   public toggleCategoryDropdown = (
-    e: React.FormEvent<HTMLButtonElement>
+    e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>
   ): void => {
     // toggle show/hide of category dropdown
     e.preventDefault();
@@ -62,7 +62,9 @@ class AddProjectsPage extends React.Component<
     doc.classList.toggle('new-project-show');
   };
 
-  public toggleTagsDropdown = (e: React.FormEvent<HTMLButtonElement>): void => {
+  public toggleTagsDropdown = (
+    e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>
+  ): void => {
     // toggle show/hide of tag dropdown
     e.preventDefault();
     var doc = document.getElementById('new-tags-dropdown')!;
@@ -73,13 +75,15 @@ class AddProjectsPage extends React.Component<
     e.preventDefault();
     var { name, value } = e.currentTarget;
     if (name === 'category') {
+      var lowercaseCategory = value.toLowerCase();
       // tslint:disable-next-line
-      this.setState({ categoryPlaceholder: value } as any);
+      this.setState({ categoryPlaceholder: lowercaseCategory } as any);
       this.toggleCategoryDropdown(e);
     } else if (name === 'tags') {
       var arrayOfTags = Object.assign([], this.state.tags);
-      if (arrayOfTags.indexOf(value) === -1) {
-        arrayOfTags.push(value);
+      var lowercaseTag = value.toLowerCase();
+      if (arrayOfTags.indexOf(lowercaseTag) === -1) {
+        arrayOfTags.push(lowercaseTag);
       }
       // tslint:disable-next-line
       this.setState({ tags: arrayOfTags } as any);
