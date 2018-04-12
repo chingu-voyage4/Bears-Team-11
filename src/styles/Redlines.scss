@@ -171,9 +171,8 @@
   border-radius: 5px;
   left: -250px;
   top: -5px;
-  height: 150px;
   width: 200px;
-  padding: 15px 20px 15px 15px;
+  padding: 5px 20px 41px 15px;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
     sans-serif;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -193,8 +192,9 @@
   box-shadow: 2px 3px 3px -1px rgba(0, 0, 0, 0.16);
 }
 
-.comment-box__header {
+.comment-box__comment {
   display: flex;
+  padding-top: 10px;
 }
 
 .comment-box__name {
