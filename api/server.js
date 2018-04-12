@@ -17,19 +17,19 @@ var projectsRoute = require('./routes/project');
 
 // // Connect to DB-Local:
 // NOTE: Uncomment below line if you want to save data locally
-mongoose.connect(config.db.local);
+// mongoose.connect(config.db.local);
 
 // Connect to DB-Cloud
 // NOTE: Uncomment below line if you want to save data in the cloud(Mlab)
 // mongoose.connect(config.db.mlab);
 
 // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-custom-environment-variables
-// if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
-//   mongoose.connect(config.db.local)
-// } 
-// if (process.env.NODE_ENV === 'production') {
-//   mongoose.connect(config.db.mlab);
-// }
+if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
+  mongoose.connect(config.db.local)
+} 
+if (process.env.NODE_ENV === 'production') {
+  mongoose.connect(config.db.mlab);
+}
 
 app.use(cors());
 app.use(morgan('dev'));
