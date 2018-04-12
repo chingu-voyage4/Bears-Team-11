@@ -212,8 +212,8 @@ class AddProjectsPage extends React.Component<
 
     let usersFromStore = this.props.allUsers!;
     if (usersFromStore instanceof Array) {
-      // tslint:disable-next-line
       teamOptionsComponent = usersFromStore.map(function(
+        // tslint:disable-next-line
         users: any,
         index: number
       ) {
@@ -232,8 +232,8 @@ class AddProjectsPage extends React.Component<
 
     let categoriesFromStore = this.props.categories!;
     if (categoriesFromStore instanceof Array) {
-      // tslint:disable-next-line
       categoryOptionsComponent = categoriesFromStore.map(function(
+        // tslint:disable-next-line
         category: any,
         index: number
       ) {

@@ -56,21 +56,21 @@ export interface Store {
   allUsers: Users;
 }
 
-export interface TestProps extends Store {
-  getProjects: () => (dispatch: Dispatch<ProjectAction>) => void;
-  login: (
-    email?: string,
-    password?: string
-  ) => (dispatch: Dispatch<UserAction>) => void;
-  register: (
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    username: string
-  ) => (dispatch: Dispatch<UserAction>) => void;
-  logout: () => (dispatch: Dispatch<UserAction>) => void;
-}
+// export interface TestProps extends Store {
+//   getProjects: () => (dispatch: Dispatch<ProjectAction>) => void;
+//   login: (
+//     email?: string,
+//     password?: string
+//   ) => (dispatch: Dispatch<UserAction>) => void;
+//   register: (
+//     firstName: string,
+//     lastName: string,
+//     email: string,
+//     password: string,
+//     username: string
+//   ) => (dispatch: Dispatch<UserAction>) => void;
+//   logout: () => (dispatch: Dispatch<UserAction>) => void;
+// }
 
 export interface LoginProps {
   visibleLoginWindow: boolean;

@@ -1,18 +1,3 @@
-import { Dispatch } from 'react-redux';
-import { Project } from './Projects.d';
-import { User } from './User.d';
-import { UsersAction, Users } from './Redux.d';
-import { Categories } from './Category.d';
-import { Tags } from './Tags.d';
-// Action
-export interface Action {
-  type: string;
-}
-
-export interface ProjectAction extends Action {
-  data: Project;
-}
-
 export interface AddProjectState {
   name?: string;
   description?: string;
