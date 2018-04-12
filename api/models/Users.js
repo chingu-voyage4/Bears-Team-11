@@ -11,12 +11,14 @@ var Schema = Mongoose.Schema;
 var UserSchema = new Schema({
     firstName:  {type: String},
     lastName:   {type: String},
-    username:   {type: String},
+    username:   {type: String, default: ''},
     email:      {type: String},
     password:   {type: String},
     resetToken: {type: String},
     resetTokenExpires: {type: Date},
-    status:     {type: Boolean, default: true}
+    status:     {type: Boolean, default: true},
+    googleId:   {type: String},
+    profileImage: {type: String, default: ''}
 });
 
 // This will creates database collection named "Users" in the Database

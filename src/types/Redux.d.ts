@@ -1,6 +1,8 @@
 import { Dispatch } from 'react-redux';
 import { Project } from './Projects.d';
 import { User } from './User.d';
+import { Tags } from './Tags.d';
+import { Categories } from './Category.d';
 import { RegisterLoginWindow } from './AppAction';
 // Action
 export interface Action {
@@ -19,9 +21,11 @@ export interface ProjectAction extends Action {
   data: Project;
 }
 
+export interface TagAction extends Action {
+  tags: Tags;
+}
 export interface CategoryAction extends Action {
-  // data: Category;
-  // make category.d.ts file
+  categories: Categories;
 }
 
 // Reducers
@@ -30,6 +34,10 @@ export type UserState = User | {};
 export type ProjectState = Array<Project>;
 
 export type AppState = RegisterLoginWindow;
+
+export type TagsState = Tags | {};
+
+export type CategoriesState = Categories | {};
 
 export interface Store {
   user: User;
@@ -55,14 +63,15 @@ export interface TestProps extends Store {
   logout: () => (dispatch: Dispatch<UserAction>) => void;
 }
 
-// Login Component
 export interface LoginProps {
+  visibleLoginWindow: boolean;
   login: (
     email: string,
     password: string
   ) => (dispatch: Dispatch<UserAction>) => void;
+  showLoginWindow: () => (dispatch: Dispatch<AppAction>) => void;
+  // googleLogin: (idToken: string) => (dispatch: Dispatch<UserAction>) => void;
 }
-
 export interface RegisterProps {
   register: (
     firstName: string,
@@ -71,6 +80,9 @@ export interface RegisterProps {
     password: string,
     username: string
   ) => (dispatch: Dispatch<UserAction>) => void;
+  visibleRegisterWindow: boolean;
+  showRegisterWindow: () => (dispatch: Dispatch<AppAction>) => void;
+  // googleLogin: (idToken: string) => (dispatch: Dispatch<UserAction>) => void;
 }
 
 export interface ProjectProps {

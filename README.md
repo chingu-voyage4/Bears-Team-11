@@ -9,7 +9,7 @@ Project Match is a web app created with the MERN stack with typescript integrati
 * [ram](https://github.com/ilvcs)
 * [Eric Miller](https://github.com/ericmiller777)
 
-## Setting up the project
+## First Time Project Setup
 ```
 git clone https://github.com/chingu-voyage4/Bears-Team-11.git
 git remote add upstream https://github.com/chingu-voyage4/Bears-Team-11.git
@@ -18,22 +18,28 @@ npm install
 cd Bears-Team-11/
 npm start
 ```
-## Running the Server
+## Setting up MongoDB 
+- Install [MongoDB Community Server](https://www.mongodb.com/download-center?jmp=tutorials#community). Follow [install instructions](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
+- Install [MongoDB Compass](https://www.mongodb.com/download-center?filter=enterprise#compass) (for local copy of mongodb)
+## Running the Server 
 - `npm run start-server` runs the express server on port `8080`.
-- Open [Postman](https://www.getpostman.com/) app or use your browser to reach `http://localhost:8080/`
-- Connect with the API calls above
-
-Currently using [nodemon](https://github.com/remy/nodemon) to watch and restart server for changes. We are also currently not using babel for trancompilation for the servside code.
+- Go to your mongodb files (ex, C:\Program Files\MongoDB\Server\3.6\bin)
+```
+start mongod.exe
+start mongo.exe
+```
+- Start MongoDB Compass
 
 ## Testing
-To runs tests use the command `npm test`.
+- To runs tests use the command `npm test`.
+- Use [Postman](https://www.getpostman.com/) app as an alternate/concurrent option for tests
 
 ## Git Workflow
 1. Work from each developer takes place in their own individual branch
-2. Before pushing your work into development, merge development branch into your own branch first and work out any conflicts
+2. Before pushing your work into `development branch`, merge `development branch` into your own branch first and work out any conflicts
 3. Once there are no merge conflicts:
 - push your commits to your dedicated Development-Staging branch (ex, `fsadikin-dev-staging`)
-- from this branch, you can do a pull request to the development branch. 
+- from this branch, you can do a pull request to the `development branch`. 
 - Do not merge the pull request by yourself. Assigned reviewers (at least 2 teammembers) to review the code.
 4. If the reviewer request changes, make the necessary changes within your dedicated Development-Staging branch and commit it again. The existing pull request will update itself to show the new commits. This process is repeated until the reviewer approves the pull request. FYI, you can continue working within your own branch, but keep the dev-staging branch clean while you are waiting for the Pull Request review. The contents of the dev-staging branch should match the PR commits exactly. 
 5. *Warning!* Do not use `git push --force`. If you are having troubles with merge conflicts, resolve them correctly with `git pull` or rebase your code with `git pull --rebase`. A forced push overwrites the structure and sequence of commits on the authoritative repository, throwing away other people's commits.
