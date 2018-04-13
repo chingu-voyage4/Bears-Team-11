@@ -241,8 +241,13 @@ function deleteProject(name: string): Promise<Project> {
   });
 }
 
-/* Annotations */
-// TODO: Will need the revision ID as a set of markers belongs to a particiular revision
+/*
+ * Annotations
+ *
+ * Will need the revision ID as a set of markers belongs to a particiular revision
+ * POC with only 1 revision
+ * 
+ */
 function getMarkers() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -251,8 +256,39 @@ function getMarkers() {
   });
 }
 
-// TODO: Will need the revision ID as a set of markers belongs to a particiular revision
-function saveComment(
+function saveMarker(marker: Marker) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      markers.push(marker);
+      resolve();
+    }, generateRandomDelay());
+  });
+}
+
+function updateMarkerPosition(
+  id: string,
+  x: string,
+  y: string,
+  width: string,
+  height: string
+) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      markers.forEach(marker => {
+        if (marker.id === id) {
+          marker.x = x;
+          marker.y = y;
+          marker.width = width;
+          marker.height = height;
+        }
+      });
+      markers.push();
+      resolve();
+    }, generateRandomDelay());
+  });
+}
+
+function addMarkerComment(
   markerId: string,
   comment: { user: string; time: string; message: string }
 ) {
@@ -268,16 +304,6 @@ function saveComment(
   });
 }
 
-// TODO: Will need the revision ID as a set of markers belongs to a particiular revision
-function saveAnnotation(marker: Marker) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      markers.push(marker);
-      resolve();
-    }, generateRandomDelay());
-  });
-}
-
 /* Service Module */
 var apiService = {
   login,
@@ -288,8 +314,9 @@ var apiService = {
   updateProject,
   deleteProject,
   getMarkers,
-  saveComment,
-  saveAnnotation
+  addMarkerComment,
+  saveMarker,
+  updateMarkerPosition
 };
 
 export default apiService;
