@@ -5,7 +5,7 @@ import {
   ADD_COMMENT
 } from '../actions/actionTypes';
 import { Marker } from '../types/Marker';
-import { AnnotationAction } from '../types/Redux';
+import { MarkerAction } from '../types/Redux';
 
 function replaceMarker(markers: Array<Marker>, marker: Marker) {
   for (let i = 0; i < markers.length; i++) {
@@ -15,10 +15,7 @@ function replaceMarker(markers: Array<Marker>, marker: Marker) {
   }
 }
 
-function annotationReducer(
-  state: Array<Marker> = [],
-  action: AnnotationAction
-) {
+function markerReducer(state: Array<Marker> = [], action: MarkerAction) {
   var newState = state.slice();
   switch (action.type) {
     case GET_MARKERS:
@@ -37,4 +34,4 @@ function annotationReducer(
   }
 }
 
-export default annotationReducer;
+export default markerReducer;

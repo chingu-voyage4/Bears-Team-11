@@ -17,7 +17,7 @@ export interface ProjectAction extends Action {
   data: Project;
 }
 
-export interface AnnotationAction extends Action {
+export interface MarkerAction extends Action {
   data: Array<Marker> | Marker;
 }
 

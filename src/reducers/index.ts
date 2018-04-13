@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import userReducer from './userReducer';
 import projectReducer from './projectReducer';
-import annotationReducer from './annotationReducer';
+import markerReducer from './markerReducer';
 
 export default combineReducers({
   user: userReducer,
   projects: projectReducer,
-  markers: annotationReducer
+  markers: markerReducer
 });

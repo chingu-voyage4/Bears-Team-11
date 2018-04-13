@@ -5,11 +5,11 @@ import {
   GET_MARKERS
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
-import { AnnotationAction } from '../types/Redux.d';
+import { MarkerAction } from '../types/Redux.d';
 import { Marker } from '../types/Marker.d';
 import apiService from '../utils/apiService';
 
-export function getMarkers(): (dispatch: Dispatch<AnnotationAction>) => void {
+export function getMarkers(): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService.getMarkers().then(markers => {
       return {
@@ -22,7 +22,7 @@ export function getMarkers(): (dispatch: Dispatch<AnnotationAction>) => void {
 
 export function addMarker(
   marker: Marker
-): (dispatch: Dispatch<AnnotationAction>) => void {
+): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService.saveMarker(marker).then(savedMarker => {
       return {
@@ -39,7 +39,7 @@ export function moveMarker(
   y: string,
   width: string,
   height: string
-): (dispatch: Dispatch<AnnotationAction>) => void {
+): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService
       .updateMarkerPosition(id, x, y, width, height)
@@ -59,7 +59,7 @@ export function addComment(
     time: string;
     message: string;
   }
-): (dispatch: Dispatch<AnnotationAction>) => void {
+): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService
       .addMarkerComment(markerId, comment)
