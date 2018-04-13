@@ -13,6 +13,4 @@ export const DELETE_PROJECT = 'API:DELETE_PROJECT';
 export const GET_MARKERS = 'GET_MARKERS';
 export const ADD_MARKER = 'ADD_MARKER';
 export const MOVE_MARKER = 'MOVE_MARKER';
-
-export const GET_COMMENTS = 'GET_COMMENTS';
 export const ADD_COMMENT = 'ADD_COMMENT';
