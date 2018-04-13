@@ -13,27 +13,30 @@ const initPassport = require('./passport/init');
 var routes = require('./routes/index')(passport);
 var forgetPasswordRout = require('./routes/forgetPassword');
 var passwordResetRout = require('./routes/reset');
-var projectsRoute = require('./routes/project');
+var projectsRoute = require('./routes/project')(passport);
 
 // // Connect to DB-Local:
 // NOTE: Uncomment below line if you want to save data locally
-mongoose.connect(config.db.local);
+// mongoose.connect(config.db.local);
 
 // Connect to DB-Cloud
 // NOTE: Uncomment below line if you want to save data in the cloud(Mlab)
-// mongoose.connect(config.db.mlab);
+mongoose.connect(config.db.mlab);
 
 app.use(cors());
 app.use(morgan('dev'));
-app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
 app.use(
   session({
     secret: config.sessionSecret,
     resave: false, // forces sesseion to be saved even when there was no change
-    saveUninitialized: false // forces uninitialized sessions to be saved
+    saveUninitialized: false, // forces uninitialized sessions to be saved
+    cookie: {
+      expires: 600000
+  }
   })
 );
 

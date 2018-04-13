@@ -17,6 +17,7 @@ export interface AddProjectState {
   categoryPlaceholder: string;
   tagPlaceholder: string | string[];
   teamPlaceholder: string | string[];
+  statusPlaceholder: string;
   preview?: any;
   files?: any;
 }

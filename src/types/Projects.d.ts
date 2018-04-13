@@ -2,7 +2,7 @@ export interface Projects {
   name?: string;
   creator?: string;
   images?: string[];
-  team?: string[];
+  team?: object[] | object;
   description?: string;
   contact?: string;
   lookingFor?: string[];

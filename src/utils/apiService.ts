@@ -178,6 +178,7 @@ function deactivate(
         password: password
       },
       headers: headers,
+      credentials: 'same-origin',
       method: 'POST'
     };
 
@@ -208,6 +209,7 @@ function activate(username: string, password: string): Promise<string | Error> {
         password: password
       },
       headers: headers,
+      credentials: 'same-origin',
       method: 'POST'
     };
 
@@ -314,6 +316,8 @@ function getProjects(): Promise<Array<Project>> {
 
 function addProject(project: Project): Promise<Project> {
   return new Promise((resolve, reject) => {
+    console.log('in add project');
+
     const endpoint = 'http://localhost:8080/api/projects/add';
 
     var data: object = {
@@ -334,7 +338,8 @@ function addProject(project: Project): Promise<Project> {
         creator: project.creator
       },
       headers: headers,
-      method: 'POST'
+      method: 'POST',
+      credentials: 'same-origin'
     };
 
     fetch(endpoint, data)
@@ -369,7 +374,8 @@ function updateProject(
         updateObject: update
       },
       headers: headers,
-      method: 'POST'
+      method: 'POST',
+      credentials: 'same-origin'
     };
 
     fetch(endpoint, data)
@@ -398,7 +404,8 @@ function deleteProject(id: string): Promise<Project> {
         id: id
       },
       headers: headers,
-      method: 'POST'
+      method: 'POST',
+      credentials: 'same-origin'
     };
 
     fetch(endpoint, data)

@@ -35,6 +35,7 @@ class AddProjectsPage extends React.Component<
       categoryPlaceholder: 'Choose A Category',
       tagPlaceholder: 'Choose Some Tags',
       teamPlaceholder: 'Add Teammates',
+      statusPlaceholder: 'Status of Project',
       preview: null,
       files: null
     };
@@ -60,6 +61,15 @@ class AddProjectsPage extends React.Component<
     doc.classList.toggle('new-project-show');
   };
 
+  public toggleStatusDropdown = (
+    e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>
+  ): void => {
+    // toggle show/hide of tag dropdown
+    e.preventDefault();
+    var doc = document.getElementById('new-status-dropdown')!;
+    doc.classList.toggle('new-project-show');
+  };
+
   public toggleTeamDropdown = (
     e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>
   ): void => {
@@ -70,13 +80,17 @@ class AddProjectsPage extends React.Component<
     doc.classList.toggle('new-project-show');
   };
 
-  public onFormChange = (e: React.FormEvent<HTMLInputElement>): void => {
+  public onFormChange = (e: React.FormEvent<HTMLInputElement>): void | null => {
     e.preventDefault();
     var { name, value } = e.currentTarget;
+
     if (name === 'category') {
       var lowercaseCategory = value.toLowerCase();
       // tslint:disable-next-line
-      this.setState({ categoryPlaceholder: lowercaseCategory } as any);
+      this.setState({
+        category: value,
+        categoryPlaceholder: lowercaseCategory
+      } as any);
       this.toggleCategoryDropdown(e);
     } else if (name === 'tags') {
       var arrayOfTags = Object.assign([], this.state.tags);
@@ -96,6 +110,31 @@ class AddProjectsPage extends React.Component<
       // tslint:disable-next-line
       this.setState({ team: arrayOfTeam } as any);
       this.toggleTeamDropdown(e);
+    } else if (name === 'status') {
+      if (value === 'Active') {
+        this.setState({ status: true, statusPlaceholder: value });
+      } else {
+        this.setState({ status: false, statusPlaceholder: value });
+      }
+      this.toggleStatusDropdown(e);
+    } else if (name === 'roles') {
+      var arrayOfRoles: string[] = [];
+      var nodeList = Array.from(document.getElementsByName('roles'));
+
+      if (document.getElementsByName('roles') === null) {
+        // tslint:disable-next-line
+        this.setState({ lookingFor: [] } as any);
+      } else {
+        // tslint:disable-next-line
+        nodeList.forEach(function(node: any) {
+          if (node.checked) {
+            arrayOfRoles.push(node.value);
+          }
+        });
+        console.log(arrayOfRoles);
+        // tslint:disable-next-line
+        this.setState({ lookingFor: arrayOfRoles } as any);
+      }
     } else {
       // tslint:disable-next-line
       this.setState({ [name]: value } as any);
@@ -218,6 +257,24 @@ class AddProjectsPage extends React.Component<
     let tagOptionsComponent;
     let categoryOptionsComponent;
     let teamOptionsComponent;
+    let statusOptionsComponent;
+
+    let statusOptions = ['Active', 'Completed'];
+    statusOptionsComponent = statusOptions.map(function(
+      status: string,
+      index: number
+    ) {
+      return (
+        <input
+          key={'status_' + index}
+          type="button"
+          name="status"
+          value={status}
+          onClick={referenceToThis.onFormChange}
+          className="new-project-dropdown-text"
+        />
+      );
+    });
 
     let usersFromStore = this.props.allUsers!;
     if (usersFromStore instanceof Array) {
@@ -228,7 +285,7 @@ class AddProjectsPage extends React.Component<
       ) {
         return (
           <input
-            key={index}
+            key={'users_' + index}
             type="button"
             name="team"
             value={users.username}
@@ -248,7 +305,7 @@ class AddProjectsPage extends React.Component<
       ) {
         return (
           <input
-            key={index}
+            key={'categories_' + index}
             type="button"
             name="category"
             value={category.categoryName}
@@ -268,7 +325,7 @@ class AddProjectsPage extends React.Component<
       ) {
         return (
           <input
-            key={index}
+            key={'tags_' + index}
             type="button"
             name="tags"
             value={tagObject.tagName}
@@ -396,27 +453,20 @@ class AddProjectsPage extends React.Component<
                 <label className="newProjectSubText" htmlFor="new-project-team">
                   Team
                 </label>
-                {/* <input
-                  type="text"
-                  name="team"
-                  id="new-project-team"
-                  className="new-project-input"
-                  onChange={e => this.onFormChange(e)}
-                /> */}
+                <button
+                  onClick={this.toggleTeamDropdown}
+                  className="new-project-dropdown-btn"
+                >
+                  {this.state.teamPlaceholder}
+                </button>
+                <div
+                  id="new-team-dropdown"
+                  className="new-project-category-content"
+                >
+                  {teamOptionsComponent}
+                </div>
+                <div className="array-of-tags">{chosenTeam}</div>
               </div>
-              <button
-                onClick={this.toggleTeamDropdown}
-                className="new-project-dropdown-btn"
-              >
-                {this.state.teamPlaceholder}
-              </button>
-              <div
-                id="new-team-dropdown"
-                className="new-project-category-content"
-              >
-                {teamOptionsComponent}
-              </div>
-              <div className="array-of-tags">{chosenTeam}</div>
             </div>{' '}
             {/* end of box 1 A */}
             <div className="box-1-b">
@@ -583,6 +633,24 @@ class AddProjectsPage extends React.Component<
               <div id="new-project-image-loader">{this.state.preview}</div>
               <div id="new-project-image-preview">
                 {/* image preview container */}
+              </div>
+            </div>
+
+            <div className="new-project-status">
+              <label className="newProjectSubText" htmlFor="new-project-status">
+                Status
+              </label>
+              <button
+                onClick={this.toggleStatusDropdown}
+                className="new-project-dropdown-btn"
+              >
+                {this.state.statusPlaceholder}
+              </button>
+              <div
+                id="new-status-dropdown"
+                className="new-project-category-content"
+              >
+                {statusOptionsComponent}
               </div>
             </div>
 

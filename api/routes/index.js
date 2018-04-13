@@ -7,7 +7,6 @@ var UserDetails = require('../models/UserDetails');
 const { OAuth2Client } = require('google-auth-library');
 
 module.exports = function (passport) {
-
 	/* GET login page. */
 	router.get('/', function (req, res) {
 		// Display the Login page with any flash message, if any
