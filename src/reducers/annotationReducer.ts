@@ -4,19 +4,36 @@ import {
   MOVE_MARKER,
   ADD_COMMENT
 } from '../actions/actionTypes';
+import { Marker } from '../types/Marker';
+import { AnnotationAction } from '../types/Redux';
 
-function annotationReducer(state: {}, action: { type: string }) {
+function replaceMarker(markers: Array<Marker>, marker: Marker) {
+  for (let i = 0; i < markers.length; i++) {
+    if (markers[i].id === marker.id) {
+      markers[i] = marker;
+    }
+  }
+}
+
+function annotationReducer(
+  state: Array<Marker> = [],
+  action: AnnotationAction
+) {
+  var newState = state.slice();
   switch (action.type) {
     case GET_MARKERS:
-      break;
+      return action.data;
     case ADD_MARKER:
-      break;
+      newState.push(action.data as Marker);
+      return newState;
     case MOVE_MARKER:
-      break;
+      replaceMarker(newState, action.data as Marker);
+      return newState;
     case ADD_COMMENT:
-      break;
+      replaceMarker(newState, action.data as Marker);
+      return newState;
     default:
-      break;
+      return state;
   }
 }
 
