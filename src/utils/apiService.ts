@@ -1,5 +1,6 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
+import { Marker } from '../types/Marker.d';
 
 function generateRandomDelay(): number {
   return Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
@@ -34,6 +35,83 @@ var projects: Array<Project> = [
     category: 'Productivity Tool',
     status: true,
     upVotes: 10
+  }
+];
+
+var markers: Array<Marker> = [
+  {
+    id: 'lilgangwolf-1',
+    type: 'circle',
+    comments: [
+      {
+        user: 'natapot',
+        time: '8:00am',
+        message: 'Dislike Kaiju, please make more cool.'
+      },
+      {
+        user: 'natapot',
+        time: '8:00am',
+        message: 'Dislike Kaiju, please make more cool.'
+      },
+      {
+        user: 'natapot',
+        time: '8:00am',
+        message: 'Dislike Kaiju, please make more cool.'
+      }
+    ],
+    creator: 'lilgangwolf',
+    x: '416',
+    y: '77'
+  },
+  {
+    id: 'lilgangwolf-2',
+    type: 'circle',
+    comments: [
+      {
+        user: 'natapot',
+        time: '8:00am',
+        message: 'Dislike Kaiju, please make more cool.'
+      },
+      {
+        user: 'natapot',
+        time: '8:00am',
+        message: 'Dislike Kaiju, please make more cool.'
+      },
+      {
+        user: 'natapot',
+        time: '8:00am',
+        message: 'Dislike Kaiju, please make more cool.'
+      }
+    ],
+    creator: 'lilgangwolf',
+    x: '717',
+    y: '223'
+  },
+  {
+    id: 'lilgangwolf-3',
+    type: 'rectangle',
+    creator: 'lilgangwolf',
+    comments: [
+      {
+        user: 'natapot',
+        time: '8:00am',
+        message: 'Dislike Kaiju, please make more cool.'
+      },
+      {
+        user: 'natapot',
+        time: '8:00am',
+        message: 'Dislike Kaiju, please make more cool.'
+      },
+      {
+        user: 'natapot',
+        time: '8:00am',
+        message: 'Dislike Kaiju, please make more cool.'
+      }
+    ],
+    x: '1019',
+    y: '398',
+    width: '100',
+    height: '200'
   }
 ];
 
@@ -163,6 +241,43 @@ function deleteProject(name: string): Promise<Project> {
   });
 }
 
+/* Annotations */
+// TODO: Will need the revision ID as a set of markers belongs to a particiular revision
+function getMarkers() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(markers);
+    }, generateRandomDelay());
+  });
+}
+
+// TODO: Will need the revision ID as a set of markers belongs to a particiular revision
+function saveComment(
+  markerId: string,
+  comment: { user: string; time: string; message: string }
+) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      markers.forEach(marker => {
+        if (marker.id === markerId) {
+          marker.comments.push(comment);
+        }
+      });
+      resolve();
+    }, generateRandomDelay());
+  });
+}
+
+// TODO: Will need the revision ID as a set of markers belongs to a particiular revision
+function saveAnnotation(marker: Marker) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      markers.push(marker);
+      resolve();
+    }, generateRandomDelay());
+  });
+}
+
 /* Service Module */
 var apiService = {
   login,
@@ -171,7 +286,10 @@ var apiService = {
   getProjects,
   addProject,
   updateProject,
-  deleteProject
+  deleteProject,
+  getMarkers,
+  saveComment,
+  saveAnnotation
 };
 
 export default apiService;
