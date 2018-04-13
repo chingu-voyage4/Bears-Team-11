@@ -12,10 +12,10 @@ import apiService from '../utils/apiService';
 export function getMarkers(): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService.getMarkers().then(markers => {
-      return {
+      dispatch({
         type: GET_MARKERS,
         data: markers
-      };
+      });
     });
   };
 }
@@ -25,10 +25,10 @@ export function addMarker(
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService.saveMarker(marker).then(savedMarker => {
-      return {
+      dispatch({
         type: ADD_MARKER,
         data: savedMarker
-      };
+      });
     });
   };
 }
@@ -44,10 +44,10 @@ export function moveMarker(
     return apiService
       .updateMarkerPosition(id, x, y, width, height)
       .then(updatedMarker => {
-        return {
+        dispatch({
           type: MOVE_MARKER,
           data: updatedMarker
-        };
+        });
       });
   };
 }
@@ -64,10 +64,10 @@ export function addComment(
     return apiService
       .addMarkerComment(markerId, comment)
       .then(updatedMarker => {
-        return {
+        dispatch({
           type: ADD_COMMENT,
           data: updatedMarker
-        };
+        });
       });
   };
 }
