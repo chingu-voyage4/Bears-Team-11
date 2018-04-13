@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { Store } from '../types/Redux';
 import { PublicProfileProps } from '../types/PublicProfile.d';
 import { PublicProfileState } from '../types/PublicProfile.d';
+import { userSettingsUpdate } from '../actions/userActions';
 
 class PublicProfile extends React.Component<
   PublicProfileProps,
@@ -133,4 +136,9 @@ class PublicProfile extends React.Component<
   }
 }
 
-export default PublicProfile;
+function mapStateToProps(state: Store) {
+  return {
+    user: state.user
+  };
+}
+export default connect(mapStateToProps, { userSettingsUpdate })(PublicProfile);

@@ -4,7 +4,8 @@ import {
   LOGOUT,
   LOGIN_ERROR,
   REGISTER_ERROR,
-  LOGOUT_ERROR
+  LOGOUT_ERROR,
+  USER_SETTINGS_UPDATE
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
@@ -35,13 +36,12 @@ export function login(
 export function register(
   firstName: string,
   lastName: string,
-  username: string,
   email: string,
   password: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService
-      .register(firstName, lastName, username, email, password)
+      .register(firstName, lastName, email, password)
       .then(user => {
         return dispatch({
           type: REGISTER,
@@ -75,25 +75,34 @@ export function logout(): (dispatch: Dispatch<UserAction>) => void {
   };
 }
 
-export function PublicProfileUpdate(
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string
+export function userSettingsUpdate(
+  aboutme: string,
+  headline: string,
+  skills: string,
+  linkedin: string,
+  github: string,
+  portfolio: string,
+  website: string,
+  twitter: string,
+  blog: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService
-      .register(firstName, lastName, email, password)
+      .userSettingsUpdate(
+        aboutme,
+        headline,
+        skills,
+        linkedin,
+        github,
+        portfolio,
+        website,
+        twitter,
+        blog
+      )
       .then(user => {
         return dispatch({
-          type: REGISTER,
+          type: USER_SETTINGS_UPDATE,
           data: user
-        });
-      })
-      .catch(error => {
-        return dispatch({
-          type: REGISTER_ERROR,
-          error
         });
       });
   };
