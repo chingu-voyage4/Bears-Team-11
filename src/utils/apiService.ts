@@ -260,7 +260,7 @@ function saveMarker(marker: Marker) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       markers.push(marker);
-      resolve();
+      resolve(marker);
     }, generateRandomDelay());
   });
 }
@@ -274,16 +274,17 @@ function updateMarkerPosition(
 ) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
+      var updatedMarker;
       markers.forEach(marker => {
         if (marker.id === id) {
           marker.x = x;
           marker.y = y;
           marker.width = width;
           marker.height = height;
+          updatedMarker = marker;
         }
       });
-      markers.push();
-      resolve();
+      resolve(updatedMarker);
     }, generateRandomDelay());
   });
 }
@@ -294,12 +295,14 @@ function addMarkerComment(
 ) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
+      var updatedMarker;
       markers.forEach(marker => {
         if (marker.id === markerId) {
           marker.comments.push(comment);
+          updatedMarker = marker;
         }
       });
-      resolve();
+      resolve(updatedMarker);
     }, generateRandomDelay());
   });
 }

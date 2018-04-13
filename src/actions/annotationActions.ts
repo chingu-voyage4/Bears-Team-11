@@ -5,27 +5,69 @@ import {
   GET_MARKERS
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
+import { AnnotationAction } from '../types/Redux.d';
+import { Marker } from '../types/Marker.d';
+import apiService from '../utils/apiService';
 
-export function getMarkers(dispatch: Dispatch<{}>) {
-  return {
-    type: GET_MARKERS
+export function getMarkers(): (dispatch: Dispatch<AnnotationAction>) => void {
+  return dispatch => {
+    return apiService.getMarkers().then(markers => {
+      return {
+        type: GET_MARKERS,
+        data: markers
+      };
+    });
   };
 }
 
-export function addMarker(dispatch: Dispatch<{}>) {
-  return {
-    type: ADD_MARKER
+export function addMarker(
+  marker: Marker
+): (dispatch: Dispatch<AnnotationAction>) => void {
+  return dispatch => {
+    return apiService.saveMarker(marker).then(savedMarker => {
+      return {
+        type: ADD_MARKER,
+        data: savedMarker
+      };
+    });
   };
 }
 
-export function moveMarker(dispatch: Dispatch<{}>) {
-  return {
-    type: MOVE_MARKER
+export function moveMarker(
+  id: string,
+  x: string,
+  y: string,
+  width: string,
+  height: string
+): (dispatch: Dispatch<AnnotationAction>) => void {
+  return dispatch => {
+    return apiService
+      .updateMarkerPosition(id, x, y, width, height)
+      .then(updatedMarker => {
+        return {
+          type: MOVE_MARKER,
+          data: updatedMarker
+        };
+      });
   };
 }
 
-export function addComment(dispatch: Dispatch<{}>) {
-  return {
-    type: ADD_COMMENT
+export function addComment(
+  markerId: string,
+  comment: {
+    user: string;
+    time: string;
+    message: string;
+  }
+): (dispatch: Dispatch<AnnotationAction>) => void {
+  return dispatch => {
+    return apiService
+      .addMarkerComment(markerId, comment)
+      .then(updatedMarker => {
+        return {
+          type: ADD_COMMENT,
+          data: updatedMarker
+        };
+      });
   };
 }

@@ -1,6 +1,7 @@
 import { Dispatch } from 'react-redux';
 import { Project } from './Projects.d';
 import { User } from './User.d';
+import { Marker } from './Marker.d';
 
 // Action
 export interface Action {
@@ -14,6 +15,10 @@ export interface UserAction extends Action {
 
 export interface ProjectAction extends Action {
   data: Project;
+}
+
+export interface AnnotationAction extends Action {
+  data: Array<Marker> | Marker;
 }
 
 // Reducers
