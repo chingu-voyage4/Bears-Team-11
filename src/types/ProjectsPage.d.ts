@@ -1,9 +1,8 @@
 import { User } from './User.d';
 import { Dispatch } from 'react-redux';
-import { Project, TestProjectObject } from './Projects.d';
+import { Project } from './Projects.d';
 
 export interface State {}
-
 
 // Action
 export interface Action {

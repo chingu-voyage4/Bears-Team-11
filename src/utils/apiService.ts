@@ -1,9 +1,7 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
-
-var headers = {
-  'Content-Type': 'application/json'
-};
+import { Categories } from '../types/Category';
+import { Tags } from '../types/Tags';
 
 /* User */
 function login(email: string, password: string): Promise<User | string> {
@@ -11,9 +9,12 @@ function login(email: string, password: string): Promise<User | string> {
     const endpoint: string = 'http://localhost:8080/api/login';
 
     var data: object = {
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       method: 'POST',
-      credentials: 'same-origin',
+      mode: 'cors',
+      credentials: 'include',
       body: JSON.stringify({
         email: email,
         password: password
@@ -65,9 +66,11 @@ function googleLogin(idToken: string): Promise<User | Error> {
     const endpoint: string = 'http://localhost:8080/api/googlelogin';
 
     var data: object = {
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       method: 'POST',
-      credentials: 'same-origin',
+      credentials: 'include',
       body: JSON.stringify({
         idToken: idToken
       })
@@ -134,9 +137,11 @@ function register(
         password: password,
         username: username
       }),
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       method: 'POST',
-      credentials: 'same-origin'
+      credentials: 'include'
     };
 
     fetch(endpoint, data)
@@ -171,11 +176,14 @@ function deactivate(
     const endpoint = 'http://localhost:8080/api/user/deactivate';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         username: username,
         password: password
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       },
-      headers: headers,
+      credentials: 'include',
       method: 'POST'
     };
 
@@ -201,11 +209,14 @@ function activate(username: string, password: string): Promise<string | Error> {
     const endpoint = 'http://localhost:8080/api/user/activate';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         username: username,
         password: password
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       },
-      headers: headers,
+      credentials: 'include',
       method: 'POST'
     };
 
@@ -251,6 +262,34 @@ function logout(): Promise<boolean> {
   });
 }
 
+function getAllUsers(): Promise<Array<User>> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/users';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved all users') {
+          resolve(res.users);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
 /* Project */
 function getProjects(): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
@@ -263,7 +302,9 @@ function getProjects(): Promise<Array<Project>> {
           sort: { createdAt: -1 } // returns by newest
         }
       },
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       method: 'GET'
     };
 
@@ -289,7 +330,7 @@ function addProject(project: Project): Promise<Project> {
     const endpoint = 'http://localhost:8080/api/projects/add';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         name: project.name,
         description: project.description,
         dueDate: project.dueDate,
@@ -304,9 +345,12 @@ function addProject(project: Project): Promise<Project> {
         images: project.images,
         contact: project.contact,
         creator: project.creator
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       },
-      headers: headers,
-      method: 'POST'
+      method: 'POST',
+      credentials: 'include'
     };
 
     fetch(endpoint, data)
@@ -317,6 +361,7 @@ function addProject(project: Project): Promise<Project> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
+        console.log(res);
         if (res.message === 'New project saved successfully') {
           resolve(res.newProject);
         } else {
@@ -335,13 +380,16 @@ function updateProject(
     const endpoint = 'http://localhost:8080/api/projects/update';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         id: id,
         updateKey: name,
         updateObject: update
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       },
-      headers: headers,
-      method: 'POST'
+      method: 'POST',
+      credentials: 'include'
     };
 
     fetch(endpoint, data)
@@ -366,11 +414,14 @@ function deleteProject(id: string): Promise<Project> {
     const endpoint = 'http://localhost:8080/api/projects/delete/one';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         id: id
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       },
-      headers: headers,
-      method: 'POST'
+      method: 'POST',
+      credentials: 'include'
     };
 
     fetch(endpoint, data)
@@ -390,23 +441,60 @@ function deleteProject(id: string): Promise<Project> {
   });
 }
 
-function getTags(): Promise<Array<Project>> {
+function getTags(): Promise<Tags> {
+  console.log('getting tags');
   return new Promise((resolve, reject) => {
-    // ajax call
-    // fetch api endpoint
-    // get tags
-    // if successfull call, then resolve. gets passed to action.
-    // if error, then reject
+    const endpoint = 'http://localhost:8080/api/projects/tags';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved tags') {
+          resolve(res.tags);
+        } else {
+          reject(res.error);
+        }
+      });
   });
 }
 
-function getCategories(): Promise<Array<Project>> {
+function getCategories(): Promise<Categories> {
   return new Promise((resolve, reject) => {
-    // ajax call
-    // fetch api endpoint
-    // get tags
-    // if successfull call, then resolve. gets passed to action.
-    // if error, then reject
+    const endpoint = 'http://localhost:8080/api/projects/categories';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved categories') {
+          resolve(res.categories);
+        } else {
+          reject(res.error);
+        }
+      });
   });
 }
 
@@ -423,7 +511,8 @@ var apiService = {
   updateProject,
   deleteProject,
   getTags,
-  getCategories
+  getCategories,
+  getAllUsers
 };
 
 export default apiService;
