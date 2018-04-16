@@ -146,7 +146,6 @@ class AddProjectsPage extends React.Component<
     var copyOfTagsArray = Object.assign([], this.state.tags);
     var indexOfTag = copyOfTagsArray.indexOf(value);
     copyOfTagsArray.splice(indexOfTag, 1);
-    // tslint:disable-next-line
     this.setState({ tags: copyOfTagsArray });
   };
 
@@ -155,7 +154,6 @@ class AddProjectsPage extends React.Component<
     var copyOfTeamArray = Object.assign([], this.state.team);
     var indexOfTeam = copyOfTeamArray.indexOf(value);
     copyOfTeamArray.splice(indexOfTeam, 1);
-    // tslint:disable-next-line
     this.setState({ team: copyOfTeamArray });
   };
 
@@ -198,6 +196,48 @@ class AddProjectsPage extends React.Component<
     }
     this.setState({ files: null });
     e.preventDefault();
+  };
+
+  public filter = (filterId: string, elemByName: string) => {
+    var filter, inputOptions;
+    filter = (document.getElementById(
+      filterId
+    )! as HTMLInputElement).value.toUpperCase();
+    inputOptions = document.getElementsByName(elemByName) as NodeListOf<
+      HTMLInputElement
+    >;
+    for (var i = 0; i < inputOptions.length; i++) {
+      if (inputOptions[i].value.toUpperCase().indexOf(filter) !== -1) {
+        inputOptions[i].style.display = '';
+      } else {
+        inputOptions[i].style.display = 'none';
+      }
+    }
+  };
+
+  public teamFilter = () => {
+    this.filter('teamSearch', 'team');
+  };
+
+  public tagFilter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    this.filter('tagSearch', 'tags');
+    if (e.keyCode === 13) {
+      var inputValue = (document.getElementById(
+        'tagSearch'
+      )! as HTMLInputElement).value;
+      var arrayOfTags = Object.assign([], this.state.tags);
+      var lowercaseTag = inputValue.toLowerCase();
+      if (arrayOfTags.indexOf(lowercaseTag) === -1) {
+        arrayOfTags.push(lowercaseTag);
+      }
+      // tslint:disable-next-line
+      this.setState({ tags: arrayOfTags } as any);
+      this.toggleTagsDropdown(e);
+    }
+  };
+
+  public categoryFilter = () => {
+    this.filter('categorySearch', 'category');
   };
 
   public handleImageUpload = (e: React.FormEvent<HTMLButtonElement>): void => {
@@ -254,9 +294,9 @@ class AddProjectsPage extends React.Component<
   render() {
     var referenceToThis = this;
 
-    let tagOptionsComponent;
-    let categoryOptionsComponent;
-    let teamOptionsComponent;
+    let tagOptionsComponent: JSX.Element[];
+    let categoryOptionsComponent: JSX.Element[];
+    let teamOptionsComponent: JSX.Element[];
     let statusOptionsComponent;
 
     let statusOptions = ['Active', 'Completed'];
@@ -296,6 +336,23 @@ class AddProjectsPage extends React.Component<
       });
     }
 
+    class TeamOptionsComponent extends React.Component {
+      render() {
+        return (
+          <div>
+            <input
+              className="search-input-box"
+              type="text"
+              placeholder="Search for Teammates"
+              id="teamSearch"
+              onKeyUp={referenceToThis.teamFilter}
+            />
+            {teamOptionsComponent}
+          </div>
+        );
+      }
+    }
+
     let categoriesFromStore = this.props.categories!;
     if (categoriesFromStore instanceof Array) {
       categoryOptionsComponent = categoriesFromStore.map(function(
@@ -316,6 +373,23 @@ class AddProjectsPage extends React.Component<
       });
     }
 
+    class CategoriesOptionsComponent extends React.Component {
+      render() {
+        return (
+          <div>
+            <input
+              className="search-input-box"
+              type="text"
+              placeholder="Search Categories"
+              id="categorySearch"
+              onKeyUp={referenceToThis.categoryFilter}
+            />
+            {categoryOptionsComponent}
+          </div>
+        );
+      }
+    }
+
     let tagsFromStore = this.props.tags!;
     if (tagsFromStore instanceof Array) {
       tagOptionsComponent = tagsFromStore.map(function(
@@ -334,6 +408,22 @@ class AddProjectsPage extends React.Component<
           />
         );
       });
+    }
+    class TagOptionsComponent extends React.Component {
+      render() {
+        return (
+          <div>
+            <input
+              className="search-input-box"
+              type="text"
+              placeholder="Search / Add Tags"
+              id="tagSearch"
+              onKeyUp={referenceToThis.tagFilter}
+            />
+            {tagOptionsComponent}
+          </div>
+        );
+      }
     }
 
     let chosenTags;
@@ -463,7 +553,7 @@ class AddProjectsPage extends React.Component<
                   id="new-team-dropdown"
                   className="new-project-category-content"
                 >
-                  {teamOptionsComponent}
+                  <TeamOptionsComponent />
                 </div>
                 <div className="array-of-tags">{chosenTeam}</div>
               </div>
@@ -529,7 +619,7 @@ class AddProjectsPage extends React.Component<
                   id="new-project-dropdown"
                   className="new-project-category-content"
                 >
-                  {categoryOptionsComponent}
+                  <CategoriesOptionsComponent />
                 </div>
               </div>
 
@@ -550,7 +640,7 @@ class AddProjectsPage extends React.Component<
                   id="new-tags-dropdown"
                   className="new-project-category-content"
                 >
-                  {tagOptionsComponent}
+                  <TagOptionsComponent />
                 </div>
                 <div className="array-of-tags">{chosenTags}</div>
               </div>
