@@ -26,7 +26,13 @@ module.exports = function (passport) {
 				console.log('User: ', user);
 				console.log('Message: ', info.message);
 				
-				return res.json({ user: user, message: info.message });
+				req.logIn(user, function (err) {
+					if (err) { return next(err); }
+					UserDetails.findOne({ 'username': user.username }, function (err, userDetail) {
+						if (err) { return res.json({ error: err }); }
+						return res.json({ user: user, userDetail: userDetail, message: info.message });
+					})
+				});
 			}
 		})(req, res, next);
 	});
@@ -112,13 +118,15 @@ module.exports = function (passport) {
 			let given_name = payload['given_name'];
 			let family_name = payload['family_name'];
 			let profilePic = payload['picture'];
+			let username = given_name + '_' + family_name;
 
 			let returnedObject = {
 				userid: userid,
 				email: email,
 				given_name: given_name,
 				family_name: family_name,
-				profilePic: profilePic
+				profilePic: profilePic,
+				username: username
 			}
 			return returnedObject;
 		}
@@ -138,13 +146,14 @@ module.exports = function (passport) {
 								return res.json({ error: err });
 							} else if (userDetail) {
 								console.log('Signing in with Google Authentication');
-								res.json({ user: user, userDetail: userDetail, message: 'Successfully logged in with Google' });
+								req.logIn(user, function (err) {
+									if (err) { console.log(err); return next(err); }
+									return res.json({ user: user, userDetail: userDetail, message: 'Successfully logged in with Google' });
+								});
 							}
 						});
 					} else {
 						// user not found, make new user and userDetails collection
-						var user;
-						var userDetail;
 						var newUser = new User();
 						newUser.firstName = googlePayload.given_name;
 						newUser.lastName = googlePayload.family_name;
@@ -169,7 +178,10 @@ module.exports = function (passport) {
 									console.log('New UserDetails document available')
 									console.log('User Registration w/ Google Authentication succesful');
 									// send back user and userDetails
-									res.json({ user: user, userDetail: userDetail, message: 'Sucessfully registered with Google' })
+									req.logIn(user, function (err) {
+										if (err) { console.log(err); return next(err); }
+										return res.json({ user: user, userDetail: userDetail, message: 'Sucessfully registered with Google' });
+									});
 								});
 							}
 

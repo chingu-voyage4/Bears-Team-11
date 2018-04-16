@@ -180,7 +180,7 @@ class AddProjectsPage extends React.Component<
       tags: this.state.tags,
       images: this.state.images,
       contact: this.state.contact,
-      creator: this.state.creator,
+      creator: this.props.user.username,
       files: this.state.files
     });
   };

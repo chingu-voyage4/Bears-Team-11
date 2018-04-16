@@ -49,7 +49,7 @@ initPassport(passport);
 app.use('/api', routes);
 app.use('/api/forgot',forgetPasswordRout);
 app.use('/api/reset',passwordResetRout);
-app.use('/api/projects/', projectsRoute);
+app.use('/api/projects', projectsRoute);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -6,6 +6,7 @@ var isAuthenticated = require('../utils/authentication');
 var mongoosePaginate = require('mongoose-paginate');
 var Tags = require('../models/Tags');
 var Categories = require('../models/Categories');
+var UserDetails = require('../models/UserDetails');
 
 module.exports = function (passport) {
   // retrieves all projects
@@ -102,6 +103,17 @@ module.exports = function (passport) {
       if (err) {
         res.json({ error: 'Error in saving project: ' + err });
       } else {
+        // save to user projects
+        addOrUpdateProjectInUser(newProject.creator, newProject._id);
+
+        // save to each teammembers project list
+        if (newProject.team) {
+          (newProject.team).forEach(function(user) {
+            console.log(user);
+            addOrUpdateProjectInUser(user, newProject._id);
+          });
+        }
+
         // find category
         if (newProject.category) {
           addOrUpdateCategories(newProject.category, newProject._id);
@@ -148,7 +160,7 @@ addOrUpdateTags = (tagName, projectId) => {
     } else {
       // if tag exists, only push projectId if it doesnt exist already
       if (tag.arrayOfProjectIds.indexOf(projectId) === -1) {
-        var newArray = tag.arrayOfProjectIds;
+        var newArray = Array.from(tag.arrayOfProjectIds);
         newArray.push(projectId);
         tag.arrayOfProjectIds.set(newArray);
         console.log(tag.arrayOfProjectIds);
@@ -162,7 +174,7 @@ removeProjectInTags = (tagName, projectId) => {
     if (err || !tag) {
       res.json({ message: 'Error in finding tag: ' + err });
     } else {
-      var copyOfArray = tag.arrayOfProjectIds.slice();
+      var copyOfArray = Array.from(tag.arrayOfProjectIds);
 
       var projectIndexToDelete = copyOfArray.findIndex(projectId);
       tag.arrayOfProjectIds = copyOfArray.splice(projectIndexToDelete, 1);
@@ -186,10 +198,29 @@ addOrUpdateCategories = (categoryName, projectId) => {
     } else {
       // if already exists , only push projectId if it doesnt exist already
       if (category.arrayOfProjectIds.indexOf(projectId) === -1) {
-        var newArray = category.arrayOfProjectIds;
+        var newArray = Array.from(category.arrayOfProjectIds);
         newArray.push(projectId);
         category.arrayOfProjectIds.set(newArray);
         console.log(category.arrayOfProjectIds);
+      }
+    }
+  });
+}
+
+addOrUpdateProjectInUser = (username, projectId) => {
+  UserDetails.findOne({ username: username }, function (err, userDetail) {
+    if (err) {
+      console.log('Error in finding user: ' + err);
+    } else if (!userDetail) {
+      console.log(username);
+      console.log('UserDetail does not exist');
+    } else {
+      // if already exists , only push projectId if it doesnt exist already
+      console.log(JSON.stringify(userDetail));
+      if (userDetail.projects.indexOf(projectId) === -1) {
+        var newArray = Array.from(userDetail.projects);
+        newArray.push(projectId);
+        userDetail.projects.set(newArray);
       }
     }
   });
@@ -200,7 +231,7 @@ removeProjectInCategory = (categoryName, projectId) => {
     if (err || !category) {
       res.json({ message: 'Error in finding category: ' + err });
     } else {
-      var copyOfArray = category.arrayOfProjectIds.slice();
+      var copyOfArray = Array.from(category.arrayOfProjectIds);
 
       var projectIndexToDelete = copyOfArray.findIndex(projectId);
       category.arrayOfProjectIds = copyOfArray.splice(projectIndexToDelete, 1);

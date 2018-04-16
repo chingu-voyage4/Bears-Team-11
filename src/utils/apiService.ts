@@ -70,7 +70,7 @@ function googleLogin(idToken: string): Promise<User | Error> {
         'Content-Type': 'application/json'
       },
       method: 'POST',
-      // credentials: 'include',
+      credentials: 'include',
       body: JSON.stringify({
         idToken: idToken
       })
