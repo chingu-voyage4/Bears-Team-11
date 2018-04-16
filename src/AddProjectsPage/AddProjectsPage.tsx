@@ -268,11 +268,16 @@ class AddProjectsPage extends React.Component<
 
           preview.appendChild(image);
 
-          referenceToThis.setState({
-            images: Object.assign({}, referenceToThis.state.images, {
+          var imageArray = [
+            ...referenceToThis.state.images,
+            {
               imageSrc: image.src,
               imageTitle: file.name
-            })
+            }
+          ];
+
+          referenceToThis.setState({
+            images: imageArray
             // tslint:disable-next-line
           } as any);
         },
@@ -317,7 +322,11 @@ class AddProjectsPage extends React.Component<
     });
 
     let usersFromStore = this.props.allUsers!;
+    let username = this.props.user.username;
     if (usersFromStore instanceof Array) {
+      usersFromStore = usersFromStore.filter(
+        user => user.username !== username
+      );
       teamOptionsComponent = usersFromStore.map(function(
         // tslint:disable-next-line
         users: any,
