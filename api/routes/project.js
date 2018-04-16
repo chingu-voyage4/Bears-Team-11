@@ -162,8 +162,15 @@ addOrUpdateTags = (tagName, projectId) => {
       if (tag.arrayOfProjectIds.indexOf(projectId) === -1) {
         var newArray = Array.from(tag.arrayOfProjectIds);
         newArray.push(projectId);
-        tag.arrayOfProjectIds.set(newArray);
-        console.log(tag.arrayOfProjectIds);
+        tag.arrayOfProjectIds = newArray;
+      
+        tag.save(function(err, tag) {
+          if (err) { 
+            console.log('Error in add/update projectId in tag')
+          } else {
+            console.log('Project successfully added/updated projectid from tag array: ' + tag );
+          }
+        });
       }
     }
   });
@@ -179,7 +186,13 @@ removeProjectInTags = (tagName, projectId) => {
       var projectIndexToDelete = copyOfArray.findIndex(projectId);
       tag.arrayOfProjectIds = copyOfArray.splice(projectIndexToDelete, 1);
 
-      res.json({ message: 'Project successfully project from tag array', tag: tag });
+      tag.save(function(err, tag) {
+        if (err) { 
+          console.log('Error in removing projectId in tag')
+        } else {
+          console.log('Project successfully removing projectid from tag array: ' + tag );
+        }
+      });
     }
   });
 }
@@ -200,27 +213,35 @@ addOrUpdateCategories = (categoryName, projectId) => {
       if (category.arrayOfProjectIds.indexOf(projectId) === -1) {
         var newArray = Array.from(category.arrayOfProjectIds);
         newArray.push(projectId);
-        category.arrayOfProjectIds.set(newArray);
-        console.log(category.arrayOfProjectIds);
+        category.arrayOfProjectIds = newArray;
+        category.save(function(err, category) {
+          if (err) { 
+            console.log('Error in add/update projectId in category')
+          } else {
+            console.log('Project successfully added/updated projectid from category array: ' + category );
+          }
+        });
+  
       }
     }
   });
 }
 
 addOrUpdateProjectInUser = (username, projectId) => {
-  UserDetails.findOne({ username: username }, function (err, userDetail) {
+  UserDetails.findOne({ 'username': username }, function (err, userDetail) {
     if (err) {
       console.log('Error in finding user: ' + err);
     } else if (!userDetail) {
-      console.log(username);
       console.log('UserDetail does not exist');
     } else {
       // if already exists , only push projectId if it doesnt exist already
       console.log(JSON.stringify(userDetail));
       if (userDetail.projects.indexOf(projectId) === -1) {
-        var newArray = Array.from(userDetail.projects);
-        newArray.push(projectId);
-        userDetail.projects.set(newArray);
+        var newArray = [...userDetail.projects, projectId];
+        userDetail.projects = newArray;
+        userDetail.save(function(err) {
+          if (err) { console.log('Error in adding projectId to UserDetails: ' + err )}
+        });
       }
     }
   });
@@ -236,7 +257,15 @@ removeProjectInCategory = (categoryName, projectId) => {
       var projectIndexToDelete = copyOfArray.findIndex(projectId);
       category.arrayOfProjectIds = copyOfArray.splice(projectIndexToDelete, 1);
 
-      res.json({ message: 'Project successfully removed project from category array', category: category });
+      category.save(function(err, category) {
+        if (err) { 
+          console.log('Error in removing project in category')
+        } else {
+          console.log('Project successfully removed project from category array: ' + category );
+        }
+      });
+
+     
     }
   });
 }
