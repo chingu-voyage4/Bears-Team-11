@@ -22,8 +22,7 @@ var projectsRoute = require('./routes/project')(passport);
 // Connect to DB-Cloud
 // NOTE: Uncomment below line if you want to save data in the cloud(Mlab)
 mongoose.connect(config.db.mlab);
-
-app.use(cors());
+app.use(cors({  origin: 'http://localhost:3000', credentials: true, preflightContinue: true, optionsSuccessStatus: 200 }) );
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,10 +31,11 @@ app.use(cookieParser());
 app.use(
   session({
     secret: config.sessionSecret,
-    resave: false, // forces sesseion to be saved even when there was no change
+    resave: false, // forces session to be saved even when there was no change
     saveUninitialized: false, // forces uninitialized sessions to be saved
     cookie: {
-      expires: 600000
+      maxAge: 6000000,
+      httpOnly : false
   }
   })
 );

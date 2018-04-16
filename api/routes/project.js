@@ -80,40 +80,44 @@ module.exports = function (passport) {
   // add new projects
   router.post('/add', isAuthenticated, function (req, res) {
     console.log('received project object in route');
-    res.send({ message: 'sent back project add', cookie: req.cookie })
-    // var newProject = new Project();
+    
+    var newProject = new Project();
 
-    // newProject.name = req.body.name;
-    // newProject.description = req.body.description;
-    // newProject.dueDate = req.body.dueDate;
-    // newProject.team = req.body.team;
-    // newProject.githubLink = req.body.githubLink;
-    // newProject.mockupLink = req.body.mockupLink;
-    // newProject.liveLink = req.body.liveLink;
-    // newProject.lookingFor = req.body.lookingFor;
-    // newProject.status = req.body.status;
-    // newProject.category = req.body.category;
-    // newProject.tags = req.body.tags;
-    // newProject.images = req.body.images;
-    // newProject.contact = req.body.contact;
-    // newProject.creator = req.body.creator;
+    newProject.name = req.body.name;
+    newProject.description = req.body.description;
+    newProject.dueDate = req.body.dueDate;
+    newProject.team = req.body.team;
+    newProject.githubLink = req.body.githubLink;
+    newProject.mockupLink = req.body.mockupLink;
+    newProject.liveLink = req.body.liveLink;
+    newProject.lookingFor = req.body.lookingFor;
+    newProject.status = req.body.status;
+    newProject.category = req.body.category;
+    newProject.tags = req.body.tags;
+    newProject.images = req.body.images;
+    newProject.contact = req.body.contact;
+    newProject.creator = req.body.creator;
+    
+    newProject.save(function (err, project) {
+      if (err) {
+        res.json({ error: 'Error in saving project: ' + err });
+      } else {
+        // find category
+        if (newProject.category) {
+          addOrUpdateCategories(newProject.category, newProject._id);
+        }
 
-    // newProject.save(function (err, project) {
-    //   if (err) {
-    //     res.json({ error: 'Error in saving project: ' + err });
-    //   } else {
-    //     // find category
-    //     addOrUpdateCategories(newProject.category, newProject._id);
+        // for length of tags, find and add/update tags
+        if (newProject.tags) {
+          for (var i = 0; i < newProject.tags.length; i++) {
+            addOrUpdateTags(newProject.tags[i], newProject._id);
+          }
+        }
 
-    //     // for length of tags, find and add/update tags
-    //     for (var i = 0; i < newProject.tags.length; i++) {
-    //       addOrUpdateTags(newProject.tags[i], newProject._id);
-    //     }
-
-    //     console.log('New project saved successfully');
-    //     res.json({ message: 'New project saved successfully', newProjects: project });
-    //   }
-    // });
+        console.log('New project saved successfully');
+        res.json({ message: 'New project saved successfully', newProject: project });
+      }
+    });
   });
 
   // delete a single project by id
@@ -143,7 +147,7 @@ addOrUpdateTags = (tagName, projectId) => {
       });
     } else {
       // if tag exists, only push projectId if it doesnt exist already
-      if (tag.arrayOfProjectIds.indexOf(projectId) !== -1) {
+      if (tag.arrayOfProjectIds.indexOf(projectId) === -1) {
         var newArray = tag.arrayOfProjectIds;
         newArray.push(projectId);
         tag.arrayOfProjectIds.set(newArray);
@@ -153,7 +157,7 @@ addOrUpdateTags = (tagName, projectId) => {
   });
 }
 
-removeProjectInId = (tagName, projectId) => {
+removeProjectInTags = (tagName, projectId) => {
   Tags.findOne({ tagName: tagName }, function (err, tag) {
     if (err || !tag) {
       res.json({ message: 'Error in finding tag: ' + err });
@@ -181,7 +185,7 @@ addOrUpdateCategories = (categoryName, projectId) => {
       });
     } else {
       // if already exists , only push projectId if it doesnt exist already
-      if (category.arrayOfProjectIds.indexOf(projectId) !== -1) {
+      if (category.arrayOfProjectIds.indexOf(projectId) === -1) {
         var newArray = category.arrayOfProjectIds;
         newArray.push(projectId);
         category.arrayOfProjectIds.set(newArray);
@@ -201,7 +205,7 @@ removeProjectInCategory = (categoryName, projectId) => {
       var projectIndexToDelete = copyOfArray.findIndex(projectId);
       category.arrayOfProjectIds = copyOfArray.splice(projectIndexToDelete, 1);
 
-      res.json({ message: 'Project successfully project from category array', category: category });
+      res.json({ message: 'Project successfully removed project from category array', category: category });
     }
   });
 }

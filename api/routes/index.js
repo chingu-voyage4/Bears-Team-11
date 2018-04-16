@@ -25,6 +25,7 @@ module.exports = function (passport) {
 				console.log('Creating userDetails for: ', user.username);
 				console.log('User: ', user);
 				console.log('Message: ', info.message);
+				
 				return res.json({ user: user, message: info.message });
 			}
 		})(req, res, next);

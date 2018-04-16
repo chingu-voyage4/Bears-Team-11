@@ -86,10 +86,10 @@ class AddProjectsPage extends React.Component<
 
     if (name === 'category') {
       var lowercaseCategory = value.toLowerCase();
-      // tslint:disable-next-line
       this.setState({
         category: value,
         categoryPlaceholder: lowercaseCategory
+        // tslint:disable-next-line
       } as any);
       this.toggleCategoryDropdown(e);
     } else if (name === 'tags') {
