@@ -207,6 +207,7 @@ class AnnotationLayer extends React.Component<{
         if (marker) {
           var position = marker.getBoundingClientRect();
           this.props.moveMarker(
+            this.props.revisionId,
             id,
             position.left,
             position.top - 75, // adjust for toolbar + padding
