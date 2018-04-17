@@ -98,6 +98,9 @@ module.exports = function (passport) {
     newProject.images = req.body.images;
     newProject.contact = req.body.contact;
     newProject.creator = req.body.creator;
+
+
+    console.log('newProject.images=' + newProject.images);
     
     newProject.save(function (err, project) {
       if (err) {

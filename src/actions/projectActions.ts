@@ -2,7 +2,8 @@ import {
   GET_PROJECTS,
   ADD_PROJECT,
   UPDATE_PROJECT,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  UPLOAD_PROJECT_IMAGES
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
@@ -56,6 +57,19 @@ export function deleteProject(
       return dispatch({
         type: DELETE_PROJECT,
         data: deletedProject
+      });
+    });
+  };
+}
+
+export function uploadProjectImage(
+  files: FileList
+): (dispatch: Dispatch<Action>) => void {
+  return dispatch => {
+    return apiService.uploadProjectImage(files).then(contentUrl => {
+      return dispatch({
+        type: UPLOAD_PROJECT_IMAGES,
+        data: contentUrl
       });
     });
   };

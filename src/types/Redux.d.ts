@@ -9,6 +9,9 @@ export interface Action {
   type: string;
 }
 
+export interface UploadImageAction extends Action {
+  data: string[];
+}
 export interface UserAction extends Action {
   data?: User;
   error?: string;
@@ -54,6 +57,7 @@ export interface Store {
   tags: Array<Tag>;
   registerLoginWindow: RegisterLoginWindow;
   allUsers: Users;
+  imageLinks: string[];
 }
 
 export interface LoginProps {
@@ -86,10 +90,12 @@ export interface AddProjectProps {
   categories: Categories | any;
   tags: Tags | any;
   allUsers: Users;
+  imageLinks: string[];
   addProject: (project: Project) => (dispatch: Dispatch<ProjectAction>) => void;
   getAllUsers: () => (dispatch: Dispatch<Action>) => void;
   getCategories: () => (dispatch: Dispatch<Action>) => void;
   getTags: () => (dispatch: Dispatch<Action>) => void;
+  uploadProjectImage: (files: FileList) => (dispatch: Dispatch<Action>) => void;
 }
 
 // Register Component

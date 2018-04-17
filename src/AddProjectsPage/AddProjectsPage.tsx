@@ -4,7 +4,7 @@ import '../styles/AddProjectsPage.css';
 import HeaderContainer from '../HeaderContainer';
 import { AddProjectState } from '../types/AddProjectsPage.d';
 import { connect } from 'react-redux';
-import { addProject } from '../actions/projectActions';
+import { addProject, uploadProjectImage } from '../actions/projectActions';
 import { getAllUsers } from '../actions/userActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
@@ -241,21 +241,13 @@ class AddProjectsPage extends React.Component<
   };
 
   public handleImageUpload = (e: React.FormEvent<HTMLButtonElement>): void => {
+    // currently makes preview of images
     e.preventDefault();
-    var referenceToThis = this;
+    // var referenceToThis = this;
     const preview = document.getElementById('new-project-image-preview')!;
-    const loaderAnimation = document.getElementById(
-      'new-project-image-loader'
-    )!;
 
     function readAndPreview(file: File) {
       var reader = new FileReader();
-
-      var onSuccessAnimationToggle = function() {
-        loaderAnimation.classList.toggle('new-project-show');
-      };
-
-      reader.addEventListener('loadstart', onSuccessAnimationToggle, false);
 
       reader.addEventListener(
         'load',
@@ -267,32 +259,21 @@ class AddProjectsPage extends React.Component<
           image.height = 70;
 
           preview.appendChild(image);
-
-          var imageArray = [
-            ...referenceToThis.state.images,
-            {
-              imageSrc: image.src,
-              imageTitle: file.name
-            }
-          ];
-
-          referenceToThis.setState({
-            images: imageArray
-            // tslint:disable-next-line
-          } as any);
         },
         false
       );
-
       reader.readAsDataURL(file);
-
-      reader.addEventListener('loadend', onSuccessAnimationToggle, false);
     }
 
     if (this.state.files) {
       for (var i = 0; i < this.state.files.length; i++) {
         readAndPreview(this.state.files[i]);
       }
+      // upload images to AWS
+      this.props.uploadProjectImage(this.state.files);
+      // retrieve the sent back image links from this.props.imageLinks and save to state.images
+      console.log(this.props.imageLinks);
+      this.setState({ images: this.props.imageLinks });
     }
   };
 
@@ -775,12 +756,14 @@ function mapStateToProps(state: Store) {
     projects: state.projects,
     categories: state.categories,
     tags: state.tags,
-    allUsers: state.allUsers
+    allUsers: state.allUsers,
+    imageLinks: state.imageLinks
   };
 }
 export default connect(mapStateToProps, {
   addProject,
   getAllUsers,
   getCategories,
-  getTags
+  getTags,
+  uploadProjectImage
 })(AddProjectsPage);

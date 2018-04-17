@@ -371,6 +371,36 @@ function addProject(project: Project): Promise<Project> {
   });
 }
 
+function uploadProjectImage(file: FileList): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/upload/images/project';
+
+    var data: object = {
+      body: file,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Uploaded project image successfully') {
+          resolve(res.contentUrls);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
 function updateProject(
   name: string,
   update: string,
@@ -512,7 +542,8 @@ var apiService = {
   deleteProject,
   getTags,
   getCategories,
-  getAllUsers
+  getAllUsers,
+  uploadProjectImage
 };
 
 export default apiService;

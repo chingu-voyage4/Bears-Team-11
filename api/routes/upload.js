@@ -50,16 +50,19 @@ router.post('/profile', function (req,res) {
 // usage is post to /api/upload/project?projectId=PROJECTID
 // Html form should contain the image key "projectImages"
 router.post('/project', function (req,res) {
-
+  var contentUrls = [];
+  var baseLink = 'https://s3.us-east-2.amazonaws.com/project-match/project/' + req.query.projectId;
+  contentUrls.push(baseLink + '/' + file.originalname + '.jpg')
   var upload = multer({
     storage: multerS3({
       s3: s3,
       bucket: 'project-match/project/' + req.query.projectId,
+      acl: 'public-read',
       metadata: function (req, file, cb) {
-        cb(null, {fieldName: file.fieldname});
+        cb(null, {originalname: file.originalname });
       },
       key: function (req, file, cb) {
-        cb(null, Date.now().toString())
+        cb(null, file.originalname + '.jpg' )
       }
     })
   });
@@ -67,17 +70,13 @@ router.post('/project', function (req,res) {
   // .array uploads multiple images
   var uploadingHandler = upload.array('projectImages');
 
-  uploadingHandler( req , res,function (err) {
-
-    //console.log("uploading requestis ", req.files);
-    if(err){
-      // files are not uploaded to aws
+  uploadingHandler( req, res, function (err) {
+    if (err) {
       console.log(err);
-      
-    }else{
-      console.log("succeefully uploaded");
-      
-      res.send("successfully uploaded");
+      res.json({ error: 'Error in uploading image: ' + err });
+    } else {
+      console.log("Successfully Uploaded Project Images");
+      res.json({ message: 'Uploaded project image successfully', contentUrls: contentUrls });
     }
   })
 });
