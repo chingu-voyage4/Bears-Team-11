@@ -3,22 +3,42 @@ import * as React from 'react';
 import Comment from './Comment';
 import { connect } from 'react-redux';
 import { Store } from '../types/Redux';
+import { User } from '../types/User';
 import { addComment } from '../actions/markerActions';
+import * as moment from 'moment';
 
-class CommentBox extends React.Component<{
-  markerId: string;
-  comments: Array<{ user: string; time: string; message: string }>;
-  addComment: any;
-}> {
+class CommentBox extends React.Component<
+  {
+    revisionId: string;
+    markerId: string;
+    user: User;
+    comments: Array<{ user: string; time: string; message: string }>;
+    addComment: any;
+  },
+  { message: string }
+> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      message: ''
+    };
+  }
+  handleInput = (e: any) => {
+    var target = e.target;
+    var value = target.value;
+    console.log(value);
+    this.setState({
+      message: value
+    });
+  };
   handleKeyPress = (e: any) => {
-    console.log(e.keyCode);
     if (e.keyCode === 13 || e.which == 13) {
       // enter key is pressed
       // BUG: this should cause component to re-render because props should have been updated
-      this.props.addComment(this.props.markerId, {
-        user: 'steampot',
-        time: '9:00am',
-        message: 'ok'
+      this.props.addComment(this.props.revisionId, this.props.markerId, {
+        user: this.props.user,
+        time: moment().format('LT'),
+        message: this.state.message
       });
     }
   };
@@ -39,6 +59,7 @@ class CommentBox extends React.Component<{
           className="comment-box__input"
           type="text"
           onKeyDown={this.handleKeyPress}
+          onChange={this.handleInput}
         />
       </div>
     );
@@ -54,7 +75,8 @@ function mapStateToProps(state: Store, ownProps: any) {
   }
   return {
     comments,
-    markerId: ownProps.markerId
+    markerId: ownProps.markerId,
+    user: state.user
   };
 }
 

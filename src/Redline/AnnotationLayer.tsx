@@ -130,7 +130,7 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <CommentBox markerId={id} />
+        <CommentBox markerId={id} revisionId={this.props.revisionId} />
       </div>
     );
   };
@@ -148,7 +148,7 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <CommentBox markerId={id} />
+        <CommentBox markerId={id} revisionId={this.props.revisionId} />
       </div>
     );
   };
