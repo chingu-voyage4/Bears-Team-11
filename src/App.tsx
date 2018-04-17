@@ -7,7 +7,6 @@ import userReducer from './reducers';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import LandingPage from './Landing Page/LandingPage';
-import ReduxTestPage from './ReduxTestPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ProjectsPage from './Projects Page/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
@@ -31,13 +30,16 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
     return (
       <Provider store={store}>
         <div className="App">
-          {this.state.reduxManualTest ? <ReduxTestPage /> : null}
           <Router>
             <Switch>
               <Route exact={true} path="/" component={LandingPage} />
               <Route exact={true} path="/home" component={LandingPage} />
               <Route exact={true} path="/projects" component={ProjectsPage} />
-              <Route exact={true} path="/redline" component={Redline} />
+              <Route
+                exact={true}
+                path="/project/:projectId/revision/:revisionId"
+                component={Redline}
+              />
               <Route
                 exact={true}
                 path="/projects/add"
