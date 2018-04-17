@@ -115,6 +115,8 @@ var markers: Array<Marker> = [
   }
 ];
 
+var revisions = { '9a7e6f2b-89f6-46e8-8e15-e775adc59124': markers };
+
 /* User */
 function login(email: string, password: string): Promise<User | Error> {
   return new Promise((resolve, reject) => {
@@ -248,10 +250,10 @@ function deleteProject(name: string): Promise<Project> {
  * POC with only 1 revision
  * 
  */
-function getMarkers() {
+function getMarkers(revisionId: string) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(markers);
+      resolve(revisions[revisionId]);
     }, generateRandomDelay());
   });
 }
@@ -266,6 +268,7 @@ function saveMarker(marker: Marker) {
 }
 
 function updateMarkerPosition(
+  revisionId: string,
   id: string,
   x: string,
   y: string,
@@ -275,7 +278,7 @@ function updateMarkerPosition(
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       var updatedMarker;
-      markers.forEach(marker => {
+      revisions[revisionId].markers.forEach((marker: Marker) => {
         if (marker.id === id) {
           marker.x = x;
           marker.y = y;
@@ -290,13 +293,14 @@ function updateMarkerPosition(
 }
 
 function addMarkerComment(
+  revisionId: string,
   markerId: string,
   comment: { user: string; time: string; message: string }
 ) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       var updatedMarker;
-      markers.forEach(marker => {
+      revisions[revisionId].markers.forEach((marker: Marker) => {
         if (marker.id === markerId) {
           marker.comments.push(comment);
           updatedMarker = marker;
