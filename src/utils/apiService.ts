@@ -278,7 +278,7 @@ function updateMarkerPosition(
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       var updatedMarker;
-      revisions[revisionId].markers.forEach((marker: Marker) => {
+      revisions[revisionId].forEach((marker: Marker) => {
         if (marker.id === id) {
           marker.x = x;
           marker.y = y;
@@ -300,7 +300,7 @@ function addMarkerComment(
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       var updatedMarker;
-      revisions[revisionId].markers.forEach((marker: Marker) => {
+      revisions[revisionId].forEach((marker: Marker) => {
         if (marker.id === markerId) {
           marker.comments.push(comment);
           updatedMarker = marker;
