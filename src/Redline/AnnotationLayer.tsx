@@ -2,6 +2,15 @@
 import * as React from 'react';
 import * as shortid from 'shortid';
 import CommentBox from './CommentBox';
+import { connect } from 'react-redux';
+import {
+  getMarkers,
+  addMarker,
+  moveMarker,
+  addComment
+} from '../actions/markerActions';
+import { Store } from '../types/Redux';
+import { Marker } from '../types/Marker';
 
 declare global {
   interface Window {
@@ -9,45 +18,21 @@ declare global {
   }
 }
 
-class AnnotationLayer extends React.Component<
-  { tool: any; onMarkerAdd: any },
-  { currentId: any; markers: any }
-> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      markers: [
-        {
-          id: 'lilgangwolf-1',
-          type: 'circle',
-          comments: 5,
-          creator: 'lilgangwolf',
-          x: '416',
-          y: '77'
-        },
-        {
-          id: 'lilgangwolf-2',
-          type: 'circle',
-          creator: 'lilgangwolf',
-          x: '717',
-          y: '223'
-        },
-        {
-          id: 'lilgangwolf-3',
-          type: 'rectangle',
-          creator: 'lilgangwolf',
-          x: '1019',
-          y: '398',
-          width: '100',
-          height: '200'
-        }
-      ],
-      currentId: '4'
-    };
-  }
-
+class AnnotationLayer extends React.Component<{
+  tool: any;
+  onMarkerAdd: any;
+  revisionId: string;
+  projectId: string;
+  markers: Array<Marker>;
+  addMarker: any;
+  getMarkers: any;
+  moveMarker: any;
+  addComment: any;
+}> {
   componentDidMount() {
-    this.makeInteractive();
+    this.props.getMarkers(this.props.revisionId).then(() => {
+      this.makeInteractive();
+    });
   }
 
   componentWillReceiveProps(nextProps: any) {
@@ -62,7 +47,7 @@ class AnnotationLayer extends React.Component<
 
   drawMarkers = () => {
     var markers: any = [];
-    this.state.markers.forEach((annotation: any) => {
+    this.props.markers.forEach((annotation: any) => {
       if (annotation.type === 'rectangle') {
         markers.push(
           this.drawRect(
@@ -113,25 +98,9 @@ class AnnotationLayer extends React.Component<
     }
   };
 
-  saveMarker = (marker: any) => {
-    this.setState(prevState => {
-      var newMarkerState = prevState.markers.slice();
-      newMarkerState.push(marker);
-      return {
-        markers: newMarkerState
-      };
-    });
+  saveMarker = (marker: Marker) => {
+    this.props.addMarker(this.props.revisionId, marker);
     this.props.onMarkerAdd();
-  };
-
-  removeLastMarker = () => {
-    this.setState(prevState => {
-      var newMarkerState = prevState.markers.slice();
-      newMarkerState.pop();
-      return {
-        markers: newMarkerState
-      };
-    });
   };
 
   toggleCommentBox = (e: any) => {
@@ -161,7 +130,7 @@ class AnnotationLayer extends React.Component<
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <CommentBox x={x} y={y} width={width} height={height} />
+        <CommentBox markerId={id} />
       </div>
     );
   };
@@ -179,13 +148,13 @@ class AnnotationLayer extends React.Component<
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <CommentBox x={x} y={y} />
+        <CommentBox markerId={id} />
       </div>
     );
   };
 
   makeInteractive = () => {
-    this.state.markers.forEach((marker: any) => {
+    this.props.markers.forEach((marker: any) => {
       this.makeDraggable(marker.id);
       if (marker.type === 'rectangle') {
         this.makeResizeable(marker.id);
@@ -194,7 +163,7 @@ class AnnotationLayer extends React.Component<
   };
 
   enableInteractivity = () => {
-    this.state.markers.forEach((marker: any) => {
+    this.props.markers.forEach((marker: any) => {
       this.enableDrag(marker.id);
       if (marker.type === 'rectangle') {
         this.enableResize(marker.id);
@@ -203,7 +172,7 @@ class AnnotationLayer extends React.Component<
   };
 
   disableInteractivity = () => {
-    this.state.markers.forEach((marker: any) => {
+    this.props.markers.forEach((marker: any) => {
       this.disableDrag(marker.id);
       if (marker.type === 'rectangle') {
         this.disableResize(marker.id);
@@ -212,11 +181,41 @@ class AnnotationLayer extends React.Component<
   };
 
   makeDraggable = (id: any) => {
-    window.$(`#${id}`).draggable();
+    window.$(`#${id}`).draggable({
+      stop: () => {
+        var marker = document.getElementById(id);
+        if (marker) {
+          var position = marker.getBoundingClientRect();
+          this.props.moveMarker(
+            this.props.revisionId,
+            id,
+            position.left,
+            position.top - 75, // adjust for toolbar + padding
+            position.width - 4, // adjust for border
+            position.height - 4 // adjust for border
+          );
+        }
+      }
+    });
   };
 
   makeResizeable = (id: any) => {
-    window.$(`#${id}`).resizable({ autoHide: true });
+    window.$(`#${id}`).resizable({
+      autoHide: true,
+      stop: () => {
+        var marker = document.getElementById(id);
+        if (marker) {
+          var position = marker.getBoundingClientRect();
+          this.props.moveMarker(
+            id,
+            position.left,
+            position.top - 75, // adjust for toolbar + padding
+            position.width - 4, // adjust for border
+            position.height - 4 // adjust for border
+          );
+        }
+      }
+    });
   };
 
   // TODO: make into one function?
@@ -245,4 +244,15 @@ class AnnotationLayer extends React.Component<
   }
 }
 
-export default AnnotationLayer;
+function mapStateToProps(state: Store, ownProps: any) {
+  return {
+    markers: state.markers
+  };
+}
+
+export default connect(mapStateToProps, {
+  getMarkers,
+  addMarker,
+  moveMarker,
+  addComment
+})(AnnotationLayer);
