@@ -9,9 +9,11 @@ import { MarkerAction } from '../types/Redux.d';
 import { Marker } from '../types/Marker.d';
 import apiService from '../utils/apiService';
 
-export function getMarkers(): (dispatch: Dispatch<MarkerAction>) => void {
+export function getMarkers(
+  revisionId: string
+): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
-    return apiService.getMarkers().then(markers => {
+    return apiService.getMarkers(revisionId).then(markers => {
       dispatch({
         type: GET_MARKERS,
         data: markers
@@ -34,6 +36,7 @@ export function addMarker(
 }
 
 export function moveMarker(
+  revisionId: string,
   id: string,
   x: string,
   y: string,
@@ -42,7 +45,7 @@ export function moveMarker(
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService
-      .updateMarkerPosition(id, x, y, width, height)
+      .updateMarkerPosition(revisionId, id, x, y, width, height)
       .then(updatedMarker => {
         dispatch({
           type: MOVE_MARKER,
@@ -53,6 +56,7 @@ export function moveMarker(
 }
 
 export function addComment(
+  revisionId: string,
   markerId: string,
   comment: {
     user: string;
@@ -62,7 +66,7 @@ export function addComment(
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService
-      .addMarkerComment(markerId, comment)
+      .addMarkerComment(revisionId, markerId, comment)
       .then(updatedMarker => {
         dispatch({
           type: ADD_COMMENT,
