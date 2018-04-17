@@ -23,7 +23,6 @@ router.post('/profile', function (req,res) {
       s3: s3,
       bucket: 'project-match/profile',
       key: function (req,file,callback) {
-        
         console.log("The file location is " + file.location);
         callback(null,req.query.fileName+'.jpg');
       }
@@ -49,20 +48,21 @@ router.post('/profile', function (req,res) {
 // Saves MULTIPLE images to the /project folder in the 'project-match' bucket
 // usage is post to /api/upload/project?projectId=PROJECTID
 // Html form should contain the image key "projectImages"
-router.post('/project', function (req,res) {
+router.post('/project', function (req, res) {
   var contentUrls = [];
   var baseLink = 'https://s3.us-east-2.amazonaws.com/project-match/project/' + req.query.projectId;
-  contentUrls.push(baseLink + '/' + file.originalname + '.jpg')
+
   var upload = multer({
     storage: multerS3({
       s3: s3,
       bucket: 'project-match/project/' + req.query.projectId,
       acl: 'public-read',
       metadata: function (req, file, cb) {
-        cb(null, {originalname: file.originalname });
+        cb(null, Object.assign({}, req.body));
       },
       key: function (req, file, cb) {
-        cb(null, file.originalname + '.jpg' )
+        contentUrls.push(baseLink + '/' + Date.now().toString() + '.jpg');
+        cb(null, Date.now().toString() + ".jpg");
       }
     })
   });
@@ -70,7 +70,7 @@ router.post('/project', function (req,res) {
   // .array uploads multiple images
   var uploadingHandler = upload.array('projectImages');
 
-  uploadingHandler( req, res, function (err) {
+  uploadingHandler(req, res, function (err) {
     if (err) {
       console.log(err);
       res.json({ error: 'Error in uploading image: ' + err });
