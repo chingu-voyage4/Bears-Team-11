@@ -51,9 +51,18 @@ class CommentBox extends React.Component<
     return null;
   };
 
+  stopEvent = (e: any) => {
+    console.log('stop');
+    e.stopPropagation();
+  };
+
   render() {
     return (
-      <div className="comment-box" style={{ display: 'none' }}>
+      <div
+        className="comment-box"
+        style={{ display: 'none' }}
+        onClick={this.stopEvent}
+      >
         {this.renderComments()}
         <input
           className="comment-box__input"
