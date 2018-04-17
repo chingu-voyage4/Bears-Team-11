@@ -4,15 +4,19 @@ import '../styles/Redlines.css';
 import Toolbar from './Toolbar';
 import ImageLayer from './ImageLayer';
 import AnnotationLayer from './AnnotationLayer';
+import { connect } from 'react-redux';
 
-class Redline extends React.Component<{}, { tool: string }> {
-  constructor(props: any) {
+// NOTE: Will have the revision id from the URL `projects/:projectId/revision/:revisionsId`
+class Redline extends React.Component<
+  { imageLink: string; match: any },
+  { tool: string }
+> {
+  constructor(props: { imageLink: string; match: any }) {
     super(props);
     this.state = {
       tool: 'cursor'
     };
   }
-
   // NOTE: Possibly make a generic tool function
   selectCursorTool = () => {
     this.setState({ tool: 'cursor' });
@@ -30,6 +34,10 @@ class Redline extends React.Component<{}, { tool: string }> {
     this.setState({ tool: 'comment' });
   };
 
+  getURLParams = () => {
+    return this.props.match.params;
+  };
+
   render() {
     return (
       <div className="redline-container">
@@ -42,10 +50,12 @@ class Redline extends React.Component<{}, { tool: string }> {
         />
         <div className="redline-canvas">
           <div>
-            <ImageLayer />
+            <ImageLayer imageLink={this.props.imageLink} />
             <AnnotationLayer
               tool={this.state.tool}
               onMarkerAdd={this.selectCursorTool}
+              revisionId={this.getURLParams().revisionId}
+              projectId={this.getURLParams().projectId}
             />
           </div>
         </div>
@@ -54,4 +64,10 @@ class Redline extends React.Component<{}, { tool: string }> {
   }
 }
 
-export default Redline;
+function mapStateToProps(state: {}) {
+  return {
+    imageLink:
+      'http://www.relativelyinteresting.com/wp-content/uploads/2017/06/mini-kaiju-size-chart.jpg'
+  };
+}
+export default connect(mapStateToProps)(Redline);
