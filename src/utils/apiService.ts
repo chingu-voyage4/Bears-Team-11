@@ -1,19 +1,20 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
-
-var headers = {
-  'Content-Type': 'application/json'
-};
+import { Categories } from '../types/Category';
+import { Tags } from '../types/Tags';
 
 /* User */
-function login(email: string, password: string): Promise<User | Error> {
+function login(email: string, password: string): Promise<User | string> {
   return new Promise((resolve, reject) => {
     const endpoint: string = 'http://localhost:8080/api/login';
 
     var data: object = {
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       method: 'POST',
-      credentials: 'same-origin',
+      mode: 'cors',
+      credentials: 'include',
       body: JSON.stringify({
         email: email,
         password: password
@@ -39,6 +40,7 @@ function login(email: string, password: string): Promise<User | Error> {
             lastName: user.lastName,
             email: user.email,
             username: user.username,
+            profileImage: user.profileImage,
             location: userDetails.location,
             roles: userDetails.roles,
             description: userDetails.description,
@@ -53,7 +55,65 @@ function login(email: string, password: string): Promise<User | Error> {
             blogLink: userDetails.blogLink
           });
         } else {
-          reject(res.text);
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function googleLogin(idToken: string): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint: string = 'http://localhost:8080/api/googlelogin';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({
+        idToken: idToken
+      })
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        console.log(res);
+        if (
+          res.message === 'Successfully logged in with Google' ||
+          res.message === 'Sucessfully registered with Google'
+        ) {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('user=' + user);
+          console.log('userDetails=' + userDetails);
+          resolve({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.error);
         }
       });
   });
@@ -77,9 +137,11 @@ function register(
         password: password,
         username: username
       }),
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       method: 'POST',
-      credentials: 'same-origin'
+      credentials: 'include'
     };
 
     fetch(endpoint, data)
@@ -100,7 +162,7 @@ function register(
             username: user.username
           });
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -114,11 +176,14 @@ function deactivate(
     const endpoint = 'http://localhost:8080/api/user/deactivate';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         username: username,
         password: password
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       },
-      headers: headers,
+      credentials: 'include',
       method: 'POST'
     };
 
@@ -133,7 +198,7 @@ function deactivate(
         if (res.message === 'Successfully deactivated user') {
           resolve(res.message);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -144,11 +209,14 @@ function activate(username: string, password: string): Promise<string | Error> {
     const endpoint = 'http://localhost:8080/api/user/activate';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         username: username,
         password: password
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       },
-      headers: headers,
+      credentials: 'include',
       method: 'POST'
     };
 
@@ -163,7 +231,7 @@ function activate(username: string, password: string): Promise<string | Error> {
         if (res.message === 'Successfully re-activated user') {
           resolve(res.message);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -188,7 +256,35 @@ function logout(): Promise<boolean> {
         if (res.text === 'Successfully Logged Out') {
           resolve(res.text); // what should the result be?
         } else {
-          reject(new Error('Could not log out'));
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function getAllUsers(): Promise<Array<User>> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/users';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved all users') {
+          resolve(res.users);
+        } else {
+          reject(res.error);
         }
       });
   });
@@ -206,7 +302,9 @@ function getProjects(): Promise<Array<Project>> {
           sort: { createdAt: -1 } // returns by newest
         }
       },
-      headers: headers,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       method: 'GET'
     };
 
@@ -221,7 +319,7 @@ function getProjects(): Promise<Array<Project>> {
         if (res.message === 'Succesfully retrieved projects') {
           resolve(res.projects);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -232,7 +330,7 @@ function addProject(project: Project): Promise<Project> {
     const endpoint = 'http://localhost:8080/api/projects/add';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         name: project.name,
         description: project.description,
         dueDate: project.dueDate,
@@ -247,9 +345,12 @@ function addProject(project: Project): Promise<Project> {
         images: project.images,
         contact: project.contact,
         creator: project.creator
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       },
-      headers: headers,
-      method: 'POST'
+      method: 'POST',
+      credentials: 'include'
     };
 
     fetch(endpoint, data)
@@ -260,10 +361,11 @@ function addProject(project: Project): Promise<Project> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
+        console.log(res);
         if (res.message === 'New project saved successfully') {
           resolve(res.newProject);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -278,13 +380,16 @@ function updateProject(
     const endpoint = 'http://localhost:8080/api/projects/update';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         id: id,
         updateKey: name,
         updateObject: update
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       },
-      headers: headers,
-      method: 'POST'
+      method: 'POST',
+      credentials: 'include'
     };
 
     fetch(endpoint, data)
@@ -298,7 +403,7 @@ function updateProject(
         if (res.message === 'Successfully updated project') {
           resolve(res.project);
         } else {
-          reject(res.text);
+          reject(res.error);
         }
       });
   });
@@ -309,11 +414,14 @@ function deleteProject(id: string): Promise<Project> {
     const endpoint = 'http://localhost:8080/api/projects/delete/one';
 
     var data: object = {
-      body: {
+      body: JSON.stringify({
         id: id
+      }),
+      headers: {
+        'Content-Type': 'application/json'
       },
-      headers: headers,
-      method: 'POST'
+      method: 'POST',
+      credentials: 'include'
     };
 
     fetch(endpoint, data)
@@ -327,35 +435,73 @@ function deleteProject(id: string): Promise<Project> {
         if (res.message === 'Project successfully deleted') {
           resolve(res.project);
         } else {
-          reject(res.message);
+          reject(res.error);
         }
       });
   });
 }
 
-function getTags(): Promise<Array<Project>> {
+function getTags(): Promise<Tags> {
+  console.log('getting tags');
   return new Promise((resolve, reject) => {
-    // ajax call
-    // fetch api endpoint
-    // get tags
-    // if successfull call, then resolve. gets passed to action.
-    // if error, then reject
+    const endpoint = 'http://localhost:8080/api/projects/tags';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved tags') {
+          resolve(res.tags);
+        } else {
+          reject(res.error);
+        }
+      });
   });
 }
 
-function getCategories(): Promise<Array<Project>> {
+function getCategories(): Promise<Categories> {
   return new Promise((resolve, reject) => {
-    // ajax call
-    // fetch api endpoint
-    // get tags
-    // if successfull call, then resolve. gets passed to action.
-    // if error, then reject
+    const endpoint = 'http://localhost:8080/api/projects/categories';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved categories') {
+          resolve(res.categories);
+        } else {
+          reject(res.error);
+        }
+      });
   });
 }
 
 /* Service Module */
 var apiService = {
   login,
+  googleLogin,
   register,
   deactivate,
   activate,
@@ -365,7 +511,8 @@ var apiService = {
   updateProject,
   deleteProject,
   getTags,
-  getCategories
+  getCategories,
+  getAllUsers
 };
 
 export default apiService;

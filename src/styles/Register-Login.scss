@@ -16,7 +16,10 @@
   font-size: $logo-font-size;
   font-weight: 700;
   margin: auto;
-  text-align: center;
+  text-align: left;
+  margin-left: 11px;
+  display: inline-block;
+  padding-bottom: 17px;
 }
 /*
 ==========================
@@ -117,4 +120,21 @@ HORIZONTAL LINE
   width: 320px;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+/*
+==========================
+EXIT BUTTON
+==========================
+*/
+.login-register-exit-window-btn {
+  border: none;
+  color: $theme-blue;
+  background-color: white;
+  border-radius: 50%;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 900;
+  float: right;
+  margin: auto;
+  margin-right: 11px;
 }
