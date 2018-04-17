@@ -6,12 +6,16 @@
 
 # testing
 /coverage
+/.vscode
 
 # production
 /build
 
 # compiled assets
 *.css
+
+# sensitive assets
+/api/utils/s3_config.json
 
 # misc
 .DS_Store
