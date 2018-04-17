@@ -1,6 +1,10 @@
 import * as React from 'react';
 
-class Comment extends React.Component {
+class Comment extends React.Component<{
+  user: string;
+  message: string;
+  time: string;
+}> {
   render() {
     return (
       <div className="comment-box__comment">
@@ -11,11 +15,10 @@ class Comment extends React.Component {
         />
         <div>
           <p className="comment-box__name">
-            natapot <span className="comment-box__timestamp">8:00am</span>
+            {this.props.user}
+            <span className="comment-box__timestamp">{this.props.time}</span>
           </p>
-          <p className="comment-box__body">
-            Dislike Kaiju, please make it more cool.
-          </p>
+          <p className="comment-box__body">{this.props.message}</p>
         </div>
       </div>
     );
