@@ -258,10 +258,10 @@ function getMarkers(revisionId: string) {
   });
 }
 
-function saveMarker(marker: Marker) {
+function saveMarker(revisionId: string, marker: Marker) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      markers.push(marker);
+      revisions[revisionId].push(marker);
       resolve(marker);
     }, generateRandomDelay());
   });

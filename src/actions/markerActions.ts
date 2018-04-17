@@ -23,10 +23,11 @@ export function getMarkers(
 }
 
 export function addMarker(
+  revisionId: string,
   marker: Marker
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
-    return apiService.saveMarker(marker).then(savedMarker => {
+    return apiService.saveMarker(revisionId, marker).then(savedMarker => {
       dispatch({
         type: ADD_MARKER,
         data: savedMarker
