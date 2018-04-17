@@ -33,7 +33,7 @@ class CommentBox extends React.Component<{
 
   render() {
     return (
-      <div className="comment-box">
+      <div className="comment-box" style={{ display: 'none' }}>
         {this.renderComments()}
         <input
           className="comment-box__input"
