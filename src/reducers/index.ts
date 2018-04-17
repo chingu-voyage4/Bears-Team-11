@@ -6,6 +6,7 @@ import tagsReducer from './tagsReducer';
 import categoriesReducer from './categoriesReducer';
 import allUsersReducer from './allUsersReducer';
 import uploadImagesReducer from './uploadImages';
+import addOrUpdateProjectReducer from './addOrUpdateProjectReducer';
 
 export default combineReducers({
   user: userReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   tags: tagsReducer,
   categories: categoriesReducer,
   allUsers: allUsersReducer,
-  imageLinks: uploadImagesReducer
+  imageLinks: uploadImagesReducer,
+  addOrUpdateProject: addOrUpdateProjectReducer
 });

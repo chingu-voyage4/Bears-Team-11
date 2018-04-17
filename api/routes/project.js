@@ -57,9 +57,9 @@ module.exports = function (passport) {
   router.get('/:id', function (req, res) {
     Project.findOne({ _id: req.params.id }, function (err, project) {
       if (err || !project) {
-        res.json({ message: 'Error in saving project: ' + err });
+        res.json({ message: 'Error in retrieving project: ' + err });
       } else {
-        res.json(project);
+        res.json({ message: 'Successfully retrieved project', project: project });
       }
     })
   })

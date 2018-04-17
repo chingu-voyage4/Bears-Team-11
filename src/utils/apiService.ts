@@ -401,24 +401,12 @@ function uploadProjectImage(file: FileList): Promise<string[]> {
   });
 }
 
-function updateProject(
-  name: string,
-  update: string,
-  id: string
-): Promise<Project> {
+function getOneProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/update';
+    const endpoint = 'http://localhost:8080/api/projects/' + id;
 
     var data: object = {
-      body: JSON.stringify({
-        id: id,
-        updateKey: name,
-        updateObject: update
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
+      method: 'GET',
       credentials: 'include'
     };
 
@@ -538,7 +526,7 @@ var apiService = {
   logout,
   getProjects,
   addProject,
-  updateProject,
+  getOneProject,
   deleteProject,
   getTags,
   getCategories,

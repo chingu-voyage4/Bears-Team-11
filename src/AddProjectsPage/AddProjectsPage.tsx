@@ -4,7 +4,12 @@ import '../styles/AddProjectsPage.css';
 import HeaderContainer from '../HeaderContainer';
 import { AddProjectState } from '../types/AddProjectsPage.d';
 import { connect } from 'react-redux';
-import { addProject, uploadProjectImage } from '../actions/projectActions';
+import {
+  addProject,
+  uploadProjectImage,
+  updateProject,
+  getOneProject
+} from '../actions/projectActions';
 import { getAllUsers } from '../actions/userActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
@@ -16,8 +21,7 @@ class AddProjectsPage extends React.Component<
 > {
   constructor(props: AddProjectProps) {
     super(props);
-
-    this.state = {
+    var emptyState = {
       name: '',
       description: '',
       dueDate: '',
@@ -39,6 +43,27 @@ class AddProjectsPage extends React.Component<
       preview: null,
       files: null
     };
+
+    var projectToUpdate;
+
+    if (this.props.addOrUpdateProject !== null) {
+      // triggers a call to replace projectState with oneProject by Id
+      this.props.getOneProject(this.props.addOrUpdateProject);
+      projectToUpdate = this.props.projects!;
+    }
+
+    var filledState = Object.assign({}, projectToUpdate, {
+      categoryPlaceholder: 'Choose A Category',
+      tagPlaceholder: 'Choose Some Tags',
+      teamPlaceholder: 'Add Teammates',
+      statusPlaceholder: 'Status of Project',
+      preview: null,
+      files: null
+    });
+
+    this.props.addOrUpdateProject === null
+      ? (this.state = emptyState)
+      : (this.state = filledState);
   }
 
   public toggleCategoryDropdown = (
@@ -757,7 +782,8 @@ function mapStateToProps(state: Store) {
     categories: state.categories,
     tags: state.tags,
     allUsers: state.allUsers,
-    imageLinks: state.imageLinks
+    imageLinks: state.imageLinks,
+    addOrUpdateProject: state.addOrUpdateProject
   };
 }
 export default connect(mapStateToProps, {
@@ -765,5 +791,7 @@ export default connect(mapStateToProps, {
   getAllUsers,
   getCategories,
   getTags,
-  uploadProjectImage
+  uploadProjectImage,
+  updateProject,
+  getOneProject
 })(AddProjectsPage);

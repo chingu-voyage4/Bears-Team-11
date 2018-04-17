@@ -52,12 +52,13 @@ export type CategoriesState = Categories | {};
 
 export interface Store {
   user: User;
-  projects: Array<Project>;
+  projects: Array<Project> | Project;
   categories: Array<Category>;
   tags: Array<Tag>;
   registerLoginWindow: RegisterLoginWindow;
   allUsers: Users;
   imageLinks: string[];
+  addOrUpdateProject: string | null;
 }
 
 export interface LoginProps {
@@ -91,11 +92,14 @@ export interface AddProjectProps {
   tags: Tags | any;
   allUsers: Users;
   imageLinks: string[];
+  addOrUpdateProject: string | null;
   addProject: (project: Project) => (dispatch: Dispatch<ProjectAction>) => void;
   getAllUsers: () => (dispatch: Dispatch<Action>) => void;
   getCategories: () => (dispatch: Dispatch<Action>) => void;
   getTags: () => (dispatch: Dispatch<Action>) => void;
   uploadProjectImage: (files: FileList) => (dispatch: Dispatch<Action>) => void;
+  updateProject: (id: string) => (dispatch: Dispatch<Action>) => void;
+  getOneProject: (id: string) => (dispatch: Dispatch<Action>) => void;
 }
 
 // Register Component

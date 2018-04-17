@@ -3,6 +3,7 @@ import {
   ADD_PROJECT,
   UPDATE_PROJECT,
   DELETE_PROJECT,
+  GET_ONE_PROJECT,
   UPLOAD_PROJECT_IMAGES
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
@@ -35,15 +36,24 @@ export function addProject(
 }
 
 export function updateProject(
-  name: string,
-  update: string,
   id: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.updateProject(name, update, id).then(updatedProject => {
+    return dispatch({
+      type: UPDATE_PROJECT,
+      data: id
+    });
+  };
+}
+
+export function getOneProject(
+  id: string
+): (dispatch: Dispatch<Action>) => void {
+  return dispatch => {
+    return apiService.getOneProject(id).then(project => {
       return dispatch({
-        type: UPDATE_PROJECT,
-        data: updatedProject
+        type: GET_ONE_PROJECT,
+        data: project
       });
     });
   };
