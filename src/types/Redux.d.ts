@@ -30,6 +30,7 @@ export type ProjectState = Array<Project>;
 export interface Store {
   user: object;
   projects: Array<object>;
+  markers: Array<Marker>;
 }
 
 export interface TestProps extends Store {
