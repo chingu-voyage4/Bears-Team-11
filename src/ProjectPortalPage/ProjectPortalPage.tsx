@@ -7,10 +7,12 @@ import '../styles/ProjectPortalPage.css';
 import { connect } from 'react-redux';
 import { getProject } from '../actions/projectActions';
 import { Dispatch } from 'redux';
-import { Action } from '../types/Redux';
+import { Action, Store } from '../types/Redux';
+import { Project } from '../types/Projects';
 
 class ProjectPortalPage extends React.Component<
   {
+    currentProject: Project;
     match: { params: { id: string } };
     getProject: (projectId: string) => (dispatch: Dispatch<Action>) => void;
   },
@@ -47,4 +49,10 @@ class ProjectPortalPage extends React.Component<
   }
 }
 
-export default connect(null, { getProject })(ProjectPortalPage);
+function mapStateToProps(state: Store) {
+  return {
+    currentProject: state.currentProject
+  };
+}
+
+export default connect(mapStateToProps, { getProject })(ProjectPortalPage);

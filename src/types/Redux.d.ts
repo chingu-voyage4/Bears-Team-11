@@ -56,6 +56,7 @@ export interface Store {
   tags: Array<Tag>;
   registerLoginWindow: RegisterLoginWindow;
   allUsers: Users;
+  currentProject: Project;
 }
 
 export interface LoginProps {
