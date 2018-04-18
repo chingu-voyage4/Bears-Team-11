@@ -38,7 +38,15 @@ class ProjectPortalPage extends React.Component<
         </div>
         <div className="project-portal__info">
           <div className="project-portal__about">
-            <About />
+            <About
+              name={this.props.currentProject.name}
+              dueDate={this.props.currentProject.dueDate}
+              description={this.props.currentProject.description}
+              githubLink={this.props.currentProject.githubLink}
+              liveLink={this.props.currentProject.liveLink}
+              lookingFor={this.props.currentProject.lookingFor}
+              mockupLink={this.props.currentProject.mockupLink}
+            />
           </div>
           <div className="project-portal__chat">
             <Chat />
