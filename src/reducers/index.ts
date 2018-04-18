@@ -5,6 +5,7 @@ import appReducer from './appReducer';
 import tagsReducer from './tagsReducer';
 import categoriesReducer from './categoriesReducer';
 import allUsersReducer from './allUsersReducer';
+import currentProjectReducer from './currentProjectReducer';
 
 export default combineReducers({
   user: userReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   registerLoginWindow: appReducer,
   tags: tagsReducer,
   categories: categoriesReducer,
-  allUsers: allUsersReducer
+  allUsers: allUsersReducer,
+  currentProject: currentProjectReducer
 });
