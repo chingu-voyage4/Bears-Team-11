@@ -2,7 +2,8 @@ import {
   GET_PROJECTS,
   ADD_PROJECT,
   UPDATE_PROJECT,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  GET_PROJECT
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
@@ -15,6 +16,19 @@ export function getProjects(): (dispatch: Dispatch<Action>) => void {
       return dispatch({
         type: GET_PROJECTS,
         data: projects
+      });
+    });
+  };
+}
+
+export function getProject(
+  projectId: string
+): (dispatch: Dispatch<Action>) => void {
+  return dispatch => {
+    return apiService.getProject(projectId).then(project => {
+      return dispatch({
+        type: GET_PROJECT,
+        data: project
       });
     });
   };
