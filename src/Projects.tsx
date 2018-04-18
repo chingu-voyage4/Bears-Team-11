@@ -25,9 +25,11 @@ class Project extends React.Component<Props, State> {
           className="project-image"
           alt={data.name}
           src={
-            data.images === [null]
+            data.images === [] ||
+            data.images![0] === undefined ||
+            data.images![0] === null
               ? require('./assets/imagePlaceholder.jpg')
-              : data.images
+              : data.images![0]
           }
         />
         <div className="project-info">
