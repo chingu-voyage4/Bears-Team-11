@@ -6,6 +6,4 @@ export interface State {
   tags?: string[];
 }
 
-export interface Props { }
-
-export interface PassedProps { }
+export interface ProjectPageFilterProps {}

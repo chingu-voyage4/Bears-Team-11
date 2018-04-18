@@ -61,6 +61,16 @@ export interface Store {
   addOrUpdateProject: string | null;
 }
 
+// export interface ProjectStoreInterface {
+//   0: {
+//     docs: Array<Project> | Project;
+//     total: string;
+//     limit: string;
+//     offset: string;
+//     page: string;
+//     pages: string;
+//   }
+// }
 export interface LoginProps {
   visibleLoginWindow: boolean;
   login: (
@@ -87,7 +97,7 @@ export interface ProjectProps {
 
 export interface AddProjectProps {
   user: User;
-  projects: Array<Project>;
+  projects: Array<Project> | Project;
   categories: Categories | any;
   tags: Tags | any;
   allUsers: Users;

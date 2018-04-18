@@ -5,17 +5,23 @@ import Projects from '../Projects';
 import ProjectsFilter from './ProjectsFilter';
 import '../styles/ProjectsPage.css';
 import '../styles/Project.css';
-import { PassedProps, ProjectState } from '../types/ProjectsPage.d';
+import { ProjectPageProps, ProjectPageState } from '../types/ProjectsPage.d';
 import { Store } from '../types/Redux';
 import { connect } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
 
-class ProjectsPage extends React.Component<PassedProps, ProjectState> {
-  constructor(props: PassedProps) {
+class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
+  constructor(props: ProjectPageProps) {
     super(props);
     this.state = {
-      searchTerm: ''
+      searchTerm: '',
+      projectComponent: null
     };
+    var options = {
+      sort: { createdAt: -1 }, // returns by newest
+      limit: 6
+    };
+    this.props.getProjects(options, null);
   }
 
   public onFormChange(e: React.FormEvent<HTMLButtonElement>): void {
@@ -27,6 +33,14 @@ class ProjectsPage extends React.Component<PassedProps, ProjectState> {
   }
 
   render() {
+    var renderProjectContainer;
+    if (this.props.projects) {
+      renderProjectContainer = (
+        <Projects arrayOfProjects={this.props.projects} />
+      );
+    } else {
+      renderProjectContainer = null;
+    }
     return (
       <div>
         <HeaderContainer />
@@ -45,7 +59,7 @@ class ProjectsPage extends React.Component<PassedProps, ProjectState> {
 
         <ProjectsFilter />
 
-        <Projects count={24} />
+        {renderProjectContainer}
 
         <br />
 

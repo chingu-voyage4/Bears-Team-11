@@ -11,9 +11,12 @@ import apiService from '../utils/apiService';
 import { Action } from '../types/Redux';
 import { Project } from '../types/Projects.d';
 
-export function getProjects(): (dispatch: Dispatch<Action>) => void {
+export function getProjects(
+  options: object,
+  query: object | null
+): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.getProjects().then(projects => {
+    return apiService.getProjects(options, query).then(projects => {
       return dispatch({
         type: GET_PROJECTS,
         data: projects

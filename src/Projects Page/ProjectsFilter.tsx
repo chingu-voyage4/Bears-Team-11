@@ -1,11 +1,11 @@
 import * as React from 'react';
 import '../styles/ProjectsPage.css';
-import { PassedProps, State, Props } from '../types/ProjectsFilter.d';
+import { ProjectPageFilterProps, State } from '../types/ProjectsFilter.d';
 // import { connect } from 'react-redux';
 
 let listOfAllTags = ['web app', 'full stack', 'AI', 'chingu'];
-class ProjectsFilter extends React.Component<PassedProps, State> {
-  constructor(props: Props) {
+class ProjectsFilter extends React.Component<ProjectPageFilterProps, State> {
+  constructor(props: ProjectPageFilterProps) {
     super(props);
     this.state = {
       sortBy: '',

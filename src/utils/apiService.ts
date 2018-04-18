@@ -291,21 +291,29 @@ function getAllUsers(): Promise<Array<User>> {
 }
 
 /* Project */
-function getProjects(): Promise<Array<Project>> {
+function getProjects(
+  options: object,
+  query: object | null
+): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/projects';
-
+    // example options
+    // options: {
+    //       select: { status: true }, // returns active projects
+    //       sort: { createdAt: -1 } // returns by newest
+    //     }
+    var bodyData;
+    if (query === null) {
+      bodyData = { options };
+    } else {
+      bodyData = { options, query };
+    }
     var data: object = {
-      body: {
-        options: {
-          select: { status: true }, // returns active projects
-          sort: { createdAt: -1 } // returns by newest
-        }
-      },
+      body: bodyData,
       headers: {
         'Content-Type': 'application/json'
       },
-      method: 'GET'
+      method: 'POST'
     };
 
     fetch(endpoint, data)
@@ -317,7 +325,8 @@ function getProjects(): Promise<Array<Project>> {
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'Succesfully retrieved projects') {
-          resolve(res.projects);
+          console.log(res.projects.docs);
+          resolve(res.projects.docs);
         } else {
           reject(res.error);
         }

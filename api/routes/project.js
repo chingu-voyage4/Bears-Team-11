@@ -10,8 +10,8 @@ var UserDetails = require('../models/UserDetails');
 
 module.exports = function (passport) {
   // retrieves all projects
-  router.get('/', function (req, res) {
-    Project.paginate({}, req.body.options, function (err, result) {
+  router.post('/', function (req, res) {
+    Project.paginate(req.body.query = undefined ? {} : req.body.query, req.body.options, function (err, result) {
       if (err) {
         return res.json({ message: 'Error retrieving project: ' + err })
       } else {
