@@ -19,6 +19,7 @@ export interface Projects {
   liveLink?: string;
   tags?: string[];
   files?: any;
+  mockups?: Array<string>;
 }
 
 export type Project = Projects;

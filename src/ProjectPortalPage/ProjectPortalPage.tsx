@@ -2,7 +2,7 @@ import * as React from 'react';
 import Header from '../Header';
 import About from './About';
 import Chat from './Chat';
-import Carousel from './Carousel';
+import Revisions from './Revisions';
 import '../styles/ProjectPortalPage.css';
 import { connect } from 'react-redux';
 import { getProject } from '../actions/projectActions';
@@ -33,7 +33,7 @@ class ProjectPortalPage extends React.Component<
         <Header />
         <div className="project-portal__carousel__background">
           <div className="project-portal__carousel">
-            <Carousel />
+            <Revisions mockups={this.props.currentProject.mockups} />
           </div>
         </div>
         <div className="project-portal__info">
