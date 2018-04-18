@@ -4,8 +4,27 @@ import About from './About';
 import Chat from './Chat';
 import Carousel from './Carousel';
 import '../styles/ProjectPortalPage.css';
+import { connect } from 'react-redux';
+import { getProject } from '../actions/projectActions';
+import { Dispatch } from 'redux';
+import { Action } from '../types/Redux';
 
-class ProjectPortalPage extends React.Component<{}, {}> {
+class ProjectPortalPage extends React.Component<
+  {
+    match: { params: { id: string } };
+    getProject: (projectId: string) => (dispatch: Dispatch<Action>) => void;
+  },
+  {}
+> {
+  componentDidMount() {
+    const id = this.getURLParams().id;
+    this.props.getProject(id);
+  }
+
+  getURLParams = () => {
+    return this.props.match.params;
+  };
+
   render() {
     return (
       <div className="project-portal__container">
@@ -28,4 +47,4 @@ class ProjectPortalPage extends React.Component<{}, {}> {
   }
 }
 
-export default ProjectPortalPage;
+export default connect(null, { getProject })(ProjectPortalPage);
