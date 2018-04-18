@@ -49,7 +49,7 @@ class ProjectPortalPage extends React.Component<
             />
           </div>
           <div className="project-portal__chat">
-            <Chat />
+            <Chat comments={this.props.currentProject.comments} />
           </div>
         </div>
       </div>

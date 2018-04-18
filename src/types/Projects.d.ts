@@ -7,7 +7,7 @@ export interface Projects {
   description?: string;
   contact?: string;
   lookingFor?: string[];
-  comments?: string;
+  comments?: string | Array<string>; // Need to update all dependents
   createdAt?: number;
   dueDate?: number | any;
   views?: number;
