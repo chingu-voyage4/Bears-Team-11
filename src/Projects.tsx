@@ -12,20 +12,23 @@ import { connect } from 'react-redux';
 class Project extends React.Component<Props, State> {
   render() {
     var data = this.props.project;
-    console.log('data=' + JSON.stringify(data));
-    // var roles;
-    // if (data.lookingFor && data.lookingFor.length > 1) {
-    //   roles = data.lookingFor[0] + ', ' + data.lookingFor[1];
-    // } else {
-    //   roles = data.lookingFor;
-    // }
+    var roles;
+    if (data.lookingFor && data.lookingFor.length > 1) {
+      roles = data.lookingFor[0] + ', ' + data.lookingFor[1];
+    } else {
+      roles = data.lookingFor;
+    }
 
     return (
       <div className="project">
-        {/* <img
+        <img
           className="project-image"
           alt={data.name}
-          src={data.images ? data.images[0] : undefined}
+          src={
+            data.images === [null]
+              ? require('./assets/imagePlaceholder.jpg')
+              : data.images
+          }
         />
         <div className="project-info">
           <div className="project-name">{data.name}</div>
@@ -40,7 +43,7 @@ class Project extends React.Component<Props, State> {
               src={require('./assets/Bookmark Icon.png')}
             />
           </a>
-        </div> */}
+        </div>
       </div>
     );
   }
@@ -54,19 +57,17 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
   // When we have the data ready we need to use an actual key such as an id.
   render() {
     var projectComponent;
-    var projectArray = this.props.arrayOfProjects;
+    var projectArray = this.props.projects[0];
 
-    if (projectArray[0] === undefined) {
+    if (projectArray === undefined) {
       projectComponent = null;
     } else {
-      console.log('projectArray=' + projectArray);
-      console.log('projectArray[0]=' + projectArray[0]);
-      // tslint:disable-next-line
-      projectComponent = projectArray[0].map(function(
+      console.log('projectArray=' + JSON.stringify(projectArray));
+      projectComponent = projectArray.map(function(
+        // tslint:disable-next-line
         projectData: any,
         index: number
       ) {
-        console.log(projectData);
         return <Project key={'projects_' + index} project={projectData} />;
       });
     }

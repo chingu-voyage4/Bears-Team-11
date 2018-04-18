@@ -2,7 +2,7 @@ export interface Projects {
   _id?: string;
   name?: string;
   creator?: string;
-  images?: string[];
+  images?: string[] | null[];
   team?: object[] | object;
   description?: string;
   contact?: string;
@@ -28,7 +28,7 @@ export interface State {}
 // Props is to declare any types of props passed in from parent react container
 // In this case, there are no props passed in, so its an empty object
 export interface Props {
-  project: Array<Project> | Project;
+  project: Project;
   index?: number;
 }
 
