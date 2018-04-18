@@ -4,7 +4,7 @@ var Schema = Mongoose.Schema;
 
 var MarkerSchema = new Schema({
   type: { type: String },
-  creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  creator: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
   createdAt: { type: Date, default: Date.now() },
   x: { type: Number },
   y: { type: Number },
