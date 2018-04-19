@@ -11,7 +11,11 @@ var UserDetails = require('../models/UserDetails');
 module.exports = function (passport) {
   // retrieves all projects
   router.post('/', function (req, res) {
-    Project.paginate(req.body.query = undefined ? {} : req.body.query, req.body.options, function (err, result) {
+    var query = req.body.query;
+    var options = req.body.options;
+    console.log(query);
+    console.log(options);
+    Project.paginate(query === undefined || query === {} ? {} : query, options, function (err, result) {
       if (err) {
         return res.json({ message: 'Error retrieving project: ' + err })
       } else {
@@ -40,17 +44,6 @@ module.exports = function (passport) {
         return res.json({ categories: categories, message: 'Successfully retrieved categories' });
       }
     });
-  });
-
-  // retrieves filtered projects. placeholder => not yet implemented
-  router.post('/filter', function (req, res) {
-    Project.paginate({}, req.body.options, function (err, result) {
-      if (err) {
-        return res.json({ message: 'Error retrieving project: ' + err })
-      } else {
-        res.json(result);
-      }
-    })
   });
 
   // retrieves project by id

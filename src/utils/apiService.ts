@@ -297,24 +297,22 @@ function getProjects(
 ): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/projects';
-    // example options
-    // options: {
-    //       select: { status: true }, // returns active projects
-    //       sort: { createdAt: -1 } // returns by newest
-    //     }
     var bodyData;
+
     if (query === null) {
       bodyData = { options };
     } else {
       bodyData = { options, query };
     }
     var data: object = {
-      body: bodyData,
+      body: JSON.stringify(bodyData),
       headers: {
         'Content-Type': 'application/json'
       },
       method: 'POST'
     };
+
+    console.log(data);
 
     fetch(endpoint, data)
       // tslint:disable-next-line

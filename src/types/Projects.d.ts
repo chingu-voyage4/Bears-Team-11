@@ -37,7 +37,7 @@ export interface EmptyProp {}
 export interface ProjectsProps {}
 
 export interface ProjectsInheritedProps {
-  projects: Array<Project> | Project;
+  projects: Array<Project>;
   arrayOfProjects: Array<Project> | Project;
 }
 export interface ProjectsState {}

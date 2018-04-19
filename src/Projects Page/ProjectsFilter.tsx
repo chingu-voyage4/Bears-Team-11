@@ -20,9 +20,12 @@ class ProjectsFilter extends React.Component<
       status: '',
       tags: []
     };
+  }
+
+  componentWillMount() {
     var options = {
-      select: { status: true }, // returns active projects
-      sort: { createdAt: -1 } // returns by newest
+      sort: { createdAt: 'asc' }, // returns by newest
+      limit: 24
     };
     this.props.getCategories();
     this.props.getTags();
@@ -83,35 +86,114 @@ class ProjectsFilter extends React.Component<
   };
 
   public submitFilters(e: React.MouseEvent<HTMLButtonElement>): void {
+    e.preventDefault();
+
     var referenceTothis = this;
-    var arrayOfNames = ['sortBy', 'roles', 'categories', 'status', 'tags'];
-    // tslint:disable-next-line
+
     function saveToState(name: string) {
-      var value = [];
-      var elements = document.getElementsByName(name) as NodeListOf<
-        HTMLInputElement
-      >;
+      var value: string[] = [];
+      var elemList = document.getElementsByClassName('filterOptions-' + name);
+
+      // tslint:disable-next-line
+      var elements = [].filter.call(elemList, function(elem: any) {
+        return elem.checked;
+      });
+
       if (elements.length === 1) {
-        referenceTothis.setState({ [name]: elements[0].value });
+        referenceTothis.setState({ [name]: elements[0].value }, function() {
+          console.log(referenceTothis.state);
+          referenceTothis.callNewProjects();
+        });
+      } else if (elements === undefined || elements.length === 0) {
+        referenceTothis.callNewProjects();
       } else {
-        for (var i = 0; i < elements.length; i++) {
-          value.push(elements[i].value);
-        }
-        referenceTothis.setState({ [name]: value });
+        // tslint:disable-next-line
+        elements.forEach(function(elem: any) {
+          value.push(elem.value);
+        });
+        referenceTothis.setState({ [name]: value }, function() {
+          console.log(referenceTothis.state);
+          referenceTothis.callNewProjects();
+        });
       }
     }
+
+    // check array of names for any checked items
+    var arrayOfNames = ['sortBy', 'roles', 'categories', 'status', 'tags'];
     arrayOfNames.map(function(names: string) {
       saveToState(names);
     });
-
-    var options = {
-      select: { status: true }, // returns active projects
-      sort: { createdAt: -1 } // returns by newest
-    };
-    var query = {};
-
-    this.props.getProjects(options, query);
   }
+
+  public callNewProjects = () => {
+    console.log('in new projects function');
+    // create options and query objects
+    var options = {};
+    var query: object | null = {};
+    console.log(this.state);
+    if (this.state.categories!.length > 0) {
+      var category = {
+        category: { $in: this.state.categories }
+      };
+      query = Object.assign({}, query, category);
+    }
+
+    if (this.state.tags!.length > 0) {
+      var tags = {
+        tags: { $in: this.state.tags }
+      };
+      query = Object.assign({}, query, tags);
+    }
+
+    if (this.state.sortBy !== '') {
+      if (this.state.sortBy === 'Most Viewed') {
+        options = Object.assign(
+          {},
+          {
+            sort: { views: 'desc' }
+          }
+        );
+      } else if (this.state.sortBy === 'Newest') {
+        options = Object.assign(
+          {},
+          {
+            sort: { createdAt: -1 }
+          }
+        );
+      } else {
+        options = Object.assign(
+          {},
+          {
+            sort: { createdAt: -1 }
+          }
+        );
+      }
+    }
+
+    if (this.state.roles !== '') {
+      if (this.state.roles === 'Programmer') {
+        query = Object.assign({}, query, { lookingFor: ['Programmer'] });
+      } else if (this.state.roles === 'Designer') {
+        query = Object.assign({}, query, { lookingFor: ['Designer'] });
+      }
+    }
+
+    if (this.state.status !== '') {
+      if (this.state.status === 'Active') {
+        query = Object.assign({}, query, { status: true });
+      } else if (this.state.status === 'Completed') {
+        query = Object.assign({}, query, { status: false });
+      }
+    }
+
+    query = query === {} ? null : query;
+    options = options === {} ? { limit: 24, createdAt: -1 } : options;
+    console.log('options=' + JSON.stringify(options));
+    console.log('query=' + JSON.stringify(query));
+
+    // call new set of projects per filter options
+    this.props.getProjects(options, query);
+  };
 
   render() {
     var referenceToThis = this;
@@ -137,7 +219,7 @@ class ProjectsFilter extends React.Component<
                     name="category"
                     id={'categories_filter_id_' + index}
                     value={category.categoryName}
-                    // onClick={e => referenceToThis.onFormChange(e)}
+                    className="filterOptions-categories"
                   />
                   <span className="checkmark" />
                 </label>
@@ -179,7 +261,7 @@ class ProjectsFilter extends React.Component<
                     name="tag"
                     id={'tags_filter_id_' + index}
                     value={tag.tagName}
-                    // onClick={e => referenceToThis.onFormChange(e)}
+                    className="filterOptions-tags"
                   />
                   <span className="checkmark" />
                 </label>
@@ -216,6 +298,7 @@ class ProjectsFilter extends React.Component<
                   name="sortBy"
                   value="All"
                   id="project-filter-sortBy-all"
+                  className="filterOptions-sortBy"
                 />
                 <span className="radioCheckmark" />
               </label>
@@ -229,6 +312,7 @@ class ProjectsFilter extends React.Component<
                   name="sortBy"
                   value="Most Viewed"
                   id="project-filter-sortBy-MostViewed"
+                  className="filterOptions-sortBy"
                 />
                 <span className="radioCheckmark" />
               </label>
@@ -242,6 +326,7 @@ class ProjectsFilter extends React.Component<
                   name="sortBy"
                   value="Newest"
                   id="project-filter-sortBy-newest"
+                  className="filterOptions-sortBy"
                 />
                 <span className="radioCheckmark" />
               </label>
@@ -261,6 +346,7 @@ class ProjectsFilter extends React.Component<
                   name="roles"
                   value="All Roles"
                   id="project-filter-roles-all"
+                  className="filterOptions-roles"
                 />
                 <span className="radioCheckmark" />
               </label>
@@ -274,6 +360,7 @@ class ProjectsFilter extends React.Component<
                   name="roles"
                   value="Programmer"
                   id="project-filter-roles-programmer"
+                  className="filterOptions-roles"
                 />
                 <span className="radioCheckmark" />
               </label>
@@ -287,6 +374,7 @@ class ProjectsFilter extends React.Component<
                   name="roles"
                   value="Designer"
                   id="project-filter-roles-designer"
+                  className="filterOptions-roles"
                 />
                 <span className="radioCheckmark" />
               </label>
@@ -338,6 +426,7 @@ class ProjectsFilter extends React.Component<
                   name="status"
                   value="Active"
                   id="project-filter-status-active"
+                  className="filterOptions-status"
                 />
                 <span className="radioCheckmark" />
               </label>
@@ -351,6 +440,7 @@ class ProjectsFilter extends React.Component<
                   name="status"
                   value="Completed"
                   id="project-filter-status-completed"
+                  className="filterOptions-status"
                 />
                 <span className="radioCheckmark" />
               </label>
@@ -364,6 +454,7 @@ class ProjectsFilter extends React.Component<
                   name="status"
                   value="All Statuses"
                   id="project-filter-status-all"
+                  className="filterOptions-status"
                 />
                 <span className="radioCheckmark" />
               </label>

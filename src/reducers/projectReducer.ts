@@ -14,10 +14,9 @@ function projectReducer(
   var newState = state.slice();
   switch (action.type) {
     case GET_PROJECTS:
-      newState.push(action.data);
-      return newState;
+      return action.data as Array<Project>;
     case GET_ONE_PROJECT:
-      return action.data as Project;
+      return action.data;
     case ADD_PROJECT:
       newState.push(action.data);
       return newState;

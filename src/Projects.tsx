@@ -59,11 +59,15 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
   // When we have the data ready we need to use an actual key such as an id.
   render() {
     var projectComponent;
-    var projectArray = this.props.projects[0];
+    var projectArray = this.props.projects;
 
     if (projectArray === undefined) {
       projectComponent = null;
-    } else {
+    } else if (projectArray.length === 1) {
+      projectComponent = (
+        <Project key={'projects_1'} project={projectArray[0]} />
+      );
+    } else if (projectArray) {
       projectComponent = projectArray.map(function(
         // tslint:disable-next-line
         projectData: any,

@@ -10,7 +10,6 @@ class RecentProjects extends React.Component<RecentProjectsProps, {}> {
   constructor(props: RecentProjectsProps) {
     super(props);
     var options = {
-      select: { status: true }, // returns active projects
       sort: { createdAt: -1 }, // returns by newest
       limit: 6
     };
