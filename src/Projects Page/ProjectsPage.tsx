@@ -8,7 +8,7 @@ import '../styles/Project.css';
 import { ProjectPageProps, ProjectPageState } from '../types/ProjectsPage.d';
 import { Store } from '../types/Redux';
 import { connect } from 'react-redux';
-import { getProjects } from '../actions/projectActions';
+import { getProjects, searchProjects } from '../actions/projectActions';
 
 class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
   constructor(props: ProjectPageProps) {
@@ -19,25 +19,33 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
     };
     var options = {
       sort: { createdAt: -1 }, // returns by newest
-      limit: 6
+      limit: 24
     };
     this.props.getProjects(options, null);
   }
 
   public onFormChange(e: React.FormEvent<HTMLButtonElement>): void {
-    var { name, value } = e.currentTarget;
-    this.setState({
-      [name]: value
-      // tslint:disable-next-line
-    } as any);
+    this.props.searchProjects(this.state.searchTerm);
+  }
+
+  public inputHandler(e: React.KeyboardEvent<HTMLInputElement>): void {
+    var refToThis = this;
+    this.setState({ searchTerm: e.currentTarget.value }, function() {
+      refToThis.props.searchProjects(refToThis.state.searchTerm);
+    });
   }
 
   render() {
+    var renderSearchResults;
+    if (this.props.searchResults) {
+      renderSearchResults = <Projects arrayOfProjects={'searchResults'} />;
+    } else {
+      renderSearchResults = null;
+    }
+
     var renderProjectContainer;
     if (this.props.projects) {
-      renderProjectContainer = (
-        <Projects arrayOfProjects={this.props.projects} />
-      );
+      renderProjectContainer = <Projects arrayOfProjects={'projects'} />;
     } else {
       renderProjectContainer = null;
     }
@@ -51,11 +59,19 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
             className="projects-search-box"
             type="search"
             placeholder="Search for Projects"
+            id="projects-search-input-box"
+            onKeyUp={e => this.inputHandler(e)}
           />
-          <button className="projects-search-btn" type="submit">
+          <button
+            className="projects-search-btn"
+            type="submit"
+            onClick={e => this.onFormChange(e)}
+          >
             Search
           </button>
         </form>
+
+        {renderSearchResults}
 
         <ProjectsFilter />
 
@@ -72,10 +88,12 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
 const mapStateToProps = (state: Store) => {
   return {
     user: state.user,
-    projects: state.projects
+    projects: state.projects,
+    searchResults: state.searchResults
   };
 };
 
 export default connect(mapStateToProps, {
-  getProjects
+  getProjects,
+  searchProjects
 })(ProjectsPage);

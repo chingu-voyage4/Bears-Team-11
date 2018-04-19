@@ -7,6 +7,7 @@ import categoriesReducer from './categoriesReducer';
 import allUsersReducer from './allUsersReducer';
 import uploadImagesReducer from './uploadImages';
 import addOrUpdateProjectReducer from './addOrUpdateProjectReducer';
+import searchResultsReducer from './searchResultsReducer';
 
 export default combineReducers({
   user: userReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
   categories: categoriesReducer,
   allUsers: allUsersReducer,
   imageLinks: uploadImagesReducer,
-  addOrUpdateProject: addOrUpdateProjectReducer
+  addOrUpdateProject: addOrUpdateProjectReducer,
+  searchResults: searchResultsReducer
 });

@@ -59,18 +59,9 @@ export interface Store {
   allUsers: Users;
   imageLinks: string[];
   addOrUpdateProject: string | null;
+  searchResults: Array<Project> | Project;
 }
 
-// export interface ProjectStoreInterface {
-//   0: {
-//     docs: Array<Project> | Project;
-//     total: string;
-//     limit: string;
-//     offset: string;
-//     page: string;
-//     pages: string;
-//   }
-// }
 export interface LoginProps {
   visibleLoginWindow: boolean;
   login: (

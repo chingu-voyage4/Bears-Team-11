@@ -24,7 +24,7 @@ class RecentProjects extends React.Component<RecentProjectsProps, {}> {
       <div className="recent-projects-container">
         <hr className="horizontal-line" />
         <h1 className="recent-projects-header">Recent Projects</h1>
-        <Projects arrayOfProjects={this.props.projects} />
+        <Projects arrayOfProjects={'projects'} />
         <Link to="/projects" className="explore-projects-button">
           Explore More Projects
         </Link>

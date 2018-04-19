@@ -59,7 +59,13 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
   // When we have the data ready we need to use an actual key such as an id.
   render() {
     var projectComponent;
-    var projectArray = this.props.projects;
+    var projectArray;
+
+    if (this.props.arrayOfProjects === 'projects') {
+      projectArray = this.props.projects;
+    } else if (this.props.arrayOfProjects === 'searchResults') {
+      projectArray = this.props.searchResults;
+    }
 
     if (projectArray === undefined) {
       projectComponent = null;
@@ -83,7 +89,8 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
 
 const mapStateToProps = (state: Store) => {
   return {
-    projects: state.projects
+    projects: state.projects,
+    searchResults: state.searchResults
   };
 };
 

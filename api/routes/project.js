@@ -13,6 +13,19 @@ module.exports = function (passport) {
   router.post('/', function (req, res) {
     var query = req.body.query;
     var options = req.body.options;
+
+    if (req.body.query && req.body.query.searchTerm) {
+      var queryToRegex = new RegExp(req.body.query.searchTerm);
+      query = {
+        $or: [
+          { name: { $regex: queryToRegex } },
+          { description: { $regex: queryToRegex } },
+          { category: { $regex: queryToRegex } },
+          { tags: { $regex: queryToRegex } }
+        ]
+      };
+    } 
+
     console.log(query);
     console.log(options);
     Project.paginate(query === undefined || query === {} ? {} : query, options, function (err, result) {
@@ -74,7 +87,7 @@ module.exports = function (passport) {
   // add new projects
   router.post('/add', isAuthenticated, function (req, res) {
     console.log('received project object in route');
-    
+
     var newProject = new Project();
 
     newProject.name = req.body.name;
@@ -94,7 +107,7 @@ module.exports = function (passport) {
 
 
     console.log('newProject.images=' + newProject.images);
-    
+
     newProject.save(function (err, project) {
       if (err) {
         res.json({ error: 'Error in saving project: ' + err });
@@ -104,7 +117,7 @@ module.exports = function (passport) {
 
         // save to each teammembers project list
         if (newProject.team) {
-          (newProject.team).forEach(function(user) {
+          (newProject.team).forEach(function (user) {
             console.log(user);
             addOrUpdateProjectInUser(user, newProject._id);
           });
@@ -159,12 +172,12 @@ addOrUpdateTags = (tagName, projectId) => {
         var newArray = Array.from(tag.arrayOfProjectIds);
         newArray.push(projectId);
         tag.arrayOfProjectIds = newArray;
-      
-        tag.save(function(err, tag) {
-          if (err) { 
+
+        tag.save(function (err, tag) {
+          if (err) {
             console.log('Error in add/update projectId in tag')
           } else {
-            console.log('Project successfully added/updated projectid from tag array: ' + tag );
+            console.log('Project successfully added/updated projectid from tag array: ' + tag);
           }
         });
       }
@@ -182,11 +195,11 @@ removeProjectInTags = (tagName, projectId) => {
       var projectIndexToDelete = copyOfArray.findIndex(projectId);
       tag.arrayOfProjectIds = copyOfArray.splice(projectIndexToDelete, 1);
 
-      tag.save(function(err, tag) {
-        if (err) { 
+      tag.save(function (err, tag) {
+        if (err) {
           console.log('Error in removing projectId in tag')
         } else {
-          console.log('Project successfully removing projectid from tag array: ' + tag );
+          console.log('Project successfully removing projectid from tag array: ' + tag);
         }
       });
     }
@@ -210,14 +223,14 @@ addOrUpdateCategories = (categoryName, projectId) => {
         var newArray = Array.from(category.arrayOfProjectIds);
         newArray.push(projectId);
         category.arrayOfProjectIds = newArray;
-        category.save(function(err, category) {
-          if (err) { 
+        category.save(function (err, category) {
+          if (err) {
             console.log('Error in add/update projectId in category')
           } else {
-            console.log('Project successfully added/updated projectid from category array: ' + category );
+            console.log('Project successfully added/updated projectid from category array: ' + category);
           }
         });
-  
+
       }
     }
   });
@@ -235,8 +248,8 @@ addOrUpdateProjectInUser = (username, projectId) => {
       if (userDetail.projects.indexOf(projectId) === -1) {
         var newArray = [...userDetail.projects, projectId];
         userDetail.projects = newArray;
-        userDetail.save(function(err) {
-          if (err) { console.log('Error in adding projectId to UserDetails: ' + err )}
+        userDetail.save(function (err) {
+          if (err) { console.log('Error in adding projectId to UserDetails: ' + err) }
         });
       }
     }
@@ -253,15 +266,15 @@ removeProjectInCategory = (categoryName, projectId) => {
       var projectIndexToDelete = copyOfArray.findIndex(projectId);
       category.arrayOfProjectIds = copyOfArray.splice(projectIndexToDelete, 1);
 
-      category.save(function(err, category) {
-        if (err) { 
+      category.save(function (err, category) {
+        if (err) {
           console.log('Error in removing project in category')
         } else {
-          console.log('Project successfully removed project from category array: ' + category );
+          console.log('Project successfully removed project from category array: ' + category);
         }
       });
 
-     
+
     }
   });
 }

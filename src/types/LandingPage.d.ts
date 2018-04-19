@@ -9,7 +9,7 @@ export interface LandingPageProps {
 export interface LandingPageState {}
 
 export interface RecentProjectsProps {
-  projects: Array<Project> | Project;
+  projects: Array<Project>;
   getProjects: (
     options: object,
     query: object | null

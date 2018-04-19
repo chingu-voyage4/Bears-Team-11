@@ -38,6 +38,7 @@ export interface ProjectsProps {}
 
 export interface ProjectsInheritedProps {
   projects: Array<Project>;
-  arrayOfProjects: Array<Project> | Project;
+  arrayOfProjects: string;
+  searchResults: Array<Project>;
 }
 export interface ProjectsState {}
