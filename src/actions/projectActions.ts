@@ -5,7 +5,8 @@ import {
   DELETE_PROJECT,
   GET_ONE_PROJECT,
   UPLOAD_PROJECT_IMAGES,
-  SEARCH_PROJECT
+  SEARCH_PROJECT,
+  GET_PROJECT
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
@@ -39,6 +40,18 @@ export function searchProjects(
       return dispatch({
         type: SEARCH_PROJECT,
         data: projects
+      });
+    });
+  };
+}
+export function getProject(
+  projectId: string
+): (dispatch: Dispatch<Action>) => void {
+  return dispatch => {
+    return apiService.getProject(projectId).then(project => {
+      return dispatch({
+        type: GET_PROJECT,
+        data: project
       });
     });
   };

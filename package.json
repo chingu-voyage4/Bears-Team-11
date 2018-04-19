@@ -48,7 +48,8 @@
   "scripts": {
     "precommit": "lint-staged",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts-ts start",
     "start-server": "nodemon api",
     "start": "npm-run-all -p watch-css start-js",
@@ -70,11 +71,7 @@
     "typescript": "^2.7.2"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,js,jsx,json,scss,css}": [
-      "prettier --single-quote --write",
-      "git add"
-    ],
-    "api/**/*.{js}": [
+    "*.{ts,tsx,js,jsx,json,scss,css}": [
       "prettier --single-quote --write",
       "git add"
     ]

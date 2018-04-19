@@ -23,7 +23,7 @@ npm start
 - Install [MongoDB Compass](https://www.mongodb.com/download-center?filter=enterprise#compass) (for local copy of mongodb)
 ## Running the Server 
 - `npm run start-server` runs the express server on port `8080`.
-- Go to your mongodb files (ex, C:\Program Files\MongoDB\Server\3.6\bin)
+- Go to your mongodb files (ex with Windows, C:\Program Files\MongoDB\Server\3.6\bin)
 ```
 start mongod.exe
 start mongo.exe
@@ -72,7 +72,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 | /api/projects/delete/one/:id   | DELETE    | id              | Deletes single project by id |
 | /api/projects/filter           | GET       | name, category, r ole, tags, sortBy, status | Returns list of projects filtered by params |
 | /api/projects/tags             | GET       |                 | Returns all available tags |
-| /api/projects/tags/add         | POST      | tagName         | Adds new project tag |
 | /api/projects/categories       | GET       |                 | Returns all available categories |
-| /api/projects/categories/add   | POST      | categoryName    | Adds new category |
 
