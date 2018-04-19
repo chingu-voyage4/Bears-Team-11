@@ -1,11 +1,14 @@
 import * as React from 'react';
 import Messages from './Messages';
 
-class Chat extends React.PureComponent<{}, {}> {
+class Chat extends React.PureComponent<
+  { comments: Array<string> | undefined | string },
+  {}
+> {
   render() {
     return (
       <React.Fragment>
-        <Messages />
+        <Messages {...this.props} />
         <div className="message-bar">
           <input
             className="message-input"

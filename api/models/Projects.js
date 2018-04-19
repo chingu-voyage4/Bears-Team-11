@@ -24,7 +24,8 @@ var ProjectSchema = new Schema({
   tags: { type: Array },
   status: { type: Boolean, default: true }, // true is active, false is completed
   upVotes: { type: Number, default: 0 },
-  modifiedAt: { type: Date, default: Date.now }
+  modifiedAt: { type: Date, default: Date.now },
+  revisions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Revisions' }]
 });
 
 ProjectSchema.plugin(mongoosePaginate);

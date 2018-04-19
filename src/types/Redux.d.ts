@@ -39,6 +39,8 @@ export type UserState = User | {};
 
 export type ProjectState = Array<Project>;
 
+export type CurrentProjectState = Project;
+
 export type UsersState = Users | {};
 
 export type AppState = RegisterLoginWindow;
@@ -54,6 +56,7 @@ export interface Store {
   tags: Array<Tag>;
   registerLoginWindow: RegisterLoginWindow;
   allUsers: Users;
+  currentProject: Project;
 }
 
 export interface LoginProps {

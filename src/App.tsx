@@ -49,11 +49,7 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
                 path="/user/profile"
                 component={PublicProfile}
               />
-              <Route
-                exact={true}
-                pah="/projects/:id"
-                component={ProjectPortalPage}
-              />
+              <Route path="/projects/:id" component={ProjectPortalPage} />
             </Switch>
           </Router>
         </div>
