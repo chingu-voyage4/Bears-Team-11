@@ -22,7 +22,14 @@ var projectsRoute = require('./routes/project')(passport);
 // Connect to DB-Cloud
 // NOTE: Uncomment below line if you want to save data in the cloud(Mlab)
 mongoose.connect(config.db.mlab);
-app.use(cors({  origin: 'http://localhost:3000', credentials: true, preflightContinue: true, optionsSuccessStatus: 200 }) );
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    preflightContinue: true,
+    optionsSuccessStatus: 200
+  })
+);
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,8 +42,8 @@ app.use(
     saveUninitialized: false, // forces uninitialized sessions to be saved
     cookie: {
       maxAge: 6000000,
-      httpOnly : false
-  }
+      httpOnly: false
+    }
   })
 );
 
@@ -47,8 +54,8 @@ initPassport(passport);
 
 // for using routs
 app.use('/api', routes);
-app.use('/api/forgot',forgetPasswordRout);
-app.use('/api/reset',passwordResetRout);
+app.use('/api/forgot', forgetPasswordRout);
+app.use('/api/reset', passwordResetRout);
 app.use('/api/projects', projectsRoute);
 
 /// catch 404 and forward to error handler
@@ -62,13 +69,12 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-      res.status(err.status || 500);
-      // res.send('error', {
-      //     message: err.message,
-      //     error: err
-      // });
+    res.status(err.status || 500);
+    // res.send('error', {
+    //     message: err.message,
+    //     error: err
+    // });
   });
 }
 
 module.exports = app;
-

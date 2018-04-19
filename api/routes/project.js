@@ -8,21 +8,24 @@ var Tags = require('../models/Tags');
 var Categories = require('../models/Categories');
 var UserDetails = require('../models/UserDetails');
 
-module.exports = function (passport) {
+module.exports = function(passport) {
   // retrieves all projects
-  router.get('/', function (req, res) {
-    Project.paginate({}, req.body.options, function (err, result) {
+  router.get('/', function(req, res) {
+    Project.paginate({}, req.body.options, function(err, result) {
       if (err) {
-        return res.json({ message: 'Error retrieving project: ' + err })
+        return res.json({ message: 'Error retrieving project: ' + err });
       } else {
-        res.json({ projects: result, message: 'Succesfully retrieved projects' });
+        res.json({
+          projects: result,
+          message: 'Succesfully retrieved projects'
+        });
       }
-    })
+    });
   });
 
-  router.get('/tags', function (req, res) {
+  router.get('/tags', function(req, res) {
     // retrieve all items in the tags collection. receive tagName and array of projects involved
-    return Tags.find({}, function (err, tags) {
+    return Tags.find({}, function(err, tags) {
       if (err) {
         return res.json({ error: 'Error getting tags: ' + err });
       } else {
@@ -31,57 +34,68 @@ module.exports = function (passport) {
     });
   });
 
-  router.get('/categories', function (req, res) {
+  router.get('/categories', function(req, res) {
     // retrieve all items in the categories collection. receive tagName and array of projects involved
-    return Categories.find({}, function (err, categories) {
+    return Categories.find({}, function(err, categories) {
       if (err) {
         return res.json({ error: 'Error getting categories: ' + err });
       } else {
-        return res.json({ categories: categories, message: 'Successfully retrieved categories' });
+        return res.json({
+          categories: categories,
+          message: 'Successfully retrieved categories'
+        });
       }
     });
   });
 
   // retrieves filtered projects. placeholder => not yet implemented
-  router.post('/filter', function (req, res) {
-    Project.paginate({}, req.body.options, function (err, result) {
+  router.post('/filter', function(req, res) {
+    Project.paginate({}, req.body.options, function(err, result) {
       if (err) {
-        return res.json({ message: 'Error retrieving project: ' + err })
+        return res.json({ message: 'Error retrieving project: ' + err });
       } else {
         res.json(result);
       }
-    })
+    });
   });
 
   // retrieves project by id
-  router.get('/:id', function (req, res) {
-    Project.findOne({ _id: req.params.id }, function (err, project) {
+  router.get('/:id', function(req, res) {
+    Project.findOne({ _id: req.params.id }, function(err, project) {
       if (err || !project) {
         res.json({ message: 'Error in saving project: ' + err });
       } else {
         res.json(project);
       }
-    })
-  })
+    });
+  });
 
   // update project by id
-  router.post('/update', isAuthenticated, function (req, res) {
-    Project.findOneAndUpdate({ _id: req.body.id }, { [req.body.updateKey]: req.body.updateObject, modifiedAt: new Date() }, { new: true }, function (err, project) {
-      if (err || !project) {
-        res.json({ message: 'Error in updating project: ' + err });
-      } else {
-        // search projectId in category and tags
-        // if whats found doesnt match the updated category or tags array, then  pass to removeFunction
+  router.post('/update', isAuthenticated, function(req, res) {
+    Project.findOneAndUpdate(
+      { _id: req.body.id },
+      { [req.body.updateKey]: req.body.updateObject, modifiedAt: new Date() },
+      { new: true },
+      function(err, project) {
+        if (err || !project) {
+          res.json({ message: 'Error in updating project: ' + err });
+        } else {
+          // search projectId in category and tags
+          // if whats found doesnt match the updated category or tags array, then  pass to removeFunction
 
-        res.json({ project: project, message: 'Successfully updated project' });
+          res.json({
+            project: project,
+            message: 'Successfully updated project'
+          });
+        }
       }
-    })
-  })
+    );
+  });
 
   // add new projects
-  router.post('/add', isAuthenticated, function (req, res) {
+  router.post('/add', isAuthenticated, function(req, res) {
     console.log('received project object in route');
-    
+
     var newProject = new Project();
 
     newProject.name = req.body.name;
@@ -98,8 +112,8 @@ module.exports = function (passport) {
     newProject.images = req.body.images;
     newProject.contact = req.body.contact;
     newProject.creator = req.body.creator;
-    
-    newProject.save(function (err, project) {
+
+    newProject.save(function(err, project) {
       if (err) {
         res.json({ error: 'Error in saving project: ' + err });
       } else {
@@ -108,7 +122,7 @@ module.exports = function (passport) {
 
         // save to each teammembers project list
         if (newProject.team) {
-          (newProject.team).forEach(function(user) {
+          newProject.team.forEach(function(user) {
             console.log(user);
             addOrUpdateProjectInUser(user, newProject._id);
           });
@@ -127,35 +141,40 @@ module.exports = function (passport) {
         }
 
         console.log('New project saved successfully');
-        res.json({ message: 'New project saved successfully', newProject: project });
+        res.json({
+          message: 'New project saved successfully',
+          newProject: project
+        });
       }
     });
   });
 
   // delete a single project by id
-  router.post('/delete/one', isAuthenticated, function (req, res) {
-    Project.findByIdAndRemove(req.body.id, function (err, project) {
+  router.post('/delete/one', isAuthenticated, function(req, res) {
+    Project.findByIdAndRemove(req.body.id, function(err, project) {
       if (err || !project) {
         res.json({ message: 'Error in deleting project: ' + err });
       } else {
         res.json({ message: 'Project successfully deleted', project: project });
       }
-    })
-  })
+    });
+  });
 
   return router;
-}
+};
 
 addOrUpdateTags = (tagName, projectId) => {
-  Tags.findOne({ tagName: tagName }, function (err, tag) {
+  Tags.findOne({ tagName: tagName }, function(err, tag) {
     if (err) {
       res.json({ error: 'Error in finding tags: ' + err });
     } else if (!tag) {
       // if tags does not exist, add new tag document. tagName and project id added to array
       var newTag = new Tags({ tagName: tagName, arrayOfProjectIds: projectId });
       console.log(newTag);
-      newTag.save(function (err) {
-        if (err) { res.json({ error: 'Error in saving tag: ' + err }); }
+      newTag.save(function(err) {
+        if (err) {
+          res.json({ error: 'Error in saving tag: ' + err });
+        }
       });
     } else {
       // if tag exists, only push projectId if it doesnt exist already
@@ -163,21 +182,24 @@ addOrUpdateTags = (tagName, projectId) => {
         var newArray = Array.from(tag.arrayOfProjectIds);
         newArray.push(projectId);
         tag.arrayOfProjectIds = newArray;
-      
+
         tag.save(function(err, tag) {
-          if (err) { 
-            console.log('Error in add/update projectId in tag')
+          if (err) {
+            console.log('Error in add/update projectId in tag');
           } else {
-            console.log('Project successfully added/updated projectid from tag array: ' + tag );
+            console.log(
+              'Project successfully added/updated projectid from tag array: ' +
+                tag
+            );
           }
         });
       }
     }
   });
-}
+};
 
 removeProjectInTags = (tagName, projectId) => {
-  Tags.findOne({ tagName: tagName }, function (err, tag) {
+  Tags.findOne({ tagName: tagName }, function(err, tag) {
     if (err || !tag) {
       res.json({ message: 'Error in finding tag: ' + err });
     } else {
@@ -187,26 +209,33 @@ removeProjectInTags = (tagName, projectId) => {
       tag.arrayOfProjectIds = copyOfArray.splice(projectIndexToDelete, 1);
 
       tag.save(function(err, tag) {
-        if (err) { 
-          console.log('Error in removing projectId in tag')
+        if (err) {
+          console.log('Error in removing projectId in tag');
         } else {
-          console.log('Project successfully removing projectid from tag array: ' + tag );
+          console.log(
+            'Project successfully removing projectid from tag array: ' + tag
+          );
         }
       });
     }
   });
-}
+};
 
 addOrUpdateCategories = (categoryName, projectId) => {
-  Categories.findOne({ categoryName: categoryName }, function (err, category) {
+  Categories.findOne({ categoryName: categoryName }, function(err, category) {
     if (err) {
       res.json({ error: 'Error in finding category: ' + err });
     } else if (!category) {
       // if category does not exist, add to categoryName, add this projectId to array
-      var newCategory = new Categories({ categoryName: categoryName, arrayOfProjectIds: projectId });
+      var newCategory = new Categories({
+        categoryName: categoryName,
+        arrayOfProjectIds: projectId
+      });
       console.log(newCategory);
-      newCategory.save(function (err) {
-        if (err) { res.json({ error: 'Error in saving category: ' + err }); }
+      newCategory.save(function(err) {
+        if (err) {
+          res.json({ error: 'Error in saving category: ' + err });
+        }
       });
     } else {
       // if already exists , only push projectId if it doesnt exist already
@@ -215,20 +244,22 @@ addOrUpdateCategories = (categoryName, projectId) => {
         newArray.push(projectId);
         category.arrayOfProjectIds = newArray;
         category.save(function(err, category) {
-          if (err) { 
-            console.log('Error in add/update projectId in category')
+          if (err) {
+            console.log('Error in add/update projectId in category');
           } else {
-            console.log('Project successfully added/updated projectid from category array: ' + category );
+            console.log(
+              'Project successfully added/updated projectid from category array: ' +
+                category
+            );
           }
         });
-  
       }
     }
   });
-}
+};
 
 addOrUpdateProjectInUser = (username, projectId) => {
-  UserDetails.findOne({ 'username': username }, function (err, userDetail) {
+  UserDetails.findOne({ username: username }, function(err, userDetail) {
     if (err) {
       console.log('Error in finding user: ' + err);
     } else if (!userDetail) {
@@ -240,15 +271,17 @@ addOrUpdateProjectInUser = (username, projectId) => {
         var newArray = [...userDetail.projects, projectId];
         userDetail.projects = newArray;
         userDetail.save(function(err) {
-          if (err) { console.log('Error in adding projectId to UserDetails: ' + err )}
+          if (err) {
+            console.log('Error in adding projectId to UserDetails: ' + err);
+          }
         });
       }
     }
   });
-}
+};
 
 removeProjectInCategory = (categoryName, projectId) => {
-  Categories.findOne({ categoryName: categoryName }, function (err, category) {
+  Categories.findOne({ categoryName: categoryName }, function(err, category) {
     if (err || !category) {
       res.json({ message: 'Error in finding category: ' + err });
     } else {
@@ -258,14 +291,15 @@ removeProjectInCategory = (categoryName, projectId) => {
       category.arrayOfProjectIds = copyOfArray.splice(projectIndexToDelete, 1);
 
       category.save(function(err, category) {
-        if (err) { 
-          console.log('Error in removing project in category')
+        if (err) {
+          console.log('Error in removing project in category');
         } else {
-          console.log('Project successfully removed project from category array: ' + category );
+          console.log(
+            'Project successfully removed project from category array: ' +
+              category
+          );
         }
       });
-
-     
     }
   });
-}
+};
