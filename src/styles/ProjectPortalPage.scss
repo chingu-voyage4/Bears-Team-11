@@ -268,9 +268,14 @@ ABOUT
 }
 
 .about__links li a {
+  color: inherit;
+}
+
+.about__links .button {
   display: inline-block;
   margin: 3px 0 0 0;
   padding: 5px 25px;
+  color: #ffffff;
 }
 
 .looking-for {

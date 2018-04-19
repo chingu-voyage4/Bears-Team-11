@@ -4,7 +4,12 @@ import '../styles/AddProjectsPage.css';
 import HeaderContainer from '../HeaderContainer';
 import { AddProjectState } from '../types/AddProjectsPage.d';
 import { connect } from 'react-redux';
-import { addProject } from '../actions/projectActions';
+import {
+  addProject,
+  uploadProjectImage,
+  updateProject,
+  getOneProject
+} from '../actions/projectActions';
 import { getAllUsers } from '../actions/userActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
@@ -16,8 +21,7 @@ class AddProjectsPage extends React.Component<
 > {
   constructor(props: AddProjectProps) {
     super(props);
-
-    this.state = {
+    var emptyState = {
       name: '',
       description: '',
       dueDate: '',
@@ -39,6 +43,27 @@ class AddProjectsPage extends React.Component<
       preview: null,
       files: null
     };
+
+    var projectToUpdate;
+
+    if (this.props.addOrUpdateProject !== null) {
+      // triggers a call to replace projectState with oneProject by Id
+      this.props.getOneProject(this.props.addOrUpdateProject);
+      projectToUpdate = this.props.projects!;
+    }
+
+    var filledState = Object.assign({}, projectToUpdate, {
+      categoryPlaceholder: 'Choose A Category',
+      tagPlaceholder: 'Choose Some Tags',
+      teamPlaceholder: 'Add Teammates',
+      statusPlaceholder: 'Status of Project',
+      preview: null,
+      files: null
+    });
+
+    this.props.addOrUpdateProject === null
+      ? (this.state = emptyState)
+      : (this.state = filledState);
   }
 
   public toggleCategoryDropdown = (
@@ -164,22 +189,38 @@ class AddProjectsPage extends React.Component<
   }
 
   public handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
-    this.props.addProject({
-      name: this.state.name,
-      description: this.state.description,
-      dueDate: this.state.dueDate,
-      team: this.state.team,
-      githubLink: this.state.githubLink,
-      mockupLink: this.state.mockupLink,
-      liveLink: this.state.liveLink,
-      lookingFor: this.state.lookingFor,
-      status: this.state.status,
-      category: this.state.category,
-      tags: this.state.tags,
-      images: this.state.images,
-      contact: this.state.contact,
-      creator: this.props.user.username,
-      files: this.state.files
+    var refToThis = this;
+    var elemList = document.getElementsByClassName('new-project-roles');
+    // tslint:disable-next-line
+    var elements = [].filter.call(elemList, function(elem: any) {
+      return elem.checked;
+    });
+
+    var lookingForArray: string[] = [];
+    // tslint:disable-next-line
+    elements.forEach(function(elem: any) {
+      lookingForArray.push(elem.value);
+    });
+
+    this.setState({ lookingFor: lookingForArray }, function() {
+      console.log(refToThis.state);
+      refToThis.props.addProject({
+        name: refToThis.state.name,
+        description: refToThis.state.description,
+        dueDate: refToThis.state.dueDate,
+        team: refToThis.state.team,
+        githubLink: refToThis.state.githubLink,
+        mockupLink: refToThis.state.mockupLink,
+        liveLink: refToThis.state.liveLink,
+        lookingFor: refToThis.state.lookingFor,
+        status: refToThis.state.status,
+        category: refToThis.state.category,
+        tags: refToThis.state.tags,
+        images: refToThis.state.images,
+        contact: refToThis.state.contact,
+        creator: refToThis.props.user.username,
+        files: refToThis.state.files
+      });
     });
   };
 
@@ -241,21 +282,13 @@ class AddProjectsPage extends React.Component<
   };
 
   public handleImageUpload = (e: React.FormEvent<HTMLButtonElement>): void => {
+    // currently makes preview of images
     e.preventDefault();
-    var referenceToThis = this;
+    // var referenceToThis = this;
     const preview = document.getElementById('new-project-image-preview')!;
-    const loaderAnimation = document.getElementById(
-      'new-project-image-loader'
-    )!;
 
     function readAndPreview(file: File) {
       var reader = new FileReader();
-
-      var onSuccessAnimationToggle = function() {
-        loaderAnimation.classList.toggle('new-project-show');
-      };
-
-      reader.addEventListener('loadstart', onSuccessAnimationToggle, false);
 
       reader.addEventListener(
         'load',
@@ -267,27 +300,21 @@ class AddProjectsPage extends React.Component<
           image.height = 70;
 
           preview.appendChild(image);
-
-          referenceToThis.setState({
-            images: Object.assign({}, referenceToThis.state.images, {
-              imageSrc: image.src,
-              imageTitle: file.name
-            })
-            // tslint:disable-next-line
-          } as any);
         },
         false
       );
-
       reader.readAsDataURL(file);
-
-      reader.addEventListener('loadend', onSuccessAnimationToggle, false);
     }
 
     if (this.state.files) {
       for (var i = 0; i < this.state.files.length; i++) {
         readAndPreview(this.state.files[i]);
       }
+      // upload images to AWS
+      this.props.uploadProjectImage(this.state.files);
+      // retrieve the sent back image links from this.props.imageLinks and save to state.images
+      console.log(this.props.imageLinks);
+      this.setState({ images: this.props.imageLinks });
     }
   };
 
@@ -317,7 +344,11 @@ class AddProjectsPage extends React.Component<
     });
 
     let usersFromStore = this.props.allUsers!;
+    let username = this.props.user.username;
     if (usersFromStore instanceof Array) {
+      usersFromStore = usersFromStore.filter(
+        user => user.username !== username
+      );
       teamOptionsComponent = usersFromStore.map(function(
         // tslint:disable-next-line
         users: any,
@@ -658,35 +689,37 @@ class AddProjectsPage extends React.Component<
               </label>
 
               <div className="new-project-checkbox-container">
-                <div className="checkbox">
-                  <input
-                    type="checkbox"
-                    name="roles"
-                    value="Programmer"
-                    id="new-project-role-p"
-                    onChange={e => this.onFormChange(e)}
-                  />
+                <div className="checkboxContainer">
                   <label
                     className="new-project-text"
                     htmlFor="new-project-role-p"
                   >
                     Programmer
+                    <input
+                      className="new-project-roles"
+                      type="checkbox"
+                      name="roles"
+                      value="Programmer"
+                      id="new-project-role-p"
+                    />
+                    <span className="checkmark" />
                   </label>
                 </div>
 
-                <div className="checkbox">
-                  <input
-                    type="checkbox"
-                    name="roles"
-                    value="Designer"
-                    id="new-project-role-d"
-                    onChange={e => this.onFormChange(e)}
-                  />
+                <div className="checkboxContainer">
                   <label
                     className="new-project-text"
                     htmlFor="new-project-role-d"
                   >
                     Designer
+                    <input
+                      className="new-project-roles"
+                      type="checkbox"
+                      name="roles"
+                      value="Designer"
+                      id="new-project-role-d"
+                    />
+                    <span className="checkmark" />
                   </label>
                 </div>
               </div>
@@ -766,12 +799,17 @@ function mapStateToProps(state: Store) {
     projects: state.projects,
     categories: state.categories,
     tags: state.tags,
-    allUsers: state.allUsers
+    allUsers: state.allUsers,
+    imageLinks: state.imageLinks,
+    addOrUpdateProject: state.addOrUpdateProject
   };
 }
 export default connect(mapStateToProps, {
   addProject,
   getAllUsers,
   getCategories,
-  getTags
+  getTags,
+  uploadProjectImage,
+  updateProject,
+  getOneProject
 })(AddProjectsPage);

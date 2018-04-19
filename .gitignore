@@ -8,6 +8,9 @@
 /coverage
 /.vscode
 
+# sensitive files
+/api/utils/s3_config.json
+
 # production
 /build
 

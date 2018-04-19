@@ -5,6 +5,10 @@ import appReducer from './appReducer';
 import tagsReducer from './tagsReducer';
 import categoriesReducer from './categoriesReducer';
 import allUsersReducer from './allUsersReducer';
+import uploadImagesReducer from './uploadImages';
+import addOrUpdateProjectReducer from './addOrUpdateProjectReducer';
+import searchResultsReducer from './searchResultsReducer';
+import currentProjectReducer from './currentProjectReducer';
 
 export default combineReducers({
   user: userReducer,
@@ -12,5 +16,9 @@ export default combineReducers({
   registerLoginWindow: appReducer,
   tags: tagsReducer,
   categories: categoriesReducer,
-  allUsers: allUsersReducer
+  allUsers: allUsersReducer,
+  imageLinks: uploadImagesReducer,
+  addOrUpdateProject: addOrUpdateProjectReducer,
+  searchResults: searchResultsReducer,
+  currentProject: currentProjectReducer
 });

@@ -291,22 +291,28 @@ function getAllUsers(): Promise<Array<User>> {
 }
 
 /* Project */
-function getProjects(): Promise<Array<Project>> {
+function getProjects(
+  options: object,
+  query: object | null
+): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/projects';
+    var bodyData;
 
+    if (query === null) {
+      bodyData = { options };
+    } else {
+      bodyData = { options, query };
+    }
     var data: object = {
-      body: {
-        options: {
-          select: { status: true }, // returns active projects
-          sort: { createdAt: -1 } // returns by newest
-        }
-      },
+      body: JSON.stringify(bodyData),
       headers: {
         'Content-Type': 'application/json'
       },
-      method: 'GET'
+      method: 'POST'
     };
+
+    console.log(data);
 
     fetch(endpoint, data)
       // tslint:disable-next-line
@@ -317,11 +323,47 @@ function getProjects(): Promise<Array<Project>> {
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'Succesfully retrieved projects') {
-          resolve(res.projects);
+          console.log(res.projects.docs);
+          resolve(res.projects.docs);
         } else {
           reject(res.error);
         }
       });
+  });
+}
+
+function getProject(projectId: string) {
+  return new Promise((resolve, reject) => {
+    resolve({
+      name: 'Momentum Project',
+      creator: 'lilgangwolf',
+      githubLink: 'https://github.com',
+      mockupLink: 'https://google.com',
+      liveLink: 'https://google.com',
+
+      images: [
+        // tslint:disable-next-line
+        'https://images.unsplash.com/photo-1515111293107-b0cd6448f5f6?ixlib=rb-0.3.5&s=cba9fa015c2090a9c73d76dab3ed6dd0&auto=format&fit=crop&w=2700&q=80',
+        // tslint:disable-next-line
+        'https://images.unsplash.com/photo-1500482176473-ccba10e1e880?ixlib=rb-0.3.5&s=7c0d4e6d85c1dc526c84a070890c058c&auto=format&fit=crop&w=1534&q=80'
+      ],
+      mockups: ['mockupid_1', 'mockupid_2', 'mockupid_3'],
+      team: ['lilgangwolf', 'natapot'],
+      description:
+        // tslint:disable-next-line
+        'Clone of the momentum chrome eetnsion, with these following design changes: (1) adding a link to github repots, (2) ability to search and pin new weather locations. We are looking for a designer to re-work the layout based off our uploaded precedents.',
+      contact: 'lilgangwolf@gmail.com',
+      lookingFor: ['designer'],
+      comments: [],
+      createdAt: Date.now(),
+      dueDate: Date.now(),
+      views: 1,
+      category: 'extension',
+      tags: ['extension'],
+      status: true,
+      upVotes: 1,
+      modifiedAt: Date.now()
+    });
   });
 }
 
@@ -371,24 +413,42 @@ function addProject(project: Project): Promise<Project> {
   });
 }
 
-function updateProject(
-  name: string,
-  update: string,
-  id: string
-): Promise<Project> {
+function uploadProjectImage(file: FileList): Promise<string[]> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/update';
+    const endpoint = 'http://localhost:8080/api/upload/images/project';
 
     var data: object = {
-      body: JSON.stringify({
-        id: id,
-        updateKey: name,
-        updateObject: update
-      }),
+      body: file,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'multipart/form-data'
       },
       method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Uploaded project image successfully') {
+          resolve(res.contentUrls);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function getOneProject(id: string): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/projects/' + id;
+
+    var data: object = {
+      method: 'GET',
       credentials: 'include'
     };
 
@@ -507,12 +567,14 @@ var apiService = {
   activate,
   logout,
   getProjects,
+  getProject,
   addProject,
-  updateProject,
+  getOneProject,
   deleteProject,
   getTags,
   getCategories,
-  getAllUsers
+  getAllUsers,
+  uploadProjectImage
 };
 
 export default apiService;

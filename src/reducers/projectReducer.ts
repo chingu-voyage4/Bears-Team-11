@@ -1,29 +1,24 @@
 import {
   GET_PROJECTS,
+  GET_ONE_PROJECT,
   ADD_PROJECT,
-  UPDATE_PROJECT,
   DELETE_PROJECT
 } from '../actions/actionTypes';
 import { ProjectState, ProjectAction } from '../types/Redux';
+import { Project } from '../types/Projects';
 
 function projectReducer(
   state: ProjectState = [],
   action: ProjectAction
-): ProjectState {
+): ProjectState | Project {
   var newState = state.slice();
   switch (action.type) {
     case GET_PROJECTS:
-      newState.push(action.data);
-      return newState;
+      return action.data as Array<Project>;
+    case GET_ONE_PROJECT:
+      return action.data;
     case ADD_PROJECT:
       newState.push(action.data);
-      return newState;
-    case UPDATE_PROJECT:
-      for (let i = 0; i < newState.length; i++) {
-        if (newState[i]._id === action.data._id) {
-          newState[i] = action.data;
-        }
-      }
       return newState;
     case DELETE_PROJECT:
       var deleteIndex;
