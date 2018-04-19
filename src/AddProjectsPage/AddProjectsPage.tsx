@@ -189,22 +189,38 @@ class AddProjectsPage extends React.Component<
   }
 
   public handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
-    this.props.addProject({
-      name: this.state.name,
-      description: this.state.description,
-      dueDate: this.state.dueDate,
-      team: this.state.team,
-      githubLink: this.state.githubLink,
-      mockupLink: this.state.mockupLink,
-      liveLink: this.state.liveLink,
-      lookingFor: this.state.lookingFor,
-      status: this.state.status,
-      category: this.state.category,
-      tags: this.state.tags,
-      images: this.state.images,
-      contact: this.state.contact,
-      creator: this.props.user.username,
-      files: this.state.files
+    var refToThis = this;
+    var elemList = document.getElementsByClassName('new-project-roles');
+    // tslint:disable-next-line
+    var elements = [].filter.call(elemList, function(elem: any) {
+      return elem.checked;
+    });
+
+    var lookingForArray: string[] = [];
+    // tslint:disable-next-line
+    elements.forEach(function(elem: any) {
+      lookingForArray.push(elem.value);
+    });
+
+    this.setState({ lookingFor: lookingForArray }, function() {
+      console.log(refToThis.state);
+      refToThis.props.addProject({
+        name: refToThis.state.name,
+        description: refToThis.state.description,
+        dueDate: refToThis.state.dueDate,
+        team: refToThis.state.team,
+        githubLink: refToThis.state.githubLink,
+        mockupLink: refToThis.state.mockupLink,
+        liveLink: refToThis.state.liveLink,
+        lookingFor: refToThis.state.lookingFor,
+        status: refToThis.state.status,
+        category: refToThis.state.category,
+        tags: refToThis.state.tags,
+        images: refToThis.state.images,
+        contact: refToThis.state.contact,
+        creator: refToThis.props.user.username,
+        files: refToThis.state.files
+      });
     });
   };
 
@@ -673,35 +689,37 @@ class AddProjectsPage extends React.Component<
               </label>
 
               <div className="new-project-checkbox-container">
-                <div className="checkbox">
-                  <input
-                    type="checkbox"
-                    name="roles"
-                    value="Programmer"
-                    id="new-project-role-p"
-                    onChange={e => this.onFormChange(e)}
-                  />
+                <div className="checkboxContainer">
                   <label
                     className="new-project-text"
                     htmlFor="new-project-role-p"
                   >
                     Programmer
+                    <input
+                      className="new-project-roles"
+                      type="checkbox"
+                      name="roles"
+                      value="Programmer"
+                      id="new-project-role-p"
+                    />
+                    <span className="checkmark" />
                   </label>
                 </div>
 
-                <div className="checkbox">
-                  <input
-                    type="checkbox"
-                    name="roles"
-                    value="Designer"
-                    id="new-project-role-d"
-                    onChange={e => this.onFormChange(e)}
-                  />
+                <div className="checkboxContainer">
                   <label
                     className="new-project-text"
                     htmlFor="new-project-role-d"
                   >
                     Designer
+                    <input
+                      className="new-project-roles"
+                      type="checkbox"
+                      name="roles"
+                      value="Designer"
+                      id="new-project-role-d"
+                    />
+                    <span className="checkmark" />
                   </label>
                 </div>
               </div>

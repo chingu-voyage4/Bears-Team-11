@@ -105,9 +105,6 @@ module.exports = function (passport) {
     newProject.contact = req.body.contact;
     newProject.creator = req.body.creator;
 
-
-    console.log('newProject.images=' + newProject.images);
-
     newProject.save(function (err, project) {
       if (err) {
         res.json({ error: 'Error in saving project: ' + err });
@@ -135,7 +132,7 @@ module.exports = function (passport) {
           }
         }
 
-        console.log('New project saved successfully');
+        console.log('New project saved successfully=' + project);
         res.json({ message: 'New project saved successfully', newProject: project });
       }
     });
