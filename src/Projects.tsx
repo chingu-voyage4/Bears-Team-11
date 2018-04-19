@@ -64,7 +64,6 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
     if (projectArray === undefined) {
       projectComponent = null;
     } else {
-      console.log('projectArray=' + JSON.stringify(projectArray));
       projectComponent = projectArray.map(function(
         // tslint:disable-next-line
         projectData: any,

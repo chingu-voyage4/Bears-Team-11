@@ -63,9 +63,7 @@ PROJECT FILTERS
 .project-filter-title {
   color: $theme-blue;
   font-size: 12px;
-  margin-top: 15px;
-  margin-bottom: 5px;
-  margin-left: 11px;
+  margin: 15px 20px 10px 20px;
   text-transform: uppercase;
   font-weight: 700;
   text-align: left;
@@ -75,12 +73,13 @@ PROJECT FILTERS
 .project-filter-dropdown {
   position: relative;
   display: inline-block;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
+  vertical-align: top;
 }
 
 .project-filter-dropdown-content {
   position: relative;
-  min-width: 180px;
+  min-width: 170px;
   z-index: 2;
   width: 100%;
   overflow: auto;
@@ -88,8 +87,35 @@ PROJECT FILTERS
   color: $dark-grey;
   font-size: 12px;
   max-height: 110px;
+  margin-left: 10px;
+  margin-right: 20px;
 }
 
+.project-filter-dropdown-box {
+  background-color: white;
+  border: 1px solid $light-grey;
+  width: 180px;
+  display: none;
+  position: absolute;
+  box-shadow: $box-shadow;
+  z-index: 2;
+  max-height: 120px;
+  overflow: scroll;
+  overflow-x: hidden;
+  text-align: left;
+  color: $dark-grey;
+  font-size: 12px;
+  margin-left: 20px;
+}
+.project-filter-dropdown-hide {
+  display: none;
+}
+
+/*
+==========================
+SUBMIT BUTTON
+==========================
+*/
 .project-filter-submit-btn {
   border: 1px solid $theme-blue;
   background-color: $theme-blue;
@@ -98,65 +124,132 @@ PROJECT FILTERS
   padding: 10px;
   margin: 10px;
   min-width: 75px;
+  font-weight: 700;
 }
+/*
+==========================
+DROPDOWN SEARCH
+==========================
+*/
+.project-filter-search-input-box {
+  margin-bottom: 10px;
+  min-width: 180px;
+  border: none;
+  box-shadow: $box-shadow;
+  padding: 5px;
+}
+
+.project-filter-search-input-box::placeholder {
+  color: $light-grey;
+}
+/*
+==========================
+DROPDOWN BUTTON
+==========================
+*/
+.project-filter-dropdown-btn {
+  min-width: 180px;
+  color: $dark-grey;
+  font-size: 12px;
+  background-color: white;
+  border: 1px solid $light-grey;
+  padding: 7px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+/*
+==========================
+SCROLLBAR
+==========================
+*/
+
+.project-filter-dropdown-box::-webkit-scrollbar {
+  width: 10px;
+}
+
+.project-filter-dropdown-box::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px $light-grey;
+}
+
+.project-filter-dropdown-box::-webkit-scrollbar-thumb {
+  background-color: $light-grey;
+  outline: 1px solid $light-blue;
+  border-radius: 5px;
+}
+
+.project-filter-dropdown-box::-webkit-scrollbar-thumb:hover {
+  background-color: $theme-blue;
+}
+
 /*
 ==========================
 CHECKBOX STYLING
 ==========================
 */
-.checkbox > input[type='checkbox'],
-input[type='radio'] {
-  opacity: 0;
-}
-.checkbox label {
+.checkboxContainer {
+  display: block;
   position: relative;
-  padding-left: 12px;
-}
-.checkbox label::before,
-.checkbox label::after {
-  content: '';
-  display: inline-block;
-  position: absolute;
-  padding: -12px;
-}
-.checkbox label::before {
-  height: 12px;
-  width: 12px;
-  border: 1px solid $theme-blue;
-  top: 0px;
-  left: -8px;
-}
-
-.checkbox label::after {
-  height: 4px;
-  width: 6px;
-  border-left: 2px solid;
-  border-bottom: 2px solid;
-  transform: rotate(-45deg);
-  color: $theme-blue;
-  left: -5px;
-  top: 3px;
-}
-
-/*Hide the checkmark by default*/
-.checkbox input[type='checkbox'] + label::after {
-  content: none;
-}
-/*Unhide the checkmark on the checked state*/
-.checkbox input[type='checkbox']:checked + label::after {
-  content: '';
-}
-/*Adding focus styles on the outer-box of the fake checkbox*/
-.checkbox input[type='checkbox']:focus + label::before {
-  outline: $light-blue auto 5px;
-}
-
-.checkbox input[type='checkbox'] + label {
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
   -webkit-user-select: none;
-  -khtml-user-select: none;
   -moz-user-select: none;
-  -o-user-select: none;
+  -ms-user-select: none;
   user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkboxContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  margin-left: 10px;
+  top: 0;
+  left: 0;
+  height: 14px;
+  width: 14px;
+  background-color: white;
+  border: 1px solid $theme-blue;
+}
+
+/* On mouse-over, add a grey background color */
+.checkboxContainer:hover input ~ .checkmark {
+  background-color: $theme-blue;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxContainer input:checked ~ .checkmark {
+  background-color: $theme-blue;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkboxContainer input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkboxContainer .checkmark:after {
+  left: 3.5px;
+  top: 1px;
+  width: 4px;
+  height: 7px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 /*
@@ -164,46 +257,67 @@ input[type='radio'] {
 RADIO STYLING
 ==========================
 */
-
-.radio label {
+.radioContainer {
+  display: block;
   position: relative;
-  padding-left: 12px;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
-.radio label::before,
-.radio label::after {
-  content: '';
-  display: inline-block;
+
+/* Hide the browser's default radio button */
+.radioContainer input {
   position: absolute;
+  opacity: 0;
 }
-.radio label::before {
+
+/* Create a custom radio button */
+.radioCheckmark {
+  position: absolute;
+  margin-left: 11px;
+  top: 0;
+  left: 0;
+  height: 14px;
+  width: 14px;
+  background-color: white;
   border-radius: 50%;
-  height: 12px;
-  width: 12px;
   border: 1px solid $theme-blue;
-  top: 0px;
-  left: -8px;
 }
 
-.radio label::after {
-  height: 8px;
-  width: 8px;
-  border-radius: 50%;
+/* On mouse-over, add a grey background color */
+.radioContainer:hover input ~ .radioCheckmark {
   background-color: $theme-blue;
-  left: -5px;
-  top: 3px;
 }
 
-/*Hide the checkmark by default*/
-.radio input[type='radio'] + label::after {
-  content: none;
+/* When the radio button is checked, add a blue background */
+.radioContainer input:checked ~ .radioCheckmark {
+  background-color: $theme-blue;
 }
-/*Unhide the checkmark on the checked state*/
-.radio input[type='radio']:checked + label::after {
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radioCheckmark:after {
   content: '';
+  position: absolute;
+  display: none;
 }
-/*Adding focus styles on the outer-box of the fake checkbox*/
-.radio input[type='radio']:focus + label::before {
-  outline: $light-blue auto 5px;
+
+/* Show the indicator (dot/circle) when checked */
+.radioContainer input:checked ~ .radioCheckmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radioContainer .radioCheckmark:after {
+  top: 3.5px;
+  left: 3.5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: white;
 }
 
 /*

@@ -112,5 +112,17 @@ export interface AddProjectProps {
   getOneProject: (id: string) => (dispatch: Dispatch<Action>) => void;
 }
 
+export interface ProjectPageFilterProps {
+  projects: Array<Project> | Project;
+  categories: Categories | any;
+  tags: Tags | any;
+  getCategories: () => (dispatch: Dispatch<Action>) => void;
+  getTags: () => (dispatch: Dispatch<Action>) => void;
+  getProjects: (
+    options: object,
+    query: object | null
+  ) => (dispatch: Dispatch<ProjectAction>) => void;
+}
+
 // Register Component
 export interface State {}
