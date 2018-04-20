@@ -92,6 +92,10 @@ class ProjectsFilter extends React.Component<
       limit: 24
     };
     this.props.getProjects(options, null);
+    var list = document.getElementsByTagName('input');
+    for (var i = 0; i < list.length; i++) {
+      list[i].checked = false;
+    }
   }
 
   public submitFilters(e: React.MouseEvent<HTMLButtonElement>): void {
