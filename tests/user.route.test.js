@@ -1,15 +1,14 @@
-const request = require('supertest');  // https://github.com/visionmedia/supertest
+const request = require('supertest'); // https://github.com/visionmedia/supertest
 const app = require('../api/server');
 
 process.env.NODE_ENV = 'test';
-// --------------------- 
+// ---------------------
 // NEW USER
-// --------------------- 
+// ---------------------
 let lemonysnicketloginCookie;
 let loginCookie;
 
-
-describe('posting new user', function () {
+describe('posting new user', function() {
   test('create user', () => {
     return request(app)
       .post('/api/signup')
@@ -67,14 +66,16 @@ describe('posting new user', function () {
         email: 'peter@gmail.com'
       })
       .expect(res => {
-        expect(res.body.message).toBe('User already exists with this email or username');
+        expect(res.body.message).toBe(
+          'User already exists with this email or username'
+        );
       });
   });
 });
-// --------------------- 
+// ---------------------
 // DEACTIVATE & REACTIVATE USER
-// --------------------- 
-describe('deactivate & activate user', function () {
+// ---------------------
+describe('deactivate & activate user', function() {
   beforeAll(() => {
     return request(app)
       .post('/api/login')
@@ -85,11 +86,11 @@ describe('deactivate & activate user', function () {
       })
       .then(res => {
         loginCookie = res.header['set-cookie'];
-      })
+      });
   });
 
   afterAll(() => {
-    return request(app).get('/api/logout')
+    return request(app).get('/api/logout');
   });
 
   test('deactivate user', () => {
@@ -121,11 +122,10 @@ describe('deactivate & activate user', function () {
   });
 });
 
-// --------------------- 
-// LOGIN & LOGOUT USER   
-// --------------------- 
-describe('login & logout user', function () {
-
+// ---------------------
+// LOGIN & LOGOUT USER
+// ---------------------
+describe('login & logout user', function() {
   test('log in unregistered user', () => {
     return request(app)
       .post('/api/login')
@@ -149,7 +149,7 @@ describe('login & logout user', function () {
       })
       .expect(res => {
         expect(res.body.message).toBe('Successfully logged in');
-      })
+      });
   });
 
   test('logout user', () => {
@@ -159,7 +159,7 @@ describe('login & logout user', function () {
       .expect(res => {
         expect(res.body.message).toBe('Successfully Logged Out');
       });
-  })
+  });
 
   test('log in user with incorrect password', () => {
     return request(app)
@@ -174,5 +174,3 @@ describe('login & logout user', function () {
       });
   });
 });
-
-
