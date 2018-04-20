@@ -65,42 +65,18 @@ class AddProjectsPage extends React.Component<
       : (this.state = filledState);
   }
 
-  public toggleCategoryDropdown = (
-    e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>
-  ): void => {
-    // toggle show/hide of category dropdown
-    e.preventDefault();
+  componentDidMount() {
     this.props.getCategories();
-    var doc = document.getElementById('new-project-dropdown')!;
-    doc.classList.toggle('new-project-show');
-  };
-
-  public toggleTagsDropdown = (
-    e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>
-  ): void => {
-    // toggle show/hide of tag dropdown
-    e.preventDefault();
     this.props.getTags();
-    var doc = document.getElementById('new-tags-dropdown')!;
-    doc.classList.toggle('new-project-show');
-  };
-
-  public toggleStatusDropdown = (
-    e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>
-  ): void => {
-    // toggle show/hide of tag dropdown
-    e.preventDefault();
-    var doc = document.getElementById('new-status-dropdown')!;
-    doc.classList.toggle('new-project-show');
-  };
-
-  public toggleTeamDropdown = (
-    e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>
-  ): void => {
-    // toggle show/hide of team dropdown
-    e.preventDefault();
     this.props.getAllUsers();
-    var doc = document.getElementById('new-team-dropdown')!;
+  }
+
+  public toggleDropdown = (
+    e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>,
+    elemById: string
+  ) => {
+    e.preventDefault();
+    var doc = document.getElementById(elemById)!;
     doc.classList.toggle('new-project-show');
   };
 
@@ -108,94 +84,88 @@ class AddProjectsPage extends React.Component<
     e.preventDefault();
     var { name, value } = e.currentTarget;
 
+    var saveArrayToState = (
+      stateName: any,
+      array: string[],
+      elemById: string
+    ) => {
+      var lowercase = value.toLowerCase();
+      if (array.indexOf(value) === -1) {
+        array.push(lowercase);
+      }
+      this.setState({ [stateName]: array }, () => {
+        this.toggleDropdown(e, elemById);
+      });
+    };
+
     if (name === 'category') {
-      var lowercaseCategory = value.toLowerCase();
       this.setState({
         category: value,
-        categoryPlaceholder: lowercaseCategory
-        // tslint:disable-next-line
+        categoryPlaceholder: value
       } as any);
-      this.toggleCategoryDropdown(e);
+      this.toggleDropdown(e, 'new-project-dropdown');
     } else if (name === 'tags') {
-      var arrayOfTags = Object.assign([], this.state.tags);
-      var lowercaseTag = value.toLowerCase();
-      if (arrayOfTags.indexOf(lowercaseTag) === -1) {
-        arrayOfTags.push(lowercaseTag);
-      }
-      // tslint:disable-next-line
-      this.setState({ tags: arrayOfTags } as any);
-      this.toggleTagsDropdown(e);
+      saveArrayToState(
+        'tags',
+        Object.assign([], this.state.tags),
+        'new-tags-dropdown'
+      );
     } else if (name === 'team') {
-      var arrayOfTeam = Object.assign([], this.state.team);
-      var lowercaseTeam = value.toLowerCase();
-      if (arrayOfTeam.indexOf(lowercaseTeam) === -1) {
-        arrayOfTeam.push(lowercaseTeam);
-      }
-      // tslint:disable-next-line
-      this.setState({ team: arrayOfTeam } as any);
-      this.toggleTeamDropdown(e);
+      saveArrayToState(
+        'team',
+        Object.assign([], this.state.team),
+        'new-team-dropdown'
+      );
     } else if (name === 'status') {
       if (value === 'Active') {
         this.setState({ status: true, statusPlaceholder: value });
       } else {
         this.setState({ status: false, statusPlaceholder: value });
       }
-      this.toggleStatusDropdown(e);
+      this.toggleDropdown(e, 'new-status-dropdown');
     } else if (name === 'roles') {
       var arrayOfRoles: string[] = [];
       var nodeList = Array.from(document.getElementsByName('roles'));
 
       if (document.getElementsByName('roles') === null) {
-        // tslint:disable-next-line
         this.setState({ lookingFor: [] } as any);
       } else {
-        // tslint:disable-next-line
         nodeList.forEach(function(node: any) {
           if (node.checked) {
             arrayOfRoles.push(node.value);
           }
         });
         console.log(arrayOfRoles);
-        // tslint:disable-next-line
         this.setState({ lookingFor: arrayOfRoles } as any);
       }
     } else {
-      // tslint:disable-next-line
       this.setState({ [name]: value } as any);
     }
   };
 
-  public handleTagRemoval = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  public handleOptionRemoval = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    stateName: any,
+    array: string[]
+  ): void => {
     let { value } = e.currentTarget.previousElementSibling as HTMLInputElement;
-    var copyOfTagsArray = Object.assign([], this.state.tags);
-    var indexOfTag = copyOfTagsArray.indexOf(value);
-    copyOfTagsArray.splice(indexOfTag, 1);
-    this.setState({ tags: copyOfTagsArray });
-  };
-
-  public handleTeamRemoval = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    let { value } = e.currentTarget.previousElementSibling as HTMLInputElement;
-    var copyOfTeamArray = Object.assign([], this.state.team);
-    var indexOfTeam = copyOfTeamArray.indexOf(value);
-    copyOfTeamArray.splice(indexOfTeam, 1);
-    this.setState({ team: copyOfTeamArray });
+    var index = array.indexOf(value);
+    array.splice(index, 1);
+    this.setState({ [stateName]: array });
   };
 
   public onTextAreaFormChange(e: React.FormEvent<HTMLTextAreaElement>): void {
     var { name, value } = e.currentTarget;
-    // tslint:disable-next-line
     this.setState({ [name]: value } as any);
   }
 
   public handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
     var elemList = document.getElementsByClassName('new-project-roles');
-    // tslint:disable-next-line
     var elements = [].filter.call(elemList, function(elem: any) {
       return elem.checked;
     });
 
     var lookingForArray: string[] = [];
-    // tslint:disable-next-line
     elements.forEach(function(elem: any) {
       lookingForArray.push(elem.value);
     });
@@ -269,9 +239,9 @@ class AddProjectsPage extends React.Component<
       if (arrayOfTags.indexOf(lowercaseTag) === -1) {
         arrayOfTags.push(lowercaseTag);
       }
-      // tslint:disable-next-line
-      this.setState({ tags: arrayOfTags } as any);
-      this.toggleTagsDropdown(e);
+      this.setState({ tags: arrayOfTags }, () => {
+        this.toggleDropdown(e, 'new-tags-dropdown');
+      });
     }
   };
 
@@ -282,7 +252,6 @@ class AddProjectsPage extends React.Component<
   public handleImageUpload = (e: React.FormEvent<HTMLButtonElement>): void => {
     // currently makes preview of images
     e.preventDefault();
-    // var referenceToThis = this;
     const preview = document.getElementById('new-project-image-preview')!;
 
     function readAndPreview(file: File) {
@@ -312,56 +281,59 @@ class AddProjectsPage extends React.Component<
   };
 
   render() {
-    var referenceToThis = this;
-
-    let tagOptionsComponent: JSX.Element[];
-    let categoryOptionsComponent: JSX.Element[];
-    let teamOptionsComponent: JSX.Element[];
-    let statusOptionsComponent;
-
-    let statusOptions = ['Active', 'Completed'];
-    statusOptionsComponent = statusOptions.map(function(
-      status: string,
-      index: number
-    ) {
-      return (
-        <input
-          key={'status_' + index}
-          type="button"
-          name="status"
-          value={status}
-          onClick={referenceToThis.onFormChange}
-          className="new-project-dropdown-text"
-        />
-      );
-    });
-
-    let usersFromStore = this.props.allUsers!;
-    let username = this.props.user.username;
-    if (usersFromStore instanceof Array) {
-      usersFromStore = usersFromStore.filter(
-        user => user.username !== username
-      );
-      teamOptionsComponent = usersFromStore.map(function(
-        // tslint:disable-next-line
-        users: any,
-        index: number
-      ) {
-        return (
-          <input
-            key={'users_' + index}
-            type="button"
-            name="team"
-            value={users.username}
-            onClick={referenceToThis.onFormChange}
-            className="new-project-dropdown-text"
-          />
-        );
-      });
-    }
-
-    class TeamOptionsComponent extends React.Component {
+    class StatusOptionsComponent extends React.Component<{
+      onFormChange: any;
+    }> {
       render() {
+        let statusOptionsArray = ['Active', 'Completed'];
+
+        var statusComponent = statusOptionsArray.map(
+          (status: string, index: number) => {
+            return (
+              <input
+                key={'status_' + index}
+                type="button"
+                name="status"
+                value={status}
+                onClick={this.props.onFormChange}
+                className="new-project-dropdown-text"
+              />
+            );
+          }
+        );
+
+        return statusComponent;
+      }
+    }
+    class TeamOptionsComponent extends React.Component<{
+      allUsers: any;
+      user: any;
+      onFormChange: any;
+      teamFilter: any;
+    }> {
+      render() {
+        let teamOptionsComponent: JSX.Element[];
+        let usersFromStore = this.props.allUsers!;
+        let username = this.props.user.username;
+        if (usersFromStore instanceof Array) {
+          usersFromStore = usersFromStore.filter(
+            user => user.username !== username
+          );
+          teamOptionsComponent = usersFromStore.map(
+            (users: any, index: number) => {
+              return (
+                <input
+                  key={'users_' + index}
+                  type="button"
+                  name="team"
+                  value={users.username}
+                  onClick={this.props.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+              );
+            }
+          );
+        }
         return (
           <div>
             <input
@@ -369,36 +341,38 @@ class AddProjectsPage extends React.Component<
               type="text"
               placeholder="Search for Teammates"
               id="teamSearch"
-              onKeyUp={referenceToThis.teamFilter}
+              onKeyUp={this.props.teamFilter}
             />
-            {teamOptionsComponent}
+            {teamOptionsComponent!}
           </div>
         );
       }
     }
 
-    let categoriesFromStore = this.props.categories!;
-    if (categoriesFromStore instanceof Array) {
-      categoryOptionsComponent = categoriesFromStore.map(function(
-        // tslint:disable-next-line
-        category: any,
-        index: number
-      ) {
-        return (
-          <input
-            key={'categories_' + index}
-            type="button"
-            name="category"
-            value={category.categoryName}
-            onClick={referenceToThis.onFormChange}
-            className="new-project-dropdown-text"
-          />
-        );
-      });
-    }
-
-    class CategoriesOptionsComponent extends React.Component {
+    class CategoriesOptionsComponent extends React.Component<{
+      categories: any;
+      onFormChange: any;
+      categoryFilter: any;
+    }> {
       render() {
+        let categoryOptionsComponent: JSX.Element[];
+        let categoriesFromStore = this.props.categories!;
+        if (categoriesFromStore instanceof Array) {
+          categoryOptionsComponent = categoriesFromStore.map(
+            (category: any, index: number) => {
+              return (
+                <input
+                  key={'categories_' + index}
+                  type="button"
+                  name="category"
+                  value={category.categoryName}
+                  onClick={this.props.onFormChange}
+                  className="new-project-dropdown-text"
+                />
+              );
+            }
+          );
+        }
         return (
           <div>
             <input
@@ -406,35 +380,38 @@ class AddProjectsPage extends React.Component<
               type="text"
               placeholder="Search Categories"
               id="categorySearch"
-              onKeyUp={referenceToThis.categoryFilter}
+              onKeyUp={this.props.categoryFilter}
             />
-            {categoryOptionsComponent}
+            {categoryOptionsComponent!}
           </div>
         );
       }
     }
 
-    let tagsFromStore = this.props.tags!;
-    if (tagsFromStore instanceof Array) {
-      tagOptionsComponent = tagsFromStore.map(function(
-        // tslint:disable-next-line
-        tagObject: any,
-        index: number
-      ) {
-        return (
-          <input
-            key={'tags_' + index}
-            type="button"
-            name="tags"
-            value={tagObject.tagName}
-            onClick={referenceToThis.onFormChange}
-            className="new-project-dropdown-text"
-          />
-        );
-      });
-    }
-    class TagOptionsComponent extends React.Component {
+    class TagOptionsComponent extends React.Component<{
+      formChange: any;
+      tags: any;
+      tagFilter: any;
+    }> {
       render() {
+        let tagOptionsComponent: JSX.Element[];
+        let tagsFromStore = this.props.tags!;
+        if (tagsFromStore instanceof Array) {
+          tagOptionsComponent = tagsFromStore.map(
+            (tagObject: any, index: number) => {
+              return (
+                <input
+                  key={'tags_' + index}
+                  type="button"
+                  name="tags"
+                  value={tagObject.tagName}
+                  onClick={this.props.formChange}
+                  className="new-project-dropdown-text"
+                />
+              );
+            }
+          );
+        }
         return (
           <div>
             <input
@@ -442,81 +419,109 @@ class AddProjectsPage extends React.Component<
               type="text"
               placeholder="Search / Add Tags"
               id="tagSearch"
-              onKeyUp={referenceToThis.tagFilter}
+              onKeyUp={this.props.tagFilter}
             />
-            {tagOptionsComponent}
+            {tagOptionsComponent!}
           </div>
         );
       }
     }
 
-    let chosenTags;
-    let tags = Object.assign([], this.state.tags);
+    class ChosenTags extends React.Component<{
+      tags: any;
+      handleOptionRemoval: any;
+    }> {
+      render() {
+        var chosenTags;
+        let tags = this.props.tags.slice();
 
-    if (tags.length === 0) {
-      chosenTags = null;
-    } else {
-      chosenTags = tags.map(function(tagName: string, index: number) {
-        return (
-          <div className="tag-container" key={index}>
-            <input
-              type="button"
-              className="new-project-chosen-tag"
-              value={tagName}
-            />
-            <button
-              type="button"
-              className="remove-tag-btn"
-              onClick={referenceToThis.handleTagRemoval}
-            >
-              X
-            </button>
-          </div>
-        );
-      });
+        if (tags.length === 0) {
+          chosenTags = null;
+        } else {
+          chosenTags = tags.map((tagName: string, index: number) => {
+            return (
+              <div className="tag-container" key={index}>
+                <input
+                  type="button"
+                  className="new-project-chosen-tag"
+                  value={tagName}
+                />
+                <button
+                  type="button"
+                  className="remove-tag-btn"
+                  onClick={e => this.props.handleOptionRemoval(e, 'tags', tags)}
+                >
+                  X
+                </button>
+              </div>
+            );
+          });
+        }
+        return <div className="array-of-tags">{chosenTags}</div>;
+      }
     }
 
-    let chosenTeam;
-    let team = Object.assign([], this.state.team);
-    if (team.length === 0) {
-      chosenTeam = null;
-    } else {
-      if (team.length === 1) {
-        chosenTeam = (
-          <div className="tag-container" key={1}>
-            <input
-              type="button"
-              className="new-project-chosen-tag"
-              value={team}
-            />
-            <button
-              type="button"
-              className="remove-tag-btn"
-              onClick={referenceToThis.handleTeamRemoval}
-            >
-              X
-            </button>
-          </div>
-        );
-      } else {
-        chosenTeam = team.map(function(teamMemeber: string, index: number) {
-          return (
-            <div className="tag-container" key={index}>
-              <input
-                type="button"
-                className="new-project-chosen-tag"
-                value={teamMemeber}
-              />
-              <button
-                type="button"
-                className="remove-tag-btn"
-                onClick={referenceToThis.handleTeamRemoval}
-              >
-                X
-              </button>
-            </div>
-          );
-        });
+    class ChosenTeam extends React.Component<{
+      team: any;
+      handleOptionRemoval: any;
+    }> {
+      render() {
+        let chosenTeam;
+        let team = Object.assign([], this.props.team);
+        if (team.length === 0) {
+          chosenTeam = null;
+        } else {
+          if (team.length === 1) {
+            chosenTeam = (
+              <div className="tag-container" key={1}>
+                <input
+                  type="button"
+                  className="new-project-chosen-tag"
+                  value={team}
+                />
+                <button
+                  type="button"
+                  className="remove-tag-btn"
+                  onClick={e =>
+                    this.props.handleOptionRemoval(
+                      e,
+                      'team',
+                      Object.assign([], this.props.team)
+                    )
+                  }
+                >
+                  X
+                </button>
+              </div>
+            );
+          } else {
+            chosenTeam = team.map((teamMemeber: string, index: number) => {
+              return (
+                <div className="tag-container" key={index}>
+                  <input
+                    type="button"
+                    className="new-project-chosen-tag"
+                    value={teamMemeber}
+                  />
+                  <button
+                    type="button"
+                    className="remove-tag-btn"
+                    onClick={e =>
+                      this.props.handleOptionRemoval(
+                        e,
+                        'team',
+                        Object.assign([], this.props.team)
+                      )
+                    }
+                  >
+                    X
+                  </button>
+                </div>
+              );
+            });
+          }
+        }
+        return chosenTeam;
       }
     }
 
@@ -568,7 +573,7 @@ class AddProjectsPage extends React.Component<
                   Team
                 </label>
                 <button
-                  onClick={this.toggleTeamDropdown}
+                  onClick={e => this.toggleDropdown(e, 'new-team-dropdown')}
                   className="new-project-dropdown-btn"
                 >
                   {this.state.teamPlaceholder}
@@ -577,9 +582,18 @@ class AddProjectsPage extends React.Component<
                   id="new-team-dropdown"
                   className="new-project-category-content"
                 >
-                  <TeamOptionsComponent />
+                  <TeamOptionsComponent
+                    allUsers={this.props.allUsers}
+                    user={this.props.user}
+                    onFormChange={this.onFormChange}
+                    teamFilter={this.teamFilter}
+                  />
                 </div>
-                <div className="array-of-tags">{chosenTeam}</div>
+                <ChosenTeam
+                  team={this.state.team}
+                  handleOptionRemoval={this.handleOptionRemoval}
+                />
+                <div className="array-of-tags">{ChosenTeam}</div>
               </div>
             </div>{' '}
             {/* end of box 1 A */}
@@ -595,7 +609,7 @@ class AddProjectsPage extends React.Component<
                 name="githubLink"
                 id="new-project-githubLink"
                 className="new-project-input"
-                onChange={e => this.onFormChange(e)}
+                onChange={this.onFormChange}
               />
 
               <label
@@ -634,7 +648,7 @@ class AddProjectsPage extends React.Component<
                   Category
                 </label>
                 <button
-                  onClick={this.toggleCategoryDropdown}
+                  onClick={e => this.toggleDropdown(e, 'new-project-dropdown')}
                   className="new-project-dropdown-btn"
                 >
                   {this.state.categoryPlaceholder}
@@ -643,7 +657,11 @@ class AddProjectsPage extends React.Component<
                   id="new-project-dropdown"
                   className="new-project-category-content"
                 >
-                  <CategoriesOptionsComponent />
+                  <CategoriesOptionsComponent
+                    categories={this.props.categories}
+                    onFormChange={this.onFormChange}
+                    categoryFilter={this.categoryFilter}
+                  />
                 </div>
               </div>
 
@@ -655,7 +673,7 @@ class AddProjectsPage extends React.Component<
                   Tags
                 </label>
                 <button
-                  onClick={this.toggleTagsDropdown}
+                  onClick={e => this.toggleDropdown(e, 'new-tags-dropdown')}
                   className="new-project-dropdown-btn"
                 >
                   {this.state.tagPlaceholder}
@@ -664,9 +682,16 @@ class AddProjectsPage extends React.Component<
                   id="new-tags-dropdown"
                   className="new-project-category-content"
                 >
-                  <TagOptionsComponent />
+                  <TagOptionsComponent
+                    formChange={this.onFormChange}
+                    tags={this.props.tags}
+                    tagFilter={this.tagFilter}
+                  />
                 </div>
-                <div className="array-of-tags">{chosenTags}</div>
+                <ChosenTags
+                  tags={this.state.tags}
+                  handleOptionRemoval={this.handleOptionRemoval}
+                />
               </div>
             </div>{' '}
             {/* end of box 1 B */}
@@ -757,7 +782,7 @@ class AddProjectsPage extends React.Component<
                 Status
               </label>
               <button
-                onClick={this.toggleStatusDropdown}
+                onClick={e => this.toggleDropdown(e, 'new-status-dropdown')}
                 className="new-project-dropdown-btn"
               >
                 {this.state.statusPlaceholder}
@@ -766,7 +791,7 @@ class AddProjectsPage extends React.Component<
                 id="new-status-dropdown"
                 className="new-project-category-content"
               >
-                {statusOptionsComponent}
+                <StatusOptionsComponent onFormChange={this.onFormChange} />
               </div>
             </div>
 

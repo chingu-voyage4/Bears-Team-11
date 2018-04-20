@@ -85,12 +85,19 @@ class ProjectsFilter extends React.Component<
     this.filter('tagFilter', 'tag');
   };
 
+  public clearFilters(e: React.MouseEvent<HTMLButtonElement>): void {
+    e.preventDefault();
+    var options = {
+      sort: { createdAt: 'asc' }, // returns by newest
+      limit: 24
+    };
+    this.props.getProjects(options, null);
+  }
+
   public submitFilters(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
 
-    var referenceTothis = this;
-
-    function saveToState(name: string) {
+    const saveToState = (name: string) => {
       var value: string[] = [];
       var elemList = document.getElementsByClassName('filterOptions-' + name);
 
@@ -100,23 +107,23 @@ class ProjectsFilter extends React.Component<
       });
 
       if (elements.length === 1) {
-        referenceTothis.setState({ [name]: elements[0].value }, function() {
-          console.log(referenceTothis.state);
-          referenceTothis.callNewProjects();
+        this.setState({ [name]: elements[0].value }, () => {
+          console.log(this.state);
+          this.callNewProjects();
         });
       } else if (elements === undefined || elements.length === 0) {
-        referenceTothis.callNewProjects();
+        this.callNewProjects();
       } else {
         // tslint:disable-next-line
         elements.forEach(function(elem: any) {
           value.push(elem.value);
         });
-        referenceTothis.setState({ [name]: value }, function() {
-          console.log(referenceTothis.state);
-          referenceTothis.callNewProjects();
+        this.setState({ [name]: value }, () => {
+          console.log(this.state);
+          this.callNewProjects();
         });
       }
-    }
+    };
 
     // check array of names for any checked items
     var arrayOfNames = ['sortBy', 'roles', 'categories', 'status', 'tags'];
@@ -196,10 +203,12 @@ class ProjectsFilter extends React.Component<
   };
 
   render() {
-    var referenceToThis = this;
-    class FilterByCategoriesComponent extends React.Component {
+    class FilterByCategoriesComponent extends React.Component<{
+      categories: any;
+      categoryFilter: any;
+    }> {
       render() {
-        var categoriesFromStore = referenceToThis.props.categories!;
+        var categoriesFromStore = this.props.categories!;
         var filterByCategories;
         if (categoriesFromStore instanceof Array) {
           filterByCategories = categoriesFromStore.map(function(
@@ -234,7 +243,7 @@ class ProjectsFilter extends React.Component<
               type="text"
               placeholder="Search Categories"
               id="categoryFilter"
-              onKeyUp={referenceToThis.categoryFilter}
+              onKeyUp={this.props.categoryFilter}
             />
             {filterByCategories}
           </div>
@@ -242,9 +251,12 @@ class ProjectsFilter extends React.Component<
       }
     }
 
-    class FilterByTagsComponent extends React.Component {
+    class FilterByTagsComponent extends React.Component<{
+      tags: any;
+      tagFilter: any;
+    }> {
       render() {
-        var tagsFromStore = referenceToThis.props.tags!;
+        var tagsFromStore = this.props.tags!;
         var filterByTags;
         if (tagsFromStore instanceof Array) {
           filterByTags = tagsFromStore.map(function(
@@ -276,7 +288,7 @@ class ProjectsFilter extends React.Component<
               type="text"
               placeholder="Search Tags"
               id="tagFilter"
-              onKeyUp={referenceToThis.tagFilter}
+              onKeyUp={this.props.tagFilter}
             />
             {filterByTags}
           </div>
@@ -394,7 +406,10 @@ class ProjectsFilter extends React.Component<
             id="project-filter-category-id"
             className="project-filter-dropdown-hide project-filter-dropdown-box"
           >
-            <FilterByCategoriesComponent />
+            <FilterByCategoriesComponent
+              categories={this.props.categories}
+              categoryFilter={this.categoryFilter}
+            />
           </div>
         </div>
 
@@ -410,7 +425,10 @@ class ProjectsFilter extends React.Component<
             id="project-filter-tag-id"
             className="project-filter-dropdown-hide project-filter-dropdown-box"
           >
-            <FilterByTagsComponent />
+            <FilterByTagsComponent
+              tags={this.props.tags}
+              tagFilter={this.tagFilter}
+            />
           </div>
         </div>
 
@@ -468,6 +486,13 @@ class ProjectsFilter extends React.Component<
           className="project-filter-submit-btn"
         >
           Filter Projects
+        </button>
+        <button
+          type="submit"
+          onClick={e => this.clearFilters(e)}
+          className="project-filter-clear-btn"
+        >
+          Clear Filters
         </button>
       </form>
     );
