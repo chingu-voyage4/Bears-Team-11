@@ -8,7 +8,8 @@ import {
   REGISTER_ERROR,
   LOGOUT_ERROR,
   GET_ALL_USERS,
-  GET_ALL_USERS_ERROR
+  GET_ALL_USERS_ERROR,
+  USER_SETTINGS_UPDATE
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
@@ -60,13 +61,12 @@ export function googleLogin(
 export function register(
   firstName: string,
   lastName: string,
-  username: string,
   email: string,
   password: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService
-      .register(firstName, lastName, username, email, password)
+      .register(firstName, lastName, email, password)
       .then(user => {
         return dispatch({
           type: REGISTER,
@@ -114,6 +114,39 @@ export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
         return dispatch({
           type: GET_ALL_USERS_ERROR,
           error
+        });
+      });
+  };
+}
+
+export function userSettingsUpdate(
+  aboutme: string,
+  headline: string,
+  skills: string,
+  linkedin: string,
+  github: string,
+  portfolio: string,
+  website: string,
+  twitter: string,
+  blog: string
+): (dispatch: Dispatch<UserAction>) => void {
+  return dispatch => {
+    return apiService
+      .userSettingsUpdate(
+        aboutme,
+        headline,
+        skills,
+        linkedin,
+        github,
+        portfolio,
+        website,
+        twitter,
+        blog
+      )
+      .then(user => {
+        return dispatch({
+          type: USER_SETTINGS_UPDATE,
+          data: user
         });
       });
   };
