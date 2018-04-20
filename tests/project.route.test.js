@@ -4,9 +4,9 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
 process.env.NODE_ENV = 'test';
-// --------------------- 
+// ---------------------
 // SETUP
-// --------------------- 
+// ---------------------
 let loginCookie;
 
 beforeAll(() => {
@@ -19,17 +19,17 @@ beforeAll(() => {
     })
     .then(res => {
       loginCookie = res.header['set-cookie'];
-    })
+    });
 });
 
 afterAll(() => {
-  return request(app).get('/api/logout')
+  return request(app).get('/api/logout');
 });
 
-// --------------------- 
+// ---------------------
 // NEW PROJECT
-// --------------------- 
-describe('CRUD project', function () {
+// ---------------------
+describe('CRUD project', function() {
   test('create new project', () => {
     return request(app)
       .post('/api/projects/add')
@@ -53,8 +53,8 @@ describe('CRUD project', function () {
       })
       .expect(res => {
         expect(res.body.message).toEqual('New project saved successfully');
-      })
-  })
+      });
+  });
   test('get project', () => {
     return request(app)
       .get('/api/projects/5ac57429d5ddfb8d0c425952')
@@ -63,8 +63,8 @@ describe('CRUD project', function () {
           _id: '5ac57429d5ddfb8d0c425952',
           name: 'Google Labs'
         });
-      })
-  })
+      });
+  });
 
   test('update project name to Momentum Dash Clone', () => {
     return request(app)
@@ -77,14 +77,12 @@ describe('CRUD project', function () {
         updateObject: 'Momentum Dash Chingu Clone'
       })
       .expect(res => {
-        expect(res.body.project).toMatchObject(
-          {
-            _id: '5ac57429d5ddfb8d0c425952',
-            name: 'Momentum Dash Chingu Clone'
-          }
-        );
-      })
-  })
+        expect(res.body.project).toMatchObject({
+          _id: '5ac57429d5ddfb8d0c425952',
+          name: 'Momentum Dash Chingu Clone'
+        });
+      });
+  });
   test('update project name to Google', () => {
     return request(app)
       .post('/api/projects/update')
@@ -96,14 +94,12 @@ describe('CRUD project', function () {
         updateObject: 'Google Labs'
       })
       .expect(res => {
-        expect(res.body.project).toMatchObject(
-          {
-            _id: '5ac57429d5ddfb8d0c425952',
-            name: 'Google Labs'
-          }
-        );
-      })
-  })
+        expect(res.body.project).toMatchObject({
+          _id: '5ac57429d5ddfb8d0c425952',
+          name: 'Google Labs'
+        });
+      });
+  });
   var mostRecentProjectId;
   test('get list of projects by created timestamp', () => {
     return request(app)
@@ -112,23 +108,20 @@ describe('CRUD project', function () {
       .set('cookie', loginCookie)
       .send({
         options: {
-          sort: {createdAt: -1}
+          sort: { createdAt: -1 }
         }
       })
       .expect(res => {
         // res.body.docs[0]
-        mostRecentProjectId = res.body.docs[0]["_id"];
-        expect(res.body.docs[0]).toMatchObject(
-          {
-            name: 'Google'
-          }
-
-        );
-      })
-  })
+        mostRecentProjectId = res.body.docs[0]['_id'];
+        expect(res.body.docs[0]).toMatchObject({
+          name: 'Google'
+        });
+      });
+  });
 
   test('delete project', () => {
-    console.log(mostRecentProjectId)
+    console.log(mostRecentProjectId);
     return request(app)
       .post('/api/projects/delete/one')
       .set('Content-Type', 'application/json')
@@ -138,6 +131,6 @@ describe('CRUD project', function () {
       })
       .expect(res => {
         expect(res.body.message).toEqual('Project successfully deleted');
-      })
-  })
-})
+      });
+  });
+});

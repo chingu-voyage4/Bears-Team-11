@@ -1,13 +1,12 @@
 import { UPDATE_PROJECT } from '../actions/actionTypes';
-import { ProjectAction } from '../types/Redux';
 
 function addOrUpdateProjectReducer(
   state: string | null,
-  action: ProjectAction
+  action: { data: string; type: string }
 ): string | null {
   switch (action.type) {
     case UPDATE_PROJECT:
-      return action.data as string;
+      return action.data;
     default:
       return null;
   }

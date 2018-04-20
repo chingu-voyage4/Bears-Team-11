@@ -10,7 +10,7 @@ import { Project } from '../types/Projects';
 function projectReducer(
   state: ProjectState = [],
   action: ProjectAction
-): ProjectState | Project {
+): ProjectState | Project | Array<Project> {
   var newState = state.slice();
   switch (action.type) {
     case GET_PROJECTS:
@@ -18,16 +18,8 @@ function projectReducer(
     case GET_ONE_PROJECT:
       return action.data;
     case ADD_PROJECT:
-      newState.push(action.data);
-      return newState;
+      return action.data;
     case DELETE_PROJECT:
-      var deleteIndex;
-      for (let i = 0; i < newState.length; i++) {
-        if (newState[i]._id === action.data._id) {
-          deleteIndex = i;
-        }
-      }
-      newState.splice(deleteIndex as number, 1);
       return newState;
     default:
       return state;

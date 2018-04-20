@@ -16,7 +16,7 @@
 //         loginCookie = res.header['set-cookie'];
 //       })
 //   });
-  
+
 //   afterAll(() => {
 //     return request(app).get('/api/logout')
 //   });
