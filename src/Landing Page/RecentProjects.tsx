@@ -9,6 +9,9 @@ import { getProjects } from '../actions/projectActions';
 class RecentProjects extends React.Component<RecentProjectsProps, {}> {
   constructor(props: RecentProjectsProps) {
     super(props);
+  }
+
+  componentDidMount() {
     var options = {
       sort: { createdAt: -1 }, // returns by newest
       limit: 6
