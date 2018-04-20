@@ -15,9 +15,7 @@
     "jsx-no-multiline-js": false,
     "label-position": true,
     "max-line-length": [true, 120],
-    "member-ordering": [
-      true
-    ],
+    "member-ordering": [true],
     "no-any": true,
     "no-arg": true,
     "no-bitwise": true,

@@ -1,27 +1,45 @@
 import * as React from 'react';
 import Team from './Team';
+import * as moment from 'moment';
 
-class About extends React.PureComponent<{}, {}> {
+class About extends React.PureComponent<
+  {
+    name: string | undefined;
+    dueDate: string | undefined;
+    description: string | undefined;
+    githubLink: string | undefined;
+    liveLink: string | undefined;
+    mockupLink: string | undefined;
+    lookingFor: Array<string> | undefined;
+  },
+  {}
+> {
   render() {
     return (
       <React.Fragment>
         <div className="about__heading">
-          <h1>Momentum Project</h1>
-          <p>Due November 31st, 2017</p>
+          <h1>{this.props.name}</h1>
+          <p>Due {moment(this.props.dueDate).format('ll')}</p>
         </div>
         <div className="about__body">
-          <p className="about__description">
-            Clone of the momentum chrome eetnsion, with these following design
-            changes: (1) adding a link to github repots, (2) ability to search
-            and pin new weather locations. We are looking for a designer to
-            re-work the layout based off our uploaded precedents.
-          </p>
+          <p className="about__description">{this.props.description}</p>
           <div>
             <ul className="about__links">
-              <li>Github Repo</li>
-              <li>Published Site</li>
-              <li>Final Mockup</li>
-              <li className="looking-for">looking for DESIGNER</li>
+              <li>
+                <a href={this.props.githubLink}>Github Repo</a>
+              </li>
+              <li>
+                <a href={this.props.liveLink}>Published Site</a>
+              </li>
+              <li>
+                <a href={this.props.mockupLink}>Final Mockup</a>
+              </li>
+              <li className="looking-for">
+                looking for{' '}
+                {this.props.lookingFor
+                  ? this.props.lookingFor[0].toUpperCase()
+                  : null}
+              </li>
               <li>
                 <a className="button" href="">
                   Join Team

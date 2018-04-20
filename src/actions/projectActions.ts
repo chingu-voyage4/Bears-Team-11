@@ -3,8 +3,7 @@ import {
   ADD_PROJECT,
   UPDATE_PROJECT,
   DELETE_PROJECT,
-  GET_TAGS,
-  GET_CATEGORIES
+  GET_PROJECT
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
@@ -17,6 +16,19 @@ export function getProjects(): (dispatch: Dispatch<Action>) => void {
       return dispatch({
         type: GET_PROJECTS,
         data: projects
+      });
+    });
+  };
+}
+
+export function getProject(
+  projectId: string
+): (dispatch: Dispatch<Action>) => void {
+  return dispatch => {
+    return apiService.getProject(projectId).then(project => {
+      return dispatch({
+        type: GET_PROJECT,
+        data: project
       });
     });
   };
@@ -58,30 +70,6 @@ export function deleteProject(
       return dispatch({
         type: DELETE_PROJECT,
         data: deletedProject
-      });
-    });
-  };
-}
-
-export function getTags(tag: string): (dispatch: Dispatch<Action>) => void {
-  return dispatch => {
-    return apiService.getTags().then(tags => {
-      return dispatch({
-        type: GET_TAGS,
-        data: tags
-      });
-    });
-  };
-}
-
-export function getCategories(
-  category: string
-): (dispatch: Dispatch<Action>) => void {
-  return dispatch => {
-    return apiService.getTags().then(categories => {
-      return dispatch({
-        type: GET_CATEGORIES,
-        data: categories
       });
     });
   };

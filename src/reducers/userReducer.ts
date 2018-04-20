@@ -1,8 +1,9 @@
 import {
   LOGIN,
   REGISTER,
-  USER_SETTINGS_UPDATE,
-  LOGOUT
+  LOGOUT,
+  GOOGLE_LOGIN,
+  USER_SETTINGS_UPDATE
 } from '../actions/actionTypes';
 import { User } from '../types/User';
 import { UserState, UserAction } from '../types/Redux';
@@ -17,6 +18,8 @@ function userReducer(state: UserState = {}, action: UserAction): UserState {
       return action.data as User;
     case LOGOUT:
       return {};
+    case GOOGLE_LOGIN:
+      return action.data as User;
     default:
       return state;
   }
