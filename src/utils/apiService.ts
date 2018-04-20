@@ -291,6 +291,40 @@ function getAllUsers(): Promise<Array<User>> {
 }
 
 /* Project */
+// function getProjects(
+//   options: object,
+//   query: object | null
+// ): Promise<Array<Project>> {
+//   return new Promise((resolve, reject) => {
+//     var endpoint = 'http://localhost:8080/api/projects?options=' + JSON.stringify(options);
+
+//     if (query === null) {
+//       endpoint += '?query=' + JSON.stringify(query);
+//     }
+
+//     var data: object = {
+//       method: 'GET'
+//     };
+
+//     console.log(data);
+
+//     fetch(endpoint, data)
+//       // tslint:disable-next-line
+//       .then(function(res: any) {
+//         return res.json();
+//       })
+//       // tslint:disable-next-line
+//       .then(function(res: any) {
+//         JSON.stringify(res);
+//         if (res.message === 'Succesfully retrieved projects') {
+//           console.log(res.projects.docs);
+//           resolve(res.projects.docs);
+//         } else {
+//           reject(res.error);
+//         }
+//       });
+//   });
+// }
 function getProjects(
   options: object,
   query: object | null
@@ -413,9 +447,13 @@ function addProject(project: Project): Promise<Project> {
   });
 }
 
-function uploadProjectImage(file: FileList): Promise<string[]> {
+function uploadProjectImage(
+  file: FileList,
+  projectId: string
+): Promise<string[]> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/upload/images/project';
+    const endpoint =
+      'http://localhost:8080/api/upload/project?projectId=' + projectId;
 
     var data: object = {
       body: file,
@@ -443,6 +481,27 @@ function uploadProjectImage(file: FileList): Promise<string[]> {
   });
 }
 
+function downloadProjectImageURLS(projectId: string): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    const endpoint =
+      'http://localhost:8080/api/download/project?projectId=' + projectId;
+    var data: object = {
+      method: 'GET'
+    };
+    fetch(endpoint, data)
+      .then(function(res: any) {
+        return res.json();
+      })
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved project image URL') {
+          resolve(res.urls);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
 function getOneProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/projects/' + id;
@@ -574,7 +633,8 @@ var apiService = {
   getTags,
   getCategories,
   getAllUsers,
-  uploadProjectImage
+  uploadProjectImage,
+  downloadProjectImageURLS
 };
 
 export default apiService;

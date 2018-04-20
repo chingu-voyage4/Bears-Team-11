@@ -1,4 +1,4 @@
-import { UPLOAD_PROJECT_IMAGES } from '../actions/actionTypes';
+import { DOWNLOAD_PROJECT_IMAGE_URLS } from '../actions/actionTypes';
 import { UploadImageAction } from '../types/Redux';
 
 function uploadImagesReducer(
@@ -6,7 +6,7 @@ function uploadImagesReducer(
   action: UploadImageAction
 ): object {
   switch (action.type) {
-    case UPLOAD_PROJECT_IMAGES:
+    case DOWNLOAD_PROJECT_IMAGE_URLS:
       return action.data;
     default:
       return state;

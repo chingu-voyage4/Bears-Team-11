@@ -1,5 +1,5 @@
 export interface Projects {
-  _id?: string;
+  _id: string;
   name?: string;
   creator?: string;
   images?: string[] | null[];

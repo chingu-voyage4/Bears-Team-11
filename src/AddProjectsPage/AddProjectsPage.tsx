@@ -6,7 +6,6 @@ import { AddProjectState } from '../types/AddProjectsPage.d';
 import { connect } from 'react-redux';
 import {
   addProject,
-  uploadProjectImage,
   updateProject,
   getOneProject
 } from '../actions/projectActions';
@@ -189,7 +188,6 @@ class AddProjectsPage extends React.Component<
   }
 
   public handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
-    var refToThis = this;
     var elemList = document.getElementsByClassName('new-project-roles');
     // tslint:disable-next-line
     var elements = [].filter.call(elemList, function(elem: any) {
@@ -202,25 +200,25 @@ class AddProjectsPage extends React.Component<
       lookingForArray.push(elem.value);
     });
 
-    this.setState({ lookingFor: lookingForArray }, function() {
-      console.log(refToThis.state);
-      refToThis.props.addProject({
-        name: refToThis.state.name,
-        description: refToThis.state.description,
-        dueDate: refToThis.state.dueDate,
-        team: refToThis.state.team,
-        githubLink: refToThis.state.githubLink,
-        mockupLink: refToThis.state.mockupLink,
-        liveLink: refToThis.state.liveLink,
-        lookingFor: refToThis.state.lookingFor,
-        status: refToThis.state.status,
-        category: refToThis.state.category,
-        tags: refToThis.state.tags,
-        images: refToThis.state.images,
-        contact: refToThis.state.contact,
-        creator: refToThis.props.user.username,
-        files: refToThis.state.files
-      });
+    this.setState({ lookingFor: lookingForArray }, () => {
+      this.props.addProject(
+        {
+          name: this.state.name,
+          description: this.state.description,
+          dueDate: this.state.dueDate,
+          team: this.state.team,
+          githubLink: this.state.githubLink,
+          mockupLink: this.state.mockupLink,
+          liveLink: this.state.liveLink,
+          lookingFor: this.state.lookingFor,
+          status: this.state.status,
+          category: this.state.category,
+          tags: this.state.tags,
+          contact: this.state.contact,
+          creator: this.props.user.username
+        },
+        this.state.files
+      );
     });
   };
 
@@ -310,11 +308,6 @@ class AddProjectsPage extends React.Component<
       for (var i = 0; i < this.state.files.length; i++) {
         readAndPreview(this.state.files[i]);
       }
-      // upload images to AWS
-      this.props.uploadProjectImage(this.state.files);
-      // retrieve the sent back image links from this.props.imageLinks and save to state.images
-      console.log(this.props.imageLinks);
-      this.setState({ images: this.props.imageLinks });
     }
   };
 
@@ -809,7 +802,6 @@ export default connect(mapStateToProps, {
   getAllUsers,
   getCategories,
   getTags,
-  uploadProjectImage,
   updateProject,
   getOneProject
 })(AddProjectsPage);

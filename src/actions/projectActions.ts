@@ -4,14 +4,14 @@ import {
   UPDATE_PROJECT,
   DELETE_PROJECT,
   GET_ONE_PROJECT,
-  UPLOAD_PROJECT_IMAGES,
   SEARCH_PROJECT,
-  GET_PROJECT
+  GET_PROJECT,
+  DOWNLOAD_PROJECT_IMAGE_URLS
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
 import { Action } from '../types/Redux';
-import { Project } from '../types/Projects.d';
+// import { Project } from '../types/Projects.d';
 
 export function getProjects(
   options: object,
@@ -57,13 +57,16 @@ export function getProject(
   };
 }
 export function addProject(
-  project: Project
+  project: any,
+  files: FileList
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService.addProject(project).then(newProject => {
-      return dispatch({
-        type: ADD_PROJECT,
-        data: newProject
+      apiService.uploadProjectImage(files, newProject._id).then(() => {
+        return dispatch({
+          type: ADD_PROJECT,
+          data: newProject
+        });
       });
     });
   };
@@ -106,14 +109,14 @@ export function deleteProject(
   };
 }
 
-export function uploadProjectImage(
-  files: FileList
+export function downloadProjectImageURLS(
+  projectId: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.uploadProjectImage(files).then(contentUrl => {
+    return apiService.downloadProjectImageURLS(projectId).then(urls => {
       return dispatch({
-        type: UPLOAD_PROJECT_IMAGES,
-        data: contentUrl
+        type: DOWNLOAD_PROJECT_IMAGE_URLS,
+        data: urls
       });
     });
   };

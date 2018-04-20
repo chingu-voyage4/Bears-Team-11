@@ -18,10 +18,10 @@ router.get('/profile', function(req, res) {
   console.log(urlParams);
   s3.getSignedUrl('getObject', urlParams, function(err, url) {
     if (err) {
-      res.send({ error: err.message });
+      res.json({ error: err.message });
     }
     console.log('the url of the image is', url);
-    res.send({ url: url });
+    res.json({ url: url, message: 'Successfully retrieved profile image URL' });
   });
 });
 
@@ -77,11 +77,14 @@ router.get('/project', function(req, res) {
   getListObject
     .then(function(data) {
       geturlsArry(data).then(function(urls) {
-        res.send({ urls: urls });
+        res.json({
+          urls: urls,
+          message: 'Successfully retrieved project image URL'
+        });
       });
     })
     .catch(function(err) {
-      res.send({ error: err });
+      res.json({ error: err });
     });
 });
 

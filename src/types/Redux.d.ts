@@ -21,7 +21,7 @@ export interface AppAction extends Action {
   visible?: boolean;
 }
 export interface ProjectAction extends Action {
-  data: Project;
+  data: Project | Project[];
 }
 
 export interface UsersAction extends Action {
@@ -97,11 +97,13 @@ export interface AddProjectProps {
   allUsers: Users;
   imageLinks: string[];
   addOrUpdateProject: string | null;
-  addProject: (project: Project) => (dispatch: Dispatch<ProjectAction>) => void;
+  addProject: (
+    project: any,
+    files: FileList
+  ) => (dispatch: Dispatch<ProjectAction>) => void;
   getAllUsers: () => (dispatch: Dispatch<Action>) => void;
   getCategories: () => (dispatch: Dispatch<Action>) => void;
   getTags: () => (dispatch: Dispatch<Action>) => void;
-  uploadProjectImage: (files: FileList) => (dispatch: Dispatch<Action>) => void;
   updateProject: (id: string) => (dispatch: Dispatch<Action>) => void;
   getOneProject: (id: string) => (dispatch: Dispatch<Action>) => void;
 }
