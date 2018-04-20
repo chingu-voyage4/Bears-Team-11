@@ -88,9 +88,7 @@ class ProjectsFilter extends React.Component<
   public submitFilters(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
 
-    var referenceTothis = this;
-
-    function saveToState(name: string) {
+    const saveToState = (name: string) => {
       var value: string[] = [];
       var elemList = document.getElementsByClassName('filterOptions-' + name);
 
@@ -100,23 +98,23 @@ class ProjectsFilter extends React.Component<
       });
 
       if (elements.length === 1) {
-        referenceTothis.setState({ [name]: elements[0].value }, function() {
-          console.log(referenceTothis.state);
-          referenceTothis.callNewProjects();
+        this.setState({ [name]: elements[0].value }, () => {
+          console.log(this.state);
+          this.callNewProjects();
         });
       } else if (elements === undefined || elements.length === 0) {
-        referenceTothis.callNewProjects();
+        this.callNewProjects();
       } else {
         // tslint:disable-next-line
         elements.forEach(function(elem: any) {
           value.push(elem.value);
         });
-        referenceTothis.setState({ [name]: value }, function() {
-          console.log(referenceTothis.state);
-          referenceTothis.callNewProjects();
+        this.setState({ [name]: value }, () => {
+          console.log(this.state);
+          this.callNewProjects();
         });
       }
-    }
+    };
 
     // check array of names for any checked items
     var arrayOfNames = ['sortBy', 'roles', 'categories', 'status', 'tags'];

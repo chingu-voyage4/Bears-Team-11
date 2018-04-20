@@ -17,6 +17,9 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
       searchTerm: '',
       projectComponent: null
     };
+  }
+
+  componentDidMount() {
     var options = {
       sort: { createdAt: -1 }, // returns by newest
       limit: 24
