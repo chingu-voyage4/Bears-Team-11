@@ -5,12 +5,12 @@ var Schema = Mongoose.Schema;
 
 var ProjectSchema = new Schema({
   name: { type: String },
-  creator: { type: String }, // XXX: might want to use Users ref
+  creator: { type: String }, // XXX: may want to use Users ref
   githubLink: { type: String },
   mockupLink: { type: String },
   liveLink: { type: String },
   images: { type: Array },
-  team: { type: Array }, // XXX: might want to use an array of Users ref
+  team: { type: Array }, // XXX: may want to use an array of Users ref
   description: { type: String },
   contact: { type: String },
   lookingFor: { type: Array },
