@@ -81,21 +81,18 @@ class AddProjectsPage extends React.Component<
   };
 
   public onFormChange = (e: React.FormEvent<HTMLInputElement>): void | null => {
-    e.preventDefault();
+    e.persist();
     var { name, value } = e.currentTarget;
 
-    var saveArrayToState = (
-      stateName: any,
-      array: string[],
-      elemById: string
-    ) => {
-      var lowercase = value.toLowerCase();
-      if (array.indexOf(value) === -1) {
-        array.push(lowercase);
-      }
-      this.setState({ [stateName]: array }, () => {
+    var saveArrayToState = (stateName: any, array: any, elemById: string) => {
+      if (array.includes(value.toLowerCase()) === false) {
+        array.push(value.toLowerCase());
+        return this.setState({ [stateName]: array }, () => {
+          this.toggleDropdown(e, elemById);
+        });
+      } else {
         this.toggleDropdown(e, elemById);
-      });
+      }
     };
 
     if (name === 'category') {
@@ -105,17 +102,9 @@ class AddProjectsPage extends React.Component<
       } as any);
       this.toggleDropdown(e, 'new-project-dropdown');
     } else if (name === 'tags') {
-      saveArrayToState(
-        'tags',
-        Object.assign([], this.state.tags),
-        'new-tags-dropdown'
-      );
+      saveArrayToState('tags', this.state.tags!.slice(), 'new-tags-dropdown');
     } else if (name === 'team') {
-      saveArrayToState(
-        'team',
-        Object.assign([], this.state.team),
-        'new-team-dropdown'
-      );
+      saveArrayToState('team', this.state.team!.slice(), 'new-team-dropdown');
     } else if (name === 'status') {
       if (value === 'Active') {
         this.setState({ status: true, statusPlaceholder: value });
@@ -229,17 +218,17 @@ class AddProjectsPage extends React.Component<
   };
 
   public tagFilter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    e.persist();
     this.filter('tagSearch', 'tags');
     if (e.keyCode === 13) {
       var inputValue = (document.getElementById(
         'tagSearch'
       )! as HTMLInputElement).value;
-      var arrayOfTags = Object.assign([], this.state.tags);
-      var lowercaseTag = inputValue.toLowerCase();
-      if (arrayOfTags.indexOf(lowercaseTag) === -1) {
-        arrayOfTags.push(lowercaseTag);
+      var array = this.state.tags!.slice();
+      if (array.indexOf(inputValue.toLowerCase()) === -1) {
+        array.push(inputValue.toLowerCase());
       }
-      this.setState({ tags: arrayOfTags }, () => {
+      this.setState({ tags: array }, () => {
         this.toggleDropdown(e, 'new-tags-dropdown');
       });
     }
@@ -589,11 +578,12 @@ class AddProjectsPage extends React.Component<
                     teamFilter={this.teamFilter}
                   />
                 </div>
-                <ChosenTeam
-                  team={this.state.team}
-                  handleOptionRemoval={this.handleOptionRemoval}
-                />
-                <div className="array-of-tags">{ChosenTeam}</div>
+                <div className="array-of-tags">
+                  <ChosenTeam
+                    team={this.state.team}
+                    handleOptionRemoval={this.handleOptionRemoval}
+                  />
+                </div>
               </div>
             </div>{' '}
             {/* end of box 1 A */}
