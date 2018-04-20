@@ -2,7 +2,8 @@ import {
   GET_PROJECTS,
   ADD_PROJECT,
   UPDATE_PROJECT,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  GET_PROJECT
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
@@ -15,6 +16,19 @@ export function getProjects(): (dispatch: Dispatch<Action>) => void {
       return dispatch({
         type: GET_PROJECTS,
         data: projects
+      });
+    });
+  };
+}
+
+export function getProject(
+  projectId: string
+): (dispatch: Dispatch<Action>) => void {
+  return dispatch => {
+    return apiService.getProject(projectId).then(project => {
+      return dispatch({
+        type: GET_PROJECT,
+        data: project
       });
     });
   };
@@ -35,10 +49,11 @@ export function addProject(
 
 export function updateProject(
   name: string,
-  update: Project
+  update: string,
+  id: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.updateProject(name, update).then(updatedProject => {
+    return apiService.updateProject(name, update, id).then(updatedProject => {
       return dispatch({
         type: UPDATE_PROJECT,
         data: updatedProject
@@ -48,10 +63,10 @@ export function updateProject(
 }
 
 export function deleteProject(
-  name: string
+  id: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.deleteProject(name).then(deletedProject => {
+    return apiService.deleteProject(id).then(deletedProject => {
       return dispatch({
         type: DELETE_PROJECT,
         data: deletedProject

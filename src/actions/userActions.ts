@@ -1,14 +1,18 @@
 import {
+  GOOGLE_LOGIN,
+  GOOGLE_LOGIN_ERROR,
   LOGIN,
   REGISTER,
   LOGOUT,
   LOGIN_ERROR,
   REGISTER_ERROR,
-  LOGOUT_ERROR
+  LOGOUT_ERROR,
+  GET_ALL_USERS,
+  GET_ALL_USERS_ERROR
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
-import { UserAction } from '../types/Redux';
+import { UserAction, Action } from '../types/Redux';
 
 export function login(
   email: string,
@@ -32,15 +36,37 @@ export function login(
   };
 }
 
+export function googleLogin(
+  idToken: string
+): (dispatch: Dispatch<UserAction>) => void {
+  return dispatch => {
+    return apiService
+      .googleLogin(idToken)
+      .then(user => {
+        return dispatch({
+          type: GOOGLE_LOGIN,
+          data: user
+        });
+      })
+      .catch(error => {
+        return dispatch({
+          type: GOOGLE_LOGIN_ERROR,
+          error: 'Could not login with google'
+        });
+      });
+  };
+}
+
 export function register(
   firstName: string,
   lastName: string,
+  username: string,
   email: string,
   password: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService
-      .register(firstName, lastName, email, password)
+      .register(firstName, lastName, username, email, password)
       .then(user => {
         return dispatch({
           type: REGISTER,
@@ -68,6 +94,25 @@ export function logout(): (dispatch: Dispatch<UserAction>) => void {
       .catch(error => {
         return dispatch({
           type: LOGOUT_ERROR,
+          error
+        });
+      });
+  };
+}
+
+export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
+  return dispatch => {
+    return apiService
+      .getAllUsers()
+      .then(users => {
+        return dispatch({
+          type: GET_ALL_USERS,
+          data: users
+        });
+      })
+      .catch(error => {
+        return dispatch({
+          type: GET_ALL_USERS_ERROR,
           error
         });
       });

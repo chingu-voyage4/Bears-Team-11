@@ -1,177 +1,554 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
-
-function generateRandomDelay(): number {
-  return Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-}
-
-/* Mock Objects */
-var users: Array<User> = [
-  {
-    firstName: 'Gorden',
-    lastName: 'Ramsay',
-    email: 'gramsy@gmail.com',
-    password: 'ilovetoocook'
-  }
-];
-
-var projects: Array<Project> = [
-  {
-    name: 'Momentum Dash',
-    creator: 'lilgangwolf',
-    link: 'https://github.com/chingu-coders/Voyage2-Turtles-11',
-    image: 'https://goo.gl/hBQdUP',
-    teamMembers: ['thorbw', 'eun park', 'miles burke'],
-    description: `TurtleTab is a Google Chrome Extension Built with React. It creates a new homepage 
-        which features current Weather, Todo and Notes functionality. It also accesses your browser 
-        data to see Bookmarks, enable/disable Apps and Extensions, and see/clear your History.`,
-    contact: 'lilgangwolf',
-    lookingFor: ['Programmer', 'Designer'],
-    comments: 'None',
-    createdAt: 1519337864764,
-    dueDate: 1519337864764,
-    views: 100,
-    category: 'Productivity Tool',
-    status: true,
-    upVotes: 10
-  }
-];
+import { Categories } from '../types/Category';
+import { Tags } from '../types/Tags';
 
 /* User */
-function login(email: string, password: string): Promise<User | Error> {
+function login(email: string, password: string): Promise<User | string> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const user = users.filter(currentUser => {
-        return currentUser.email === email && currentUser.password === password;
-      })[0];
-      user
-        ? resolve({
+    const endpoint: string = 'http://localhost:8080/api/login';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        console.log(res);
+        if (res.message === 'Successfully logged in') {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('user=' + user);
+          console.log('userDetails=' + userDetails);
+          resolve({
             firstName: user.firstName,
             lastName: user.lastName,
-            email: user.email
-          })
-        : reject(new Error('Wrong username and/or password.'));
-    }, generateRandomDelay());
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function googleLogin(idToken: string): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint: string = 'http://localhost:8080/api/googlelogin';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({
+        idToken: idToken
+      })
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        console.log(res);
+        if (
+          res.message === 'Successfully logged in with Google' ||
+          res.message === 'Sucessfully registered with Google'
+        ) {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('user=' + user);
+          console.log('userDetails=' + userDetails);
+          resolve({
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.error);
+        }
+      });
   });
 }
 
 function register(
   firstName: string,
   lastName: string,
+  username: string,
   email: string,
   password: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const user = users.filter(currentUser => {
-        return currentUser.email === email;
-      })[0];
-      user
-        ? resolve({
+    const endpoint = 'http://localhost:8080/api/signup';
+
+    var data: object = {
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        username: username
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        // console.log('JSON.stringify=' + JSON.stringify(res));
+        if (res.message === 'User Registration Succesful') {
+          var user = res.user;
+          resolve({
             firstName: user.firstName,
             lastName: user.lastName,
-            email: user.email
-          })
-        : reject(new Error('Email is already in use.'));
-    }, generateRandomDelay());
+            email: user.email,
+            username: user.username
+          });
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function deactivate(
+  username: string,
+  password: string
+): Promise<string | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/deactivate';
+
+    var data: object = {
+      body: JSON.stringify({
+        username: username,
+        password: password
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully deactivated user') {
+          resolve(res.message);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function activate(username: string, password: string): Promise<string | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/activate';
+
+    var data: object = {
+      body: JSON.stringify({
+        username: username,
+        password: password
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      method: 'POST'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully re-activated user') {
+          resolve(res.message);
+        } else {
+          reject(res.error);
+        }
+      });
   });
 }
 
 function logout(): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(true);
-    }, generateRandomDelay());
+    const endpoint = 'http://localhost:8080/api/logout';
+
+    var data: object = {
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.text === 'Successfully Logged Out') {
+          resolve(res.text); // what should the result be?
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function getAllUsers(): Promise<Array<User>> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/users';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved all users') {
+          resolve(res.users);
+        } else {
+          reject(res.error);
+        }
+      });
   });
 }
 
 /* Project */
 function getProjects(): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(projects);
-    }, generateRandomDelay());
+    const endpoint = 'http://localhost:8080/api/projects';
+
+    var data: object = {
+      body: {
+        options: {
+          select: { status: true }, // returns active projects
+          sort: { createdAt: -1 } // returns by newest
+        }
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Succesfully retrieved projects') {
+          resolve(res.projects);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function getProject(projectId: string) {
+  return new Promise((resolve, reject) => {
+    resolve({
+      name: 'Momentum Project',
+      creator: 'lilgangwolf',
+      githubLink: 'https://github.com',
+      mockupLink: 'https://google.com',
+      liveLink: 'https://google.com',
+
+      images: [
+        // tslint:disable-next-line
+        'https://images.unsplash.com/photo-1515111293107-b0cd6448f5f6?ixlib=rb-0.3.5&s=cba9fa015c2090a9c73d76dab3ed6dd0&auto=format&fit=crop&w=2700&q=80',
+        // tslint:disable-next-line
+        'https://images.unsplash.com/photo-1500482176473-ccba10e1e880?ixlib=rb-0.3.5&s=7c0d4e6d85c1dc526c84a070890c058c&auto=format&fit=crop&w=1534&q=80'
+      ],
+      mockups: ['mockupid_1', 'mockupid_2', 'mockupid_3'],
+      team: ['lilgangwolf', 'natapot'],
+      description:
+        // tslint:disable-next-line
+        'Clone of the momentum chrome eetnsion, with these following design changes: (1) adding a link to github repots, (2) ability to search and pin new weather locations. We are looking for a designer to re-work the layout based off our uploaded precedents.',
+      contact: 'lilgangwolf@gmail.com',
+      lookingFor: ['designer'],
+      comments: [],
+      createdAt: Date.now(),
+      dueDate: Date.now(),
+      views: 1,
+      category: 'extension',
+      tags: ['extension'],
+      status: true,
+      upVotes: 1,
+      modifiedAt: Date.now()
+    });
   });
 }
 
 function addProject(project: Project): Promise<Project> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var projectExists;
+    const endpoint = 'http://localhost:8080/api/projects/add';
 
-      projects.forEach(currentProject => {
-        if (currentProject.name === project.name) {
-          projectExists = true;
+    var data: object = {
+      body: JSON.stringify({
+        name: project.name,
+        description: project.description,
+        dueDate: project.dueDate,
+        team: project.team,
+        githubLink: project.githubLink,
+        mockupLink: project.mockupLink,
+        liveLink: project.liveLink,
+        lookingFor: project.lookingFor,
+        status: project.status,
+        category: project.category,
+        tags: project.tags,
+        images: project.images,
+        contact: project.contact,
+        creator: project.creator
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        console.log(res);
+        if (res.message === 'New project saved successfully') {
+          resolve(res.newProject);
+        } else {
+          reject(res.error);
         }
       });
-
-      if (!projectExists) {
-        projects.push(project);
-        resolve(project);
-      } else {
-        reject(new Error('Project already exists.'));
-      }
-    }, generateRandomDelay());
   });
 }
 
-/*
- * DISCUSSION: projects should probably have and use id as an unique identifier
- * currently name is being used as an unique identifier
- */
-function updateProject(name: string, update: Project): Promise<Project> {
+function updateProject(
+  name: string,
+  update: string,
+  id: string
+): Promise<Project> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var filteredProjects = projects.filter(currentProject => {
-        return currentProject.name === update.name;
-      });
+    const endpoint = 'http://localhost:8080/api/projects/update';
 
-      if (filteredProjects.length === 0) {
-        reject(new Error('Cannot update a project that does not exist.'));
-      } else {
-        var projectToBeUpdated = filteredProjects[0];
-        var updatedObject = Object.assign(projectToBeUpdated, update);
+    var data: object = {
+      body: JSON.stringify({
+        id: id,
+        updateKey: name,
+        updateObject: update
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include'
+    };
 
-        for (let i = 0; i < projects.length; i++) {
-          if (projects[i].name === update.name) {
-            projects[i] = updatedObject;
-          }
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully updated project') {
+          resolve(res.project);
+        } else {
+          reject(res.error);
         }
-
-        resolve(updatedObject);
-      }
-    }, generateRandomDelay());
+      });
   });
 }
 
-function deleteProject(name: string): Promise<Project> {
+function deleteProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var removeIndex;
+    const endpoint = 'http://localhost:8080/api/projects/delete/one';
 
-      for (var i = 0; i < projects.length; i++) {
-        if (projects[i].name === name) {
-          removeIndex = i;
+    var data: object = {
+      body: JSON.stringify({
+        id: id
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Project successfully deleted') {
+          resolve(res.project);
+        } else {
+          reject(res.error);
         }
-      }
-      if (removeIndex) {
-        resolve(projects.splice(removeIndex, removeIndex)[0]);
-      } else {
-        reject(new Error('Project does not exist'));
-      }
-    }, generateRandomDelay());
+      });
+  });
+}
+
+function getTags(): Promise<Tags> {
+  console.log('getting tags');
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/projects/tags';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved tags') {
+          resolve(res.tags);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function getCategories(): Promise<Categories> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/projects/categories';
+
+    var data: object = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved categories') {
+          resolve(res.categories);
+        } else {
+          reject(res.error);
+        }
+      });
   });
 }
 
 /* Service Module */
 var apiService = {
   login,
+  googleLogin,
   register,
+  deactivate,
+  activate,
   logout,
   getProjects,
+  getProject,
   addProject,
   updateProject,
-  deleteProject
+  deleteProject,
+  getTags,
+  getCategories,
+  getAllUsers
 };
 
 export default apiService;

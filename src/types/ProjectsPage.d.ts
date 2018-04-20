@@ -1,5 +1,24 @@
+import { User } from './User.d';
+import { Dispatch } from 'react-redux';
+import { Project } from './Projects.d';
+
 export interface State {}
 
-export interface Props {}
+// Action
+export interface Action {
+  type: string;
+}
 
-export interface PassedProps {}
+export interface ProjectAction extends Action {
+  data: Project;
+}
+
+export interface ProjectState {}
+
+export interface ProjectsProps {}
+
+export interface PassedProps {
+  user: User;
+  projects: Array<Project>;
+  getProjects: () => (dispatch: Dispatch<Action>) => void;
+}

@@ -1,11 +1,15 @@
 import * as React from 'react';
 import '../styles/SettingsPage.css';
-import { PassedProps, State, Props } from '../types/SettingsPage.d';
+import { Store } from '../types/Redux';
+import { PassedProps, State } from '../types/SettingsPage.d';
+import { connect } from 'react-redux';
 import PublicProfile from './PublicProfile';
 import PersonalDetails from './PersonalDetails';
+import HeaderContainer from '../HeaderContainer';
+import Footer from '../Footer';
 
 class SettingsPage extends React.Component<PassedProps, State> {
-  constructor(props: Props) {
+  constructor(props: PassedProps) {
     super(props);
     this.state = {
       personal: false,
@@ -18,18 +22,19 @@ class SettingsPage extends React.Component<PassedProps, State> {
       personal: true,
       public: false
     });
-  }
+  };
 
   publicSettings = () => {
     this.setState({
       personal: false,
       public: true
     });
-  }
+  };
 
   render() {
     return (
       <div className="settings-container">
+        <HeaderContainer />
         <div className="settings-menu-div">
           <button className="settings-profile-image">
             <img src={require('../assets/blank image.png')} />
@@ -54,9 +59,16 @@ class SettingsPage extends React.Component<PassedProps, State> {
         <div className="settings-info-div">
           {this.state.public === true ? <PublicProfile /> : <PersonalDetails />}
         </div>
+        <Footer />
       </div>
     );
   }
 }
 
-export default SettingsPage;
+function mapStateToProps(state: Store) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(SettingsPage);

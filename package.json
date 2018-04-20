@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "async": "^2.6.0",
     "@types/lodash": "^4.14.104",
+    "@types/mongoose": "^5.0.7",
+    "@types/mongoose-paginate": "^5.0.6",
     "@types/react-router-dom": "^4.2.4",
+    "async": "^2.6.0",
     "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
@@ -14,12 +16,14 @@
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "google-auth-library": "^1.4.0",
     "husky": "^0.14.3",
     "lint-staged": "^6.1.1",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "mongodb": "^3.0.4",
     "mongoose": "^5.0.6",
+    "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.0",
     "node-sass-chokidar": "0.0.3",
     "nodemailer": "^4.6.2",
@@ -40,7 +44,8 @@
   "scripts": {
     "precommit": "lint-staged",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts-ts start",
     "start-server": "nodemon api",
     "start": "npm-run-all -p watch-css start-js",
@@ -56,17 +61,13 @@
     "@types/react-redux": "^5.0.15",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "jest": "^22.3.0",
+    "jest": "^22.4.3",
     "redux-devtools-extension": "^2.13.2",
     "supertest": "^3.0.0",
     "typescript": "^2.7.2"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,js,jsx,json,scss,css}": [
-      "prettier --single-quote --write",
-      "git add"
-    ],
-    "api/**/*.{js}": [
+    "*.{ts,tsx,js,jsx,json,scss,css}": [
       "prettier --single-quote --write",
       "git add"
     ]

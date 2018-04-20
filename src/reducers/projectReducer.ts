@@ -20,7 +20,7 @@ function projectReducer(
       return newState;
     case UPDATE_PROJECT:
       for (let i = 0; i < newState.length; i++) {
-        if (newState[i].name === action.data.name) {
+        if (newState[i]._id === action.data._id) {
           newState[i] = action.data;
         }
       }
@@ -28,7 +28,7 @@ function projectReducer(
     case DELETE_PROJECT:
       var deleteIndex;
       for (let i = 0; i < newState.length; i++) {
-        if (newState[i].name === action.data.name) {
+        if (newState[i]._id === action.data._id) {
           deleteIndex = i;
         }
       }

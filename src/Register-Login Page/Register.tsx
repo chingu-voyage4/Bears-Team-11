@@ -1,11 +1,12 @@
-// FS initial comment from newBranch
-
 import * as React from 'react';
 import { RegisterState } from '../types/Register.d';
 import { RegisterProps } from '../types/Redux.d';
 import { register } from '../actions/userActions';
 import { connect } from 'react-redux';
 import '../styles/Register-Login.css';
+import GoogleSignIn from '../GoogleSignIn';
+import { showRegisterWindow } from '../actions/appActions';
+import { Store } from '../types/Redux';
 class Register extends React.Component<RegisterProps, RegisterState> {
   constructor(props: RegisterProps) {
     super(props);
@@ -20,15 +21,6 @@ class Register extends React.Component<RegisterProps, RegisterState> {
 
   public handleFormChange(e: React.FormEvent<HTMLInputElement>): void {
     var { name, value } = e.currentTarget;
-
-    /*
-     * There is a current bug in typescript that does not correctly identify the string literal
-     * type in a computed property key.
-     * 
-     * ref: https://github.com/Microsoft/TypeScript/issues/15534
-     * ref: https://github.com/Microsoft/TypeScript/issues/13948
-     * ref: https://github.com/Microsoft/TypeScript/pull/21070
-     */
     this.setState({
       [name]: value
       // tslint:disable-next-line
@@ -36,26 +28,31 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 
   public handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
-    const { firstName, lastName, email, password } = this.state;
-    this.props.register(firstName, lastName, email, password);
+    e.preventDefault();
+    const { firstName, lastName, username, email, password } = this.state;
+    this.props.register(firstName, lastName, username, email, password);
   }
+
+  windowVisibility = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    this.props.showRegisterWindow();
+  };
 
   render() {
     return (
       <div className="registerPopupScreen">
         <form className="register-form">
           <br />
-          <div className="logo">project match</div>
-          <br />
-          <img
-            className="extAuthIcon"
-            src={require('../assets/google icon.png')}
-          />
-          <button type="button" className="extAuthBtn">
-            Sign up with Google
+          <div className="logo-login_register">project match</div>
+          <button
+            className="login-register-exit-window-btn"
+            onClick={e => this.windowVisibility(e)}
+          >
+            X
           </button>
-
           <br />
+
+          <GoogleSignIn />
 
           <hr className="horizontalDivider" />
 
@@ -66,7 +63,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             name="firstName"
             required={true}
             className="nameDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <label className="form-label">Last Name</label>
@@ -76,7 +73,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             name="lastName"
             required={true}
             className="nameDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
@@ -88,7 +85,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             name="username"
             required={true}
             className="usernameDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
@@ -108,19 +105,18 @@ class Register extends React.Component<RegisterProps, RegisterState> {
           <label className="form-label">Password</label>
           <input
             id="pasword"
-            value={this.state.password}
             type="password"
             placeholder="Password"
             name="password"
             required={true}
             className="passwordDiv"
-            onChange={this.handleFormChange}
+            onChange={e => this.handleFormChange(e)}
           />
 
           <br />
 
           <button
-            onClick={this.handleSubmit}
+            onClick={e => this.handleSubmit(e)}
             type="submit"
             className="signUpBtn"
             name="registerBtn"
@@ -133,4 +129,12 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   }
 }
 
-export default connect<{}, RegisterProps, {}>(null, { register })(Register);
+function mapStateToProps(state: Store) {
+  return {
+    visibleRegisterWindow: state.registerLoginWindow.visibleRegisterWindow
+  };
+}
+export default connect(mapStateToProps, {
+  register,
+  showRegisterWindow
+})(Register);
