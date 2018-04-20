@@ -32,9 +32,8 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
   }
 
   public inputHandler(e: React.KeyboardEvent<HTMLInputElement>): void {
-    var refToThis = this;
-    this.setState({ searchTerm: e.currentTarget.value }, function() {
-      refToThis.props.searchProjects(refToThis.state.searchTerm);
+    this.setState({ searchTerm: e.currentTarget.value }, () => {
+      this.props.searchProjects(this.state.searchTerm);
     });
   }
 
