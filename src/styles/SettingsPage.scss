@@ -70,8 +70,15 @@
 .settings-textarea {
   color: grey;
   float: right;
+  margin: 11.91px 0px 0px;
+  height: 40px;
   width: 90%;
-  margin-top: 1%;
+  resize: none;
+}
+
+.settings-input {
+  margin: 1%;
+  width: 70%;
 }
 
 .settings-labels-aboutme {
@@ -79,4 +86,20 @@
 }
 h3 {
   display: inline-block;
+}
+
+.personal-details-save-button {
+  float: right;
+  border: none;
+  background-color: $theme-blue;
+  font-family: $font;
+  color: white;
+}
+
+.public-profile-save-button {
+  float: right;
+  border: none;
+  background-color: $theme-blue;
+  font-family: $font;
+  color: white;
 }
