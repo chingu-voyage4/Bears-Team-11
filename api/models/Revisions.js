@@ -5,10 +5,11 @@ var Schema = Mongoose.Schema;
 var RevisionSchema = new Schema({
   revisionNumber: { type: String },
   finalVersion: { type: Boolean },
+  image: { type: String },
   createdAt: { type: Date, default: Date.now() },
-  creator: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
+  creator: { type: Schema.Types.ObjectId, ref: 'Users' },
   createdAt: { type: Date },
-  markers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Markers' }]
+  markers: [{ type: Schema.Types.ObjectId, ref: 'Markers' }]
 });
 
 var Revisions = Mongoose.model('Revisions', RevisionSchema);

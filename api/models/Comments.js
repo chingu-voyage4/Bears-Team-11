@@ -9,7 +9,7 @@ var Schema = Mongoose.Schema;
 // Lets create Schema Object
 // The formet will be x = { variables like type and conditionals...} followed by ','
 var CommentsSchema = new Schema({
-  creator: { type: String },
+  creator: { type: Schema.Types.ObjectId, ref: 'Users' },
   comment: { type: String },
   createdAt: { type: Date, default: Date.now }
 });
