@@ -113,18 +113,27 @@ PROJECT FILTERS
 
 /*
 ==========================
-SUBMIT BUTTON
+SUBMIT & CLEAR FILTER BUTTON
 ==========================
 */
+.project-filter-clear-btn,
+.project-filter-submit-btn {
+  text-transform: uppercase;
+  padding: 14px;
+  margin: 10px;
+  min-width: 75px;
+  font-weight: 700;
+}
 .project-filter-submit-btn {
   border: 1px solid $theme-blue;
   background-color: $theme-blue;
   color: white;
-  text-transform: uppercase;
-  padding: 10px;
-  margin: 10px;
-  min-width: 75px;
-  font-weight: 700;
+}
+
+.project-filter-clear-btn {
+  border: 1px solid $attention-red;
+  background-color: white;
+  color: $attention-red;
 }
 /*
 ==========================
