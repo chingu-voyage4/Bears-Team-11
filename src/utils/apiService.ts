@@ -237,6 +237,57 @@ function activate(username: string, password: string): Promise<string | Error> {
   });
 }
 
+function userSettingsUpdate(
+  aboutme: string,
+  location: string,
+  roles: string[],
+  skills: string[],
+  linkedin: string,
+  github: string,
+  portfolio: string,
+  website: string,
+  twitter: string,
+  blog: string,
+  userId: string
+): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/update/public';
+
+    var data: object = {
+      method: 'POST',
+      credentials: 'include',
+      body: {
+        description: aboutme,
+        location: location,
+        roles: roles,
+        techstack: skills,
+        linkedInLink: linkedin,
+        githubLink: github,
+        portfolioLink: portfolio,
+        websiteLink: website,
+        twitterLink: twitter,
+        blogLink: blog,
+        userId: userId
+      }
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.text === 'Successfully Logged Out') {
+          resolve(res.text); // what should the result be?
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
 function logout(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/logout';
@@ -634,7 +685,8 @@ var apiService = {
   getCategories,
   getAllUsers,
   uploadProjectImage,
-  downloadProjectImageURLS
+  downloadProjectImageURLS,
+  userSettingsUpdate
 };
 
 export default apiService;

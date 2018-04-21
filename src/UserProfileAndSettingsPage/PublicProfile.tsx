@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Store } from '../types/Redux';
-import { PublicProfileProps } from '../types/PublicProfile.d';
-import { PublicProfileState } from '../types/PublicProfile.d';
+import {
+  PublicProfileProps,
+  PublicProfileState
+} from '../types/PublicProfile.d';
 import { userSettingsUpdate } from '../actions/userActions';
 
 class PublicProfile extends React.Component<
@@ -12,28 +14,52 @@ class PublicProfile extends React.Component<
   constructor(props: PublicProfileProps) {
     super(props);
     this.state = {
-      aboutme: '',
-      headline: '',
-      skills: '',
-      linkedin: '',
-      github: '',
-      portfolio: '',
-      website: '',
-      twitter: '',
-      blog: ''
+      aboutme: this.props.user.description!,
+      location: this.props.user.location!,
+      roles: this.props.user.roles!,
+      skills: this.props.user.techstack!,
+      linkedin: this.props.user.linkedInLink!,
+      github: this.props.user.githubLink!,
+      portfolio: this.props.user.portfolioLink!,
+      website: this.props.user.websiteLink!,
+      twitter: this.props.user.twitterLink!,
+      blog: this.props.user.blogLink!
     };
   }
+
   public handleTextAreaChange(e: React.FormEvent<HTMLTextAreaElement>): void {
     this.setState({
       aboutme: e.currentTarget.value
     });
   }
+
   public handleInputChange(e: React.FormEvent<HTMLInputElement>): void {
+    e.persist();
     var { name, value } = e.currentTarget;
-    this.setState({
-      [name]: value
-      // tslint:disable-next-line
-    } as any);
+
+    // temporary until we have more refined roles / skills update
+    if (name === 'roles' || name === 'skills') {
+      var valueArray = value.split(' ');
+      this.setState({ [name]: valueArray } as any);
+    } else {
+      this.setState({ [name]: value } as any);
+    }
+  }
+
+  public submit(e: React.FormEvent<HTMLButtonElement>): void {
+    this.props.userSettingsUpdate(
+      this.state.aboutme!,
+      this.state.location!,
+      this.state.roles!,
+      this.state.skills!,
+      this.state.linkedin!,
+      this.state.github!,
+      this.state.portfolio!,
+      this.state.website!,
+      this.state.twitter!,
+      this.state.blog!,
+      this.props.user._id!
+    );
   }
 
   render() {
@@ -41,30 +67,42 @@ class PublicProfile extends React.Component<
       <div>
         <div className="info-container">
           <div className="settings-headers">
-            <h1>Bio</h1>
+            <label className="settings-subhead-text">Bio</label>
           </div>
           <div className="settings-labels">
-            <h3>About Me:</h3>
+            <label className="updateUserLabel">About Me</label>
             <textarea
               className="settings-textarea"
               value={this.state.aboutme}
               onChange={e => this.handleTextAreaChange(e)}
             />
           </div>
-          <div className="settings-headers">
-            <h1>Skills</h1>
-          </div>
           <div className="settings-labels">
-            <h3>Headline:</h3>
+            <label className="updateUserLabel">Location</label>
             <input
               className="settings-input"
-              name="headline"
-              value={this.state.headline}
+              name="location"
+              value={this.state.location}
               onChange={e => this.handleInputChange(e)}
             />
           </div>
           <div className="settings-labels">
-            <h3>Skills:</h3>
+            <label className="updateUserLabel">Roles</label>
+            <input
+              className="settings-input"
+              name="roles"
+              value={this.state.roles}
+              onChange={e => this.handleInputChange(e)}
+            />
+          </div>
+
+          <br />
+
+          <div className="settings-headers">
+            <label className="settings-subhead-text">Skills</label>
+          </div>
+          <div className="settings-labels">
+            <label className="updateUserLabel">Techstack</label>
             <input
               className="settings-input"
               name="skills"
@@ -72,11 +110,14 @@ class PublicProfile extends React.Component<
               onChange={e => this.handleInputChange(e)}
             />
           </div>
+
+          <br />
+
           <div className="settings-headers">
-            <h1>Links</h1>
+            <label className="settings-subhead-text">Links</label>
           </div>
           <div className="settings-labels">
-            <h3>LinkedIn:</h3>
+            <label className="updateUserLabel">LinkedIn</label>
             <input
               className="settings-input"
               name="linkedin"
@@ -85,7 +126,7 @@ class PublicProfile extends React.Component<
             />
           </div>
           <div className="settings-labels">
-            <h3>GitHub:</h3>
+            <label className="updateUserLabel">Github</label>
             <input
               className="settings-input"
               name="github"
@@ -94,7 +135,7 @@ class PublicProfile extends React.Component<
             />
           </div>
           <div className="settings-labels">
-            <h3>Portfolio:</h3>
+            <label className="updateUserLabel">Portfolio</label>
             <input
               className="settings-input"
               name="portfolio"
@@ -103,7 +144,7 @@ class PublicProfile extends React.Component<
             />
           </div>
           <div className="settings-labels">
-            <h3>Website:</h3>
+            <label className="updateUserLabel">Website</label>
             <input
               className="settings-input"
               name="website"
@@ -112,7 +153,7 @@ class PublicProfile extends React.Component<
             />
           </div>
           <div className="settings-labels">
-            <h3>Twitter:</h3>
+            <label className="updateUserLabel">Twitter</label>
             <input
               className="settings-input"
               name="twitter"
@@ -121,7 +162,7 @@ class PublicProfile extends React.Component<
             />
           </div>
           <div className="settings-labels">
-            <h3>Blog:</h3>
+            <label className="updateUserLabel">Blog</label>
             <input
               className="settings-input"
               name="blog"
@@ -129,7 +170,17 @@ class PublicProfile extends React.Component<
               onChange={e => this.handleInputChange(e)}
             />
           </div>
-          <button className="public-profile-save-button">Save</button>
+
+          <br />
+
+          <div className="update-profile-btn">
+            <button
+              className="public-profile-save-button"
+              onClick={e => this.submit(e)}
+            >
+              Save
+            </button>
+          </div>
         </div>
       </div>
     );

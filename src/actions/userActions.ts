@@ -61,12 +61,13 @@ export function googleLogin(
 export function register(
   firstName: string,
   lastName: string,
+  username: string,
   email: string,
   password: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService
-      .register(firstName, lastName, email, password)
+      .register(firstName, lastName, username, email, password)
       .then(user => {
         return dispatch({
           type: REGISTER,
@@ -121,27 +122,31 @@ export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
 
 export function userSettingsUpdate(
   aboutme: string,
-  headline: string,
-  skills: string,
+  location: string,
+  roles: string[],
+  skills: string[],
   linkedin: string,
   github: string,
   portfolio: string,
   website: string,
   twitter: string,
-  blog: string
-): (dispatch: Dispatch<UserAction>) => void {
+  blog: string,
+  userId: string
+): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService
       .userSettingsUpdate(
         aboutme,
-        headline,
+        location,
+        roles,
         skills,
         linkedin,
         github,
         portfolio,
         website,
         twitter,
-        blog
+        blog,
+        userId
       )
       .then(user => {
         return dispatch({

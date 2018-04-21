@@ -1,38 +1,40 @@
 @import '_variables.scss';
-
-.settingsContainer {
+/*
+==========================
+OVERALL GRID CONTAINER
+==========================
+*/
+.settings-container {
+  max-width: 1080px;
+  font-family: $font;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 'm m m m i i i i i i';
+  grid-template-areas: 'm i i i i';
+  grid-gap: 40px;
 }
-
+/*
+==========================
+SETTINGS LEFT_HAND MENU
+==========================
+*/
 .settings-menu-div {
   grid-area: m;
   display: inline-block;
-  height: 1000px;
-  width: 25%;
   text-align: center;
   vertical-align: top;
-  margin-top: 5%;
 }
 
 .settings-profile-image {
-  height: 250px;
-  width: 250px;
-  background-color: grey;
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
 }
 
-.personal-details-button {
-  border: none;
-  height: 77px;
-  width: 150px;
-  background-color: white;
-  vertical-align: middle;
-  max-height: 45px;
-  border-top: 1px solid black;
-}
-
+.personal-details-button,
 .public-profile-button {
   border: none;
   height: 77px;
@@ -40,27 +42,48 @@
   background-color: white;
   vertical-align: middle;
   max-height: 45px;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-top: 1px solid $light-grey;
+  color: $dark-grey;
 }
 
+.public-profile-button {
+  border-bottom: 1px solid $light-grey;
+}
+/*
+==========================
+SETTINGS UPDATE PORTION
+==========================
+*/
 .settings-info-div {
+  font-family: $font;
+  color: $dark-grey;
   grid-area: i;
-  height: 100%;
-  display: inline-block;
-  width: 65%;
-  box-shadow: 0px 0px 5px 5px lightgrey;
-  max-height: 100%;
-  margin-top: 5%;
+  box-shadow: $box-shadow;
 }
 
 .settings-headers {
-  color: grey;
-  border-bottom: 1px solid black;
+  color: $dark-grey;
+  border-bottom: 1px solid $light-grey;
+}
+.settings-subhead-text {
+  color: $dark-grey;
+  font-weight: 700;
+  font-size: 20px;
 }
 
 .settings-labels {
-  color: grey;
+  color: $dark-grey;
+  font-size: 20px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 'l i i i i i';
+}
+
+.updateUserLabel {
+  font-size: 16px;
+  margin-top: 25px;
+  font-weight: 500;
 }
 
 .info-container {
@@ -68,38 +91,36 @@
 }
 
 .settings-textarea {
-  color: grey;
-  float: right;
-  margin: 11.91px 0px 0px;
-  height: 40px;
-  width: 90%;
-  resize: none;
+  border: 1px solid $light-grey;
+  resize: vertical;
+  min-height: 60px;
+  max-height: 100px;
 }
 
 .settings-input {
-  margin: 1%;
-  width: 70%;
+  border: 1px solid $light-grey;
+  height: 30px;
 }
 
-.settings-labels-aboutme {
-  color: grey;
-}
-h3 {
-  display: inline-block;
-}
-
-.personal-details-save-button {
-  float: right;
-  border: none;
-  background-color: $theme-blue;
-  font-family: $font;
-  color: white;
+.settings-input,
+.settings-textarea {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  grid-area: i;
 }
 
+/*
+==========================
+BUTTONS
+==========================
+*/
+.personal-details-save-button,
 .public-profile-save-button {
-  float: right;
-  border: none;
-  background-color: $theme-blue;
-  font-family: $font;
-  color: white;
+  @include white-text-blue-background-button;
+}
+
+.update-profile-btn {
+  margin: 0 auto;
+  display: block;
+  text-align: center;
 }
