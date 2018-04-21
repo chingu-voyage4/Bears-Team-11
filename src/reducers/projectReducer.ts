@@ -11,7 +11,7 @@ function projectReducer(
   state: ProjectState = [],
   action: ProjectAction
 ): ProjectState | Project | Array<Project> {
-  var newState = state.slice();
+  var newState = [...state];
   switch (action.type) {
     case GET_PROJECTS:
       return action.data as Array<Project>;

@@ -22,8 +22,5 @@ export interface ProjectPageProps {
   projects: Array<Project>;
   searchResults: Array<Project>;
   searchProjects: (query: string) => (dispatch: Dispatch<Action>) => void;
-  getProjects: (
-    options: object,
-    query: object | null
-  ) => (dispatch: Dispatch<Action>) => void;
+  getProjects: (options: string[]) => (dispatch: Dispatch<Action>) => void;
 }

@@ -11,37 +11,97 @@ var UserDetails = require('../models/UserDetails');
 module.exports = function(passport) {
   // retrieves all projects
   router.get('/', function(req, res) {
-    var query = JSON.parse(req.query.query);
-    var options = JSON.parse(req.query.options);
+    var options = req.query.options;
+    var optionsArray = options.split('_');
 
-    if (query && query.searchTerm) {
-      var queryToRegex = new RegExp(query.searchTerm);
-      query = {
-        $or: [
-          { name: { $regex: queryToRegex } },
-          { description: { $regex: queryToRegex } },
-          { category: { $regex: queryToRegex } },
-          { tags: { $regex: queryToRegex } }
-        ]
-      };
-    }
+    // if (query && query.searchTerm) {
+    //   var queryToRegex = new RegExp(query.searchTerm);
+    //   query = {
+    //     $or: [
+    //       { name: { $regex: queryToRegex } },
+    //       { description: { $regex: queryToRegex } },
+    //       { category: { $regex: queryToRegex } },
+    //       { tags: { $regex: queryToRegex } }
+    //     ]
+    //   };
+    // }
 
-    console.log(query);
-    console.log(options);
-    Project.paginate(
-      query === undefined || query === {} ? {} : query,
-      options,
-      function(err, result) {
-        if (err) {
-          return res.json({ message: 'Error retrieving project: ' + err });
-        } else {
-          res.json({
-            projects: result,
-            message: 'Succesfully retrieved projects'
-          });
-        }
-      }
-    );
+    //  // create options and query objects
+    //  var optionsObject = {};
+    //  var queryObject = {};
+
+    //  if (this.state.categories!.length > 0) {
+    //    var category = {
+    //      category: { $in: this.state.categories }
+    //    };
+    //    query = Object.assign({}, query, category);
+    //  }
+
+    //  if (this.state.tags!.length > 0) {
+    //    var tags = {
+    //      tags: { $in: this.state.tags }
+    //    };
+    //    query = Object.assign({}, query, tags);
+    //  }
+
+    //  if (this.state.sortBy !== '') {
+    //    if (this.state.sortBy === 'Most Viewed') {
+    //      options = Object.assign(
+    //        {},
+    //        {
+    //          sort: { views: 'desc' }
+    //        }
+    //      );
+    //    } else if (this.state.sortBy === 'Newest') {
+    //      options = Object.assign(
+    //        {},
+    //        {
+    //          sort: { createdAt: -1 }
+    //        }
+    //      );
+    //    } else {
+    //      options = Object.assign(
+    //        {},
+    //        {
+    //          sort: { createdAt: -1 }
+    //        }
+    //      );
+    //    }
+    //  }
+
+    //  if (this.state.roles !== '') {
+    //    if (this.state.roles === 'Programmer') {
+    //      query = Object.assign({}, query, { lookingFor: ['Programmer'] });
+    //    } else if (this.state.roles === 'Designer') {
+    //      query = Object.assign({}, query, { lookingFor: ['Designer'] });
+    //    }
+    //  }
+
+    //  if (this.state.status !== '') {
+    //    if (this.state.status === 'Active') {
+    //      query = Object.assign({}, query, { status: true });
+    //    } else if (this.state.status === 'Completed') {
+    //      query = Object.assign({}, query, { status: false });
+    //    }
+    //  }
+
+    //  query = query === {} ? null : query;
+    //  options = options === {} ? { limit: 24, createdAt: -1 } : options;
+
+    // Project.paginate(
+    //   query === undefined || query === {} ? {} : query,
+    //   options,
+    //   function(err, result) {
+    //     if (err) {
+    //       return res.json({ message: 'Error retrieving project: ' + err });
+    //     } else {
+    //       res.json({
+    //         projects: result,
+    //         message: 'Succesfully retrieved projects'
+    //       });
+    //     }
+    //   }
+    // );
   });
   router.post('/', function(req, res) {
     var query = req.body.query;

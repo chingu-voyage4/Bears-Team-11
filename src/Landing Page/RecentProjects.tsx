@@ -12,14 +12,7 @@ class RecentProjects extends React.Component<RecentProjectsProps, {}> {
   }
 
   componentDidMount() {
-    var options = {
-      sort: { createdAt: -1 }, // returns by newest
-      limit: 6
-    };
-    var query = {
-      status: true
-    };
-    this.props.getProjects(options, query);
+    this.props.getProjects(['createdAt', 'active']);
   }
 
   render() {

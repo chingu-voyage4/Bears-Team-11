@@ -176,6 +176,7 @@ class AddProjectsPage extends React.Component<
           contact: this.state.contact,
           creator: this.props.user.username
         },
+
         this.state.files
       );
     });
