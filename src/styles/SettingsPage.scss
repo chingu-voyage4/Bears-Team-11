@@ -32,6 +32,7 @@ SETTINGS LEFT_HAND MENU
   height: 100px;
   width: 100px;
   object-fit: cover;
+  border-radius: 50%;
 }
 
 .personal-details-button,
@@ -107,6 +108,9 @@ SETTINGS UPDATE PORTION
   margin-bottom: 20px;
   margin-top: 20px;
   grid-area: i;
+  color: $dark-grey;
+  font-family: $font;
+  font-size: 14px;
 }
 
 /*

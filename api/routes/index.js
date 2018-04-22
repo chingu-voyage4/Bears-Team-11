@@ -77,6 +77,7 @@ module.exports = function(passport) {
 
   router.post('/user/update/public', isAuthenticated, function(req, res) {
     var userId = req.body.userId;
+    console.log(req.body);
     var updateObject = req.body;
     delete updateObject.userId;
 
@@ -84,7 +85,7 @@ module.exports = function(passport) {
       if (err) {
         return res.json({ error: err });
       } else if (!user) {
-        return res.json({ message: 'User ' + userId + 'does not exist' });
+        return res.json({ error: 'User ' + userId + 'does not exist' });
       } else {
         // looks through every key/value pair on update object, saves each to userDetails
         for (var key in updateObject) {
@@ -96,7 +97,7 @@ module.exports = function(passport) {
               if (err) {
                 return res.json({ error: err });
               } else if (!userDetail) {
-                return res.json({ message: 'UserDetail does not exist' });
+                return res.json({ error: 'UserDetail does not exist' });
               }
             }
           );
@@ -109,7 +110,7 @@ module.exports = function(passport) {
           if (err) {
             return res.json({ error: err });
           } else if (!userDetail) {
-            return res.json({ message: 'UserDetail does not exist' });
+            return res.json({ error: 'UserDetail does not exist' });
           } else {
             return res.json({
               user: user,

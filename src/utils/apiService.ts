@@ -36,6 +36,7 @@ function login(email: string, password: string): Promise<User | string> {
           console.log('user=' + user);
           console.log('userDetails=' + userDetails);
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -94,6 +95,7 @@ function googleLogin(idToken: string): Promise<User | Error> {
           console.log('user=' + user);
           console.log('userDetails=' + userDetails);
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -152,10 +154,10 @@ function register(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        // console.log('JSON.stringify=' + JSON.stringify(res));
         if (res.message === 'User Registration Succesful') {
           var user = res.user;
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -252,11 +254,14 @@ function userSettingsUpdate(
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/user/update/public';
-
+    console.log('userId=' + userId);
     var data: object = {
       method: 'POST',
       credentials: 'include',
-      body: {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
         description: aboutme,
         location: location,
         roles: roles,
@@ -268,7 +273,7 @@ function userSettingsUpdate(
         twitterLink: twitter,
         blogLink: blog,
         userId: userId
-      }
+      })
     };
 
     fetch(endpoint, data)
@@ -278,9 +283,32 @@ function userSettingsUpdate(
       })
       // tslint:disable-next-line
       .then(function(res: any) {
-        JSON.stringify(res);
-        if (res.text === 'Successfully Logged Out') {
-          resolve(res.text); // what should the result be?
+        console.log('res=' + JSON.stringify(res));
+        if (res.message === 'Successfully updated user details') {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('updated user=' + user);
+          console.log('updated userDetails=' + userDetails);
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
         } else {
           reject(res.error);
         }

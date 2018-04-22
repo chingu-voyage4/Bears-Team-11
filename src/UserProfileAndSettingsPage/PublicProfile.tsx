@@ -14,17 +14,39 @@ class PublicProfile extends React.Component<
   constructor(props: PublicProfileProps) {
     super(props);
     this.state = {
-      aboutme: this.props.user.description!,
-      location: this.props.user.location!,
-      roles: this.props.user.roles!,
-      skills: this.props.user.techstack!,
-      linkedin: this.props.user.linkedInLink!,
-      github: this.props.user.githubLink!,
-      portfolio: this.props.user.portfolioLink!,
-      website: this.props.user.websiteLink!,
-      twitter: this.props.user.twitterLink!,
-      blog: this.props.user.blogLink!
+      aboutme: '',
+      location: '',
+      roles: [],
+      skills: [],
+      linkedin: '',
+      github: '',
+      portfolio: '',
+      website: '',
+      twitter: '',
+      blog: '',
+      _id: ''
     };
+  }
+
+  componentWillMount() {
+    this.setState(
+      {
+        aboutme: this.props.user.description,
+        location: this.props.user.location,
+        roles: this.props.user.roles,
+        skills: this.props.user.techstack,
+        linkedin: this.props.user.linkedInLink,
+        github: this.props.user.githubLink,
+        portfolio: this.props.user.portfolioLink,
+        website: this.props.user.websiteLink,
+        twitter: this.props.user.twitterLink,
+        blog: this.props.user.blogLink,
+        _id: this.props.user._id
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
   }
 
   public handleTextAreaChange(e: React.FormEvent<HTMLTextAreaElement>): void {
@@ -47,18 +69,20 @@ class PublicProfile extends React.Component<
   }
 
   public submit(e: React.FormEvent<HTMLButtonElement>): void {
+    console.log(this.state._id);
+
     this.props.userSettingsUpdate(
-      this.state.aboutme!,
-      this.state.location!,
-      this.state.roles!,
-      this.state.skills!,
-      this.state.linkedin!,
-      this.state.github!,
-      this.state.portfolio!,
-      this.state.website!,
-      this.state.twitter!,
-      this.state.blog!,
-      this.props.user._id!
+      this.state.aboutme,
+      this.state.location,
+      this.state.roles,
+      this.state.skills,
+      this.state.linkedin,
+      this.state.github,
+      this.state.portfolio,
+      this.state.website,
+      this.state.twitter,
+      this.state.blog,
+      this.state._id
     );
   }
 
@@ -178,7 +202,7 @@ class PublicProfile extends React.Component<
               className="public-profile-save-button"
               onClick={e => this.submit(e)}
             >
-              Save
+              Update User Settings
             </button>
           </div>
         </div>

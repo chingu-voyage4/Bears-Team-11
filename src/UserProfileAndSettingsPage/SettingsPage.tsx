@@ -40,10 +40,14 @@ class SettingsPage extends React.Component<PassedProps, State> {
             <div>
               <img
                 className="settings-profile-image"
-                src={require('../assets/blank image.png')}
+                src={
+                  this.props.user.profileImage
+                    ? this.props.user.profileImage
+                    : require('../assets/blank image.png')
+                }
               />
             </div>
-            <h2 className="settings-name">Name Here</h2>
+            <h2 className="settings-name">{this.props.user.username}</h2>
             <div className="settins-buttton-div">
               <button
                 className="personal-details-button"
