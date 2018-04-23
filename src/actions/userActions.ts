@@ -10,6 +10,7 @@ import {
   GET_ALL_USERS,
   GET_ALL_USERS_ERROR,
   UPLOAD_PROFILE_IMAGE
+  USER_SETTINGS_UPDATE
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
@@ -128,6 +129,43 @@ export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
         return dispatch({
           type: GET_ALL_USERS_ERROR,
           error
+        });
+      });
+  };
+}
+
+export function userSettingsUpdate(
+  aboutme: string,
+  location: string,
+  roles: string[],
+  skills: string[],
+  linkedin: string,
+  github: string,
+  portfolio: string,
+  website: string,
+  twitter: string,
+  blog: string,
+  userId: string
+): (dispatch: Dispatch<Action>) => void {
+  return dispatch => {
+    return apiService
+      .userSettingsUpdate(
+        aboutme,
+        location,
+        roles,
+        skills,
+        linkedin,
+        github,
+        portfolio,
+        website,
+        twitter,
+        blog,
+        userId
+      )
+      .then(user => {
+        return dispatch({
+          type: USER_SETTINGS_UPDATE,
+          data: user
         });
       });
   };

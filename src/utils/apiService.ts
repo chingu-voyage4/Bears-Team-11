@@ -154,7 +154,6 @@ function register(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        // console.log('JSON.stringify=' + JSON.stringify(res));
         if (res.message === 'User Registration Succesful') {
           var user = res.user;
           resolve({
@@ -233,6 +232,83 @@ function activate(username: string, password: string): Promise<string | Error> {
         JSON.stringify(res);
         if (res.message === 'Successfully re-activated user') {
           resolve(res.message);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function userSettingsUpdate(
+  aboutme: string,
+  location: string,
+  roles: string[],
+  skills: string[],
+  linkedin: string,
+  github: string,
+  portfolio: string,
+  website: string,
+  twitter: string,
+  blog: string,
+  userId: string
+): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/update/public';
+    console.log('userId=' + userId);
+    var data: object = {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        description: aboutme,
+        location: location,
+        roles: roles,
+        techstack: skills,
+        linkedInLink: linkedin,
+        githubLink: github,
+        portfolioLink: portfolio,
+        websiteLink: website,
+        twitterLink: twitter,
+        blogLink: blog,
+        userId: userId
+      })
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        console.log('res=' + JSON.stringify(res));
+        if (res.message === 'Successfully updated user details') {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('updated user=' + user);
+          console.log('updated userDetails=' + userDetails);
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
         } else {
           reject(res.error);
         }
@@ -669,6 +745,7 @@ var apiService = {
   uploadProjectImage,
   uploadProfileImage,
   downloadProjectImageURLS
+  userSettingsUpdate
 };
 
 export default apiService;
