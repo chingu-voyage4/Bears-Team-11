@@ -36,6 +36,7 @@ function login(email: string, password: string): Promise<User | string> {
           console.log('user=' + user);
           console.log('userDetails=' + userDetails);
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -94,6 +95,7 @@ function googleLogin(idToken: string): Promise<User | Error> {
           console.log('user=' + user);
           console.log('userDetails=' + userDetails);
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -156,6 +158,7 @@ function register(
         if (res.message === 'User Registration Succesful') {
           var user = res.user;
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -416,10 +419,10 @@ function addProject(project: Project): Promise<Project> {
 function uploadProjectImage(
   file: FileList,
   projectId: string
-): Promise<string[]> {
+): Promise<Project> {
   return new Promise((resolve, reject) => {
     const endpoint =
-      'http://localhost:8080/api/upload/project?projectId=' + projectId;
+      'http://localhost:8080/api/upload/image/project?projectId=' + projectId;
 
     var formData = new FormData();
     for (var i = 0; i < file.length; i++) {
@@ -441,8 +444,69 @@ function uploadProjectImage(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (res.message === 'Uploaded project image successfully') {
-          resolve(res.contentUrls);
+        if (
+          res.message ===
+          'Successfully uploaded and saved project image URL to project'
+        ) {
+          console.log(res.project);
+          resolve(res.project);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function uploadProfileImage(file: File, userId: string): Promise<User> {
+  return new Promise((resolve, reject) => {
+    const endpoint =
+      'http://localhost:8080/api/upload/image/profile?userId=' + userId;
+
+    var formData = new FormData();
+    formData.append('projectImages', file);
+
+    var data: object = {
+      body: formData,
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (
+          res.message ===
+          'Successfully uploaded and saved profile image URL to project'
+        ) {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('user=' + user);
+          console.log('userDetails=' + userDetails);
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
         } else {
           reject(res.error);
         }
@@ -603,6 +667,7 @@ var apiService = {
   getCategories,
   getAllUsers,
   uploadProjectImage,
+  uploadProfileImage,
   downloadProjectImageURLS
 };
 

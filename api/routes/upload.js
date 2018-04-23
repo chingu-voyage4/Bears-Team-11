@@ -80,6 +80,7 @@ router.post('/project', function(req, res) {
     } else {
       console.log(req.query.projectId);
       console.log('Uploaded project image successfully');
+
       res.json({ message: 'Uploaded project image successfully' });
     }
   });
