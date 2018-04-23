@@ -90,10 +90,37 @@ PROFILE IMAGE
   height: 50px;
   width: 50px;
 }
-
 /*
 ==========================
-DROPDOWN MENU
+SETTINGS DROPDOWN MENU
+==========================
+*/
+.headerOptionsDropdown {
+  background-color: white;
+  z-index: 10;
+  position: absolute;
+  top: 80px;
+  right: 5vw;
+  display: none;
+  box-shadow: $box-shadow;
+  padding: 10px;
+}
+
+.headerOptionsDropdownText {
+  color: $dark-grey;
+  padding: 10px;
+  display: block;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.lineAbove {
+  border-top: 1px solid $light-grey;
+}
+/*
+==========================
+PROJECT DROPDOWN MENU
 ==========================
 */
 .dropbtn {

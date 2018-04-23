@@ -1,8 +1,8 @@
 export interface Projects {
-  _id?: string;
+  _id: string;
   name?: string;
   creator?: string;
-  images?: string[];
+  images?: string[] | null[];
   team?: object[] | object;
   description?: string;
   contact?: string;
@@ -23,14 +23,13 @@ export interface Projects {
 }
 
 export type Project = Projects;
-
 // State is used to declare any types in the this.state object
 export interface State {}
 
 // Props is to declare any types of props passed in from parent react container
 // In this case, there are no props passed in, so its an empty object
 export interface Props {
-  project: Projects;
+  project: Project;
   index?: number;
 }
 
@@ -39,6 +38,8 @@ export interface EmptyProp {}
 export interface ProjectsProps {}
 
 export interface ProjectsInheritedProps {
-  count: number;
+  projects: Array<Project>;
+  arrayOfProjects: string;
+  searchResults: Array<Project>;
 }
 export interface ProjectsState {}
