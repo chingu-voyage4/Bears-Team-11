@@ -10,17 +10,38 @@ var UserDetails = require('../models/UserDetails');
 
 module.exports = function(passport) {
   // retrieves all projects
-  router.get('/', function(req, res) {
-    Project.paginate({}, req.body.options, function(err, result) {
-      if (err) {
-        return res.json({ message: 'Error retrieving project: ' + err });
-      } else {
-        res.json({
-          projects: result,
-          message: 'Succesfully retrieved projects'
-        });
+  router.post('/', function(req, res) {
+    var query = req.body.query;
+    var options = req.body.options;
+
+    if (query && query.searchTerm) {
+      var queryToRegex = new RegExp(query.searchTerm);
+      query = {
+        $or: [
+          { name: { $regex: queryToRegex } },
+          { description: { $regex: queryToRegex } },
+          { category: { $regex: queryToRegex } },
+          { tags: { $regex: queryToRegex } }
+        ]
+      };
+    }
+
+    console.log(query);
+    console.log(options);
+    Project.paginate(
+      query === undefined || query === {} ? {} : query,
+      options,
+      function(err, result) {
+        if (err) {
+          return res.json({ message: 'Error retrieving project: ' + err });
+        } else {
+          res.json({
+            projects: result,
+            message: 'Succesfully retrieved projects'
+          });
+        }
       }
-    });
+    );
   });
 
   router.get('/tags', function(req, res) {
@@ -48,24 +69,16 @@ module.exports = function(passport) {
     });
   });
 
-  // retrieves filtered projects. placeholder => not yet implemented
-  router.post('/filter', function(req, res) {
-    Project.paginate({}, req.body.options, function(err, result) {
-      if (err) {
-        return res.json({ message: 'Error retrieving project: ' + err });
-      } else {
-        res.json(result);
-      }
-    });
-  });
-
   // retrieves project by id
   router.get('/:id', function(req, res) {
     Project.findOne({ _id: req.params.id }, function(err, project) {
       if (err || !project) {
-        res.json({ message: 'Error in saving project: ' + err });
+        res.json({ message: 'Error in retrieving project: ' + err });
       } else {
-        res.json(project);
+        res.json({
+          message: 'Successfully retrieved project',
+          project: project
+        });
       }
     });
   });
@@ -140,7 +153,7 @@ module.exports = function(passport) {
           }
         }
 
-        console.log('New project saved successfully');
+        console.log('New project saved successfully=' + project);
         res.json({
           message: 'New project saved successfully',
           newProject: project

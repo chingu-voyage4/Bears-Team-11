@@ -9,6 +9,9 @@ export interface Action {
   type: string;
 }
 
+export interface UploadImageAction extends Action {
+  data: string[];
+}
 export interface UserAction extends Action {
   data?: User;
   error?: string;
@@ -18,7 +21,7 @@ export interface AppAction extends Action {
   visible?: boolean;
 }
 export interface ProjectAction extends Action {
-  data: Project;
+  data: Project | Project[];
 }
 
 export interface UsersAction extends Action {
@@ -51,11 +54,14 @@ export type CategoriesState = Categories | {};
 
 export interface Store {
   user: User;
-  projects: Array<Project>;
+  projects: Array<Project> | Project;
   categories: Array<Category>;
   tags: Array<Tag>;
   registerLoginWindow: RegisterLoginWindow;
   allUsers: Users;
+  imageLinks: string[];
+  addOrUpdateProject: string | null;
+  searchResults: Array<Project> | Project;
   currentProject: Project;
 }
 
@@ -85,14 +91,33 @@ export interface ProjectProps {
 
 export interface AddProjectProps {
   user: User;
-  projects: Array<Project>;
+  projects: Array<Project> | Project;
   categories: Categories | any;
   tags: Tags | any;
   allUsers: Users;
-  addProject: (project: Project) => (dispatch: Dispatch<ProjectAction>) => void;
+  imageLinks: string[];
+  addOrUpdateProject: string | null;
+  addProject: (
+    project: any,
+    files: FileList
+  ) => (dispatch: Dispatch<ProjectAction>) => void;
   getAllUsers: () => (dispatch: Dispatch<Action>) => void;
   getCategories: () => (dispatch: Dispatch<Action>) => void;
   getTags: () => (dispatch: Dispatch<Action>) => void;
+  updateProject: (id: string) => (dispatch: Dispatch<Action>) => void;
+  getOneProject: (id: string) => (dispatch: Dispatch<Action>) => void;
+}
+
+export interface ProjectPageFilterProps {
+  projects: Array<Project> | Project;
+  categories: Categories | any;
+  tags: Tags | any;
+  getCategories: () => (dispatch: Dispatch<Action>) => void;
+  getTags: () => (dispatch: Dispatch<Action>) => void;
+  getProjects: (
+    options: object,
+    query: object | null
+  ) => (dispatch: Dispatch<ProjectAction>) => void;
 }
 
 // Register Component

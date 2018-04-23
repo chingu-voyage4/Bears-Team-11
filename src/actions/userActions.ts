@@ -9,6 +9,7 @@ import {
   LOGOUT_ERROR,
   GET_ALL_USERS,
   GET_ALL_USERS_ERROR,
+  UPLOAD_PROFILE_IMAGE
   USER_SETTINGS_UPDATE
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
@@ -61,12 +62,13 @@ export function googleLogin(
 export function register(
   firstName: string,
   lastName: string,
+  username: string,
   email: string,
   password: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService
-      .register(firstName, lastName, email, password)
+      .register(firstName, lastName, username, email, password)
       .then(user => {
         return dispatch({
           type: REGISTER,
@@ -82,6 +84,19 @@ export function register(
   };
 }
 
+export function uploadProfileImage(
+  file: File,
+  userId: string
+): (dispatch: Dispatch<UserAction>) => void {
+  return dispatch => {
+    return apiService.uploadProfileImage(file, userId).then(user => {
+      return dispatch({
+        type: UPLOAD_PROFILE_IMAGE,
+        data: user
+      });
+    });
+  };
+}
 export function logout(): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService
@@ -121,27 +136,31 @@ export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
 
 export function userSettingsUpdate(
   aboutme: string,
-  headline: string,
-  skills: string,
+  location: string,
+  roles: string[],
+  skills: string[],
   linkedin: string,
   github: string,
   portfolio: string,
   website: string,
   twitter: string,
-  blog: string
-): (dispatch: Dispatch<UserAction>) => void {
+  blog: string,
+  userId: string
+): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService
       .userSettingsUpdate(
         aboutme,
-        headline,
+        location,
+        roles,
         skills,
         linkedin,
         github,
         portfolio,
         website,
         twitter,
-        blog
+        blog,
+        userId
       )
       .then(user => {
         return dispatch({

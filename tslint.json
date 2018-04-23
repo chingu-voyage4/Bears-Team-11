@@ -16,7 +16,6 @@
     "label-position": true,
     "max-line-length": [true, 120],
     "member-ordering": [true],
-    "no-any": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-consecutive-blank-lines": true,

@@ -36,6 +36,7 @@ function login(email: string, password: string): Promise<User | string> {
           console.log('user=' + user);
           console.log('userDetails=' + userDetails);
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -94,6 +95,7 @@ function googleLogin(idToken: string): Promise<User | Error> {
           console.log('user=' + user);
           console.log('userDetails=' + userDetails);
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -152,10 +154,10 @@ function register(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        // console.log('JSON.stringify=' + JSON.stringify(res));
         if (res.message === 'User Registration Succesful') {
           var user = res.user;
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -237,6 +239,83 @@ function activate(username: string, password: string): Promise<string | Error> {
   });
 }
 
+function userSettingsUpdate(
+  aboutme: string,
+  location: string,
+  roles: string[],
+  skills: string[],
+  linkedin: string,
+  github: string,
+  portfolio: string,
+  website: string,
+  twitter: string,
+  blog: string,
+  userId: string
+): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/update/public';
+    console.log('userId=' + userId);
+    var data: object = {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        description: aboutme,
+        location: location,
+        roles: roles,
+        techstack: skills,
+        linkedInLink: linkedin,
+        githubLink: github,
+        portfolioLink: portfolio,
+        websiteLink: website,
+        twitterLink: twitter,
+        blogLink: blog,
+        userId: userId
+      })
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        console.log('res=' + JSON.stringify(res));
+        if (res.message === 'Successfully updated user details') {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('updated user=' + user);
+          console.log('updated userDetails=' + userDetails);
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
 function logout(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/logout';
@@ -291,22 +370,28 @@ function getAllUsers(): Promise<Array<User>> {
 }
 
 /* Project */
-function getProjects(): Promise<Array<Project>> {
+function getProjects(
+  options: object,
+  query: object | null
+): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/projects';
+    var bodyData;
 
+    if (query === null) {
+      bodyData = { options };
+    } else {
+      bodyData = { options, query };
+    }
     var data: object = {
-      body: {
-        options: {
-          select: { status: true }, // returns active projects
-          sort: { createdAt: -1 } // returns by newest
-        }
-      },
+      body: JSON.stringify(bodyData),
       headers: {
         'Content-Type': 'application/json'
       },
-      method: 'GET'
+      method: 'POST'
     };
+
+    console.log(data);
 
     fetch(endpoint, data)
       // tslint:disable-next-line
@@ -317,7 +402,8 @@ function getProjects(): Promise<Array<Project>> {
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'Succesfully retrieved projects') {
-          resolve(res.projects);
+          console.log(res.projects.docs);
+          resolve(res.projects.docs);
         } else {
           reject(res.error);
         }
@@ -406,24 +492,131 @@ function addProject(project: Project): Promise<Project> {
   });
 }
 
-function updateProject(
-  name: string,
-  update: string,
-  id: string
+function uploadProjectImage(
+  file: FileList,
+  projectId: string
 ): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/update';
+    const endpoint =
+      'http://localhost:8080/api/upload/image/project?projectId=' + projectId;
+
+    var formData = new FormData();
+    for (var i = 0; i < file.length; i++) {
+      console.log(file[i]);
+      formData.append('projectImages', file[i]);
+    }
 
     var data: object = {
-      body: JSON.stringify({
-        id: id,
-        updateKey: name,
-        updateObject: update
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      body: formData,
       method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (
+          res.message ===
+          'Successfully uploaded and saved project image URL to project'
+        ) {
+          console.log(res.project);
+          resolve(res.project);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function uploadProfileImage(file: File, userId: string): Promise<User> {
+  return new Promise((resolve, reject) => {
+    const endpoint =
+      'http://localhost:8080/api/upload/image/profile?userId=' + userId;
+
+    var formData = new FormData();
+    formData.append('projectImages', file);
+
+    var data: object = {
+      body: formData,
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (
+          res.message ===
+          'Successfully uploaded and saved profile image URL to project'
+        ) {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('user=' + user);
+          console.log('userDetails=' + userDetails);
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function downloadProjectImageURLS(projectId: string): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    const endpoint =
+      'http://localhost:8080/api/download/project?projectId=' + projectId;
+    var data: object = {
+      method: 'GET'
+    };
+    fetch(endpoint, data)
+      .then(function(res: any) {
+        return res.json();
+      })
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved project image URL') {
+          resolve(res.urls);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+function getOneProject(id: string): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/projects/' + id;
+
+    var data: object = {
+      method: 'GET',
       credentials: 'include'
     };
 
@@ -544,11 +737,15 @@ var apiService = {
   getProjects,
   getProject,
   addProject,
-  updateProject,
+  getOneProject,
   deleteProject,
   getTags,
   getCategories,
-  getAllUsers
+  getAllUsers,
+  uploadProjectImage,
+  uploadProfileImage,
+  downloadProjectImageURLS
+  userSettingsUpdate
 };
 
 export default apiService;
