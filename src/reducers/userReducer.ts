@@ -3,7 +3,7 @@ import {
   REGISTER,
   LOGOUT,
   GOOGLE_LOGIN,
-  UPLOAD_PROFILE_IMAGE
+  UPLOAD_PROFILE_IMAGE,
   USER_SETTINGS_UPDATE
 } from '../actions/actionTypes';
 import { User } from '../types/User';
