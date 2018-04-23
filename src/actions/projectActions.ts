@@ -31,7 +31,9 @@ export function searchProjects(
   query: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    var options = { limit: 12 };
+    var options = {
+      limit: 6
+    };
     var queryObject = {
       searchTerm: query
     };
@@ -44,6 +46,7 @@ export function searchProjects(
     });
   };
 }
+
 export function getProject(
   projectId: string
 ): (dispatch: Dispatch<Action>) => void {

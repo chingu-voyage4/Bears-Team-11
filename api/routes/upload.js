@@ -53,10 +53,19 @@ router.post('/project', function(req, res) {
       s3: s3,
       bucket: 'project-match/project/' + req.query.projectId,
       metadata: function(req, file, cb) {
+        console.log('req=' + req);
+        console.log('file=' + file);
         cb(null, { fieldName: file.fieldname });
       },
       key: function(req, file, cb) {
-        cb(null, Date.now().toString());
+        var name = Date.now().toString();
+        switch (file.mimetype) {
+          case 'image/jpeg':
+            name += '.jpeg';
+          case 'image/png':
+            name += '.png';
+        }
+        cb(null, name);
       }
     })
   });
@@ -65,13 +74,13 @@ router.post('/project', function(req, res) {
   var uploadingHandler = upload.array('projectImages');
 
   uploadingHandler(req, res, function(err) {
-    //console.log("uploading requestis ", req.files);
     if (err) {
-      // files are not uploaded to aws
       console.log(err);
       res.json({ error: 'Error in uploading image: ' + err });
     } else {
-      console.log('succeefully uploaded');
+      console.log(req.query.projectId);
+      console.log('Uploaded project image successfully');
+
       res.json({ message: 'Uploaded project image successfully' });
     }
   });

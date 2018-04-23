@@ -3,6 +3,7 @@ import {
   REGISTER,
   LOGOUT,
   GOOGLE_LOGIN,
+  UPLOAD_PROFILE_IMAGE
   USER_SETTINGS_UPDATE
 } from '../actions/actionTypes';
 import { User } from '../types/User';
@@ -19,6 +20,8 @@ function userReducer(state: UserState = {}, action: UserAction): UserState {
     case LOGOUT:
       return {};
     case GOOGLE_LOGIN:
+      return action.data as User;
+    case UPLOAD_PROFILE_IMAGE:
       return action.data as User;
     default:
       return state;

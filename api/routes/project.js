@@ -10,39 +10,6 @@ var UserDetails = require('../models/UserDetails');
 
 module.exports = function(passport) {
   // retrieves all projects
-  router.get('/', function(req, res) {
-    var query = JSON.parse(req.query.query);
-    var options = JSON.parse(req.query.options);
-
-    if (query && query.searchTerm) {
-      var queryToRegex = new RegExp(query.searchTerm);
-      query = {
-        $or: [
-          { name: { $regex: queryToRegex } },
-          { description: { $regex: queryToRegex } },
-          { category: { $regex: queryToRegex } },
-          { tags: { $regex: queryToRegex } }
-        ]
-      };
-    }
-
-    console.log(query);
-    console.log(options);
-    Project.paginate(
-      query === undefined || query === {} ? {} : query,
-      options,
-      function(err, result) {
-        if (err) {
-          return res.json({ message: 'Error retrieving project: ' + err });
-        } else {
-          res.json({
-            projects: result,
-            message: 'Succesfully retrieved projects'
-          });
-        }
-      }
-    );
-  });
   router.post('/', function(req, res) {
     var query = req.body.query;
     var options = req.body.options;

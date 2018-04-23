@@ -370,40 +370,6 @@ function getAllUsers(): Promise<Array<User>> {
 }
 
 /* Project */
-// function getProjects(
-//   options: object,
-//   query: object | null
-// ): Promise<Array<Project>> {
-//   return new Promise((resolve, reject) => {
-//     var endpoint = 'http://localhost:8080/api/projects?options=' + JSON.stringify(options);
-
-//     if (query === null) {
-//       endpoint += '?query=' + JSON.stringify(query);
-//     }
-
-//     var data: object = {
-//       method: 'GET'
-//     };
-
-//     console.log(data);
-
-//     fetch(endpoint, data)
-//       // tslint:disable-next-line
-//       .then(function(res: any) {
-//         return res.json();
-//       })
-//       // tslint:disable-next-line
-//       .then(function(res: any) {
-//         JSON.stringify(res);
-//         if (res.message === 'Succesfully retrieved projects') {
-//           console.log(res.projects.docs);
-//           resolve(res.projects.docs);
-//         } else {
-//           reject(res.error);
-//         }
-//       });
-//   });
-// }
 function getProjects(
   options: object,
   query: object | null
@@ -529,16 +495,19 @@ function addProject(project: Project): Promise<Project> {
 function uploadProjectImage(
   file: FileList,
   projectId: string
-): Promise<string[]> {
+): Promise<Project> {
   return new Promise((resolve, reject) => {
     const endpoint =
-      'http://localhost:8080/api/upload/project?projectId=' + projectId;
+      'http://localhost:8080/api/upload/image/project?projectId=' + projectId;
+
+    var formData = new FormData();
+    for (var i = 0; i < file.length; i++) {
+      console.log(file[i]);
+      formData.append('projectImages', file[i]);
+    }
 
     var data: object = {
-      body: file,
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
+      body: formData,
       method: 'POST',
       credentials: 'include'
     };
@@ -551,8 +520,69 @@ function uploadProjectImage(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (res.message === 'Uploaded project image successfully') {
-          resolve(res.contentUrls);
+        if (
+          res.message ===
+          'Successfully uploaded and saved project image URL to project'
+        ) {
+          console.log(res.project);
+          resolve(res.project);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function uploadProfileImage(file: File, userId: string): Promise<User> {
+  return new Promise((resolve, reject) => {
+    const endpoint =
+      'http://localhost:8080/api/upload/image/profile?userId=' + userId;
+
+    var formData = new FormData();
+    formData.append('projectImages', file);
+
+    var data: object = {
+      body: formData,
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (
+          res.message ===
+          'Successfully uploaded and saved profile image URL to project'
+        ) {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          console.log('user=' + user);
+          console.log('userDetails=' + userDetails);
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
         } else {
           reject(res.error);
         }
@@ -713,7 +743,8 @@ var apiService = {
   getCategories,
   getAllUsers,
   uploadProjectImage,
-  downloadProjectImageURLS,
+  uploadProfileImage,
+  downloadProjectImageURLS
   userSettingsUpdate
 };
 

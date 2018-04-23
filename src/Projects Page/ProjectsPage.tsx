@@ -21,7 +21,7 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
 
   componentDidMount() {
     var options = {
-      sort: { createdAt: -1 }, // returns by newest
+      sort: { createdAt: -1 },
       limit: 24
     };
     this.props.getProjects(options, null);

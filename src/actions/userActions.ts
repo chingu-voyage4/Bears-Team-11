@@ -9,6 +9,7 @@ import {
   LOGOUT_ERROR,
   GET_ALL_USERS,
   GET_ALL_USERS_ERROR,
+  UPLOAD_PROFILE_IMAGE
   USER_SETTINGS_UPDATE
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
@@ -83,6 +84,19 @@ export function register(
   };
 }
 
+export function uploadProfileImage(
+  file: File,
+  userId: string
+): (dispatch: Dispatch<UserAction>) => void {
+  return dispatch => {
+    return apiService.uploadProfileImage(file, userId).then(user => {
+      return dispatch({
+        type: UPLOAD_PROFILE_IMAGE,
+        data: user
+      });
+    });
+  };
+}
 export function logout(): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService

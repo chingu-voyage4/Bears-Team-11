@@ -23,13 +23,15 @@ class ProjectsFilter extends React.Component<
   }
 
   componentWillMount() {
-    var options = {
-      sort: { createdAt: 'asc' }, // returns by newest
-      limit: 24
-    };
     this.props.getCategories();
     this.props.getTags();
-    this.props.getProjects(options, null);
+    this.props.getProjects(
+      {
+        sort: { createdAt: -1 },
+        limit: 24
+      },
+      { status: true }
+    );
   }
 
   public closeAllDropDown(): void {
@@ -87,11 +89,17 @@ class ProjectsFilter extends React.Component<
 
   public clearFilters(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
-    var options = {
-      sort: { createdAt: 'asc' }, // returns by newest
-      limit: 24
-    };
-    this.props.getProjects(options, null);
+    this.props.getProjects(
+      {
+        sort: { createdAt: -1 },
+        limit: 24
+      },
+      { status: true }
+    );
+    var list = document.getElementsByTagName('input');
+    for (var i = 0; i < list.length; i++) {
+      list[i].checked = false;
+    }
   }
 
   public submitFilters(e: React.MouseEvent<HTMLButtonElement>): void {
@@ -133,7 +141,6 @@ class ProjectsFilter extends React.Component<
   }
 
   public callNewProjects = () => {
-    console.log('in new projects function');
     // create options and query objects
     var options = {};
     var query: object | null = {};
