@@ -25,7 +25,13 @@ class ProjectsFilter extends React.Component<
   componentWillMount() {
     this.props.getCategories();
     this.props.getTags();
-    this.props.getProjects(['createdAt', 'active']);
+    this.props.getProjects(
+      {
+        sort: { createdAt: -1 },
+        limit: 24
+      },
+      { status: true }
+    );
   }
 
   public closeAllDropDown(): void {
@@ -83,7 +89,13 @@ class ProjectsFilter extends React.Component<
 
   public clearFilters(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
-    this.props.getProjects(['createdAt']);
+    this.props.getProjects(
+      {
+        sort: { createdAt: -1 },
+        limit: 24
+      },
+      { status: true }
+    );
     var list = document.getElementsByTagName('input');
     for (var i = 0; i < list.length; i++) {
       list[i].checked = false;
@@ -129,16 +141,73 @@ class ProjectsFilter extends React.Component<
   }
 
   public callNewProjects = () => {
-    var query = [];
-    var state = this.state;
+    console.log('in new projects function');
+    // create options and query objects
+    var options = {};
+    var query: object | null = {};
+    console.log(this.state);
+    if (this.state.categories!.length > 0) {
+      var category = {
+        category: { $in: this.state.categories }
+      };
+      query = Object.assign({}, query, category);
+    }
 
-    for (const key in state) {
-      if (state[key] !== '' || state[key] !== []) {
-        query.push(state[key]);
+    if (this.state.tags!.length > 0) {
+      var tags = {
+        tags: { $in: this.state.tags }
+      };
+      query = Object.assign({}, query, tags);
+    }
+
+    if (this.state.sortBy !== '') {
+      if (this.state.sortBy === 'Most Viewed') {
+        options = Object.assign(
+          {},
+          {
+            sort: { views: 'desc' }
+          }
+        );
+      } else if (this.state.sortBy === 'Newest') {
+        options = Object.assign(
+          {},
+          {
+            sort: { createdAt: -1 }
+          }
+        );
+      } else {
+        options = Object.assign(
+          {},
+          {
+            sort: { createdAt: -1 }
+          }
+        );
       }
     }
+
+    if (this.state.roles !== '') {
+      if (this.state.roles === 'Programmer') {
+        query = Object.assign({}, query, { lookingFor: ['Programmer'] });
+      } else if (this.state.roles === 'Designer') {
+        query = Object.assign({}, query, { lookingFor: ['Designer'] });
+      }
+    }
+
+    if (this.state.status !== '') {
+      if (this.state.status === 'Active') {
+        query = Object.assign({}, query, { status: true });
+      } else if (this.state.status === 'Completed') {
+        query = Object.assign({}, query, { status: false });
+      }
+    }
+
+    query = query === {} ? null : query;
+    options = options === {} ? { limit: 24, createdAt: -1 } : options;
+    console.log('options=' + JSON.stringify(options));
+    console.log('query=' + JSON.stringify(query));
+
     // call new set of projects per filter options
-    this.props.getProjects(query);
+    this.props.getProjects(options, query);
   };
 
   render() {

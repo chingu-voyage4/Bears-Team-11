@@ -14,10 +14,11 @@ import { Action } from '../types/Redux';
 // import { Project } from '../types/Projects.d';
 
 export function getProjects(
-  options: string[]
+  options: object,
+  query: object | null
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.getProjects(options).then(projects => {
+    return apiService.getProjects(options, query).then(projects => {
       return dispatch({
         type: GET_PROJECTS,
         data: projects
@@ -30,7 +31,14 @@ export function searchProjects(
   query: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.getProjects([query]).then(projects => {
+    var options = {
+      limit: 6
+    };
+    var queryObject = {
+      searchTerm: query
+    };
+
+    return apiService.getProjects(options, queryObject).then(projects => {
       return dispatch({
         type: SEARCH_PROJECT,
         data: projects

@@ -115,7 +115,8 @@ export interface ProjectPageFilterProps {
   getCategories: () => (dispatch: Dispatch<Action>) => void;
   getTags: () => (dispatch: Dispatch<Action>) => void;
   getProjects: (
-    options: string[]
+    options: object,
+    query: object | null
   ) => (dispatch: Dispatch<ProjectAction>) => void;
 }
 

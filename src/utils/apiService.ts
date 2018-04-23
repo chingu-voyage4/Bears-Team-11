@@ -291,31 +291,28 @@ function getAllUsers(): Promise<Array<User>> {
 }
 
 /* Project */
-function getProjects(options: string[]): Promise<Array<Project>> {
+function getProjects(
+  options: object,
+  query: object | null
+): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
-    var endpoint = 'http://localhost:8080/api/projects';
+    const endpoint = 'http://localhost:8080/api/projects';
+    var bodyData;
 
-    // add options to endpoint
-    if (options !== null) {
-      let optionsString = '';
-      for (var i = 0; i < options.length; i++) {
-        if (i === 0) {
-          optionsString += '?options=';
-        }
-        if (i === options.length - 1) {
-          optionsString += options[i];
-        } else {
-          optionsString += options[i] + '_';
-        }
-      }
-      endpoint += optionsString;
+    if (query === null) {
+      bodyData = { options };
+    } else {
+      bodyData = { options, query };
     }
-
     var data: object = {
-      method: 'GET'
+      body: JSON.stringify(bodyData),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST'
     };
 
-    console.log(endpoint);
+    console.log(data);
 
     fetch(endpoint, data)
       // tslint:disable-next-line
@@ -334,46 +331,6 @@ function getProjects(options: string[]): Promise<Array<Project>> {
       });
   });
 }
-// function getProjects(
-//   options: object,
-//   query: object | null
-// ): Promise<Array<Project>> {
-//   return new Promise((resolve, reject) => {
-//     const endpoint = 'http://localhost:8080/api/projects';
-//     var bodyData;
-
-//     if (query === null) {
-//       bodyData = { options };
-//     } else {
-//       bodyData = { options, query };
-//     }
-//     var data: object = {
-//       body: JSON.stringify(bodyData),
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       method: 'POST'
-//     };
-
-//     console.log(data);
-
-//     fetch(endpoint, data)
-//       // tslint:disable-next-line
-//       .then(function(res: any) {
-//         return res.json();
-//       })
-//       // tslint:disable-next-line
-//       .then(function(res: any) {
-//         JSON.stringify(res);
-//         if (res.message === 'Succesfully retrieved projects') {
-//           console.log(res.projects.docs);
-//           resolve(res.projects.docs);
-//         } else {
-//           reject(res.error);
-//         }
-//       });
-//   });
-// }
 
 function getProject(projectId: string) {
   return new Promise((resolve, reject) => {

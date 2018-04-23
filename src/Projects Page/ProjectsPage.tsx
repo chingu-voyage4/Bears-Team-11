@@ -20,7 +20,11 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
   }
 
   componentDidMount() {
-    this.props.getProjects(['createdAt', 'active']);
+    var options = {
+      sort: { createdAt: -1 },
+      limit: 24
+    };
+    this.props.getProjects(options, null);
   }
 
   public onFormChange(e: React.FormEvent<HTMLButtonElement>): void {

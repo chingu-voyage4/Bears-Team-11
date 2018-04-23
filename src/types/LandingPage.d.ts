@@ -10,5 +10,8 @@ export interface LandingPageState {}
 
 export interface RecentProjectsProps {
   projects: Array<Project>;
-  getProjects: (options: object) => (dispatch: Dispatch<Action>) => void;
+  getProjects: (
+    options: object,
+    query: object | null
+  ) => (dispatch: Dispatch<Action>) => void;
 }
