@@ -744,7 +744,7 @@ var apiService = {
   getAllUsers,
   uploadProjectImage,
   uploadProfileImage,
-  downloadProjectImageURLS
+  downloadProjectImageURLS,
   userSettingsUpdate
 };
 
