@@ -9,7 +9,7 @@ import {
   LOGOUT_ERROR,
   GET_ALL_USERS,
   GET_ALL_USERS_ERROR,
-  UPLOAD_PROFILE_IMAGE
+  UPLOAD_PROFILE_IMAGE,
   USER_SETTINGS_UPDATE
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
