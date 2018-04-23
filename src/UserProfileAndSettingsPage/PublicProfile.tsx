@@ -44,7 +44,28 @@ class PublicProfile extends React.Component<
         _id: this.props.user._id
       },
       () => {
-        console.log(this.state);
+        var arrayOfElem: any = [
+          document.getElementById('settings-roles-designer'),
+          document.getElementById('settings-roles-programmer')
+        ];
+        if (this.state.roles !== undefined && this.state.roles.length === 1) {
+          if (this.state.roles.includes('programmer')) {
+            document
+              .getElementById('settings-roles-designer')!
+              .classList.add('options-button-disabled');
+          } else if (this.state.roles.includes('designer')) {
+            document
+              .getElementById('settings-roles-programmer')!
+              .classList.add('options-button-disabled');
+          }
+        } else if (
+          (this.state.roles !== undefined && this.state.roles.length === 0) ||
+          this.state.roles === undefined
+        ) {
+          arrayOfElem.forEach(function(elem: Element) {
+            elem.classList.add('options-button-disabled');
+          });
+        }
       }
     );
   }
@@ -59,12 +80,26 @@ class PublicProfile extends React.Component<
     e.persist();
     var { name, value } = e.currentTarget;
 
-    // temporary until we have more refined roles / skills update
-    if (name === 'roles' || name === 'skills') {
-      var valueArray = value.split(' ');
-      this.setState({ [name]: valueArray } as any);
+    this.setState({ [name]: value } as any);
+  }
+
+  public handleRoles(e: React.FormEvent<HTMLButtonElement>): void {
+    e.persist();
+    var { value, classList } = e.currentTarget;
+    var array = this.state.roles.slice();
+    classList.toggle('options-button-disabled');
+
+    // if elem has Disabled style, remove from roles array
+    if (classList.contains('options-button-disabled')) {
+      var index = array.indexOf(value);
+      array.splice(index, 1);
+      this.setState({ roles: array });
     } else {
-      this.setState({ [name]: value } as any);
+      // elem should be in array. check if already inside array, if not, add.
+      if (array.indexOf(value) === -1) {
+        array.push(value);
+        this.setState({ roles: array });
+      }
     }
   }
 
@@ -86,7 +121,69 @@ class PublicProfile extends React.Component<
     );
   }
 
+  public handleSkillRemoval = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    stateName: any,
+    array: string[]
+  ): void => {
+    e.persist();
+    let { value } = e.currentTarget.previousElementSibling as HTMLInputElement;
+    var index = array.indexOf(value);
+    array.splice(index, 1);
+    this.setState({ [stateName]: array });
+  };
+
+  public handleSkillChange(e: React.KeyboardEvent<HTMLInputElement>): void {
+    e.persist();
+    var { value } = e.currentTarget;
+    if (e.keyCode === 13) {
+      var array = this.state.skills.slice();
+      if (array.indexOf(value) === -1) {
+        array.push(value);
+      }
+      this.setState({ skills: array } as any);
+    }
+  }
+
   render() {
+    class ChosenSkills extends React.Component<{
+      skills: any;
+      handleSkillRemoval: any;
+    }> {
+      render() {
+        var chosenSkills;
+        var skills =
+          this.props.skills === undefined ? [] : this.props.skills.slice();
+
+        if (skills.length === 0) {
+          chosenSkills = null;
+        } else {
+          chosenSkills = skills.map((skill: string, index: number) => {
+            return (
+              <div className="skill-container" key={index}>
+                <input
+                  type="button"
+                  className="new-project-chosen-tag"
+                  value={skill}
+                />
+                <button
+                  type="button"
+                  className="remove-tag-btn"
+                  onClick={e =>
+                    this.props.handleSkillRemoval(e, 'skills', skills)
+                  }
+                >
+                  X
+                </button>
+              </div>
+            );
+          });
+        }
+        return (
+          <div className="chosen-skills-grid-container">{chosenSkills}</div>
+        );
+      }
+    }
     return (
       <div>
         <div className="info-container">
@@ -110,14 +207,24 @@ class PublicProfile extends React.Component<
               onChange={e => this.handleInputChange(e)}
             />
           </div>
-          <div className="settings-labels">
+          <div className="settings-labels-roles">
             <label className="updateUserLabel">Roles</label>
-            <input
-              className="settings-input"
-              name="roles"
-              value={this.state.roles}
-              onChange={e => this.handleInputChange(e)}
-            />
+            <button
+              className="settings-roles-option-a"
+              id="settings-roles-programmer"
+              value="programmer"
+              onClick={e => this.handleRoles(e)}
+            >
+              Programmer
+            </button>
+            <button
+              className="settings-roles-option-b"
+              id="settings-roles-designer"
+              value="designer"
+              onClick={e => this.handleRoles(e)}
+            >
+              Designer
+            </button>
           </div>
 
           <br />
@@ -130,10 +237,14 @@ class PublicProfile extends React.Component<
             <input
               className="settings-input"
               name="skills"
-              value={this.state.skills}
-              onChange={e => this.handleInputChange(e)}
+              id="settings-input"
+              onKeyUp={e => this.handleSkillChange(e)}
             />
           </div>
+          <ChosenSkills
+            skills={this.state.skills}
+            handleSkillRemoval={this.handleSkillRemoval}
+          />
 
           <br />
 

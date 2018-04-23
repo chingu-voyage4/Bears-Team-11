@@ -112,6 +112,7 @@ module.exports = function(passport) {
           } else if (!userDetail) {
             return res.json({ error: 'UserDetail does not exist' });
           } else {
+            console.log('returned updated object=' + userDetail);
             return res.json({
               user: user,
               userDetail: userDetail,

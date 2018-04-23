@@ -72,13 +72,17 @@ SETTINGS UPDATE PORTION
   font-size: 20px;
 }
 
-.settings-labels {
+.settings-labels,
+.settings-labels-roles {
   color: $dark-grey;
   font-size: 20px;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 'l i i i i i';
+}
+
+.settings-labels {
+  grid-template-areas: 'l i i i i';
 }
 
 .updateUserLabel {
@@ -115,7 +119,35 @@ SETTINGS UPDATE PORTION
 
 /*
 ==========================
-BUTTONS
+ROLES OPTION BUTTONS
+==========================
+*/
+.settings-labels-roles {
+  grid-template-areas: 'l a a b b';
+  grid-gap: 5px;
+}
+
+.settings-roles-option-a {
+  grid-area: a;
+}
+
+.settings-roles-option-b {
+  grid-area: b;
+}
+
+.settings-roles-option-a,
+.settings-roles-option-b {
+  @include white-text-blue-background-button;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.options-button-disabled {
+  opacity: 0.6;
+}
+/*
+==========================
+SUBMIT BUTTONS
 ==========================
 */
 .personal-details-save-button,
@@ -127,4 +159,24 @@ BUTTONS
   margin: 0 auto;
   display: block;
   text-align: center;
+}
+
+/*
+==========================
+SKILLS
+==========================
+*/
+.skill-container {
+  display: inline-block;
+  border: 1px solid $theme-blue;
+  padding: 3px;
+  margin-right: 5px;
+}
+
+.remove-tag-btn {
+  cursor: pointer;
+}
+
+.chosen-skills-grid-container {
+  grid-area: i;
 }
