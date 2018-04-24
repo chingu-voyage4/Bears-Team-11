@@ -18,12 +18,12 @@ class Project extends React.Component<Props, State> {
     } else {
       roles = data.lookingFor;
     }
-
     return (
       <div className="project">
         <img
           className="project-image"
           alt={data.name}
+          // src="https://s3.us-east-2.amazonaws.com/project-match/project/5ada5b2132bf984d80ebc697/1524525889261.jpeg"
           src={
             data.images === [] ||
             data.images![0] === undefined ||
@@ -69,7 +69,10 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
 
     if (projectArray === undefined) {
       projectComponent = null;
-    } else if (projectArray.length === 1) {
+    } else if (
+      projectArray.length === 1 ||
+      Array.isArray(projectArray) === false
+    ) {
       projectComponent = (
         <Project key={'projects_1'} project={projectArray[0]} />
       );
