@@ -35,7 +35,7 @@ class ProjectSettings extends React.Component<
   render() {
     return (
       <div className="info-container">
-        <Projects arrayOfProjects="projects" />
+        <Projects arrayOfProjects="settings" />
       </div>
     );
   }

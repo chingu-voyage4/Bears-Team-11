@@ -34,6 +34,22 @@ DOCUMENT SETUP
   width: 320px;
 }
 
+.project-edit-container {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  display: grid;
+  grid-template-areas: 'i t t';
+  grid-gap: 10px;
+  box-shadow: $box-shadow;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.project-edit-info {
+  grid-area: t;
+  left: -10px;
+  border-bottom: 1px solid $light-grey;
+}
 /*
 ==========================
 IMAGE
@@ -45,6 +61,15 @@ IMAGE
   border: $border;
 }
 
+.project-edit-image {
+  grid-area: i;
+  height: 100%;
+  width: 250px;
+  object-fit: cover;
+  border: $border;
+  vertical-align: middle;
+  border: none;
+}
 /*
 ==========================
 NAME & DESCRIPTION
@@ -98,6 +123,10 @@ ROLES
 SAVE PROJECT BUTTON
 ==========================
 */
+.project-edit-header {
+  display: block;
+}
+
 .project-save {
   padding: 10px;
   object-fit: cover;
@@ -106,6 +135,26 @@ SAVE PROJECT BUTTON
   display: inline-block;
   float: right;
 }
+
+.project-edit-btn,
+.project-delete-btn {
+  color: white;
+  border: none;
+  width: 100px;
+  display: inline-block;
+  padding: 5px;
+  box-shadow: $box-shadow;
+  pointer: cursor;
+}
+.project-edit-btn {
+  float: right;
+  background-color: $theme-blue;
+}
+.project-delete-btn {
+  float: left;
+  background-color: $attention-red;
+}
+
 // .project-bookmark-btn {
 //   background-color: white;
 //   border: none;
