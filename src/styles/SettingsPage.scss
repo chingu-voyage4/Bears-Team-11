@@ -35,6 +35,12 @@ SETTINGS LEFT_HAND MENU
   border-radius: 50%;
 }
 
+.settings-name {
+  color: $dark-grey;
+  font-size: 16px;
+  font-weight: 900;
+}
+
 .personal-details-button,
 .public-profile-button {
   border: none;
@@ -53,6 +59,14 @@ SETTINGS LEFT_HAND MENU
 .personal-details-button {
   border-top: 1px solid $light-grey;
   border-bottom: 1px solid $light-grey;
+}
+
+.personal-details-button:hover,
+.personal-details-button:active,
+.public-profile-button:hover,
+.public-profile-button:active {
+  color: white;
+  background-color: $theme-blue;
 }
 /*
 ==========================
@@ -147,7 +161,13 @@ ROLES OPTION BUTTONS
 }
 
 .options-button-disabled {
+  box-shadow: none;
   opacity: 0.6;
+}
+
+.options-button-disabled:hover {
+  opacity: 1;
+  box-shadow: $box-shadow;
 }
 /*
 ==========================
@@ -157,8 +177,13 @@ SUBMIT BUTTONS
 .personal-details-save-button,
 .public-profile-save-button {
   @include white-text-blue-background-button;
+  box-shadow: none;
 }
 
+.personal-details-save-button:hover,
+.public-profile-save-button:hover {
+  box-shadow: $box-shadow;
+}
 .update-profile-btn {
   margin: 0 auto;
   display: block;

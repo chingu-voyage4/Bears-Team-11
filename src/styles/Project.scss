@@ -143,7 +143,6 @@ SAVE PROJECT BUTTON
   width: 100px;
   display: inline-block;
   padding: 5px;
-  box-shadow: $box-shadow;
   pointer: cursor;
 }
 .project-edit-btn {
@@ -153,6 +152,11 @@ SAVE PROJECT BUTTON
 .project-delete-btn {
   float: left;
   background-color: $attention-red;
+}
+
+.project-edit-btn:hover,
+.project-delete-btn:hover {
+  box-shadow: $box-shadow;
 }
 
 // .project-bookmark-btn {
