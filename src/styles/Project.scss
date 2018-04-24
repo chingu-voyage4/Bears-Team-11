@@ -12,7 +12,7 @@ DOCUMENT SETUP
 .projects-container {
   max-width: 1080px;
   display: grid;
-  grid-gap: 40px;
+  grid-gap: 5px;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-flow: row dense;
   padding: auto;
@@ -22,12 +22,16 @@ DOCUMENT SETUP
 }
 
 .project-info {
-  width: 300px;
-  height: 125px;
+  min-height: 185px;
   border: $border;
   position: relative;
   object-position: center;
   top: -5px;
+}
+
+.project-info,
+.project-image {
+  width: 320px;
 }
 
 /*
@@ -36,8 +40,7 @@ IMAGE
 ==========================
 */
 .project-image {
-  height: 200px;
-  width: 300px;
+  height: 225px;
   object-fit: cover;
   border: $border;
 }
@@ -61,7 +64,6 @@ NAME & DESCRIPTION
   overflow: hidden;
   white-space: pre-line;
   text-overflow: ellipsis;
-  height: 54px;
   text-align: left;
   padding-left: 10px;
   padding-right: 10px;
@@ -83,7 +85,7 @@ ROLES
   padding: 10px;
   color: $dark-grey;
   text-transform: lowercase;
-  float: left;
+  text-align: left;
 }
 .project-roles {
   color: $theme-blue;
@@ -103,4 +105,38 @@ SAVE PROJECT BUTTON
   height: 18px;
   display: inline-block;
   float: right;
+}
+// .project-bookmark-btn {
+//   background-color: white;
+//   border: none;
+//   text-align: right;
+//   width: 16px;
+//   height: 18px;
+// }
+
+/*
+==========================
+TAGS & CATEGORY LINKS
+==========================
+*/
+.project-tags {
+  padding: 7px 10px 5px 10px;
+  display: inline-block;
+}
+
+.projects-tag-links,
+.projects-category-links {
+  display: inline-block;
+  font-size: 11px;
+  margin-right: 4px;
+  padding: 2px;
+}
+
+.projects-tag-links {
+  color: $dark-grey;
+  border: 1px solid $light-grey;
+}
+.projects-category-links {
+  background-color: $theme-blue;
+  color: white;
 }

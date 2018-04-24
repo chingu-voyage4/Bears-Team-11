@@ -43,11 +43,15 @@ SETTINGS LEFT_HAND MENU
   background-color: white;
   vertical-align: middle;
   max-height: 45px;
-  border-top: 1px solid $light-grey;
   color: $dark-grey;
 }
 
 .public-profile-button {
+  border-bottom: 1px solid $light-grey;
+}
+
+.personal-details-button {
+  border-top: 1px solid $light-grey;
   border-bottom: 1px solid $light-grey;
 }
 /*

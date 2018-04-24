@@ -542,6 +542,7 @@ class AddProjectsPage extends React.Component<
                 name="description"
                 id="new-project-description"
                 className="new-project-textarea"
+                maxLength={360}
                 onChange={e => this.onTextAreaFormChange(e)}
               />
 
@@ -736,7 +737,7 @@ class AddProjectsPage extends React.Component<
 
             <div className="new-project-max-width new-project-upload">
               <label className="newProjectSubText" htmlFor="uploadImage">
-                Upload Images
+                Cover Photo
               </label>
               <input
                 type="file"

@@ -275,17 +275,18 @@ module.exports = function(passport) {
             newUser.username =
               googlePayload.given_name + '_' + googlePayload.family_name;
 
-            var newUserDetails = new UserDetails({
-              googleId: googlePayload.userid,
-              username: newUser.username
-            });
-
             // save the user
             newUser.save(function(err, user) {
               if (err) {
                 console.log('Error in Saving user: ' + err);
                 throw err;
               } else {
+                var newUserDetails = new UserDetails({
+                  googleId: googlePayload.userid,
+                  username: newUser.username,
+                  _id: newUser._id
+                });
+
                 newUserDetails.save(function(err, userDetail) {
                   if (err) {
                     console.log('Error in saving newUserDetails: ' + err);
