@@ -25,13 +25,6 @@ class ProjectsFilter extends React.Component<
   componentWillMount() {
     this.props.getCategories();
     this.props.getTags();
-    this.props.getProjects(
-      {
-        sort: { createdAt: -1 },
-        limit: 24
-      },
-      { status: true }
-    );
   }
 
   public closeAllDropDown(): void {
@@ -94,7 +87,7 @@ class ProjectsFilter extends React.Component<
         sort: { createdAt: -1 },
         limit: 24
       },
-      { status: true }
+      null
     );
     var list = document.getElementsByTagName('input');
     for (var i = 0; i < list.length; i++) {

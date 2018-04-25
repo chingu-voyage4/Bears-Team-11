@@ -28,32 +28,32 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
   }
 
   public onFormChange(e: React.FormEvent<HTMLButtonElement>): void {
-    this.props.searchProjects(this.state.searchTerm);
+    e.preventDefault();
+    this.props.getProjects(
+      { limit: 24 },
+      { searchTerm: this.state.searchTerm }
+    );
   }
 
   public inputHandler(e: React.KeyboardEvent<HTMLInputElement>): void {
+    e.persist();
     this.setState({ searchTerm: e.currentTarget.value }, () => {
-      this.props.searchProjects(this.state.searchTerm);
+      if (e.keyCode === 13) {
+        this.props.getProjects(
+          { limit: 24 },
+          { searchTerm: this.state.searchTerm }
+        );
+      }
     });
   }
 
   render() {
-    var renderSearchResults;
-    if (this.props.searchResults) {
-      renderSearchResults = <Projects arrayOfProjects={'searchResults'} />;
-    } else {
-      renderSearchResults = null;
-    }
-
-    var renderProjectContainer;
-    if (this.props.projects) {
-      renderProjectContainer = <Projects arrayOfProjects={'projects'} />;
-    } else {
-      renderProjectContainer = null;
-    }
     return (
       <div>
         <HeaderContainer />
+
+        <br />
+
         <div className="projects-header-text">Explore Projects</div>
 
         <form className="projects-search-form">
@@ -73,11 +73,9 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
           </button>
         </form>
 
-        {renderSearchResults}
-
         <ProjectsFilter />
 
-        {renderProjectContainer}
+        <Projects arrayOfProjects={'projects'} />
 
         <br />
 

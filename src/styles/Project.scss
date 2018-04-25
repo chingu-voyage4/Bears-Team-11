@@ -12,9 +12,9 @@ DOCUMENT SETUP
 .projects-container {
   max-width: 1080px;
   display: grid;
-  grid-gap: 5px;
+  grid-row-gap: 40px;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-flow: row dense;
+  grid-auto-flow: dense;
   padding: auto;
   margin: auto;
   justify-items: center;
@@ -22,7 +22,7 @@ DOCUMENT SETUP
 }
 
 .project-info {
-  min-height: 185px;
+  min-height: 220px;
   border: $border;
   position: relative;
   object-position: center;
@@ -87,6 +87,7 @@ NAME & DESCRIPTION
 .project-description {
   font-size: $project-description-size;
   overflow: hidden;
+  min-height: 110px;
   white-space: pre-line;
   text-overflow: ellipsis;
   text-align: left;

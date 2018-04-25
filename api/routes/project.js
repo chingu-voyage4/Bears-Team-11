@@ -15,25 +15,26 @@ module.exports = function(passport) {
     var options = req.body.options;
 
     if (query && query.searchTerm) {
-      var queryToRegex = new RegExp(query.searchTerm);
-      query = {
+      var queryToRegex = new RegExp(query.searchTerm, 'i');
+      query = delete query.searchTerm;
+      query = Object.assign({}, query, {
         $or: [
           { name: { $regex: queryToRegex } },
           { description: { $regex: queryToRegex } },
           { category: { $regex: queryToRegex } },
           { tags: { $regex: queryToRegex } }
         ]
-      };
+      });
     }
 
-    console.log(query);
+    console.log(JSON.stringify(query));
     console.log(options);
     Project.paginate(
       query === undefined || query === {} ? {} : query,
       options,
       function(err, result) {
         if (err) {
-          return res.json({ message: 'Error retrieving project: ' + err });
+          return res.json({ error: 'Error retrieving project: ' + err });
         } else {
           res.json({
             projects: result,
@@ -73,7 +74,7 @@ module.exports = function(passport) {
   router.get('/:id', function(req, res) {
     Project.findOne({ _id: req.params.id }, function(err, project) {
       if (err || !project) {
-        res.json({ message: 'Error in retrieving project: ' + err });
+        res.json({ error: 'Error in retrieving project: ' + err });
       } else {
         res.json({
           message: 'Successfully retrieved project',
@@ -91,7 +92,7 @@ module.exports = function(passport) {
       { new: true },
       function(err, project) {
         if (err || !project) {
-          res.json({ message: 'Error in updating project: ' + err });
+          res.json({ error: 'Error in updating project: ' + err });
         } else {
           // search projectId in category and tags
           // if whats found doesnt match the updated category or tags array, then  pass to removeFunction
@@ -166,7 +167,7 @@ module.exports = function(passport) {
   router.post('/delete/one', isAuthenticated, function(req, res) {
     Project.findByIdAndRemove(req.body.id, function(err, project) {
       if (err || !project) {
-        res.json({ message: 'Error in deleting project: ' + err });
+        res.json({ error: 'Error in deleting project: ' + err });
       } else {
         res.json({ message: 'Project successfully deleted', project: project });
       }
@@ -214,7 +215,7 @@ addOrUpdateTags = (tagName, projectId) => {
 removeProjectInTags = (tagName, projectId) => {
   Tags.findOne({ tagName: tagName }, function(err, tag) {
     if (err || !tag) {
-      res.json({ message: 'Error in finding tag: ' + err });
+      res.json({ error: 'Error in finding tag: ' + err });
     } else {
       var copyOfArray = Array.from(tag.arrayOfProjectIds);
 
