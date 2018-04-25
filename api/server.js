@@ -65,7 +65,7 @@ app.use('/api/reset', passwordResetRout);
 app.use('/api/projects', projectsRoute);
 app.use('/api/upload/image', imageRoute);
 // app.use('/api/upload', uploadImagesRoute);
-// app.use('/api/download', downloadImagesRoute);
+app.use('/api/download', downloadImagesRoute);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
