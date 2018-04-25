@@ -27,6 +27,7 @@ a {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
   grid-template-areas: 'a a b';
 }
 /*
@@ -70,6 +71,7 @@ PROFILE IMAGE
 .logged-in-header-profileImageDiv {
   margin: 0 auto;
   grid-area: b;
+  position: relative;
 }
 
 .logged-in-header-profileImageButton {
@@ -78,7 +80,6 @@ PROFILE IMAGE
   border-radius: 50%;
   background-color: $theme-blue;
   border: 1px solid $theme-blue;
-  // padding: 0%;
 }
 
 .profileImage {
@@ -95,8 +96,9 @@ SETTINGS DROPDOWN MENU
   background-color: white;
   z-index: 10;
   position: absolute;
-  top: 80px;
-  right: 14vw;
+  width: 120px;
+  margin-left: -80px;
+  margin-top: 10px;
   display: none;
   box-shadow: $box-shadow;
   padding: 10px;
@@ -119,6 +121,13 @@ SETTINGS DROPDOWN MENU
 PROJECT DROPDOWN MENU
 ==========================
 */
+.dropdown {
+  grid-area: d;
+  position: relative;
+  display: inline-block;
+  margin: auto;
+}
+
 .dropbtn {
   background-color: $theme-blue;
   color: white;
@@ -135,13 +144,6 @@ PROJECT DROPDOWN MENU
   width: 275px;
 }
 
-.dropdown {
-  grid-area: d;
-  position: relative;
-  display: inline-block;
-  margin: auto;
-}
-
 .dropdown-content {
   display: none;
   position: absolute;
@@ -149,7 +151,6 @@ PROJECT DROPDOWN MENU
   min-width: 100%;
   box-shadow: $box-shadow;
   z-index: 5;
-  margin-left: 0.91%;
 }
 
 .header-project-portal-link {
