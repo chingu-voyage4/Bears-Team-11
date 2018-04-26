@@ -687,7 +687,7 @@ function getCategories(): Promise<Categories> {
  */
 function getMarkers(revisionId: string) {
   return axios
-    .get(`http://localhost:8080/api/projects/revisions/${revisionId}/markers`)
+    .get(`http://localhost:8080/api/projects/revision/${revisionId}/markers`)
     .then(response => {
       return response.data.markers;
     });
@@ -733,7 +733,7 @@ function updateMarkerDimensions(id: string, width: string, height: string) {
 function getMarkerComments(markerId: string) {
   return axios
     .get(
-      `http://localhost:8080/api/projects/revisions/markers/${markerId}/comments`
+      `http://localhost:8080/api/projects/revision/markers/${markerId}/comments`
     )
     .then(response => {
       return response.data.comments;
@@ -745,7 +745,7 @@ function addMarkerComment(
   markerId: string,
   comment: { user: string; time: string; message: string }
 ) {
-  axios
+  return axios
     .post(
       `http://localhost:8080/api/projects/revision/marker/${markerId}/comment`,
       {
