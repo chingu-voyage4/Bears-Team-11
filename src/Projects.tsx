@@ -12,6 +12,9 @@ import { Link } from 'react-router-dom';
 import ProjectForEdit from './ProjectContainerForSettings';
 
 class Project extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+  }
   render() {
     var data = this.props.project;
 
@@ -47,7 +50,7 @@ class Project extends React.Component<Props, State> {
     }
 
     return (
-      <div className="project">
+      <Link to={'/projects/' + this.props.projId} className="project">
         <img
           className="project-image"
           alt={data.name}
@@ -79,7 +82,7 @@ class Project extends React.Component<Props, State> {
             />
           </a>
         </div>
-      </div>
+      </Link>
     );
   }
 }
@@ -100,7 +103,11 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
       Array.isArray(projectArray) === false
     ) {
       projectComponent = (
-        <Project key={'projects_1'} project={projectArray[0]} />
+        <Project
+          projId={projectArray[0]._id}
+          key={'projects_1'}
+          project={projectArray[0]}
+        />
       );
     } else if (this.props.arrayOfProjects === 'settings') {
       projectArray = projectArray.filter(project => {
@@ -122,7 +129,13 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
         projectData: any,
         index: number
       ) {
-        return <Project key={'projects_' + index} project={projectData} />;
+        return (
+          <Project
+            projId={projectData._id}
+            key={'projects_' + index}
+            project={projectData}
+          />
+        );
       });
     }
 

@@ -34,6 +34,7 @@ export interface State {}
 export interface Props {
   project: Project;
   index?: number;
+  projId: string;
 }
 
 export interface ProjectForEditProps {
