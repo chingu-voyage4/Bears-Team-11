@@ -61,7 +61,7 @@ class AddProjectsPage extends React.Component<
         {
           name: project.name,
           description: project.description,
-          dueDate: project.dueDate,
+          dueDate: project.dueDate.slice(0, 10),
           team: project.team,
           githubLink: project.githubLink,
           mockupLink: project.mockupLink,
