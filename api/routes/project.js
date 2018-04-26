@@ -288,6 +288,22 @@ module.exports = function(passport) {
     });
   });
 
+  // get a single revision
+  router.get('/:projectId/revisions/:revisionId', function(req, res) {
+    Revision.findOne({ _id: req.params.revisionId }, function(err, revision) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          message:
+            'Revision successfully retrieved for project ' +
+            req.params.revisionId,
+          revision
+        });
+      }
+    });
+  });
+
   // TODO: Add authorization and validation
   // add marker to a revision
   router.post('/:id/revision/:revisionId/marker', function(req, res) {
