@@ -34,7 +34,10 @@ class ProjectPortalPage extends React.Component<
           <Header />
           <div className="project-portal__carousel__background">
             <div className="project-portal__carousel">
-              <Revisions mockups={this.props.currentProject.mockups} />
+              <Revisions
+                mockups={this.props.currentProject.mockups}
+                projectId={this.props.currentProject._id}
+              />
             </div>
           </div>
           <div className="project-portal__info">
