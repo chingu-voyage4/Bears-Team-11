@@ -35,10 +35,10 @@ DOCUMENT SETUP
 }
 
 .project-edit-container {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto;
   display: grid;
-  grid-template-areas: 'i t t';
+  grid-template-areas: 'i i t t t';
   grid-gap: 10px;
   box-shadow: $box-shadow;
   padding: 10px;
@@ -64,7 +64,7 @@ IMAGE
 .project-edit-image {
   grid-area: i;
   height: 100%;
-  width: 250px;
+  width: 300px;
   object-fit: cover;
   border: $border;
   vertical-align: middle;
@@ -144,10 +144,12 @@ SAVE PROJECT BUTTON
   display: inline-block;
   padding: 5px;
   cursor: pointer;
+  font-size: 12px;
 }
 .project-edit-btn {
   float: right;
   background-color: $theme-blue;
+  text-align: center;
 }
 .project-delete-btn {
   float: left;

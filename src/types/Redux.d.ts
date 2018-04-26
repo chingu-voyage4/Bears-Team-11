@@ -60,7 +60,7 @@ export interface Store {
   registerLoginWindow: RegisterLoginWindow;
   allUsers: Users;
   imageLinks: string[];
-  addOrUpdateProject: string | null;
+  addOrUpdateProject: Project;
   searchResults: string | null;
   currentProject: Project;
 }
@@ -91,12 +91,13 @@ export interface ProjectProps {
 
 export interface AddProjectProps {
   user: User;
-  projects: Array<Project> | Project;
+  projects: Project;
   categories: Categories | any;
   tags: Tags | any;
   allUsers: Users;
   imageLinks: string[];
-  addOrUpdateProject: string | null;
+  addOrUpdateProject: Project;
+  match: { params: { id: string } };
   addProject: (
     project: any,
     files: FileList

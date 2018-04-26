@@ -36,7 +36,7 @@ class LoggedInHeader extends React.Component<
       render() {
         var listOfProjects = this.props.user.projects;
         var activeProjects = this.props.projects.filter((project: any) => {
-          if (listOfProjects.includes(project) && project.status === true) {
+          if (listOfProjects.includes(project._id) && project.status === true) {
             return project;
           }
         });
@@ -56,7 +56,10 @@ class LoggedInHeader extends React.Component<
         return (
           <div>
             {links}
-            <Link className="header-project-portal-link" to="/user/profile">
+            <Link
+              className="header-project-portal-link top-border"
+              to="/user/profile"
+            >
               {'Public Profile'}
             </Link>
           </div>

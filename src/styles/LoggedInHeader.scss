@@ -157,10 +157,14 @@ PROJECT DROPDOWN MENU
   color: grey;
   font-family: $font;
   font-size: 14px;
-  padding: 12px 16px;
+  padding: 8px;
   text-decoration: none;
   text-align: center;
   display: block;
+}
+
+.top-border {
+  border-top: 1px solid $light-grey;
 }
 
 .dropdown:hover .dropdown-content {

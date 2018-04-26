@@ -173,7 +173,16 @@ module.exports = function(passport) {
       if (err || !project) {
         res.json({ error: 'Error in deleting project: ' + err });
       } else {
-        res.json({ message: 'Project successfully deleted', project: project });
+        Project.find({}, function(err, projects) {
+          if (err || !projects) {
+            res.json({ error: 'Error in finding projects: ' + err });
+          } else {
+            res.json({
+              message: 'Project successfully deleted',
+              project: projects
+            });
+          }
+        });
       }
     });
   });

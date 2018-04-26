@@ -4,33 +4,25 @@ import './styles/Project.css';
 import { ProjectForEditProps, State } from './types/Projects.d';
 import { Store } from './types/Redux';
 import { connect } from 'react-redux';
+import { deleteProject } from './actions/projectActions';
 
 class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
   constructor(props: ProjectForEditProps) {
     super(props);
   }
 
-  public goToEditProjectPageHandler(
-    e: React.MouseEvent<HTMLButtonElement>
-  ): void {
+  public deleteProject(e: React.MouseEvent<HTMLButtonElement>): void {
     var { id } = e.currentTarget;
-    console.log(id);
-    // retrieve projectId from project component
-    // save to updateProject action
-    // redirect to update Project data page
-    // after save, set updateProject to null again
-    // so a new instance of it will be "add project", not updating the same data
-    // var projectId = e.currentTarget._id;
-    // this.props.updateProject(projectId);
+    this.props.deleteProject(id);
   }
 
   render() {
-    var data = this.props.projects;
+    var data = this.props.data;
 
     var roles;
-    if (data.lookingFor && data.lookingFor.length > 1) {
+    if (data.lookingFor && data.lookingFor!.length > 1) {
       roles = data.lookingFor[0] + ', ' + data.lookingFor[1];
-    } else if (data.lookingFor!.length === 1) {
+    } else if (data.lookingFor && data.lookingFor!.length === 1) {
       roles = data.lookingFor;
     } else {
       roles = 'None';
@@ -66,10 +58,10 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
             alt={data.name}
             src={
               data.images === [] ||
-              data.images![0] === undefined ||
-              data.images![0] === null
+              data.images === undefined ||
+              data.images === null
                 ? require('./assets/imagePlaceholder.jpg')
-                : data.images![0]
+                : data.images[0]
             }
           />
           <div className="project-edit-info">
@@ -88,8 +80,15 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
             <button className="project-delete-btn">Delete Project</button>
           </div>
           <div />
+          <div />
+          <div />
           <div>
-            <button className="project-edit-btn">Edit Project</button>
+            <Link
+              className="project-edit-btn"
+              to={'/projects/update/' + this.props.projId}
+            >
+              Edit Project
+            </Link>
           </div>
         </div>
       </div>
@@ -103,4 +102,4 @@ const mapStateToProps = (state: Store) => {
   };
 };
 
-export default connect(mapStateToProps, {})(ProjectForEdit);
+export default connect(mapStateToProps, { deleteProject })(ProjectForEdit);

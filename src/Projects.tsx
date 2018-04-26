@@ -103,15 +103,17 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
         <Project key={'projects_1'} project={projectArray[0]} />
       );
     } else if (this.props.arrayOfProjects === 'settings') {
-      projectArray.filter(project => {
+      projectArray = projectArray.filter(project => {
         // will need to adjust to check for user in teams
         return project.creator === this.props.user.username;
       });
+      console.log(projectArray);
       return projectArray.map(function(projectData: any, index: number) {
         return (
           <ProjectForEdit
             key={'projects_Edit_' + index}
             projId={projectData._id}
+            data={projectData}
           />
         );
       });

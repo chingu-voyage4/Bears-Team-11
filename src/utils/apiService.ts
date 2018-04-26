@@ -612,7 +612,7 @@ function getOneProject(id: string): Promise<Project> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (res.message === 'Successfully updated project') {
+        if (res.message === 'Successfully retrieved project') {
           resolve(res.project);
         } else {
           reject(res.error);

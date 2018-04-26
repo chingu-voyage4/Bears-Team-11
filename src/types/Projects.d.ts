@@ -1,11 +1,12 @@
 import { User } from './User';
-
+import { Dispatch } from 'react-redux';
+import { Action } from './Redux';
 export interface Projects {
   _id: string;
   name?: string;
   creator?: string;
   images?: string[] | null[];
-  team?: object[] | object;
+  team?: string[];
   description?: string;
   contact?: string;
   lookingFor?: string[];
@@ -38,6 +39,8 @@ export interface Props {
 export interface ProjectForEditProps {
   projects: Project;
   projId: string;
+  data: any;
+  deleteProject: (id: string) => (dispatch: Dispatch<Action>) => void;
 }
 
 export interface EmptyProp {}

@@ -8,8 +8,6 @@ function searchResultsReducer(
     case SEARCH_PROJECT:
       return action.data;
     default:
-      console.log(action.type);
-      console.log(state);
       return state;
   }
 }

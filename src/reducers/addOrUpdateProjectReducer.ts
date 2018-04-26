@@ -1,14 +1,16 @@
-import { UPDATE_PROJECT } from '../actions/actionTypes';
+import { GET_ONE_PROJECT } from '../actions/actionTypes';
+import { ProjectState, ProjectAction } from '../types/Redux';
+import { Project } from '../types/Projects';
 
 function addOrUpdateProjectReducer(
-  state: string | null,
-  action: { data: string; type: string }
-): string | null {
+  state: ProjectState | Project = [],
+  action: ProjectAction
+): ProjectState | Project {
   switch (action.type) {
-    case UPDATE_PROJECT:
-      return action.data;
+    case GET_ONE_PROJECT:
+      return action.data as Project;
     default:
-      return null;
+      return state;
   }
 }
 export default addOrUpdateProjectReducer;
