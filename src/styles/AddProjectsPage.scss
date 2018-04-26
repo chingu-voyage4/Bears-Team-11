@@ -97,6 +97,11 @@ INPUT & TEXTAREA
   border: 1px solid $light-grey;
 }
 
+input[type='date'],
+textarea {
+  font-family: $font;
+}
+
 .new-project-textarea {
   min-height: 96px;
   max-width: 250px;

@@ -12,9 +12,9 @@ DOCUMENT SETUP
 .projects-container {
   max-width: 1080px;
   display: grid;
-  grid-gap: 40px;
+  grid-row-gap: 40px;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-flow: row dense;
+  grid-auto-flow: dense;
   padding: auto;
   margin: auto;
   justify-items: center;
@@ -22,26 +22,54 @@ DOCUMENT SETUP
 }
 
 .project-info {
-  width: 300px;
-  height: 125px;
+  min-height: 220px;
   border: $border;
   position: relative;
   object-position: center;
   top: -5px;
 }
 
+.project-info,
+.project-image {
+  width: 320px;
+}
+
+.project-edit-container {
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+  display: grid;
+  grid-template-areas: 'i i t t t';
+  grid-gap: 10px;
+  box-shadow: $box-shadow;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.project-edit-info {
+  grid-area: t;
+  left: -10px;
+  border-bottom: 1px solid $light-grey;
+}
 /*
 ==========================
 IMAGE
 ==========================
 */
 .project-image {
-  height: 200px;
-  width: 300px;
+  height: 225px;
   object-fit: cover;
   border: $border;
 }
 
+.project-edit-image {
+  grid-area: i;
+  height: 100%;
+  width: 300px;
+  object-fit: cover;
+  border: $border;
+  vertical-align: middle;
+  border: none;
+}
 /*
 ==========================
 NAME & DESCRIPTION
@@ -59,9 +87,9 @@ NAME & DESCRIPTION
 .project-description {
   font-size: $project-description-size;
   overflow: hidden;
+  min-height: 110px;
   white-space: pre-line;
   text-overflow: ellipsis;
-  height: 54px;
   text-align: left;
   padding-left: 10px;
   padding-right: 10px;
@@ -83,7 +111,7 @@ ROLES
   padding: 10px;
   color: $dark-grey;
   text-transform: lowercase;
-  float: left;
+  text-align: left;
 }
 .project-roles {
   color: $theme-blue;
@@ -96,11 +124,74 @@ ROLES
 SAVE PROJECT BUTTON
 ==========================
 */
+.project-edit-header {
+  display: block;
+}
+
 .project-save {
   padding: 10px;
   object-fit: cover;
   width: 14px;
   height: 18px;
-  display: inline-block;
   float: right;
+}
+
+.project-edit-btn,
+.project-delete-btn {
+  color: white;
+  border: none;
+  width: 100px;
+  display: inline-block;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.project-edit-btn {
+  float: right;
+  background-color: $theme-blue;
+  text-align: center;
+}
+.project-delete-btn {
+  float: left;
+  background-color: $attention-red;
+}
+
+.project-edit-btn:hover,
+.project-delete-btn:hover {
+  box-shadow: $box-shadow;
+}
+
+// .project-bookmark-btn {
+//   background-color: white;
+//   border: none;
+//   text-align: right;
+//   width: 16px;
+//   height: 18px;
+// }
+
+/*
+==========================
+TAGS & CATEGORY LINKS
+==========================
+*/
+.project-tags {
+  padding: 7px 10px 5px 10px;
+  display: inline-block;
+}
+
+.projects-tag-links,
+.projects-category-links {
+  display: inline-block;
+  font-size: 11px;
+  margin-right: 4px;
+  padding: 2px;
+}
+
+.projects-tag-links {
+  color: $dark-grey;
+  border: 1px solid $light-grey;
+}
+.projects-category-links {
+  background-color: $theme-blue;
+  color: white;
 }

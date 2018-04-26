@@ -67,8 +67,8 @@ export interface Store {
   registerLoginWindow: RegisterLoginWindow;
   allUsers: Users;
   imageLinks: string[];
-  addOrUpdateProject: string | null;
-  searchResults: Array<Project> | Project;
+  addOrUpdateProject: Project;
+  searchResults: string | null;
   currentProject: Project;
   markers: Array<Marker>;
 }
@@ -99,12 +99,13 @@ export interface ProjectProps {
 
 export interface AddProjectProps {
   user: User;
-  projects: Array<Project> | Project;
+  projects: Project;
   categories: Categories | any;
   tags: Tags | any;
   allUsers: Users;
   imageLinks: string[];
-  addOrUpdateProject: string | null;
+  addOrUpdateProject: Project;
+  match: { params: { id: string } };
   addProject: (
     project: any,
     files: FileList
@@ -120,8 +121,12 @@ export interface ProjectPageFilterProps {
   projects: Array<Project> | Project;
   categories: Categories | any;
   tags: Tags | any;
+  searchResults: string | null;
   getCategories: () => (dispatch: Dispatch<Action>) => void;
   getTags: () => (dispatch: Dispatch<Action>) => void;
+  searchProjects: (
+    query: string | null
+  ) => (dispatch: Dispatch<Action>) => void;
   getProjects: (
     options: object,
     query: object | null

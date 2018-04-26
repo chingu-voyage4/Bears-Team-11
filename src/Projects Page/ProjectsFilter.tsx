@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../styles/ProjectsPage.css';
 import { ProjectFilterState } from '../types/ProjectsFilter.d';
 import { connect } from 'react-redux';
-import { getProjects } from '../actions/projectActions';
+import { getProjects, searchProjects } from '../actions/projectActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
 import { ProjectPageFilterProps, Store } from '../types/Redux';
@@ -18,20 +18,14 @@ class ProjectsFilter extends React.Component<
       roles: '',
       categories: [],
       status: '',
-      tags: []
+      tags: [],
+      searchTerm: this.props.searchResults
     };
   }
 
   componentWillMount() {
     this.props.getCategories();
     this.props.getTags();
-    this.props.getProjects(
-      {
-        sort: { createdAt: -1 },
-        limit: 24
-      },
-      { status: true }
-    );
   }
 
   public closeAllDropDown(): void {
@@ -89,13 +83,22 @@ class ProjectsFilter extends React.Component<
 
   public clearFilters(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
+    this.setState({
+      sortBy: '',
+      roles: '',
+      categories: [],
+      status: '',
+      tags: [],
+      searchTerm: null
+    });
     this.props.getProjects(
       {
         sort: { createdAt: -1 },
         limit: 24
       },
-      { status: true }
+      null
     );
+    this.props.searchProjects(null);
     var list = document.getElementsByTagName('input');
     for (var i = 0; i < list.length; i++) {
       list[i].checked = false;
@@ -115,99 +118,106 @@ class ProjectsFilter extends React.Component<
       });
 
       if (elements.length === 1) {
-        this.setState({ [name]: elements[0].value }, () => {
-          console.log(this.state);
-          this.callNewProjects();
-        });
-      } else if (elements === undefined || elements.length === 0) {
-        this.callNewProjects();
+        this.setState({ [name]: elements[0].value });
       } else {
-        // tslint:disable-next-line
         elements.forEach(function(elem: any) {
           value.push(elem.value);
         });
-        this.setState({ [name]: value }, () => {
-          console.log(this.state);
-          this.callNewProjects();
-        });
+        this.setState({ [name]: value });
       }
     };
 
-    // check array of names for any checked items
-    var arrayOfNames = ['sortBy', 'roles', 'categories', 'status', 'tags'];
-    arrayOfNames.map(function(names: string) {
-      saveToState(names);
-    });
+    const callNewProjects = () => {
+      console.log('calling new projects');
+      // create options and query objects
+      var options = {};
+      var query: object | null = {};
+
+      if (this.state.categories!.length > 0) {
+        var category = {
+          category: { $in: this.state.categories }
+        };
+        query = Object.assign({}, query, category);
+      }
+
+      if (this.state.tags!.length > 0) {
+        var tags = {
+          tags: { $in: this.state.tags }
+        };
+        query = Object.assign({}, query, tags);
+      }
+
+      if (this.state.sortBy !== '') {
+        if (this.state.sortBy === 'Most Viewed') {
+          options = Object.assign(
+            {},
+            {
+              sort: { views: 'desc' }
+            }
+          );
+        } else if (this.state.sortBy === 'Newest') {
+          options = Object.assign(
+            {},
+            {
+              sort: { createdAt: -1 }
+            }
+          );
+        } else {
+          options = Object.assign(
+            {},
+            {
+              sort: { createdAt: -1 }
+            }
+          );
+        }
+      }
+
+      if (this.state.roles !== '') {
+        if (this.state.roles === 'Programmer') {
+          query = Object.assign({}, query, { lookingFor: ['Programmer'] });
+        } else if (this.state.roles === 'Designer') {
+          query = Object.assign({}, query, { lookingFor: ['Designer'] });
+        }
+      }
+
+      if (this.state.status !== '') {
+        if (this.state.status === 'Active') {
+          query = Object.assign({}, query, { status: true });
+        } else if (this.state.status === 'Completed') {
+          query = Object.assign({}, query, { status: false });
+        }
+      }
+
+      console.log(
+        'searchResults in projectsFilter=' + this.props.searchResults
+      );
+      if (this.props.searchResults !== '') {
+        console.log('in assigning searchterm');
+        query = Object.assign({}, query, {
+          searchTerm: this.props.searchResults
+        });
+      }
+
+      query = query === {} ? null : query;
+      options = options === {} ? { limit: 24, createdAt: -1 } : options;
+      console.log('options=' + JSON.stringify(options));
+      console.log('query=' + JSON.stringify(query));
+
+      // call new set of projects per filter options
+      return this.props.getProjects(options, query);
+    };
+
+    async function saveFiltersThenSubmit() {
+      // check array of names for any checked items
+      var arrayOfNames = ['sortBy', 'roles', 'categories', 'status', 'tags'];
+      await arrayOfNames.map((names: string) => {
+        saveToState(names);
+      });
+      callNewProjects();
+    }
+
+    saveFiltersThenSubmit();
   }
-
-  public callNewProjects = () => {
-    // create options and query objects
-    var options = {};
-    var query: object | null = {};
-    console.log(this.state);
-    if (this.state.categories!.length > 0) {
-      var category = {
-        category: { $in: this.state.categories }
-      };
-      query = Object.assign({}, query, category);
-    }
-
-    if (this.state.tags!.length > 0) {
-      var tags = {
-        tags: { $in: this.state.tags }
-      };
-      query = Object.assign({}, query, tags);
-    }
-
-    if (this.state.sortBy !== '') {
-      if (this.state.sortBy === 'Most Viewed') {
-        options = Object.assign(
-          {},
-          {
-            sort: { views: 'desc' }
-          }
-        );
-      } else if (this.state.sortBy === 'Newest') {
-        options = Object.assign(
-          {},
-          {
-            sort: { createdAt: -1 }
-          }
-        );
-      } else {
-        options = Object.assign(
-          {},
-          {
-            sort: { createdAt: -1 }
-          }
-        );
-      }
-    }
-
-    if (this.state.roles !== '') {
-      if (this.state.roles === 'Programmer') {
-        query = Object.assign({}, query, { lookingFor: ['Programmer'] });
-      } else if (this.state.roles === 'Designer') {
-        query = Object.assign({}, query, { lookingFor: ['Designer'] });
-      }
-    }
-
-    if (this.state.status !== '') {
-      if (this.state.status === 'Active') {
-        query = Object.assign({}, query, { status: true });
-      } else if (this.state.status === 'Completed') {
-        query = Object.assign({}, query, { status: false });
-      }
-    }
-
-    query = query === {} ? null : query;
-    options = options === {} ? { limit: 24, createdAt: -1 } : options;
-    console.log('options=' + JSON.stringify(options));
-    console.log('query=' + JSON.stringify(query));
-
-    // call new set of projects per filter options
-    this.props.getProjects(options, query);
-  };
 
   render() {
     class FilterByCategoriesComponent extends React.Component<{
@@ -510,11 +520,13 @@ function mapStateToProps(state: Store) {
   return {
     projects: state.projects,
     categories: state.categories,
-    tags: state.tags
+    tags: state.tags,
+    searchResults: state.searchResults
   };
 }
 export default connect(mapStateToProps, {
   getCategories,
   getTags,
-  getProjects
+  getProjects,
+  searchProjects
 })(ProjectsFilter);
