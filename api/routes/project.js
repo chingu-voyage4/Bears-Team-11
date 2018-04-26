@@ -1,12 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var Project = require('../models/Projects');
 var isAuthenticated = require('../utils/authentication');
 var mongoosePaginate = require('mongoose-paginate');
+var Project = require('../models/Projects');
 var Tags = require('../models/Tags');
 var Categories = require('../models/Categories');
 var UserDetails = require('../models/UserDetails');
+var Comment = require('../models/COmments');
+var Revision = require('../models/Revisions');
+var Marker = require('../models/Markers');
+var User = require('../models/Users');
 
 module.exports = function(passport) {
   // retrieves all projects
@@ -170,6 +174,187 @@ module.exports = function(passport) {
         res.json({ error: 'Error in deleting project: ' + err });
       } else {
         res.json({ message: 'Project successfully deleted', project: project });
+      }
+    });
+  });
+
+  // get team thumbnails
+  router.get('/:id/team/thumbnails', function(req, res) {
+    UserDetails.find({ projects: { $in: [req.params.id] } }, function(
+      err,
+      userDetails
+    ) {
+      if (err) {
+        console.log(err);
+      } else {
+        var usernames = userDetails.map(userdetail => {
+          return userdetail.username;
+        });
+        User.find({ username: { $in: usernames } }, function(err, user) {
+          if (err) {
+            console.log(err);
+          } else {
+            var thumbnailsURLs = user.map(data => {
+              return data.profileImage;
+            });
+            res.json({
+              message: 'Team successfully found for project ' + req.params.id,
+              thumbnailsURLs
+            });
+          }
+        });
+      }
+    });
+  });
+
+  // TODO: Add authorization and validation
+  // add comment to a project
+  router.post('/:id/comment', function(req, res) {
+    var comment = new Comment({
+      creator: req.body.username,
+      comment: req.body.comment,
+      project: req.params.id
+    });
+
+    comment.save(function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          message: 'Comment successfully added to project ' + req.params.id
+        });
+      }
+    });
+  });
+
+  // get comments for a project
+  router.get('/:id/comments', function(req, res) {
+    Comment.find({ project: req.params.id }, function(err, comments) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          message: 'Comment successfully retreived for poject ' + req.params.id,
+          comments
+        });
+      }
+    });
+  });
+
+  // TODO: Add authorization and validation
+  // add revision to project
+  router.post('/:id/revision', function(req, res) {
+    var revision = new Revision({
+      revisionNumber: req.body.revisionNumber,
+      finalVersion: req.body.finalVersion,
+      imageURL: req.body.imageURL,
+      creator: req.body.creator,
+      project: req.params.id
+    });
+
+    revision.save(function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          message: 'Revision successfully added to project ' + req.params.id
+        });
+      }
+    });
+  });
+
+  // get revisions for a project
+  router.get('/:id/revisions', function(req, res) {
+    Revision.find({ project: req.params.id }, function(err, revisions) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          message:
+            'Revisions successfully retrieved for project ' + req.params.id,
+          revisions
+        });
+      }
+    });
+  });
+
+  // TODO: Add authorization and validation
+  // add marker to a revision
+  router.post('/:id/revision/:revisionId/marker', function(req, res) {
+    var marker = new Marker({
+      type: req.body.type,
+      creator: req.body.username,
+      revision: req.params.revisionId,
+      x: req.body.x,
+      y: req.body.y,
+      width: req.body.width,
+      height: req.body.height
+    });
+
+    marker.save(function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          message:
+            'Marker successfully added to revision ' + req.params.revisionId
+        });
+      }
+    });
+  });
+
+  // get markers for revisions
+  router.get('/:id/revision/:revisionId/markers', function(req, res) {
+    Marker.find({ revision: req.params.revisionId }, function(err, markers) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          message:
+            'Markers successfully retrieved for revision ' +
+            req.params.revisionId,
+          markers
+        });
+      }
+    });
+  });
+
+  // TODO: Add authorization and validation
+  // add comment to marker
+  router.post('/:id/revision/:revisionId/marker/:markerId/comment', function(
+    req,
+    res
+  ) {
+    var comment = new Comment({
+      creator: req.body.username,
+      comment: req.body.comment,
+      marker: req.params.markerId
+    });
+
+    comment.save(function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          message: 'Comment successfully added to marker ' + req.params.markerId
+        });
+      }
+    });
+  });
+
+  // get comments for a marker
+  router.get('/:id/revision/:revisionId/markers/:markerId/comments', function(
+    req,
+    res
+  ) {
+    Comment.find({ marker: req.params.markerId }, function(err, comments) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          message: 'Comment successfully retreived for marker ' + req.params.id,
+          comments
+        });
       }
     });
   });

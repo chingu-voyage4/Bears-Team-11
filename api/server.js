@@ -17,6 +17,7 @@ var projectsRoute = require('./routes/project')(passport);
 var uploadImagesRoute = require('./routes/upload');
 var downloadImagesRoute = require('./routes/download');
 var imageRoute = require('./routes/image');
+var userRoute = require('./routes/users');
 var multer = require('multer');
 var multerS3 = require('multer-s3');
 
@@ -65,6 +66,8 @@ app.use('/api/reset', passwordResetRout);
 app.use('/api/projects', projectsRoute);
 app.use('/api/upload/image', imageRoute);
 // app.use('/api/upload', uploadImagesRoute);
+// app.use('/api/download', downloadImagesRoute);
+app.use('/api/user', userRoute);
 app.use('/api/download', downloadImagesRoute);
 
 /// catch 404 and forward to error handler

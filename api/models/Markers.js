@@ -3,9 +3,11 @@ var Mongoose = require('mongoose');
 var Schema = Mongoose.Schema;
 
 var MarkerSchema = new Schema({
-  type: { type: String },
-  creator: { type: mongoose.Schema.Types.ObjectId, ref: 'Users' },
+  type: { type: String }, // rectangle or circle
+  creator: { type: String },
   createdAt: { type: Date, default: Date.now() },
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comments' }],
+  revision: { type: Schema.Types.ObjectId, ref: 'Revisions' },
   x: { type: Number },
   y: { type: Number },
   width: { type: Number },
