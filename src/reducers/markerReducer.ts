@@ -19,7 +19,7 @@ function markerReducer(state: Array<Marker> = [], action: MarkerAction) {
   var newState = state.slice();
   switch (action.type) {
     case GET_MARKERS:
-      return action.data;
+      return action.data ? action.data : state;
     case ADD_MARKER:
       newState.push(action.data as Marker);
       return newState;
