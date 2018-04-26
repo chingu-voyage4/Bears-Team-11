@@ -40,7 +40,13 @@ class Revisions extends React.PureComponent<
   displayRevisions = () => {
     if (this.state.revisions.length > 0) {
       return this.state.revisions.map(revision => {
-        return <Revision key={revision._id} revision={revision} />;
+        return (
+          <Revision
+            key={revision._id}
+            revision={revision}
+            projectId={this.props.projectId}
+          />
+        );
       });
     }
     return null;

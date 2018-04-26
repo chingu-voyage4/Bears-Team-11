@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as moment from 'moment';
+import { Link } from 'react-router-dom';
 
 class Revision extends React.PureComponent<
   {
@@ -11,6 +12,7 @@ class Revision extends React.PureComponent<
       createdAt: string;
       finalVersion: boolean;
     };
+    projectId: string;
   },
   {}
 > {
@@ -18,8 +20,14 @@ class Revision extends React.PureComponent<
     return (
       <div className="revision">
         <div className="revision__image_container">
-          <img src="http://via.placeholder.com/350x150" alt="" />
-          {/* <div className="revision__changes">{}</div> */}
+          <Link
+            to={`/projects/${this.props.projectId}/revision/${
+              this.props.revision._id
+            }`}
+          >
+            <img src="http://via.placeholder.com/350x150" alt="" />
+            {/* <div className="revision__changes">{}</div> */}
+          </Link>
         </div>
         <h3 className="revision__title">
           Revision {this.props.revision.revisionNumber} -{' '}
