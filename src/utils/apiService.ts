@@ -5,90 +5,6 @@ import { Categories } from '../types/Category';
 import { Tags } from '../types/Tags';
 import axios from 'axios';
 
-function generateRandomDelay(): number {
-  return Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-}
-
-/* Mock Objects */
-var markers: Array<Marker> = [
-  {
-    id: 'lilgangwolf-1',
-    type: 'circle',
-    comments: [
-      {
-        user: 'natapot',
-        time: '8:00am',
-        message: 'Dislike Kaiju, please make more cool.'
-      },
-      {
-        user: 'natapot',
-        time: '8:00am',
-        message: 'Dislike Kaiju, please make more cool.'
-      },
-      {
-        user: 'natapot',
-        time: '8:00am',
-        message: 'Dislike Kaiju, please make more cool.'
-      }
-    ],
-    creator: 'lilgangwolf',
-    x: '416',
-    y: '77'
-  },
-  {
-    id: 'lilgangwolf-2',
-    type: 'circle',
-    comments: [
-      {
-        user: 'natapot',
-        time: '8:00am',
-        message: 'Dislike Kaiju, please make more cool.'
-      },
-      {
-        user: 'natapot',
-        time: '8:00am',
-        message: 'Dislike Kaiju, please make more cool.'
-      },
-      {
-        user: 'natapot',
-        time: '8:00am',
-        message: 'Dislike Kaiju, please make more cool.'
-      }
-    ],
-    creator: 'lilgangwolf',
-    x: '717',
-    y: '223'
-  },
-  {
-    id: 'lilgangwolf-3',
-    type: 'rectangle',
-    creator: 'lilgangwolf',
-    comments: [
-      {
-        user: 'natapot',
-        time: '8:00am',
-        message: 'Dislike Kaiju, please make more cool.'
-      },
-      {
-        user: 'natapot',
-        time: '8:00am',
-        message: 'Dislike Kaiju, please make more cool.'
-      },
-      {
-        user: 'natapot',
-        time: '8:00am',
-        message: 'Dislike Kaiju, please make more cool.'
-      }
-    ],
-    x: '1019',
-    y: '398',
-    width: '100',
-    height: '200'
-  }
-];
-
-var revisions = { '9a7e6f2b-89f6-46e8-8e15-e775adc59124': markers };
-
 /* User */
 function login(email: string, password: string): Promise<User | string> {
   return new Promise((resolve, reject) => {
@@ -768,51 +684,60 @@ function getCategories(): Promise<Categories> {
 
 /*
  * Annotations
- *
- * Will need the revision ID as a set of markers belongs to a particiular revision
- * POC with only 1 revision
- * 
  */
 function getMarkers(revisionId: string) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(revisions[revisionId]);
-    }, generateRandomDelay());
-  });
+  return axios
+    .get(`http://localhost:8080/api/projects/revisions/${revisionId}/markers`)
+    .then(response => {
+      return response.data.markers;
+    });
 }
 
 function saveMarker(revisionId: string, marker: Marker) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      revisions[revisionId].push(marker);
-      resolve(marker);
-    }, generateRandomDelay());
-  });
+  return axios
+    .post(`http://localhost:8080/api/projects/revision/${revisionId}/marker`, {
+      type: marker.type,
+      creator: marker.creator,
+      x: marker.x,
+      y: marker.y,
+      width: marker.width,
+      height: marker.height
+    })
+    .then(response => {
+      return response.data.marker;
+    });
 }
 
-function updateMarkerPosition(
-  revisionId: string,
-  id: string,
-  x: string,
-  y: string,
-  width: string,
-  height: string
-) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var updatedMarker;
-      revisions[revisionId].forEach((marker: Marker) => {
-        if (marker.id === id) {
-          marker.x = x;
-          marker.y = y;
-          marker.width = width;
-          marker.height = height;
-          updatedMarker = marker;
-        }
-      });
-      resolve(updatedMarker);
-    }, generateRandomDelay());
-  });
+function updateMarkerPosition(id: string, x: string, y: string) {
+  return axios
+    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+      x,
+      y
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function updateMarkerDimensions(id: string, width: string, height: string) {
+  return axios
+    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+      width,
+      height
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function getMarkerComments(markerId: string) {
+  return axios
+    .get(
+      `http://localhost:8080/api/projects/revisions/markers/${markerId}/comments`
+    )
+    .then(response => {
+      return response.data.comments;
+    });
 }
 
 function addMarkerComment(
@@ -820,18 +745,17 @@ function addMarkerComment(
   markerId: string,
   comment: { user: string; time: string; message: string }
 ) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      var updatedMarker;
-      revisions[revisionId].forEach((marker: Marker) => {
-        if (marker.id === markerId) {
-          marker.comments.push(comment);
-          updatedMarker = marker;
-        }
-      });
-      resolve(updatedMarker);
-    }, generateRandomDelay());
-  });
+  axios
+    .post(
+      `http://localhost:8080/api/projects/revision/marker/${markerId}/comment`,
+      {
+        creator: comment.user,
+        comment: comment.message
+      }
+    )
+    .then(response => {
+      return response.data.comment;
+    });
 }
 
 /* Service Module */
@@ -846,9 +770,11 @@ var apiService = {
   getProject,
   addProject,
   getMarkers,
+  getMarkerComments,
   addMarkerComment,
   saveMarker,
   updateMarkerPosition,
+  updateMarkerDimensions,
   getOneProject,
   deleteProject,
   getTags,
