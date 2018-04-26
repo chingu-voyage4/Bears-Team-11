@@ -12,7 +12,7 @@ import { Project } from '../types/Projects';
 
 class ProjectPortalPage extends React.Component<
   {
-    currentProject: Project;
+    currentProject: Project & { projectId: string };
     match: { params: { id: string } };
     getProject: (projectId: string) => (dispatch: Dispatch<Action>) => void;
   },
@@ -28,32 +28,37 @@ class ProjectPortalPage extends React.Component<
   };
 
   render() {
-    return (
-      <div className="project-portal__container">
-        <Header />
-        <div className="project-portal__carousel__background">
-          <div className="project-portal__carousel">
-            <Revisions mockups={this.props.currentProject.mockups} />
+    if (this.props.currentProject._id) {
+      return (
+        <div className="project-portal__container">
+          <Header />
+          <div className="project-portal__carousel__background">
+            <div className="project-portal__carousel">
+              <Revisions mockups={this.props.currentProject.mockups} />
+            </div>
+          </div>
+          <div className="project-portal__info">
+            <div className="project-portal__about">
+              <About
+                projectId={this.props.currentProject._id}
+                name={this.props.currentProject.name}
+                dueDate={this.props.currentProject.dueDate}
+                description={this.props.currentProject.description}
+                githubLink={this.props.currentProject.githubLink}
+                liveLink={this.props.currentProject.liveLink}
+                lookingFor={this.props.currentProject.lookingFor}
+                mockupLink={this.props.currentProject.mockupLink}
+              />
+            </div>
+            <div className="project-portal__chat">
+              <Chat comments={this.props.currentProject.comments} />
+            </div>
           </div>
         </div>
-        <div className="project-portal__info">
-          <div className="project-portal__about">
-            <About
-              name={this.props.currentProject.name}
-              dueDate={this.props.currentProject.dueDate}
-              description={this.props.currentProject.description}
-              githubLink={this.props.currentProject.githubLink}
-              liveLink={this.props.currentProject.liveLink}
-              lookingFor={this.props.currentProject.lookingFor}
-              mockupLink={this.props.currentProject.mockupLink}
-            />
-          </div>
-          <div className="project-portal__chat">
-            <Chat comments={this.props.currentProject.comments} />
-          </div>
-        </div>
-      </div>
-    );
+      );
+    } else {
+      return null;
+    }
   }
 }
 
