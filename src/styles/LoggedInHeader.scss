@@ -31,6 +31,7 @@ LOGO
   font-weight: 700;
   margin: auto;
   justify-self: start;
+  white-space: nowrap;
 }
 
 /*
@@ -80,7 +81,7 @@ PROFILE IMAGE
   height: 2.5vw;
   border: 1px solid $theme-blue;
   border-radius: 100%;
-  background-color: grey;
+  background-color: $theme-blue;
   padding: 0%;
 }
 
@@ -89,15 +90,41 @@ PROFILE IMAGE
   height: 50px;
   width: 50px;
 }
-
 /*
 ==========================
-DROPDOWN MENU
+SETTINGS DROPDOWN MENU
+==========================
+*/
+.headerOptionsDropdown {
+  background-color: white;
+  z-index: 10;
+  position: absolute;
+  top: 80px;
+  right: 5vw;
+  display: none;
+  box-shadow: $box-shadow;
+  padding: 10px;
+}
+
+.headerOptionsDropdownText {
+  color: $dark-grey;
+  padding: 10px;
+  display: block;
+  text-align: right;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.lineAbove {
+  border-top: 1px solid $light-grey;
+}
+/*
+==========================
+PROJECT DROPDOWN MENU
 ==========================
 */
 .dropbtn {
   background-color: $theme-blue;
-  width: 100%;
   color: white;
   font-weight: 700;
   padding: 16px;
@@ -106,12 +133,15 @@ DROPDOWN MENU
   border: none;
   white-space: nowrap;
   margin: 5px;
+  text-align: center;
+  margin: auto;
 }
 
 .dropdown {
   grid-area: d;
   position: relative;
   display: inline-block;
+  margin: auto;
 }
 
 .dropdown-content {
@@ -120,7 +150,8 @@ DROPDOWN MENU
   background-color: white;
   min-width: 100%;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 3;
+  z-index: 5;
+  margin-left: 0.91%;
 }
 
 .dropdown-content a {
@@ -147,4 +178,24 @@ DROPDOWN MENU
 
 .dropdown-profileLink {
   border-top: 2px solid black;
+}
+
+@media all and (max-width: 755px) and (min-width: 0px) {
+  .logged-in-header-logo {
+    font-size: 15px;
+  }
+  .dropbtn {
+    font-size: 15px;
+  }
+  .profileImage {
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+  }
+  .logged-in-header-createButton {
+    font-size: 7px;
+  }
+  .logged-in-header-create {
+    white-space: initial;
+  }
 }

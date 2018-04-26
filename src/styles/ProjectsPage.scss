@@ -1,16 +1,16 @@
-@import "_variables.scss";
+@import '_variables.scss';
 /*
 ==========================
 TITLE
 ==========================
 */
 .projects-header-text {
-    color: $theme-blue;
-    font-size: 45px;
-    font-weight: 700;
-    text-align: center;
-    padding-top: 60px;
-    padding-bottom: 30px;
+  color: $theme-blue;
+  font-size: 45px;
+  font-weight: 700;
+  text-align: center;
+  padding-top: 60px;
+  padding-bottom: 30px;
 }
 /*
 ==========================
@@ -18,32 +18,31 @@ SEARCH
 ==========================
 */
 .projects-search-form {
-    text-align: center;
-    padding-bottom: 60px;
+  text-align: center;
+  padding-bottom: 60px;
 }
 
 .projects-search-box {
-    border: 1px solid $theme-blue;
-    width: 350px;
-    height: 50px;
-    color: $dark-grey;
-    padding: 5px;
+  border: 1px solid $theme-blue;
+  width: 350px;
+  height: 50px;
+  color: $dark-grey;
+  padding: 5px;
 }
 
 .projects-search-box::placeholder {
-    color: $theme-blue;
-    padding: 5px;
+  color: $theme-blue;
+  padding: 5px;
 }
 
-
 .projects-search-btn {
-    border: none;
-    background-color: $theme-blue;
-    color: white;
-    width: 100px;
-    height: 50px;
-    font-weight: 700;
-    text-transform: uppercase;
+  border: none;
+  background-color: $theme-blue;
+  color: white;
+  width: 100px;
+  height: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 /*
 ==========================
@@ -51,102 +50,215 @@ PROJECT FILTERS
 ==========================
 */
 .project-filters {
-    margin: auto;
-    width: 50%;
-    text-align: center;
-    display: block;
-    margin-bottom: 10px;
-    border: 1px solid $theme-blue;
-    min-width: 1000px;
-    max-width: 1000px;
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  display: block;
+  margin-bottom: 60px;
+  border: 1px solid $theme-blue;
+  min-width: 1040px;
+  max-width: 1040px;
 }
 
 .project-filter-title {
-    color: $theme-blue;
-    font-size: 12px;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    margin-left: 11px;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-align: left;
-    border-bottom: 1px solid $theme-blue;
+  color: $theme-blue;
+  font-size: 12px;
+  margin: 15px 20px 10px 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: left;
+  border-bottom: 1px solid $theme-blue;
 }
 
 .project-filter-dropdown {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 15px;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 5px;
+  vertical-align: top;
 }
 
 .project-filter-dropdown-content {
-    position: relative;
-    min-width: 180px;
-    z-index: 2;
-    width: 100%;
-    overflow: auto;
-    text-align: left;
-    color: $dark-grey;
-    font-size: 12px;
-    max-height: 75px;
+  position: relative;
+  min-width: 170px;
+  z-index: 2;
+  width: 100%;
+  overflow: auto;
+  text-align: left;
+  color: $dark-grey;
+  font-size: 12px;
+  max-height: 110px;
+  margin-left: 10px;
+  margin-right: 20px;
 }
 
-.project-filter-submit-btn {
-    border: 1px solid $theme-blue;
-    background-color: $theme-blue;
-    color: white;
-    text-transform: uppercase;
-    padding: 10px;
-    margin: 10px;
-    min-width: 75px;
+.project-filter-dropdown-box {
+  background-color: white;
+  border: 1px solid $light-grey;
+  width: 180px;
+  display: none;
+  position: absolute;
+  box-shadow: $box-shadow;
+  z-index: 2;
+  max-height: 120px;
+  overflow: scroll;
+  overflow-x: hidden;
+  text-align: left;
+  color: $dark-grey;
+  font-size: 12px;
+  margin-left: 20px;
 }
+.project-filter-dropdown-hide {
+  display: none;
+}
+
+/*
+==========================
+SUBMIT & CLEAR FILTER BUTTON
+==========================
+*/
+.project-filter-clear-btn,
+.project-filter-submit-btn {
+  text-transform: uppercase;
+  padding: 14px;
+  margin: 10px;
+  min-width: 75px;
+  font-weight: 700;
+}
+.project-filter-submit-btn {
+  border: 1px solid $theme-blue;
+  background-color: $theme-blue;
+  color: white;
+}
+
+.project-filter-clear-btn {
+  border: 1px solid $attention-red;
+  background-color: white;
+  color: $attention-red;
+}
+/*
+==========================
+DROPDOWN SEARCH
+==========================
+*/
+.project-filter-search-input-box {
+  margin-bottom: 10px;
+  min-width: 180px;
+  border: none;
+  box-shadow: $box-shadow;
+  padding: 5px;
+}
+
+.project-filter-search-input-box::placeholder {
+  color: $light-grey;
+}
+/*
+==========================
+DROPDOWN BUTTON
+==========================
+*/
+.project-filter-dropdown-btn {
+  min-width: 180px;
+  color: $dark-grey;
+  font-size: 12px;
+  background-color: white;
+  border: 1px solid $light-grey;
+  padding: 7px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+/*
+==========================
+SCROLLBAR
+==========================
+*/
+
+.project-filter-dropdown-box::-webkit-scrollbar {
+  width: 10px;
+}
+
+.project-filter-dropdown-box::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px $light-grey;
+}
+
+.project-filter-dropdown-box::-webkit-scrollbar-thumb {
+  background-color: $light-grey;
+  outline: 1px solid $light-blue;
+  border-radius: 5px;
+}
+
+.project-filter-dropdown-box::-webkit-scrollbar-thumb:hover {
+  background-color: $theme-blue;
+}
+
 /*
 ==========================
 CHECKBOX STYLING
 ==========================
 */
-.checkbox > input[type=checkbox], input[type=radio] {
-    opacity: 0;
-}
-.checkbox label {
-    position: relative;
-    padding-left: 12px;
-}
-.checkbox label::before, .checkbox label::after {
-    content: "";
-    display: inline-block;
-    position: absolute;
-}
-.checkbox label::before {
-    height: 12px;
-    width: 12px;
-    border: 1px solid $theme-blue;
-    top: 0px;
-    left: -8px;
+.checkboxContainer {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.checkbox label::after {
-    height: 4px;
-    width: 6px;
-    border-left: 2px solid;
-    border-bottom: 2px solid;
-    transform: rotate(-45deg);
-    color: $theme-blue;
-    left: -5px;
-    top: 3px;
+/* Hide the browser's default checkbox */
+.checkboxContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
 }
 
-/*Hide the checkmark by default*/
-.checkbox input[type=checkbox] + label::after {
-    content: none;
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  margin-left: 10px;
+  top: 0;
+  left: 0;
+  height: 14px;
+  width: 14px;
+  background-color: white;
+  border: 1px solid $theme-blue;
 }
-/*Unhide the checkmark on the checked state*/
-.checkbox input[type=checkbox]:checked + label::after {
-    content: "";
+
+/* On mouse-over, add a grey background color */
+.checkboxContainer:hover input ~ .checkmark {
+  background-color: $theme-blue;
 }
-/*Adding focus styles on the outer-box of the fake checkbox*/
-.checkbox input[type=checkbox]:focus + label::before {
-    outline: $light-blue auto 5px;
+
+/* When the checkbox is checked, add a blue background */
+.checkboxContainer input:checked ~ .checkmark {
+  background-color: $theme-blue;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkboxContainer input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkboxContainer .checkmark:after {
+  left: 3.5px;
+  top: 1px;
+  width: 4px;
+  height: 7px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 /*
@@ -154,45 +266,67 @@ CHECKBOX STYLING
 RADIO STYLING
 ==========================
 */
-
-.radio label {
-    position: relative;
-    padding-left: 12px;
-}
-.radio label::before, .radio label::after {
-    content: "";
-    display: inline-block;
-    position: absolute;
-}
-.radio label::before {
-    border-radius: 50%;
-    height: 12px;
-    width: 12px;
-    border: 1px solid $theme-blue;
-    top: 0px;
-    left: -8px;
+.radioContainer {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-.radio label::after {
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    background-color: $theme-blue;
-    left: -5px;
-    top: 3px;
+/* Hide the browser's default radio button */
+.radioContainer input {
+  position: absolute;
+  opacity: 0;
 }
 
-/*Hide the checkmark by default*/
-.radio input[type=radio] + label::after {
-    content: none;
+/* Create a custom radio button */
+.radioCheckmark {
+  position: absolute;
+  margin-left: 11px;
+  top: 0;
+  left: 0;
+  height: 14px;
+  width: 14px;
+  background-color: white;
+  border-radius: 50%;
+  border: 1px solid $theme-blue;
 }
-/*Unhide the checkmark on the checked state*/
-.radio input[type=radio]:checked + label::after {
-    content: "";
+
+/* On mouse-over, add a grey background color */
+.radioContainer:hover input ~ .radioCheckmark {
+  background-color: $theme-blue;
 }
-/*Adding focus styles on the outer-box of the fake checkbox*/
-.radio input[type=radio]:focus + label::before {
-    outline: $light-blue auto 5px;
+
+/* When the radio button is checked, add a blue background */
+.radioContainer input:checked ~ .radioCheckmark {
+  background-color: $theme-blue;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radioCheckmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radioContainer input:checked ~ .radioCheckmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radioContainer .radioCheckmark:after {
+  top: 3.5px;
+  left: 3.5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: white;
 }
 
 /*
@@ -201,19 +335,19 @@ TAGS
 ==========================
 */
 .tagSearch {
-    border: 1px solid $theme-blue;
-    font-size: 12px;
-    color: $dark-grey;
-    padding: 5px;
-    display: none;
-    position: absolute;
-    min-width: 180px;
+  border: 1px solid $theme-blue;
+  font-size: 12px;
+  color: $dark-grey;
+  padding: 5px;
+  display: none;
+  position: absolute;
+  min-width: 180px;
 }
 
 .unselectedTags {
-    display: block;
+  display: block;
 }
 
 .selectedTag {
-    display: inline-block
+  display: inline-block;
 }

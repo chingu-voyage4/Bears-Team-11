@@ -6,7 +6,8 @@ import {
   ProjectsState,
   ProjectsInheritedProps
 } from './types/Projects.d';
-import { arrayOfTestProjects } from './dummyData/Dummy Project Data';
+import { Store } from './types/Redux';
+import { connect } from 'react-redux';
 
 class Project extends React.Component<Props, State> {
   render() {
@@ -17,9 +18,20 @@ class Project extends React.Component<Props, State> {
     } else {
       roles = data.lookingFor;
     }
+
     return (
       <div className="project">
-        <img className="project-image" alt={data.name} src={data.image} />
+        <img
+          className="project-image"
+          alt={data.name}
+          src={
+            data.images === [] ||
+            data.images![0] === undefined ||
+            data.images![0] === null
+              ? require('./assets/imagePlaceholder.jpg')
+              : data.images![0]
+          }
+        />
         <div className="project-info">
           <div className="project-name">{data.name}</div>
           <div className="project-description">{data.description}</div>
@@ -42,18 +54,44 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
   constructor(props: ProjectsInheritedProps) {
     super(props);
   }
+
   // Currently using a random number for the key property in order to mute the console errors.
   // When we have the data ready we need to use an actual key such as an id.
   render() {
-    let projectArray = arrayOfTestProjects.slice(0, this.props.count + 1);
-    return (
-      <div className="projects-container">
-        {projectArray.map(projectData => (
-          <Project key={Math.random() * 100} project={projectData} />
-        ))}
-      </div>
-    );
+    var projectComponent;
+    var projectArray;
+
+    if (this.props.arrayOfProjects === 'projects') {
+      projectArray = this.props.projects;
+    } else if (this.props.arrayOfProjects === 'searchResults') {
+      projectArray = this.props.searchResults;
+    }
+
+    if (projectArray === undefined) {
+      projectComponent = null;
+    } else if (projectArray.length === 1) {
+      projectComponent = (
+        <Project key={'projects_1'} project={projectArray[0]} />
+      );
+    } else if (projectArray) {
+      projectComponent = projectArray.map(function(
+        // tslint:disable-next-line
+        projectData: any,
+        index: number
+      ) {
+        return <Project key={'projects_' + index} project={projectData} />;
+      });
+    }
+
+    return <div className="projects-container">{projectComponent}</div>;
   }
 }
 
-export default Projects;
+const mapStateToProps = (state: Store) => {
+  return {
+    projects: state.projects,
+    searchResults: state.searchResults
+  };
+};
+
+export default connect(mapStateToProps, {})(Projects);

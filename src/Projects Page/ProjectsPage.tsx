@@ -1,64 +1,101 @@
 import * as React from 'react';
-import Header from '../Header';
+import HeaderContainer from '../HeaderContainer';
 import Footer from '../Footer';
 import Projects from '../Projects';
 import ProjectsFilter from './ProjectsFilter';
 import '../styles/ProjectsPage.css';
 import '../styles/Project.css';
-import { PassedProps, State, Props } from '../types/ProjectsPage.d';
-// import { connect } from 'react-redux';
-class ProjectsPage extends React.Component<PassedProps, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            searchTerm: '',
-        };
+import { ProjectPageProps, ProjectPageState } from '../types/ProjectsPage.d';
+import { Store } from '../types/Redux';
+import { connect } from 'react-redux';
+import { getProjects, searchProjects } from '../actions/projectActions';
+
+class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
+  constructor(props: ProjectPageProps) {
+    super(props);
+    this.state = {
+      searchTerm: '',
+      projectComponent: null
+    };
+  }
+
+  componentDidMount() {
+    var options = {
+      sort: { createdAt: -1 },
+      limit: 24
+    };
+    this.props.getProjects(options, null);
+  }
+
+  public onFormChange(e: React.FormEvent<HTMLButtonElement>): void {
+    this.props.searchProjects(this.state.searchTerm);
+  }
+
+  public inputHandler(e: React.KeyboardEvent<HTMLInputElement>): void {
+    this.setState({ searchTerm: e.currentTarget.value }, () => {
+      this.props.searchProjects(this.state.searchTerm);
+    });
+  }
+
+  render() {
+    var renderSearchResults;
+    if (this.props.searchResults) {
+      renderSearchResults = <Projects arrayOfProjects={'searchResults'} />;
+    } else {
+      renderSearchResults = null;
     }
 
-    public onFormChange(e: React.FormEvent<HTMLButtonElement>): void {
-        this.setState({
-            [e.currentTarget.name]: e.currentTarget.value
-        });
+    var renderProjectContainer;
+    if (this.props.projects) {
+      renderProjectContainer = <Projects arrayOfProjects={'projects'} />;
+    } else {
+      renderProjectContainer = null;
     }
+    return (
+      <div>
+        <HeaderContainer />
+        <div className="projects-header-text">Explore Projects</div>
 
-    render() {
-        return (
-            <div>
-                <Header />
-                <div className="projects-header-text">
-                    Explore Projects
-                </div>
+        <form className="projects-search-form">
+          <input
+            className="projects-search-box"
+            type="search"
+            placeholder="Search for Projects"
+            id="projects-search-input-box"
+            onKeyUp={e => this.inputHandler(e)}
+          />
+          <button
+            className="projects-search-btn"
+            type="submit"
+            onClick={e => this.onFormChange(e)}
+          >
+            Search
+          </button>
+        </form>
 
-                <form className="projects-search-form">
-                    <input className="projects-search-box" type="search" placeholder="Search for Projects" />
-                    <button className="projects-search-btn" type="submit">Search</button>
-                </form>
+        {renderSearchResults}
 
-                <ProjectsFilter />
-                
-                <Projects count={24} />
+        <ProjectsFilter />
 
-                <br />
+        {renderProjectContainer}
 
-                <Footer />
-            </div>
-        );
-    }
+        <br />
+
+        <Footer />
+      </div>
+    );
+  }
 }
 
-// const mapStateToProps = (state: State) => {
-//     return {
-//         projects: state.projects
-//     }
-// }
+const mapStateToProps = (state: Store) => {
+  return {
+    user: state.user,
+    projects: state.projects,
+    searchResults: state.searchResults
+  };
+};
 
-// const mapDispatchToProps = (dispatch: Dispatch) => {
-//     return {
-//         searchProjects: () => dispatch({
-//             type: 'SEARCH_PROJECTS'
-//         })
-//     }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(ProjectsPage);
-export default ProjectsPage;
+export default connect(mapStateToProps, {
+  getProjects,
+  searchProjects
+})(ProjectsPage);

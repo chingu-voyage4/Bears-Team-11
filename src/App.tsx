@@ -1,9 +1,8 @@
 import * as React from 'react';
 import './styles/App.css';
-
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import userReducer from './reducers';
+import rootReducer from './reducers';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import LandingPage from './Landing Page/LandingPage';
@@ -13,9 +12,10 @@ import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
 import PublicProfile from './UserProfileAndSettingsPage/PublicProfile';
 import Redline from './Redline';
+import ProjectPortalPage from './ProjectPortalPage/ProjectPortalPage';
 
 const store = createStore(
-  userReducer,
+  rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
 class App extends React.Component<{}, { reduxManualTest: boolean }> {
@@ -55,6 +55,7 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
                 path="/user/profile"
                 component={PublicProfile}
               />
+              <Route path="/projects/:id" component={ProjectPortalPage} />
             </Switch>
           </Router>
         </div>

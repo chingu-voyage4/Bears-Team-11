@@ -1,4 +1,5 @@
-export interface State {
+export interface AddProjectState {
+  _id?: string;
   name?: string;
   description?: string;
   dueDate?: string;
@@ -7,17 +8,17 @@ export interface State {
   mockupLink?: string;
   liveLink?: string;
   lookingFor?: string[];
-  status?: string;
+  status?: boolean;
   category?: string;
   tags?: string[];
-  images?: string[];
+  images?: any;
   contact?: string;
   createdAt?: string;
   creator?: string;
+  categoryPlaceholder: string;
+  tagPlaceholder: string | string[];
+  teamPlaceholder: string | string[];
+  statusPlaceholder: string;
+  preview?: any;
+  files?: any;
 }
-
-export interface Props { }
-
-export interface PassedProps {
-  creator?: string;
- }
