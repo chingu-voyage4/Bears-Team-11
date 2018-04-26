@@ -20,8 +20,10 @@ export interface ProjectPageState {
 export interface ProjectPageProps {
   user: User;
   projects: Array<Project>;
-  searchResults: Array<Project>;
-  searchProjects: (query: string) => (dispatch: Dispatch<Action>) => void;
+  searchResults: string | null;
+  searchProjects: (
+    query: string | null
+  ) => (dispatch: Dispatch<Action>) => void;
   getProjects: (
     options: object,
     query: object | null

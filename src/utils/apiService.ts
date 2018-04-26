@@ -29,12 +29,9 @@ function login(email: string, password: string): Promise<User | string> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        console.log(res);
         if (res.message === 'Successfully logged in') {
           var user = res.user;
           var userDetails = res.userDetail;
-          console.log('user=' + user);
-          console.log('userDetails=' + userDetails);
           resolve({
             _id: user._id,
             firstName: user.firstName,
@@ -85,15 +82,12 @@ function googleLogin(idToken: string): Promise<User | Error> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        console.log(res);
         if (
           res.message === 'Successfully logged in with Google' ||
           res.message === 'Sucessfully registered with Google'
         ) {
           var user = res.user;
           var userDetails = res.userDetail;
-          console.log('user=' + user);
-          console.log('userDetails=' + userDetails);
           resolve({
             _id: user._id,
             firstName: user.firstName,
@@ -254,7 +248,6 @@ function userSettingsUpdate(
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/user/update/public';
-    console.log('userId=' + userId);
     var data: object = {
       method: 'POST',
       credentials: 'include',
@@ -283,12 +276,9 @@ function userSettingsUpdate(
       })
       // tslint:disable-next-line
       .then(function(res: any) {
-        console.log('res=' + JSON.stringify(res));
         if (res.message === 'Successfully updated user details') {
           var user = res.user;
           var userDetails = res.userDetail;
-          console.log('updated user=' + user);
-          console.log('updated userDetails=' + userDetails);
           resolve({
             _id: user._id,
             firstName: user.firstName,
@@ -402,7 +392,6 @@ function getProjects(
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'Succesfully retrieved projects') {
-          console.log(res.projects.docs);
           resolve(res.projects.docs);
         } else {
           reject(res.error);
@@ -482,7 +471,6 @@ function addProject(project: Project): Promise<Project> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        console.log(res);
         if (res.message === 'New project saved successfully') {
           resolve(res.newProject);
         } else {
@@ -502,7 +490,6 @@ function uploadProjectImage(
 
     var formData = new FormData();
     for (var i = 0; i < file.length; i++) {
-      console.log(file[i]);
       formData.append('projectImages', file[i]);
     }
 
@@ -524,7 +511,6 @@ function uploadProjectImage(
           res.message ===
           'Successfully uploaded and saved project image URL to project'
         ) {
-          console.log(res.project);
           resolve(res.project);
         } else {
           reject(res.error);
@@ -561,8 +547,6 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
         ) {
           var user = res.user;
           var userDetails = res.userDetail;
-          console.log('user=' + user);
-          console.log('userDetails=' + userDetails);
           resolve({
             _id: user._id,
             firstName: user.firstName,
@@ -670,7 +654,6 @@ function deleteProject(id: string): Promise<Project> {
 }
 
 function getTags(): Promise<Tags> {
-  console.log('getting tags');
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/projects/tags';
 

@@ -163,8 +163,6 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
     super(props);
   }
 
-  // Currently using a random number for the key property in order to mute the console errors.
-  // When we have the data ready we need to use an actual key such as an id.
   render() {
     var projectComponent;
     var projectArray = this.props.projects;

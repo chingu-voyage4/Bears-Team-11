@@ -28,7 +28,7 @@ export function getProjects(
 }
 
 export function searchProjects(
-  query: string
+  query: string | null
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return dispatch({

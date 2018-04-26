@@ -61,7 +61,7 @@ export interface Store {
   allUsers: Users;
   imageLinks: string[];
   addOrUpdateProject: string | null;
-  searchResults: Array<Project> | Project;
+  searchResults: string | null;
   currentProject: Project;
 }
 
@@ -112,8 +112,12 @@ export interface ProjectPageFilterProps {
   projects: Array<Project> | Project;
   categories: Categories | any;
   tags: Tags | any;
+  searchResults: string | null;
   getCategories: () => (dispatch: Dispatch<Action>) => void;
   getTags: () => (dispatch: Dispatch<Action>) => void;
+  searchProjects: (
+    query: string | null
+  ) => (dispatch: Dispatch<Action>) => void;
   getProjects: (
     options: object,
     query: object | null
