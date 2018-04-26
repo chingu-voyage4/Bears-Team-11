@@ -54,7 +54,7 @@ class ProjectPortalPage extends React.Component<
               />
             </div>
             <div className="project-portal__chat">
-              <Chat comments={this.props.currentProject.comments} />
+              <Chat projectId={this.props.currentProject._id} />
             </div>
           </div>
         </div>
