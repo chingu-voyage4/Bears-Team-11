@@ -22,7 +22,6 @@ class Team extends React.PureComponent<
       )
       .then(response => {
         var thumbnails = response.data.thumbnailsURLs;
-        console.log('thumbnails: ', response);
         this.setState({
           thumbnails: thumbnails as Array<string>
         });
