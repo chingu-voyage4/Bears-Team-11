@@ -4,14 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Revision extends React.PureComponent<
   {
-    revision: {
-      _id: string;
-      revisionNumber: string;
-      description: string;
-      creator: string;
-      createdAt: string;
-      finalVersion: boolean;
-    };
+    revision: any;
     projectId: string;
   },
   {}
@@ -25,7 +18,7 @@ class Revision extends React.PureComponent<
               this.props.revision._id
             }`}
           >
-            <img src="http://via.placeholder.com/350x150" alt="" />
+            <img src={this.props.revision.imageURL} alt="" />
             {/* <div className="revision__changes">{}</div> */}
           </Link>
         </div>
