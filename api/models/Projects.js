@@ -4,19 +4,17 @@ var mongoosePaginate = require('mongoose-paginate');
 var Schema = Mongoose.Schema;
 
 var ProjectSchema = new Schema({
-  // _id:        {type: Schema.Types.ObjectId },
   name: { type: String },
-  creator: { type: String },
+  creator: { type: String }, // XXX: may want to use Users ref
   githubLink: { type: String },
   mockupLink: { type: String },
   liveLink: { type: String },
   images: { type: Array },
-  mockups: { type: Array }, // stores _Id for each mockup image
-  team: { type: Array },
+  team: { type: Array }, // XXX: may want to use an array of Users ref
   description: { type: String },
   contact: { type: String },
   lookingFor: { type: Array },
-  comments: { type: Array, default: null },
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comments' }],
   createdAt: { type: Date, default: Date.now },
   dueDate: { type: Date },
   views: { type: Number, default: 0 },
@@ -25,7 +23,7 @@ var ProjectSchema = new Schema({
   status: { type: Boolean, default: true }, // true is active, false is completed
   upVotes: { type: Number, default: 0 },
   modifiedAt: { type: Date, default: Date.now },
-  revisions: [{ type: Mongoose.Schema.Types.ObjectId, ref: 'Revisions' }]
+  revisions: [{ type: Schema.Types.ObjectId, ref: 'Revisions' }]
 });
 
 ProjectSchema.plugin(mongoosePaginate);
