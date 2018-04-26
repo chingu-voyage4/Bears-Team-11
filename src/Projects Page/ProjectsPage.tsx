@@ -19,7 +19,7 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     var options = {
       sort: { createdAt: -1 },
       limit: 24
@@ -27,33 +27,38 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
     this.props.getProjects(options, null);
   }
 
-  public onFormChange(e: React.FormEvent<HTMLButtonElement>): void {
+  public searchSubmit(
+    e:
+      | React.FormEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLInputElement>
+  ): void {
+    e.preventDefault();
     this.props.searchProjects(this.state.searchTerm);
+    this.props.getProjects(
+      { limit: 24 },
+      { searchTerm: this.state.searchTerm }
+    );
+    console.log(
+      'setting searchResults in projectsPage=' + this.props.searchResults
+    );
   }
 
-  public inputHandler(e: React.KeyboardEvent<HTMLInputElement>): void {
+  public searchInputHandler(e: React.KeyboardEvent<HTMLInputElement>): void {
+    e.persist();
     this.setState({ searchTerm: e.currentTarget.value }, () => {
-      this.props.searchProjects(this.state.searchTerm);
+      if (e.keyCode === 13) {
+        this.searchSubmit(e);
+      }
     });
   }
 
   render() {
-    var renderSearchResults;
-    if (this.props.searchResults) {
-      renderSearchResults = <Projects arrayOfProjects={'searchResults'} />;
-    } else {
-      renderSearchResults = null;
-    }
-
-    var renderProjectContainer;
-    if (this.props.projects) {
-      renderProjectContainer = <Projects arrayOfProjects={'projects'} />;
-    } else {
-      renderProjectContainer = null;
-    }
     return (
       <div>
         <HeaderContainer />
+
+        <br />
+
         <div className="projects-header-text">Explore Projects</div>
 
         <form className="projects-search-form">
@@ -62,22 +67,20 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
             type="search"
             placeholder="Search for Projects"
             id="projects-search-input-box"
-            onKeyUp={e => this.inputHandler(e)}
+            onKeyUp={e => this.searchInputHandler(e)}
           />
           <button
             className="projects-search-btn"
             type="submit"
-            onClick={e => this.onFormChange(e)}
+            onClick={e => this.searchSubmit(e)}
           >
             Search
           </button>
         </form>
 
-        {renderSearchResults}
-
         <ProjectsFilter />
 
-        {renderProjectContainer}
+        <Projects arrayOfProjects={'projects'} />
 
         <br />
 

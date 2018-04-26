@@ -66,6 +66,7 @@ app.use('/api/reset', passwordResetRout);
 app.use('/api/projects', projectsRoute);
 app.use('/api/upload/image', imageRoute);
 // app.use('/api/upload', uploadImagesRoute);
+app.use('/api/download', downloadImagesRoute);
 // app.use('/api/download', downloadImagesRoute);
 app.use('/api/user', userRoute);
 

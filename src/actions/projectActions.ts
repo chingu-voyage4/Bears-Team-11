@@ -28,21 +28,12 @@ export function getProjects(
 }
 
 export function searchProjects(
-  query: string
+  query: string | null
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    var options = {
-      limit: 6
-    };
-    var queryObject = {
-      searchTerm: query
-    };
-
-    return apiService.getProjects(options, queryObject).then(projects => {
-      return dispatch({
-        type: SEARCH_PROJECT,
-        data: projects
-      });
+    return dispatch({
+      type: SEARCH_PROJECT,
+      data: query
     });
   };
 }

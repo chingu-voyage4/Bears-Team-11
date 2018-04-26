@@ -20,7 +20,7 @@ class AddProjectsPage extends React.Component<
 > {
   constructor(props: AddProjectProps) {
     super(props);
-    var emptyState = {
+    this.state = {
       name: '',
       description: '',
       dueDate: '',
@@ -42,34 +42,82 @@ class AddProjectsPage extends React.Component<
       preview: null,
       files: null
     };
-
-    var projectToUpdate;
-
-    if (this.props.addOrUpdateProject !== null) {
-      // triggers a call to replace projectState with oneProject by Id
-      this.props.getOneProject(this.props.addOrUpdateProject);
-      projectToUpdate = this.props.projects!;
-    }
-
-    var filledState = Object.assign({}, projectToUpdate, {
-      categoryPlaceholder: 'Choose A Category',
-      tagPlaceholder: 'Choose Some Tags',
-      teamPlaceholder: 'Add Teammates',
-      statusPlaceholder: 'Status of Project',
-      preview: null,
-      files: null
-    });
-
-    this.props.addOrUpdateProject === null
-      ? (this.state = emptyState)
-      : (this.state = filledState);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getCategories();
     this.props.getTags();
     this.props.getAllUsers();
+
+    var id: string;
+
+    var getProjectById = () => {
+      return this.props.getOneProject(id);
+    };
+
+    var setState = () => {
+      var project = this.props.addOrUpdateProject!;
+      return this.setState(
+        {
+          name: project.name,
+          description: project.description,
+          dueDate: project.dueDate.slice(0, 10),
+          team: project.team,
+          githubLink: project.githubLink,
+          mockupLink: project.mockupLink,
+          liveLink: project.liveLink,
+          lookingFor: project.lookingFor,
+          status: project.status,
+          category: project.category,
+          tags: project.tags,
+          images: project.images,
+          contact: project.contact,
+          creator: project.creator,
+          categoryPlaceholder: 'Choose A Category',
+          tagPlaceholder: 'Choose Some Tags',
+          teamPlaceholder: 'Add Teammates',
+          statusPlaceholder: 'Status of Project',
+          preview: null,
+          files: null
+        },
+        () => {
+          console.log(this.state);
+          // var doc: any;
+          // if (this.state.lookingFor === ['Programmer']) {
+          //   doc = document.getElementById('new-project-role-p')!;
+          //   doc.checked = true;
+
+          // } else if (this.state.lookingFor === ['Designer']) {
+          //   doc = document.getElementById('new-project-role-d')![0];
+          //   doc.checked = true;
+          // } else if (this.state.lookingFor!.indexOf('Programmer') !== -1
+          //   && this.state.lookingFor!.indexOf('Designer') !== -1) {
+          //   var d: HTMLInputElement = document.getElementById('new-project-role-d')![0];
+          //   var p: HTMLInputElement = document.getElementById('new-project-role-p')![0];
+          //   d.checked = true;
+          //   p.checked = true;
+          // }
+        }
+      );
+    };
+
+    async function callProjectAssignToState() {
+      await getProjectById();
+      await setState();
+    }
+
+    // if there was an ID passed in with the url link
+    // call data of that one project
+    // update state with requested project data
+    if (this.props.match.params.hasOwnProperty('id')) {
+      id = this.getURLParams().id;
+      callProjectAssignToState();
+    }
   }
+
+  getURLParams = () => {
+    return this.props.match.params;
+  };
 
   public toggleDropdown = (
     e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>,
@@ -423,6 +471,10 @@ class AddProjectsPage extends React.Component<
     }> {
       render() {
         var chosenTags;
+        if (!this.props.tags) {
+          return null;
+        }
+
         let tags = this.props.tags.slice();
 
         if (tags.length === 0) {
@@ -529,6 +581,7 @@ class AddProjectsPage extends React.Component<
                 name="name"
                 id="new-project-title"
                 className="new-project-input"
+                value={this.state.name}
                 onChange={e => this.onFormChange(e)}
               />
 
@@ -542,6 +595,8 @@ class AddProjectsPage extends React.Component<
                 name="description"
                 id="new-project-description"
                 className="new-project-textarea"
+                maxLength={360}
+                value={this.state.description}
                 onChange={e => this.onTextAreaFormChange(e)}
               />
 
@@ -556,6 +611,7 @@ class AddProjectsPage extends React.Component<
                 name="dueDate"
                 id="new-project-dueDate"
                 className="new-project-input"
+                value={this.state.dueDate}
                 onChange={e => this.onFormChange(e)}
               />
               <div className="new-project-team">
@@ -600,6 +656,7 @@ class AddProjectsPage extends React.Component<
                 name="githubLink"
                 id="new-project-githubLink"
                 className="new-project-input"
+                value={this.state.githubLink}
                 onChange={this.onFormChange}
               />
 
@@ -614,6 +671,7 @@ class AddProjectsPage extends React.Component<
                 name="mockupLink"
                 id="new-project-mockupLink"
                 className="new-project-input"
+                value={this.state.mockupLink}
                 onChange={e => this.onFormChange(e)}
               />
 
@@ -628,6 +686,7 @@ class AddProjectsPage extends React.Component<
                 name="liveLink"
                 id="new-project-liveLink"
                 className="new-project-input"
+                value={this.state.liveLink}
                 onChange={e => this.onFormChange(e)}
               />
 
@@ -642,7 +701,9 @@ class AddProjectsPage extends React.Component<
                   onClick={e => this.toggleDropdown(e, 'new-project-dropdown')}
                   className="new-project-dropdown-btn"
                 >
-                  {this.state.categoryPlaceholder}
+                  {this.state.category !== ''
+                    ? this.state.category
+                    : this.state.categoryPlaceholder}
                 </button>
                 <div
                   id="new-project-dropdown"
@@ -736,7 +797,7 @@ class AddProjectsPage extends React.Component<
 
             <div className="new-project-max-width new-project-upload">
               <label className="newProjectSubText" htmlFor="uploadImage">
-                Upload Images
+                Cover Photo
               </label>
               <input
                 type="file"
@@ -776,7 +837,7 @@ class AddProjectsPage extends React.Component<
                 onClick={e => this.toggleDropdown(e, 'new-status-dropdown')}
                 className="new-project-dropdown-btn"
               >
-                {this.state.statusPlaceholder}
+                {this.state.status}
               </button>
               <div
                 id="new-status-dropdown"

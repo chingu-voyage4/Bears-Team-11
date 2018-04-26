@@ -4,4 +4,5 @@ export interface ProjectFilterState {
   categories?: string[];
   status?: string;
   tags?: string[];
+  searchTerm?: null | string;
 }

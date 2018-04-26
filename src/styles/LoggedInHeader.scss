@@ -4,19 +4,32 @@ body {
   z-index: -1;
 }
 
-.logged-in-header-container {
-  max-height: 75px;
+.logged-in-container-blue {
   background-color: $theme-blue;
+}
+.logged-in-header-container {
+  font: $font;
+  max-width: 1080px;
+  max-height: 75px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: '. t . d d d d d . l s s s';
+  grid-template-areas: 't d d s';
 }
 
 a {
   text-decoration: none;
 }
 
+.logged-in-header-container-right {
+  grid-area: s;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 'a a b';
+}
 /*
 ==========================
 LOGO
@@ -25,42 +38,28 @@ LOGO
 
 .logged-in-header-logo {
   grid-area: t;
-  font-family: $font;
   color: white;
   font-size: $logo-font-size;
   font-weight: 700;
   margin: auto;
-  justify-self: start;
-  white-space: nowrap;
+  margin-left: 0px;
 }
 
 /*
 ==========================
-LOGGED IN
+CREATE NEW PROJECT BTN
 ==========================
 */
 
-.logged-in-header-create {
-  grid-area: l;
-  background: none;
-  border: none;
-  font-family: $font;
-  font-size: $header-font-size;
-  margin: auto;
-  margin-top: 25px;
-  margin-bottom: 25px;
-  white-space: nowrap;
-}
-
 .logged-in-header-createButton {
-  font-family: $font;
   color: white;
   background-color: $theme-blue;
-  text-align: center;
-  vertical-align: middle;
   font-size: $header-font-size;
   font-weight: 700;
   border: none;
+  grid-area: a;
+  margin: auto;
+  padding: 8px;
 }
 
 /*
@@ -70,19 +69,17 @@ PROFILE IMAGE
 */
 
 .logged-in-header-profileImageDiv {
-  grid-area: s;
-  background: none;
-  border: none;
-  margin: auto;
+  margin: 0 auto;
+  grid-area: b;
+  position: relative;
 }
 
 .logged-in-header-profileImageButton {
-  width: 2.5vw;
-  height: 2.5vw;
-  border: 1px solid $theme-blue;
-  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   background-color: $theme-blue;
-  padding: 0%;
+  border: 1px solid $theme-blue;
 }
 
 .profileImage {
@@ -99,8 +96,9 @@ SETTINGS DROPDOWN MENU
   background-color: white;
   z-index: 10;
   position: absolute;
-  top: 80px;
-  right: 5vw;
+  width: 120px;
+  margin-left: -80px;
+  margin-top: 10px;
   display: none;
   box-shadow: $box-shadow;
   padding: 10px;
@@ -123,20 +121,6 @@ SETTINGS DROPDOWN MENU
 PROJECT DROPDOWN MENU
 ==========================
 */
-.dropbtn {
-  background-color: $theme-blue;
-  color: white;
-  font-weight: 700;
-  padding: 16px;
-  font-family: $font;
-  font-size: $logo-font-size;
-  border: none;
-  white-space: nowrap;
-  margin: 5px;
-  text-align: center;
-  margin: auto;
-}
-
 .dropdown {
   grid-area: d;
   position: relative;
@@ -144,37 +128,52 @@ PROJECT DROPDOWN MENU
   margin: auto;
 }
 
+.dropbtn {
+  background-color: $theme-blue;
+  color: white;
+  font-weight: 700;
+  padding: 4px 16px 8px 16px;
+  font-family: $font;
+  font-size: 14px;
+  border: none;
+  white-space: nowrap;
+  text-align: center;
+  margin: auto;
+  border-bottom: 1.5px solid white;
+  text-transform: uppercase;
+  width: 275px;
+}
+
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: white;
   min-width: 100%;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: $box-shadow;
   z-index: 5;
-  margin-left: 0.91%;
 }
 
-.dropdown-content a {
+.header-project-portal-link {
   color: grey;
   font-family: $font;
-  font-size: 20px;
-  padding: 12px 16px;
+  font-size: 14px;
+  padding: 8px;
   text-decoration: none;
   text-align: center;
   display: block;
 }
 
-.dropdown-content a:hover {
-  background-color: #ddd;
+.top-border {
+  border-top: 1px solid $light-grey;
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
 }
 
-.dropdown:hover .dropbtn {
-  background-color: rgb(62, 140, 209);
-}
+// .dropdown:hover .dropbtn {
+//   background-color: rgb(62, 140, 209);
+// }
 
 .dropdown-profileLink {
   border-top: 2px solid black;
@@ -182,18 +181,18 @@ PROJECT DROPDOWN MENU
 
 @media all and (max-width: 755px) and (min-width: 0px) {
   .logged-in-header-logo {
-    font-size: 15px;
+    // font-size: 15px;
   }
   .dropbtn {
-    font-size: 15px;
+    // font-size: 15px;
   }
   .profileImage {
     border-radius: 50%;
-    height: 25px;
-    width: 25px;
+    // height: 25px;
+    // width: 25px;
   }
   .logged-in-header-createButton {
-    font-size: 7px;
+    // font-size: 7px;
   }
   .logged-in-header-create {
     white-space: initial;

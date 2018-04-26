@@ -41,6 +41,11 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
               />
               <Route
                 exact={true}
+                path="/projects/update/:id"
+                component={AddProjectsPage}
+              />
+              <Route
+                exact={true}
                 path="/user/settings"
                 component={SettingsPage}
               />

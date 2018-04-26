@@ -5,6 +5,7 @@ import { PassedProps, State } from '../types/SettingsPage.d';
 import { connect } from 'react-redux';
 import PublicProfile from './PublicProfile';
 import PersonalDetails from './PersonalDetails';
+import ProjectSettings from './ProjectSettings';
 import HeaderContainer from '../HeaderContainer';
 import Footer from '../Footer';
 
@@ -13,21 +14,32 @@ class SettingsPage extends React.Component<PassedProps, State> {
     super(props);
     this.state = {
       personal: false,
-      public: true
+      public: true,
+      project: false
     };
   }
 
   personalSettings = () => {
     this.setState({
       personal: true,
-      public: false
+      public: false,
+      project: false
     });
   };
 
   publicSettings = () => {
     this.setState({
       personal: false,
-      public: true
+      public: true,
+      project: false
+    });
+  };
+
+  projectSettings = () => {
+    this.setState({
+      project: true,
+      public: false,
+      personal: false
     });
   };
 
@@ -62,15 +74,20 @@ class SettingsPage extends React.Component<PassedProps, State> {
               >
                 Public Profile
               </button>
+              <br />
+              <button
+                className="public-profile-button"
+                onClick={this.projectSettings}
+              >
+                Projects
+              </button>
             </div>
           </div>
 
           <div className="settings-info-div">
-            {this.state.public === true ? (
-              <PublicProfile />
-            ) : (
-              <PersonalDetails />
-            )}
+            {this.state.public === true ? <PublicProfile /> : null}
+            {this.state.personal === true ? <PersonalDetails /> : null}
+            {this.state.project === true ? <ProjectSettings /> : null}
           </div>
         </div>
         <Footer />

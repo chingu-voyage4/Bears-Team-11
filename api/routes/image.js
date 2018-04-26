@@ -46,6 +46,7 @@ router.post('/project', function(req, res, next) {
     } else {
       console.log(req.query.projectId);
       console.log('Uploaded project image successfully');
+
       var getListObject = new Promise(function(resolve, reject) {
         var params = {
           Bucket: 'project-match',
@@ -58,6 +59,7 @@ router.post('/project', function(req, res, next) {
             reject(err);
           }
           console.log('got data');
+          console.log(data.Contents);
           resolve(data.Contents);
         });
       });
@@ -67,13 +69,15 @@ router.post('/project', function(req, res, next) {
           var urls = [];
 
           for (var i = 0; i < data.length; i++) {
-            var urlParams = { Bucket: 'project-match', Key: data[i].Key };
-            s3.getSignedUrl('getObject', urlParams, function(err, url) {
-              if (err) {
-                return reject(err);
-              }
-              urls.push(url);
-            });
+            var endpoint = 'https://project-match.s3.us-east-2.amazonaws.com/';
+            urls.push(endpoint + data[i].Key);
+            //   var urlParams = { Bucket: 'project-match', Key: data[i].Key };
+            //   s3.getSignedUrl('getObject', urlParams, function (err, url) {
+            //     if (err) {
+            //       return reject(err);
+            //     }
+            //     urls.push(url);
+            //   });
           }
 
           setTimeout(() => {
@@ -115,6 +119,35 @@ router.post('/project', function(req, res, next) {
     }
   });
 });
+
+// getListObject
+//   .then(function (data) {
+//     geturlsArry(data).then(function (urls) {
+//       Project.findByIdAndUpdate(
+//         { _id: req.query.projectId },
+//         { images: urls },
+//         { new: true },
+//         function (err, project) {
+//           if (err) {
+//             return res.json({ error: err });
+//           } else if (!project) {
+//             return res.json({ error: 'Project not found' });
+//           } else {
+//             res.json({
+//               urls: urls,
+//               project: project,
+//               message:
+//                 'Successfully uploaded and saved project image URL to project'
+//             });
+//           }
+//         }
+//       );
+//     });
+//   })
+//   .catch(function (err) {
+//     res.json({ error: err });
+//   });
+//     }
 
 router.post('/profile', function(req, res) {
   var upload = multer({

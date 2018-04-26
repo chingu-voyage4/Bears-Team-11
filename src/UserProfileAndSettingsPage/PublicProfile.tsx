@@ -50,13 +50,13 @@ class PublicProfile extends React.Component<
         ];
         if (this.state.roles !== undefined && this.state.roles.length === 1) {
           if (this.state.roles.includes('programmer')) {
-            document.getElementById('settings-roles-designer')!.classList.add(
-              'options-button-disabled'
-            );
+            document
+              .getElementById('settings-roles-designer')!
+              .classList.add('options-button-disabled');
           } else if (this.state.roles.includes('designer')) {
-            document.getElementById('settings-roles-programmer')!.classList.add(
-              'options-button-disabled'
-            );
+            document
+              .getElementById('settings-roles-programmer')!
+              .classList.add('options-button-disabled');
           }
         } else if (
           (this.state.roles !== undefined && this.state.roles.length === 0) ||
