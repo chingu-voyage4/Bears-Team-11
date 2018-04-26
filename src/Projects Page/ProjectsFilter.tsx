@@ -191,8 +191,11 @@ class ProjectsFilter extends React.Component<
       console.log(
         'searchResults in projectsFilter=' + this.props.searchResults
       );
-      if (this.state.searchTerm !== null) {
-        query = Object.assign({}, query, { searchTerm: this.state.searchTerm });
+      if (this.props.searchResults !== '') {
+        console.log('in assigning searchterm');
+        query = Object.assign({}, query, {
+          searchTerm: this.props.searchResults
+        });
       }
 
       query = query === {} ? null : query;

@@ -10,6 +10,7 @@ function categoriesReducer(
     case GET_CATEGORIES:
       return action.data as Categories;
     default:
+      console.log(action.type);
       return state;
   }
 }

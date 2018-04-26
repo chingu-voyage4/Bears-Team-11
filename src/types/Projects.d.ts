@@ -1,3 +1,5 @@
+import { User } from './User';
+
 export interface Projects {
   _id: string;
   name?: string;
@@ -33,6 +35,11 @@ export interface Props {
   index?: number;
 }
 
+export interface ProjectForEditProps {
+  projects: Project;
+  projId: string;
+}
+
 export interface EmptyProp {}
 
 export interface ProjectsProps {}
@@ -40,6 +47,7 @@ export interface ProjectsProps {}
 export interface ProjectsInheritedProps {
   projects: Array<Project>;
   arrayOfProjects: string;
+  user: User;
   searchResults: string | null;
 }
 export interface ProjectsState {}

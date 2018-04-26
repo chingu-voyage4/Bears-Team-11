@@ -6,7 +6,11 @@ import {
   ProjectSettingsState
 } from '../types/ProjectSettings';
 import Projects from '../Projects';
-import { getProjects, updateProject } from '../actions/projectActions';
+import {
+  getProjects,
+  updateProject,
+  deleteProject
+} from '../actions/projectActions';
 
 class ProjectSettings extends React.Component<
   ProjectSettingsProps,
@@ -18,18 +22,6 @@ class ProjectSettings extends React.Component<
 
   componentWillMount() {
     this.props.getProjects({}, { creator: this.props.user.username });
-  }
-
-  public goToEditProjectPageHandler(
-    e: React.MouseEvent<HTMLButtonElement>
-  ): void {
-    // retrieve projectId from project component
-    // save to updateProject action
-    // redirect to update Project data page
-    // after save, set updateProject to null again
-    // so a new instance of it will be "add project", not updating the same data
-    // var projectId = e.currentTarget._id;
-    // this.props.updateProject(projectId);
   }
 
   render() {
@@ -47,6 +39,8 @@ function mapStateToProps(state: Store) {
     projects: state.projects
   };
 }
-export default connect(mapStateToProps, { getProjects, updateProject })(
-  ProjectSettings
-);
+export default connect(mapStateToProps, {
+  getProjects,
+  updateProject,
+  deleteProject
+})(ProjectSettings);
