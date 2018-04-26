@@ -45,14 +45,12 @@ export function moveMarker(
   height: string
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
-    return apiService
-      .updateMarkerPosition(revisionId, id, x, y, width, height)
-      .then(updatedMarker => {
-        dispatch({
-          type: MOVE_MARKER,
-          data: updatedMarker
-        });
+    return apiService.updateMarkerPosition(id, x, y).then(updatedMarker => {
+      dispatch({
+        type: MOVE_MARKER,
+        data: updatedMarker
       });
+    });
   };
 }
 
@@ -68,7 +66,7 @@ export function addComment(
   return dispatch => {
     return apiService
       .addMarkerComment(revisionId, markerId, comment)
-      .then(updatedMarker => {
+      .then((updatedMarker: Marker) => {
         dispatch({
           type: ADD_COMMENT,
           data: updatedMarker
