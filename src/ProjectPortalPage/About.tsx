@@ -11,6 +11,7 @@ class About extends React.PureComponent<
     liveLink: string | undefined;
     mockupLink: string | undefined;
     lookingFor: Array<string> | undefined;
+    projectId: string;
   },
   {}
 > {
@@ -49,7 +50,7 @@ class About extends React.PureComponent<
           </div>
         </div>
         <div>
-          <Team />
+          <Team projectId={this.props.projectId} />
         </div>
       </React.Fragment>
     );

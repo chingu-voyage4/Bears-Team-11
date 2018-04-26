@@ -2,6 +2,7 @@ import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
 import { Categories } from '../types/Category';
 import { Tags } from '../types/Tags';
+import axios from 'axios';
 
 /* User */
 function login(email: string, password: string): Promise<User | string> {
@@ -401,38 +402,9 @@ function getProjects(
 }
 
 function getProject(projectId: string) {
-  return new Promise((resolve, reject) => {
-    resolve({
-      name: 'Momentum Project',
-      creator: 'lilgangwolf',
-      githubLink: 'https://github.com',
-      mockupLink: 'https://google.com',
-      liveLink: 'https://google.com',
-
-      images: [
-        // tslint:disable-next-line
-        'https://images.unsplash.com/photo-1515111293107-b0cd6448f5f6?ixlib=rb-0.3.5&s=cba9fa015c2090a9c73d76dab3ed6dd0&auto=format&fit=crop&w=2700&q=80',
-        // tslint:disable-next-line
-        'https://images.unsplash.com/photo-1500482176473-ccba10e1e880?ixlib=rb-0.3.5&s=7c0d4e6d85c1dc526c84a070890c058c&auto=format&fit=crop&w=1534&q=80'
-      ],
-      mockups: ['mockupid_1', 'mockupid_2', 'mockupid_3'],
-      team: ['lilgangwolf', 'natapot'],
-      description:
-        // tslint:disable-next-line
-        'Clone of the momentum chrome eetnsion, with these following design changes: (1) adding a link to github repots, (2) ability to search and pin new weather locations. We are looking for a designer to re-work the layout based off our uploaded precedents.',
-      contact: 'lilgangwolf@gmail.com',
-      lookingFor: ['designer'],
-      comments: [],
-      createdAt: Date.now(),
-      dueDate: Date.now(),
-      views: 1,
-      category: 'extension',
-      tags: ['extension'],
-      status: true,
-      upVotes: 1,
-      modifiedAt: Date.now()
-    });
-  });
+  return axios
+    .get('http://localhost:8080/api/projects/' + projectId)
+    .then(response => response.data.project);
 }
 
 function addProject(project: Project): Promise<Project> {

@@ -258,6 +258,7 @@ module.exports = function(passport) {
       finalVersion: req.body.finalVersion,
       imageURL: req.body.imageURL,
       creator: req.body.creator,
+      description: req.body.description,
       project: req.params.id
     });
 

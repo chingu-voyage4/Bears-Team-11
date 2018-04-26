@@ -9,7 +9,8 @@ var RevisionSchema = new Schema({
   createdAt: { type: Date, default: Date.now() },
   creator: { type: String },
   markers: [{ type: Schema.Types.ObjectId, ref: 'Markers' }],
-  project: { type: Schema.Types.ObjectId, ref: 'Projects' }
+  project: { type: Schema.Types.ObjectId, ref: 'Projects' },
+  description: { type: String }
 });
 
 var Revisions = Mongoose.model('Revisions', RevisionSchema);
