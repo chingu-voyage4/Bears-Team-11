@@ -61,7 +61,7 @@ class AddProjectsPage extends React.Component<
         {
           name: project.name,
           description: project.description,
-          dueDate: project.dueDate.slice(0, 10),
+          dueDate: project.dueDate !== null ? project.dueDate.slice(0, 10) : '',
           team: project.team,
           githubLink: project.githubLink,
           mockupLink: project.mockupLink,
@@ -208,25 +208,46 @@ class AddProjectsPage extends React.Component<
     });
 
     this.setState({ lookingFor: lookingForArray }, () => {
-      this.props.addProject(
-        {
-          name: this.state.name,
-          description: this.state.description,
-          dueDate: this.state.dueDate,
-          team: this.state.team,
-          githubLink: this.state.githubLink,
-          mockupLink: this.state.mockupLink,
-          liveLink: this.state.liveLink,
-          lookingFor: this.state.lookingFor,
-          status: this.state.status,
-          category: this.state.category,
-          tags: this.state.tags,
-          contact: this.state.contact,
-          creator: this.props.user.username
-        },
-
-        this.state.files
-      );
+      if (this.props.match.params.hasOwnProperty('id')) {
+        this.props.updateProject(
+          {
+            _id: this.props.addOrUpdateProject._id,
+            name: this.state.name,
+            description: this.state.description,
+            dueDate: this.state.dueDate,
+            team: this.state.team,
+            githubLink: this.state.githubLink,
+            mockupLink: this.state.mockupLink,
+            liveLink: this.state.liveLink,
+            lookingFor: this.state.lookingFor,
+            status: this.state.status,
+            category: this.state.category,
+            tags: this.state.tags,
+            contact: this.state.contact,
+            creator: this.props.user.username
+          },
+          this.state.files
+        );
+      } else {
+        this.props.addProject(
+          {
+            name: this.state.name,
+            description: this.state.description,
+            dueDate: this.state.dueDate,
+            team: this.state.team,
+            githubLink: this.state.githubLink,
+            mockupLink: this.state.mockupLink,
+            liveLink: this.state.liveLink,
+            lookingFor: this.state.lookingFor,
+            status: this.state.status,
+            category: this.state.category,
+            tags: this.state.tags,
+            contact: this.state.contact,
+            creator: this.props.user.username
+          },
+          this.state.files
+        );
+      }
     });
   };
 
@@ -805,7 +826,7 @@ class AddProjectsPage extends React.Component<
                 accept="image/png, image/jpeg, image/gif"
                 name="projectImages"
                 className="uploadImageBtn"
-                multiple={true}
+                multiple={false}
                 onChange={this.handleImageText}
               />
               <button
@@ -837,7 +858,7 @@ class AddProjectsPage extends React.Component<
                 onClick={e => this.toggleDropdown(e, 'new-status-dropdown')}
                 className="new-project-dropdown-btn"
               >
-                {this.state.status}
+                {this.state.statusPlaceholder}
               </button>
               <div
                 id="new-status-dropdown"
@@ -852,7 +873,7 @@ class AddProjectsPage extends React.Component<
               className="new-project-submit-btn"
               onClick={this.handleSubmit}
             >
-              Submit New Project
+              Save Project
             </button>
           </div>
           {/* end of box 2 */}

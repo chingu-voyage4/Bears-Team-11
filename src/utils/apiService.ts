@@ -417,6 +417,8 @@ function addProject(project: Project): Promise<Project> {
       credentials: 'include'
     };
 
+    console.log(data);
+
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
@@ -434,6 +436,52 @@ function addProject(project: Project): Promise<Project> {
   });
 }
 
+function updateProject(project: Project): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/projects/update/' + project._id;
+
+    var data: object = {
+      body: JSON.stringify({
+        name: project.name,
+        description: project.description,
+        dueDate: project.dueDate,
+        team: project.team,
+        githubLink: project.githubLink,
+        mockupLink: project.mockupLink,
+        liveLink: project.liveLink,
+        lookingFor: project.lookingFor,
+        status: project.status,
+        category: project.category,
+        tags: project.tags,
+        images: project.images,
+        contact: project.contact,
+        creator: project.creator
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Project saved successfully') {
+          console.log(res.project);
+          resolve(res.project);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
 function uploadProjectImage(
   file: FileList,
   projectId: string
@@ -444,7 +492,7 @@ function uploadProjectImage(
 
     var formData = new FormData();
     for (var i = 0; i < file.length; i++) {
-      formData.append('projectImages', file[i]);
+      formData.append('image', file![i]);
     }
 
     var data: object = {
@@ -461,10 +509,7 @@ function uploadProjectImage(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (
-          res.message ===
-          'Successfully uploaded and saved project image URL to project'
-        ) {
+        if (res.message === 'Successfully saved project image') {
           resolve(res.project);
         } else {
           reject(res.error);
@@ -479,7 +524,7 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
       'http://localhost:8080/api/upload/image/profile?userId=' + userId;
 
     var formData = new FormData();
-    formData.append('projectImages', file);
+    formData.append('image', file);
 
     var data: object = {
       body: formData,
@@ -495,10 +540,7 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (
-          res.message ===
-          'Successfully uploaded and saved profile image URL to project'
-        ) {
+        if (res.message === 'Successfully saved profile image') {
           var user = res.user;
           var userDetails = res.userDetail;
           resolve({
@@ -577,7 +619,7 @@ function getOneProject(id: string): Promise<Project> {
 
 function deleteProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/delete/one';
+    const endpoint = 'http://localhost:8080/api/projects/delete';
 
     var data: object = {
       body: JSON.stringify({
@@ -586,7 +628,7 @@ function deleteProject(id: string): Promise<Project> {
       headers: {
         'Content-Type': 'application/json'
       },
-      method: 'POST',
+      method: 'DELETE',
       credentials: 'include'
     };
 
@@ -764,7 +806,8 @@ var apiService = {
   uploadProjectImage,
   uploadProfileImage,
   downloadProjectImageURLS,
-  userSettingsUpdate
+  userSettingsUpdate,
+  updateProject
 };
 
 export default apiService;

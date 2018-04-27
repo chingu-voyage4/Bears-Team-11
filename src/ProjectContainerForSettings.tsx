@@ -11,13 +11,16 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
     super(props);
   }
 
-  public deleteProject(e: React.MouseEvent<HTMLButtonElement>): void {
-    var { id } = e.currentTarget;
-    this.props.deleteProject(id);
+  public deleteProject(
+    e: React.MouseEvent<HTMLButtonElement>,
+    projId: string
+  ): void {
+    this.props.deleteProject(projId);
   }
 
   render() {
     var data = this.props.data;
+    console.log('data=' + JSON.stringify(data));
 
     var roles;
     if (data.lookingFor && data.lookingFor!.length > 1) {
@@ -57,7 +60,7 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
             className="project-edit-image"
             alt={data.name}
             src={
-              data.images === [] ||
+              data.images.length === 0 ||
               data.images === undefined ||
               data.images === null
                 ? require('./assets/imagePlaceholder.jpg')
@@ -77,7 +80,12 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
             </div>
           </div>
           <div>
-            <button className="project-delete-btn">Delete Project</button>
+            <button
+              onClick={e => this.deleteProject(e, this.props.projId)}
+              className="project-delete-btn"
+            >
+              Delete Project
+            </button>
           </div>
           <div />
           <div />

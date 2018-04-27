@@ -119,7 +119,8 @@ export function logout(): (dispatch: Dispatch<UserAction>) => void {
   };
 }
 
-export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
+export type getAllUsersFnType = (dispatch: Dispatch<Action>) => void;
+export function getAllUsers(): getAllUsersFnType {
   return dispatch => {
     return apiService
       .getAllUsers()
@@ -137,6 +138,8 @@ export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
       });
   };
 }
+
+export type getAllUsers_fntype = (dispatch: Dispatch<Action>) => void;
 
 export function userSettingsUpdate(
   aboutme: string,
