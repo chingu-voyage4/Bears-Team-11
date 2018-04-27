@@ -1,6 +1,5 @@
 /* tslint:disable */
 import * as React from 'react';
-import * as shortid from 'shortid';
 import CommentBox from './CommentBox';
 import { connect } from 'react-redux';
 import {
@@ -61,7 +60,7 @@ class AnnotationLayer extends React.Component<{
         );
       } else {
         markers.push(
-          this.drawCircle(annotation.id, annotation.x, annotation.y)
+          this.drawCircle(annotation._id, annotation.x, annotation.y)
         );
       }
     });
@@ -70,13 +69,13 @@ class AnnotationLayer extends React.Component<{
 
   addMarker = (e: any) => {
     var marker: any;
+    var { left, top } = e.target.getBoundingClientRect();
+
     switch (this.props.tool) {
       case 'circle':
-        // center the cursor (toolbar offset + height offset)
         marker = {
-          id: shortid.generate(),
-          x: e.pageX - 21,
-          y: e.pageY - 71,
+          x: e.pageX - left - 21,
+          y: e.pageY - top - 21,
           type: 'circle'
         };
         this.saveMarker(marker);
@@ -84,9 +83,8 @@ class AnnotationLayer extends React.Component<{
       case 'rectangle':
         // center the cursor
         marker = {
-          id: shortid.generate(),
-          x: e.pageX - 50,
-          y: e.pageY - 100,
+          x: e.pageX - left - 50,
+          y: e.pageY - top - 50,
           width: 100,
           height: 100,
           type: 'rectangle'
