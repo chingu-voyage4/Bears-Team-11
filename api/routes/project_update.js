@@ -8,7 +8,6 @@ var User = require('../models/Users');
 module.exports = function(passport) {
   // update project
   router.post('/update/:id', isAuthenticated, function(req, res) {
-    console.log('_id=' + req.params.id);
     var projectId = req.params.id;
     var updateBody = req.body;
     delete updateBody._id;
@@ -20,7 +19,6 @@ module.exports = function(passport) {
       } else if (!project) {
         return res.json({ error: 'Project does not exist: ' + err });
       } else {
-        console.log('looping through updateBody');
         // loop through every key/value pair on updateBody, saves each to userDetails
         var updateEachKey = () => {
           for (var key in updateBody) {

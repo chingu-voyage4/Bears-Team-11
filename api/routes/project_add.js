@@ -9,7 +9,6 @@ module.exports = function(passport) {
   // add projects
   router.post('/add', isAuthenticated, function(req, res) {
     // create new project
-    console.log(req.body);
     var newProject = new Project();
 
     newProject.name = req.body.name;
@@ -36,7 +35,6 @@ module.exports = function(passport) {
             saveTag(tag);
           });
         }
-        console.log('New project saved successfully=' + project);
         res.json({
           message: 'New project saved successfully',
           newProject: project

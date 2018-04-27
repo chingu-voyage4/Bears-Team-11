@@ -6,9 +6,6 @@ var Project = require('../models/Projects');
 module.exports = function(passport) {
   // delete a single project by id
   router.delete('/delete', isAuthenticated, function(req, res) {
-    console.log('id=' + req.body.id);
-
-    console.log('deleting project');
     Project.findByIdAndRemove(req.body.id, function(err, project) {
       if (err || !project) {
         res.json({ error: 'Error in deleting project: ' + err });

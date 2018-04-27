@@ -52,7 +52,6 @@ module.exports = function(passport) {
             if (err) {
               res.json({ error: err });
             }
-            console.log('Deactivating user: ', user.username);
             return res.json({
               user: user,
               message: 'Successfully deactivated user'
@@ -73,7 +72,6 @@ module.exports = function(passport) {
         if (err) {
           return res.json({ error: err });
         }
-        console.log('Activating user: ', user.username);
         return res.json({
           user: user,
           message: 'Successfully re-activated user'
@@ -95,7 +93,6 @@ module.exports = function(passport) {
         if (err) {
           return res.json({ error: err });
         }
-        console.log('Deleting user: ', user.username);
         return res.json({ message: 'Successfully deleted user' });
       });
     })(req, res, next);
@@ -103,7 +100,6 @@ module.exports = function(passport) {
 
   router.post('/update/public', isAuthenticated, function(req, res) {
     var userId = req.body.userId;
-    console.log(req.body);
     var updateObject = req.body;
     delete updateObject.userId;
 
@@ -138,7 +134,6 @@ module.exports = function(passport) {
           } else if (!userDetail) {
             return res.json({ error: 'UserDetail does not exist' });
           } else {
-            console.log('returned updated object=' + userDetail);
             return res.json({
               user: user,
               userDetail: userDetail,

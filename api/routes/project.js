@@ -28,8 +28,8 @@ module.exports = function(passport) {
       });
     }
 
-    console.log(JSON.stringify(query));
-    console.log(options);
+    // console.log(JSON.stringify(query));
+    // console.log(options);
     Project.paginate(
       query === undefined || query === {} ? {} : query,
       options,
