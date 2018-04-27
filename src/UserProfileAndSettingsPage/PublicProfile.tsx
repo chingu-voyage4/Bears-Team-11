@@ -283,7 +283,7 @@ class PublicProfile extends React.Component<
             <input
               className="settings-input"
               name="website"
-              value={this.state.portfolio}
+              value={this.state.website}
               onChange={e => this.handleInputChange(e)}
             />
           </div>
