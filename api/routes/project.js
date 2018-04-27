@@ -23,10 +23,26 @@ module.exports = function(passport) {
       query = delete query.searchTerm;
       query = Object.assign({}, query, {
         $or: [
-          { name: { $regex: queryToRegex } },
-          { description: { $regex: queryToRegex } },
-          { category: { $regex: queryToRegex } },
-          { tags: { $regex: queryToRegex } }
+          {
+            name: {
+              $regex: queryToRegex
+            }
+          },
+          {
+            description: {
+              $regex: queryToRegex
+            }
+          },
+          {
+            category: {
+              $regex: queryToRegex
+            }
+          },
+          {
+            tags: {
+              $regex: queryToRegex
+            }
+          }
         ]
       });
     }
@@ -38,7 +54,9 @@ module.exports = function(passport) {
       options,
       function(err, result) {
         if (err) {
-          return res.json({ error: 'Error retrieving project: ' + err });
+          return res.json({
+            error: 'Error retrieving project: ' + err
+          });
         } else {
           res.json({
             projects: result,
@@ -53,9 +71,14 @@ module.exports = function(passport) {
     // retrieve all items in the tags collection. receive tagName and array of projects involved
     return Tags.find({}, function(err, tags) {
       if (err) {
-        return res.json({ error: 'Error getting tags: ' + err });
+        return res.json({
+          error: 'Error getting tags: ' + err
+        });
       } else {
-        return res.json({ tags: tags, message: 'Successfully retrieved tags' });
+        return res.json({
+          tags: tags,
+          message: 'Successfully retrieved tags'
+        });
       }
     });
   });
@@ -64,7 +87,9 @@ module.exports = function(passport) {
     // retrieve all items in the categories collection. receive tagName and array of projects involved
     return Categories.find({}, function(err, categories) {
       if (err) {
-        return res.json({ error: 'Error getting categories: ' + err });
+        return res.json({
+          error: 'Error getting categories: ' + err
+        });
       } else {
         return res.json({
           categories: categories,
@@ -100,7 +125,9 @@ module.exports = function(passport) {
     ];
 
     saveNewTag = tagName => {
-      var newTag = new Tags({ tagName: tagName });
+      var newTag = new Tags({
+        tagName: tagName
+      });
       newTag.save(function(err) {
         if (err) {
           console.log('Error in saving tag: ' + err);
@@ -114,9 +141,14 @@ module.exports = function(passport) {
       });
       return Tags.find({}, function(err, tags) {
         if (err || !tags) {
-          res.json({ error: 'Error in saving and retrieving tags: ' + err });
+          res.json({
+            error: 'Error in saving and retrieving tags: ' + err
+          });
         } else {
-          res.json({ tags: tags, message: 'Successfully saved batch tags' });
+          res.json({
+            tags: tags,
+            message: 'Successfully saved batch tags'
+          });
         }
       });
     }
@@ -140,10 +172,14 @@ module.exports = function(passport) {
     ];
 
     saveNewCategories = categoryName => {
-      var newCategory = new Categories({ categoryName: categoryName });
+      var newCategory = new Categories({
+        categoryName: categoryName
+      });
       newCategory.save(function(err) {
         if (err) {
-          res.json({ error: 'Error in saving category: ' + category });
+          res.json({
+            error: 'Error in saving category: ' + category
+          });
         }
       });
     };
@@ -172,16 +208,23 @@ module.exports = function(passport) {
 
   // retrieves project by id
   router.get('/:id', function(req, res) {
-    Project.findOne({ _id: req.params.id }, function(err, project) {
-      if (err || !project) {
-        res.json({ error: 'Error in retrieving project: ' + err });
-      } else {
-        res.json({
-          message: 'Successfully retrieved project',
-          project: project
-        });
+    Project.findOne(
+      {
+        _id: req.params.id
+      },
+      function(err, project) {
+        if (err || !project) {
+          res.json({
+            error: 'Error in retrieving project: ' + err
+          });
+        } else {
+          res.json({
+            message: 'Successfully retrieved project',
+            project: project
+          });
+        }
       }
-    });
+    );
   });
 
   // add projects
@@ -206,7 +249,9 @@ module.exports = function(passport) {
 
     newProject.save(function(err, project) {
       if (err) {
-        res.json({ error: 'Error in saving project: ' + err });
+        res.json({
+          error: 'Error in saving project: ' + err
+        });
       } else {
         // check through array of tags and save new ones in collection
         if (project.tags) {
@@ -231,54 +276,69 @@ module.exports = function(passport) {
     delete updateBody._id;
     delete updateBody.images;
 
-    Project.findOne({ _id: projectId }, function(err, project) {
-      if (err) {
-        return res.json({ error: err });
-      } else if (!project) {
-        return res.json({ error: 'Project does not exist: ' + err });
-      } else {
-        console.log('looping through updateBody');
-        // loop through every key/value pair on updateBody, saves each to userDetails
-        var updateEachKey = () => {
-          for (var key in updateBody) {
-            Project.findByIdAndUpdate(
-              projectId,
-              { [key]: updateBody[key] },
-              { new: true },
-              function(err, updatedObject) {
-                if (err || !updatedObject) {
-                  return res.json({
-                    error: 'Could not update project: ' + err
+    Project.findOne(
+      {
+        _id: projectId
+      },
+      function(err, project) {
+        if (err) {
+          return res.json({
+            error: err
+          });
+        } else if (!project) {
+          return res.json({
+            error: 'Project does not exist: ' + err
+          });
+        } else {
+          console.log('looping through updateBody');
+          // loop through every key/value pair on updateBody, saves each to userDetails
+          var updateEachKey = () => {
+            for (var key in updateBody) {
+              Project.findByIdAndUpdate(
+                projectId,
+                {
+                  [key]: updateBody[key]
+                },
+                {
+                  new: true
+                },
+                function(err, updatedObject) {
+                  if (err || !updatedObject) {
+                    return res.json({
+                      error: 'Could not update project: ' + err
+                    });
+                  }
+                }
+              );
+            }
+          };
+          async function updateThenReturn() {
+            await updateEachKey();
+
+            await Project.findById(projectId, function(err, project) {
+              if (err || !project) {
+                return res.json({
+                  error: 'Error in retrieving project: ' + err
+                });
+              } else {
+                // check through array of tags and save new ones in collection
+                if (project.tags) {
+                  project.tags.forEach(tag => {
+                    saveTag(tag);
                   });
                 }
-              }
-            );
-          }
-        };
-        async function updateThenReturn() {
-          await updateEachKey();
-
-          await Project.findById(projectId, function(err, project) {
-            if (err || !project) {
-              return res.json({ error: 'Error in retrieving project: ' + err });
-            } else {
-              // check through array of tags and save new ones in collection
-              if (project.tags) {
-                project.tags.forEach(tag => {
-                  saveTag(tag);
+                res.json({
+                  project: project,
+                  message: 'Project saved successfully'
                 });
               }
-              res.json({
-                project: project,
-                message: 'Project saved successfully'
-              });
-            }
-          });
-        }
+            });
+          }
 
-        updateThenReturn();
+          updateThenReturn();
+        }
       }
-    });
+    );
   });
   // delete a single project by id
   router.delete('/delete', isAuthenticated, function(req, res) {
@@ -287,11 +347,15 @@ module.exports = function(passport) {
     console.log('deleting project');
     Project.findByIdAndRemove(req.body.id, function(err, project) {
       if (err || !project) {
-        res.json({ error: 'Error in deleting project: ' + err });
+        res.json({
+          error: 'Error in deleting project: ' + err
+        });
       } else {
         Project.find({}, function(err, projects) {
           if (err || !projects) {
-            res.json({ error: 'Error in finding projects: ' + err });
+            res.json({
+              error: 'Error in finding projects: ' + err
+            });
           } else {
             res.json({
               message: 'Project successfully deleted',
@@ -305,31 +369,43 @@ module.exports = function(passport) {
 
   // get team thumbnails
   router.get('/:id/team/thumbnails', function(req, res) {
-    UserDetails.find({ projects: { $in: [req.params.id] } }, function(
-      err,
-      userDetails
-    ) {
-      if (err) {
-        console.log(err);
-      } else {
-        var usernames = userDetails.map(userdetail => {
-          return userdetail.username;
-        });
-        User.find({ username: { $in: usernames } }, function(err, user) {
-          if (err) {
-            console.log(err);
-          } else {
-            var thumbnailsURLs = user.map(data => {
-              return data.profileImage;
-            });
-            res.json({
-              message: 'Team successfully found for project ' + req.params.id,
-              thumbnailsURLs
-            });
-          }
-        });
+    UserDetails.find(
+      {
+        projects: {
+          $in: [req.params.id]
+        }
+      },
+      function(err, userDetails) {
+        if (err) {
+          console.log(err);
+        } else {
+          var usernames = userDetails.map(userdetail => {
+            return userdetail.username;
+          });
+          User.find(
+            {
+              username: {
+                $in: usernames
+              }
+            },
+            function(err, user) {
+              if (err) {
+                console.log(err);
+              } else {
+                var thumbnailsURLs = user.map(data => {
+                  return data.profileImage;
+                });
+                res.json({
+                  message:
+                    'Team successfully found for project ' + req.params.id,
+                  thumbnailsURLs
+                });
+              }
+            }
+          );
+        }
       }
-    });
+    );
   });
 
   // TODO: Add authorization and validation
@@ -354,16 +430,22 @@ module.exports = function(passport) {
 
   // get comments for a project
   router.get('/:id/comments', function(req, res) {
-    Comment.find({ project: req.params.id }, function(err, comments) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({
-          message: 'Comment successfully retreived for poject ' + req.params.id,
-          comments
-        });
+    Comment.find(
+      {
+        project: req.params.id
+      },
+      function(err, comments) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message:
+              'Comment successfully retreived for poject ' + req.params.id,
+            comments
+          });
+        }
       }
-    });
+    );
   });
 
   // TODO: Add authorization and validation
@@ -391,32 +473,42 @@ module.exports = function(passport) {
 
   // get revisions for a project
   router.get('/:id/revisions', function(req, res) {
-    Revision.find({ project: req.params.id }, function(err, revisions) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({
-          message:
-            'Revisions successfully retrieved for project ' + req.params.id,
-          revisions
-        });
+    Revision.find(
+      {
+        project: req.params.id
+      },
+      function(err, revisions) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message:
+              'Revisions successfully retrieved for project ' + req.params.id,
+            revisions
+          });
+        }
       }
-    });
+    );
   });
 
   // get revision for a project
   router.get('/revision/:revisionId', function(req, res) {
-    Revision.findOne({ _id: req.params.revisionId }, function(err, revision) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({
-          message:
-            'Revision successfully retrieved for project ' + req.params.id,
-          revision
-        });
+    Revision.findOne(
+      {
+        _id: req.params.revisionId
+      },
+      function(err, revision) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message:
+              'Revision successfully retrieved for project ' + req.params.id,
+            revision
+          });
+        }
       }
-    });
+    );
   });
 
   // TODO: Add authorization and validation
@@ -447,18 +539,43 @@ module.exports = function(passport) {
 
   // get markers for revisions
   router.get('/revision/:revisionId/markers', function(req, res) {
-    Marker.find({ revision: req.params.revisionId }, function(err, markers) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({
-          message:
-            'Markers successfully retrieved for revision ' +
-            req.params.revisionId,
-          markers
-        });
+    Marker.find(
+      {
+        revision: req.params.revisionId
+      },
+      function(err, markers) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message:
+              'Markers successfully retrieved for revision ' +
+              req.params.revisionId,
+            markers
+          });
+        }
       }
-    });
+    );
+  });
+
+  // update marker positions
+  router.put('/revision/marker/:markerId', function(req, res) {
+    Marker.findOneAndUpdate(
+      {
+        _id: req.params.markerId
+      },
+      req.body,
+      function(err, marker) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message: `Marker ${req.params.markerId} successfully updated`,
+            marker
+          });
+        }
+      }
+    );
   });
 
   // TODO: Add authorization and validation
@@ -489,32 +606,45 @@ module.exports = function(passport) {
     req,
     res
   ) {
-    Comment.find({ marker: req.params.markerId }, function(err, comments) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({
-          message: 'Comment successfully retreived for marker ' + req.params.id,
-          comments
-        });
+    Comment.find(
+      {
+        marker: req.params.markerId
+      },
+      function(err, comments) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message:
+              'Comment successfully retreived for marker ' + req.params.id,
+            comments
+          });
+        }
       }
-    });
+    );
   });
 
   return router;
 };
 
 saveTag = tagName => {
-  Tags.findOne({ tagName: tagName }, function(err, tag) {
-    if (err) {
-      console.log('Error in retrieving tag: ' + err);
-    } else if (!tag) {
-      var newTag = new Tags({ tagName: tagName });
-      newTag.save(function(err) {
-        if (err) {
-          console.log('Error in saving tag: ' + err);
-        }
-      });
+  Tags.findOne(
+    {
+      tagName: tagName
+    },
+    function(err, tag) {
+      if (err) {
+        console.log('Error in retrieving tag: ' + err);
+      } else if (!tag) {
+        var newTag = new Tags({
+          tagName: tagName
+        });
+        newTag.save(function(err) {
+          if (err) {
+            console.log('Error in saving tag: ' + err);
+          }
+        });
+      }
     }
-  });
+  );
 };

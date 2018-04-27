@@ -2,14 +2,15 @@ import {
   GET_MARKERS,
   ADD_MARKER,
   MOVE_MARKER,
-  ADD_COMMENT
+  ADD_COMMENT,
+  RESIZE_MARKER
 } from '../actions/actionTypes';
 import { Marker } from '../types/Marker';
 import { MarkerAction } from '../types/Redux';
 
 function replaceMarker(markers: Array<Marker>, marker: Marker) {
   for (let i = 0; i < markers.length; i++) {
-    if (markers[i].id === marker.id) {
+    if (markers[i]._id === marker._id) {
       markers[i] = marker;
     }
   }
@@ -24,6 +25,9 @@ function markerReducer(state: Array<Marker> = [], action: MarkerAction) {
       newState.push(action.data as Marker);
       return newState;
     case MOVE_MARKER:
+      replaceMarker(newState, action.data as Marker);
+      return newState;
+    case RESIZE_MARKER:
       replaceMarker(newState, action.data as Marker);
       return newState;
     case ADD_COMMENT:

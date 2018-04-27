@@ -78,7 +78,7 @@ class CommentBox extends React.Component<
 function mapStateToProps(state: Store, ownProps: any) {
   var comments;
   for (var i = 0; i < state.markers.length; i++) {
-    if (state.markers[i].id === ownProps.markerId) {
+    if (state.markers[i]._id === ownProps.markerId) {
       comments = state.markers[i].comments;
     }
   }

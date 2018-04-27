@@ -1,6 +1,7 @@
 import {
   ADD_MARKER,
   MOVE_MARKER,
+  RESIZE_MARKER,
   ADD_COMMENT,
   GET_MARKERS
 } from './actionTypes';
@@ -37,12 +38,9 @@ export function addMarker(
 }
 
 export function moveMarker(
-  revisionId: string,
   id: string,
   x: string,
-  y: string,
-  width: string,
-  height: string
+  y: string
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService.updateMarkerPosition(id, x, y).then(updatedMarker => {
@@ -51,6 +49,23 @@ export function moveMarker(
         data: updatedMarker
       });
     });
+  };
+}
+
+export function resizeMarker(
+  id: string,
+  width: string,
+  height: string
+): (dispatch: Dispatch<MarkerAction>) => void {
+  return dispatch => {
+    return apiService
+      .updateMarkerDimensions(id, width, height)
+      .then(updatedMarker => {
+        dispatch({
+          type: RESIZE_MARKER,
+          data: updatedMarker
+        });
+      });
   };
 }
 

@@ -732,8 +732,9 @@ function saveMarker(revisionId: string, marker: Marker) {
 }
 
 function updateMarkerPosition(id: string, x: string, y: string) {
+  console.log('updating marker position...');
   return axios
-    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+    .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
       x,
       y
     })
@@ -743,8 +744,9 @@ function updateMarkerPosition(id: string, x: string, y: string) {
 }
 
 function updateMarkerDimensions(id: string, width: string, height: string) {
+  console.log('updating marker dimensions...');
   return axios
-    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+    .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
       width,
       height
     })

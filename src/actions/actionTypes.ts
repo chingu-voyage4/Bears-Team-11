@@ -19,6 +19,7 @@ export const GET_MARKERS = 'GET_MARKERS';
 export const ADD_MARKER = 'ADD_MARKER';
 export const MOVE_MARKER = 'MOVE_MARKER';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const RESIZE_MARKER = 'RESIZE_MARKER';
 
 export const GET_TAGS = 'API:GET_TAGS';
 export const GET_CATEGORIES = 'API:GET_CATEGORIES';

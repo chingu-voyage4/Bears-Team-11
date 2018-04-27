@@ -6,6 +6,7 @@ import {
   getMarkers,
   addMarker,
   moveMarker,
+  resizeMarker,
   addComment
 } from '../actions/markerActions';
 import { Store } from '../types/Redux';
@@ -27,6 +28,7 @@ class AnnotationLayer extends React.Component<{
   getMarkers: any;
   moveMarker: any;
   addComment: any;
+  resizeMarker: any;
 }> {
   componentDidMount() {
     this.props.getMarkers(this.props.revisionId).then(() => {
@@ -155,27 +157,27 @@ class AnnotationLayer extends React.Component<{
 
   makeInteractive = () => {
     this.props.markers.forEach((marker: any) => {
-      this.makeDraggable(marker.id);
+      this.makeDraggable(marker._id);
       if (marker.type === 'rectangle') {
-        this.makeResizeable(marker.id);
+        this.makeResizeable(marker._id);
       }
     });
   };
 
   enableInteractivity = () => {
     this.props.markers.forEach((marker: any) => {
-      this.enableDrag(marker.id);
+      this.enableDrag(marker._id);
       if (marker.type === 'rectangle') {
-        this.enableResize(marker.id);
+        this.enableResize(marker._id);
       }
     });
   };
 
   disableInteractivity = () => {
     this.props.markers.forEach((marker: any) => {
-      this.disableDrag(marker.id);
+      this.disableDrag(marker._id);
       if (marker.type === 'rectangle') {
-        this.disableResize(marker.id);
+        this.disableResize(marker._id);
       }
     });
   };
@@ -184,15 +186,13 @@ class AnnotationLayer extends React.Component<{
     window.$(`#${id}`).draggable({
       stop: () => {
         var marker = document.getElementById(id);
-        if (marker) {
+        if (marker && marker.parentElement) {
+          var offset = marker.parentElement.getBoundingClientRect();
           var position = marker.getBoundingClientRect();
           this.props.moveMarker(
-            this.props.revisionId,
             id,
-            position.left,
-            position.top - 75, // adjust for toolbar + padding
-            position.width - 4, // adjust for border
-            position.height - 4 // adjust for border
+            position.left - offset.left,
+            position.top - offset.top
           );
         }
       }
@@ -206,11 +206,8 @@ class AnnotationLayer extends React.Component<{
         var marker = document.getElementById(id);
         if (marker) {
           var position = marker.getBoundingClientRect();
-          this.props.moveMarker(
-            this.props.revisionId,
+          this.props.resizeMarker(
             id,
-            position.left,
-            position.top - 75, // adjust for toolbar + padding
             position.width - 4, // adjust for border
             position.height - 4 // adjust for border
           );
@@ -256,5 +253,6 @@ export default connect(mapStateToProps, {
   getMarkers,
   addMarker,
   moveMarker,
+  resizeMarker,
   addComment
 })(AnnotationLayer);
