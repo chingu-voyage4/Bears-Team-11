@@ -18,10 +18,14 @@ export function getProjects(
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService.getProjects(options, query).then(projects => {
-      return dispatch({
-        type: GET_PROJECTS,
-        data: projects
-      });
+      if (projects) {
+        return dispatch({
+          type: GET_PROJECTS,
+          data: projects
+        });
+      } else {
+        return null;
+      }
     });
   };
 }
@@ -42,10 +46,14 @@ export function getProject(
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService.getProject(projectId).then(project => {
-      return dispatch({
-        type: GET_PROJECT,
-        data: project
-      });
+      if (project) {
+        return dispatch({
+          type: GET_PROJECT,
+          data: project
+        });
+      } else {
+        return null;
+      }
     });
   };
 }
@@ -78,12 +86,19 @@ export function updateProject(
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService.updateProject(project).then(projects => {
-      apiService.uploadProjectImage(files, projects._id).then(() => {
+      if (files) {
+        return apiService.uploadProjectImage(files, projects._id).then(() => {
+          return dispatch({
+            type: UPDATE_PROJECT,
+            data: projects
+          });
+        });
+      } else {
         return dispatch({
           type: UPDATE_PROJECT,
           data: projects
         });
-      });
+      }
     });
   };
 }
@@ -105,10 +120,10 @@ export function deleteProject(
   id: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.deleteProject(id).then(deletedProject => {
+    return apiService.deleteProject(id).then(project => {
       return dispatch({
         type: DELETE_PROJECT,
-        data: deletedProject
+        data: project
       });
     });
   };

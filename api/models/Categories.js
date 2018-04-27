@@ -6,8 +6,7 @@ var Schema = Mongoose.Schema;
 // Lets create Schema Object
 // The formet will be x = { variables like type and conditionals...} fallowed by ','
 var CategorySchema = new Schema({
-  categoryName: { type: String },
-  arrayOfProjectIds: { type: Array }
+  categoryName: { type: String }
 });
 
 // This will creates database named "Categories" in the Database

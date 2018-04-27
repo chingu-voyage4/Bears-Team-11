@@ -113,7 +113,10 @@ export interface AddProjectProps {
   getAllUsers: () => (dispatch: Dispatch<Action>) => void;
   getCategories: () => (dispatch: Dispatch<Action>) => void;
   getTags: () => (dispatch: Dispatch<Action>) => void;
-  updateProject: (id: string) => (dispatch: Dispatch<Action>) => void;
+  updateProject: (
+    project: any,
+    files: FileList
+  ) => (dispatch: Dispatch<Action>) => void;
   getOneProject: (id: string) => (dispatch: Dispatch<Action>) => void;
 }
 

@@ -1,7 +1,8 @@
 import {
   GET_PROJECTS,
   ADD_PROJECT,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  UPDATE_PROJECT
 } from '../actions/actionTypes';
 import { ProjectState, ProjectAction } from '../types/Redux';
 import { Project } from '../types/Projects';
@@ -16,6 +17,8 @@ function projectReducer(
     case ADD_PROJECT:
       return action.data;
     case DELETE_PROJECT:
+      return action.data;
+    case UPDATE_PROJECT:
       return action.data;
     default:
       return state;

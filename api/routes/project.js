@@ -100,10 +100,7 @@ module.exports = function(passport) {
     ];
 
     saveNewTag = tagName => {
-      var newSet = new Set();
-      newSet.add('001');
-      console.log(newSet);
-      var newTag = new Tags({ tagName: tagName, arrayOfProjectIds: newSet });
+      var newTag = new Tags({ tagName: tagName });
       newTag.save(function(err) {
         if (err) {
           console.log('Error in saving tag: ' + err);
@@ -143,21 +140,16 @@ module.exports = function(passport) {
     ];
 
     saveNewCategories = categoryName => {
-      var newSet = new Set();
-      newSet.add(0);
-      var newCategory = new Tags({
-        categoryName: categoryName,
-        arrayOfProjectIds: newSet
-      });
+      var newCategory = new Categories({ categoryName: categoryName });
       newCategory.save(function(err) {
         if (err) {
-          res.json({ error: 'Error in saving tag: ' + err });
+          res.json({ error: 'Error in saving category: ' + category });
         }
       });
     };
 
     async function mapThenSaveCategories() {
-      categoryArray.map(category => {
+      await categoryArray.map(category => {
         saveNewCategories(category);
       });
 
@@ -192,23 +184,62 @@ module.exports = function(passport) {
     });
   });
 
-  // add / update projects
+  // add projects
   router.post('/add', isAuthenticated, function(req, res) {
-    if (req.body._id !== undefined) {
-      console.log('_id=' + req.body._id);
-      // update project
-      var projectId = req.body._id;
-      var updateBody = req.body;
-      delete updateBody._id;
-      delete updateBody.images;
+    // create new project
+    console.log(req.body);
+    var newProject = new Project();
 
-      Project.findOne({ _id: projectId }, function(err, project) {
-        if (err) {
-          return res.json({ error: err });
-        } else if (!project) {
-          return res.json({ error: 'Project does not exist: ' + err });
-        } else {
-          // loop through every key/value pair on updateBody, saves each to userDetails
+    newProject.name = req.body.name;
+    newProject.description = req.body.description;
+    newProject.dueDate = req.body.dueDate;
+    newProject.team = req.body.team;
+    newProject.githubLink = req.body.githubLink;
+    newProject.mockupLink = req.body.mockupLink;
+    newProject.liveLink = req.body.liveLink;
+    newProject.lookingFor = req.body.lookingFor;
+    newProject.status = req.body.status;
+    newProject.category = req.body.category;
+    newProject.tags = req.body.tags;
+    newProject.contact = req.body.contact;
+    newProject.creator = req.body.creator;
+
+    newProject.save(function(err, project) {
+      if (err) {
+        res.json({ error: 'Error in saving project: ' + err });
+      } else {
+        // check through array of tags and save new ones in collection
+        if (project.tags) {
+          project.tags.forEach(tag => {
+            saveTag(tag);
+          });
+        }
+        console.log('New project saved successfully=' + project);
+        res.json({
+          message: 'New project saved successfully',
+          newProject: project
+        });
+      }
+    });
+  });
+
+  // update project
+  router.post('/update/:id', isAuthenticated, function(req, res) {
+    console.log('_id=' + req.params.id);
+    var projectId = req.params.id;
+    var updateBody = req.body;
+    delete updateBody._id;
+    delete updateBody.images;
+
+    Project.findOne({ _id: projectId }, function(err, project) {
+      if (err) {
+        return res.json({ error: err });
+      } else if (!project) {
+        return res.json({ error: 'Project does not exist: ' + err });
+      } else {
+        console.log('looping through updateBody');
+        // loop through every key/value pair on updateBody, saves each to userDetails
+        var updateEachKey = () => {
           for (var key in updateBody) {
             Project.findByIdAndUpdate(
               projectId,
@@ -223,19 +254,20 @@ module.exports = function(passport) {
               }
             );
           }
+        };
+        async function updateThenReturn() {
+          await updateEachKey();
 
-          Project.findById(projectId, function(err, project) {
+          await Project.findById(projectId, function(err, project) {
             if (err || !project) {
               return res.json({ error: 'Error in retrieving project: ' + err });
             } else {
-              clearTagCategoryTeamHandler(projectId);
-              console.log(project.tags);
-              addTagCategoryTeamHandler(
-                projectId,
-                project.tags,
-                project.category,
-                project.team
-              );
+              // check through array of tags and save new ones in collection
+              if (project.tags) {
+                project.tags.forEach(tag => {
+                  saveTag(tag);
+                });
+              }
               res.json({
                 project: project,
                 message: 'Project saved successfully'
@@ -243,62 +275,14 @@ module.exports = function(passport) {
             }
           });
         }
-      });
-    } else {
-      // create new project
-      console.log(req.body);
-      var newProject = new Project();
 
-      newProject.name = req.body.name;
-      newProject.description = req.body.description;
-      newProject.dueDate = req.body.dueDate;
-      newProject.team = req.body.team;
-      newProject.githubLink = req.body.githubLink;
-      newProject.mockupLink = req.body.mockupLink;
-      newProject.liveLink = req.body.liveLink;
-      newProject.lookingFor = req.body.lookingFor;
-      newProject.status = req.body.status;
-      newProject.category = req.body.category;
-      newProject.tags = req.body.tags;
-      newProject.contact = req.body.contact;
-      newProject.creator = req.body.creator;
-
-      newProject.save(function(err, project) {
-        if (err) {
-          res.json({ error: 'Error in saving project: ' + err });
-        } else {
-          // save project to creators projectArray
-          addProjToUser(project.creator, project._id);
-
-          console.log('project._id=' + project._id);
-          console.log('project.tags=' + project.tags);
-          console.log('project.category=' + project.category);
-          console.log('project.team=' + project.team);
-
-          // save projectId to corresponding tag / category / team members docs
-          addTagCategoryTeamHandler(
-            project._id,
-            project.tags,
-            project.category,
-            project.team
-          );
-
-          console.log('New project saved successfully=' + project);
-          res.json({
-            message: 'New project saved successfully',
-            newProject: project
-          });
-        }
-      });
-    }
+        updateThenReturn();
+      }
+    });
   });
-
   // delete a single project by id
   router.delete('/delete', isAuthenticated, function(req, res) {
     console.log('id=' + req.body.id);
-
-    console.log('clearing tag / category / team');
-    clearTagCategoryTeamHandler(req.body.id);
 
     console.log('deleting project');
     Project.findByIdAndRemove(req.body.id, function(err, project) {
@@ -420,22 +404,6 @@ module.exports = function(passport) {
     });
   });
 
-  // get a single revision
-  router.get('/:projectId/revisions/:revisionId', function(req, res) {
-    Revision.findOne({ _id: req.params.revisionId }, function(err, revision) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({
-          message:
-            'Revision successfully retrieved for project ' +
-            req.params.revisionId,
-          revision
-        });
-      }
-    });
-  });
-
   // TODO: Add authorization and validation
   // add marker to a revision
   router.post('/:id/revision/:revisionId/marker', function(req, res) {
@@ -462,7 +430,7 @@ module.exports = function(passport) {
   });
 
   // get markers for revisions
-  router.get('/revision/:revisionId/markers', function(req, res) {
+  router.get('/:id/revision/:revisionId/markers', function(req, res) {
     Marker.find({ revision: req.params.revisionId }, function(err, markers) {
       if (err) {
         console.log(err);
@@ -520,204 +488,16 @@ module.exports = function(passport) {
   return router;
 };
 
-// function that removes projecId from corresponding tags / category / team docs
-clearTagCategoryTeamHandler = projectId => {
-  deleteProjIdInTag(projectId);
-  deleteProjIdInTeam(projectId);
-  deleteProjIdInCategory(projectId);
-};
-
-// function that adds projectId to corresponding tag / category / team docs
-addTagCategoryTeamHandler = (projectId, tagArray, categoryName, teamArray) => {
-  if ((tagArray !== undefined) | (tagArray !== [])) {
-    tagArray.map(tag => {
-      addTag(tag, projectId);
-    });
-  }
-
-  if (categoryName !== undefined || categoryName !== '') {
-    addCategory(categoryName, projectId);
-  }
-
-  if (teamArray !== undefined || teamArray !== []) {
-    teamArray.map(user => {
-      addProjToUser(user, projectId);
-    });
-  }
-};
-
-deleteProjIdInTag = projectId => {
-  Tags.find({ arrayOfProjectIds: { $in: [projectId] } }, function(err, tags) {
-    if (err || !tags) {
-      console.log('error in retrieving tags: ' + err);
-    } else {
-      // go through each tag and delete projectId
-      tags.forEach(tag => {
-        tag.arrayOfProjectIds.delete(projectId);
-        console.log(
-          'deleted tag: ' + tag + ' from array [' + tag.arrayOfProjectIds + ']'
-        );
-      });
-    }
-  });
-};
-
-addTag = (tagName, projectId) => {
+saveTag = tagName => {
   Tags.findOne({ tagName: tagName }, function(err, tag) {
     if (err) {
-      console.log('Error in finding tags: ' + err);
+      console.log('Error in retrieving tag: ' + err);
     } else if (!tag) {
-      // if tags does not exist, add new tag document.
-      // add projectId to array
-      var projectIdArray = new Set();
-      projectIdArray.add(projectId);
-      var newTag = new Tags({
-        tagName: tagName,
-        arrayOfProjectIds: projectIdArray
-      });
-      console.log(newTag);
+      var newTag = new Tags({ tagName: tagName });
       newTag.save(function(err) {
         if (err) {
           console.log('Error in saving tag: ' + err);
         }
-      });
-    } else {
-      // if tag exists, push projectId
-      console.log('tag=' + tag);
-      console.log('tag.arrayOfProjectIds=' + tag.arrayOfProjectIds);
-      var newSet = new Set();
-      newSet.add(tag.arrayOfProjectIds);
-      newSet.add(projectId);
-      tag.set(arrayOfProjectIds, newSet);
-
-      tag.save(function(err, tag) {
-        err
-          ? console.log('Error in add/update projectId in tag')
-          : console.log('Saved projectid to tag: ' + tag);
-      });
-    }
-  });
-};
-
-addProjToUser = (username, projId) => {
-  User.findOne({ username: username }, function(err, user) {
-    if (err || !user) {
-      console.log('could not find user: ' + err);
-    } else {
-      // add user data to team Set to save to new/updated project info
-      // setName.add({ username: user.username, profileImage: user.profileImage, _id: user._id });
-      // user.project.add(user.username);
-
-      // save projectId to user's project Set
-      // if user project Set is empty, make a new set and add.
-      UserDetails.find({ username: user.username }, function(err, userDetail) {
-        if (err || !userDetail) {
-          console.log('Error in retrieving userDetails: ' + err);
-        } else {
-          if ((userDetail.project.length = 0)) {
-            var newProjectSet = new Set();
-            newProjectSet.add(projId);
-            userDetail.project = newProjectSet;
-          } else {
-            // add projId to existing user projct set
-            var newSet = new Set();
-            newSet.add(userDetail.project);
-            newSet.add(projId);
-            userDetail.set(project, newSet);
-
-            // user.save(function (err, user) {
-            //   err ? console.log('Error in add/update projectId in user')
-            //     : console.log('Saved projectid to user: ' + user);
-            // });
-          }
-        }
-      });
-    }
-  });
-};
-
-deleteProjIdInTeam = projectId => {
-  User.find({ project: { $in: [projectId] } }, function(err, users) {
-    if (err || !users) {
-      console.log('could not find users: ' + err);
-    } else {
-      users.forEach(user => {
-        UserDetails.findOne({ username: user.username }, function(
-          err,
-          userDetail
-        ) {
-          if (err || !userDetail) {
-            console.log('Could not find userdetails: ' + err);
-          } else {
-            userDetail.project.delete(projectId);
-            console.log(
-              'deleted projId: ' +
-                projectId +
-                ' from array [' +
-                user.project +
-                ']'
-            );
-          }
-        });
-      });
-    }
-  });
-};
-
-deleteProjIdInCategory = projectId => {
-  Categories.find({ arrayOfProjectIds: { $in: [projectId] } }, function(
-    err,
-    categories
-  ) {
-    if (err || !categories) {
-      console.log('error in retrieving categories: ' + err);
-    } else {
-      // go through each tag and delete projectId
-      categories.forEach(category => {
-        category.arrayOfProjectIds.delete(projectId);
-        console.log(
-          'deleted category: ' +
-            category +
-            ' from array [' +
-            category.arrayOfProjectIds +
-            ']'
-        );
-      });
-    }
-  });
-};
-
-addCategory = (categoryName, projectId) => {
-  Categories.findOne({ categoryName: categoryName }, function(err, category) {
-    if (err) {
-      console.log('Error in finding category: ' + category);
-    } else if (!category) {
-      // if category does not exist, add new category document.
-      // add projectId to array
-      var projectIdArray = new Set();
-      projectIdArray.add(projectId);
-      var newCategory = new Categories({
-        categoryName: categoryName,
-        arrayOfProjectIds: projectIdArray
-      });
-      console.log(newCategory);
-      newCategory.save(function(err) {
-        if (err) {
-          console.log('Error in saving tag: ' + err);
-        }
-      });
-    } else {
-      // if tag exists, push projectId
-      console.log('category=' + category);
-      var newSet = new Set();
-      newSet.add(category.arrayOfProjectIds);
-      newSet.add(projectId);
-      category.set(arrayOfProjectIds, newSet);
-
-      category.save(function(err, tag) {
-        err
-          ? console.log('Error in add/update projectId in tag')
-          : console.log('Saved projectid to tag: ' + tag);
       });
     }
   });

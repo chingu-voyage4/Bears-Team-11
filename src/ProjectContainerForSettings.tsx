@@ -20,6 +20,7 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
 
   render() {
     var data = this.props.data;
+    console.log('data=' + JSON.stringify(data));
 
     var roles;
     if (data.lookingFor && data.lookingFor!.length > 1) {
@@ -59,7 +60,7 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
             className="project-edit-image"
             alt={data.name}
             src={
-              data.images === [] ||
+              data.images.length === 0 ||
               data.images === undefined ||
               data.images === null
                 ? require('./assets/imagePlaceholder.jpg')

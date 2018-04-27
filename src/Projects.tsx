@@ -54,7 +54,6 @@ class Project extends React.Component<Props, State> {
           <img
             className="project-image"
             alt={data.name}
-            // src="https://s3.us-east-2.amazonaws.com/project-match/project/5ada5b2132bf984d80ebc697/1524525889261.jpeg"
             src={
               data.images === [] ||
               data.images![0] === undefined ||
@@ -67,7 +66,6 @@ class Project extends React.Component<Props, State> {
         <div className="project-info">
           <div className="project-name">{data.name}</div>
           <div className="project-description">{data.description}</div>
-          {/* <div className="project-category">{category}</div> */}
           <div className="project-tags">
             {category}
             {tags}

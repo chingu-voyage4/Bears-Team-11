@@ -41,7 +41,7 @@ class ProjectSettings extends React.Component<
       Array.isArray(projectArray) === false
     ) {
       returnedComponent = (
-        <ProjectForEdit projId={projectArray[0]._id} data={projectArray} />
+        <ProjectForEdit projId={projectArray[0]._id} data={projectArray[0]} />
       );
     } else {
       returnedComponent = projectArray.map(function(

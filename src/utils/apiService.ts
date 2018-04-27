@@ -438,11 +438,10 @@ function addProject(project: Project): Promise<Project> {
 
 function updateProject(project: Project): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/add';
+    const endpoint = 'http://localhost:8080/api/projects/update/' + project._id;
 
     var data: object = {
       body: JSON.stringify({
-        _id: project._id,
         name: project.name,
         description: project.description,
         dueDate: project.dueDate,
@@ -474,6 +473,7 @@ function updateProject(project: Project): Promise<Project> {
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'Project saved successfully') {
+          console.log(res.project);
           resolve(res.project);
         } else {
           reject(res.error);

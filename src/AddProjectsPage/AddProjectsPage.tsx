@@ -209,7 +209,7 @@ class AddProjectsPage extends React.Component<
 
     this.setState({ lookingFor: lookingForArray }, () => {
       if (this.props.match.params.hasOwnProperty('id')) {
-        this.props.addProject(
+        this.props.updateProject(
           {
             _id: this.props.addOrUpdateProject._id,
             name: this.state.name,
