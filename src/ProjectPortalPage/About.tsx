@@ -37,7 +37,7 @@ class About extends React.PureComponent<
               </li>
               <li className="looking-for">
                 looking for{' '}
-                {this.props.lookingFor
+                {this.props.lookingFor && this.props.lookingFor.length > 0
                   ? this.props.lookingFor[0].toUpperCase()
                   : null}
               </li>

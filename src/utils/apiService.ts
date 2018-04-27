@@ -1,5 +1,6 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
+import { Marker } from '../types/Marker.d';
 import { Categories } from '../types/Category';
 import { Tags } from '../types/Tags';
 import axios from 'axios';
@@ -681,6 +682,82 @@ function getCategories(): Promise<Categories> {
   });
 }
 
+/*
+ * Annotations
+ */
+function getMarkers(revisionId: string) {
+  return axios
+    .get(`http://localhost:8080/api/projects/revision/${revisionId}/markers`)
+    .then(response => {
+      return response.data.markers;
+    });
+}
+
+function saveMarker(revisionId: string, marker: Marker) {
+  return axios
+    .post(`http://localhost:8080/api/projects/revision/${revisionId}/marker`, {
+      type: marker.type,
+      creator: marker.creator,
+      x: marker.x,
+      y: marker.y,
+      width: marker.width,
+      height: marker.height
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function updateMarkerPosition(id: string, x: string, y: string) {
+  return axios
+    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+      x,
+      y
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function updateMarkerDimensions(id: string, width: string, height: string) {
+  return axios
+    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+      width,
+      height
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function getMarkerComments(markerId: string) {
+  return axios
+    .get(
+      `http://localhost:8080/api/projects/revision/markers/${markerId}/comments`
+    )
+    .then(response => {
+      return response.data.comments;
+    });
+}
+
+function addMarkerComment(
+  revisionId: string,
+  markerId: string,
+  comment: { user: string; time: string; message: string }
+) {
+  return axios
+    .post(
+      `http://localhost:8080/api/projects/revision/marker/${markerId}/comment`,
+      {
+        creator: comment.user,
+        comment: comment.message
+      }
+    )
+    .then(response => {
+      return response.data.comment;
+    });
+}
+
 /* Service Module */
 var apiService = {
   login,
@@ -692,6 +769,12 @@ var apiService = {
   getProjects,
   getProject,
   addProject,
+  getMarkers,
+  getMarkerComments,
+  addMarkerComment,
+  saveMarker,
+  updateMarkerPosition,
+  updateMarkerDimensions,
   getOneProject,
   deleteProject,
   getTags,
