@@ -5,6 +5,7 @@ import Toolbar from './Toolbar';
 import ImageLayer from './ImageLayer';
 import AnnotationLayer from './AnnotationLayer';
 import axios from 'axios';
+import HeaderContainer from '../HeaderContainer';
 
 class Redline extends React.Component<
   { imageLink: string; match: any },
@@ -55,27 +56,30 @@ class Redline extends React.Component<
 
   render() {
     return (
-      <div className="redline-container">
-        <Toolbar
-          tool={this.state.tool}
-          selectCursorTool={this.selectCursorTool}
-          selectCircleTool={this.selectCircleTool}
-          selectRectangleTool={this.selectRectangleTool}
-          selectCommentTool={this.selectCommentTool}
-        />
-        <div className="redline-canvas">
-          <div>
-            <AnnotationLayer
-              tool={this.state.tool}
-              onMarkerAdd={this.selectCursorTool}
-              revisionId={this.getURLParams().revisionId}
-              projectId={this.getURLParams().projectId}
-            >
-              <ImageLayer imageLink={this.state.revision.imageURL} />
-            </AnnotationLayer>
+      <React.Fragment>
+        <HeaderContainer />
+        <div className="redline-container">
+          <Toolbar
+            tool={this.state.tool}
+            selectCursorTool={this.selectCursorTool}
+            selectCircleTool={this.selectCircleTool}
+            selectRectangleTool={this.selectRectangleTool}
+            selectCommentTool={this.selectCommentTool}
+          />
+          <div className="redline-canvas">
+            <div>
+              <AnnotationLayer
+                tool={this.state.tool}
+                onMarkerAdd={this.selectCursorTool}
+                revisionId={this.getURLParams().revisionId}
+                projectId={this.getURLParams().projectId}
+              >
+                <ImageLayer imageLink={this.state.revision.imageURL} />
+              </AnnotationLayer>
+            </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
