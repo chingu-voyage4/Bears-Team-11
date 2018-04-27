@@ -12,6 +12,11 @@ import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
 import { Action } from '../types/Redux';
 
+export type getProjects_fntype = (
+  options: object,
+  query: object | null
+) => (dispatch: Dispatch<Action>) => void;
+
 export function getProjects(
   options: object,
   query: object | null
@@ -30,6 +35,10 @@ export function getProjects(
   };
 }
 
+export type searchProjects_fntype = (
+  query: string | null
+) => (dispatch: Dispatch<Action>) => void;
+
 export function searchProjects(
   query: string | null
 ): (dispatch: Dispatch<Action>) => void {
@@ -40,6 +49,10 @@ export function searchProjects(
     });
   };
 }
+
+export type getProject_fntype = (
+  projectId: string
+) => (dispatch: Dispatch<Action>) => void;
 
 export function getProject(
   projectId: string
@@ -57,6 +70,12 @@ export function getProject(
     });
   };
 }
+
+export type addProject_fntype = (
+  project: any,
+  files: FileList
+) => (dispatch: Dispatch<Action>) => void;
+
 export function addProject(
   project: any,
   files: FileList
@@ -80,7 +99,7 @@ export function addProject(
   };
 }
 
-export type addProjectFnSignature = (
+export type updateProject_fntype = (
   project: any,
   files: FileList
 ) => (dispatch: Dispatch<Action>) => void;
@@ -108,6 +127,10 @@ export function updateProject(
   };
 }
 
+export type getOneProject_fntype = (
+  id: string
+) => (dispatch: Dispatch<Action>) => void;
+
 export function getOneProject(
   id: string
 ): (dispatch: Dispatch<Action>) => void {
@@ -121,6 +144,10 @@ export function getOneProject(
   };
 }
 
+export type deleteProject_fntype = (
+  id: string
+) => (dispatch: Dispatch<Action>) => void;
+
 export function deleteProject(
   id: string
 ): (dispatch: Dispatch<Action>) => void {
@@ -133,6 +160,10 @@ export function deleteProject(
     });
   };
 }
+
+export type downloadProjectImageURLS_fntype = (
+  projectId: string
+) => (dispatch: Dispatch<Action>) => void;
 
 export function downloadProjectImageURLS(
   projectId: string

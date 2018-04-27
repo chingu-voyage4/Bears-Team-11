@@ -5,8 +5,8 @@ import Projects from '../Projects';
 import ProjectsFilter from './ProjectsFilter';
 import '../styles/ProjectsPage.css';
 import '../styles/Project.css';
-import { ProjectPageProps, ProjectPageState } from '../types/ProjectsPage.d';
-import { Store } from '../types/Redux';
+import { ProjectPageState } from '../types/ProjectsPage.d';
+import { Store, ProjectPageProps } from '../types/Redux';
 import { connect } from 'react-redux';
 import { getProjects, searchProjects } from '../actions/projectActions';
 
