@@ -308,28 +308,9 @@ function userSettingsUpdate(
   });
 }
 
-function logout(): Promise<boolean> {
-  return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/logout';
-
-    var data: object = {
-      method: 'GET'
-    };
-
-    fetch(endpoint, data)
-      // tslint:disable-next-line
-      .then(function(res: any) {
-        return res.json();
-      })
-      // tslint:disable-next-line
-      .then(function(res: any) {
-        JSON.stringify(res);
-        if (res.text === 'Successfully Logged Out') {
-          resolve(res.text); // what should the result be?
-        } else {
-          reject(res.error);
-        }
-      });
+function logout() {
+  return axios.get('http://localhost:8080/api/logout').then(response => {
+    return null;
   });
 }
 
