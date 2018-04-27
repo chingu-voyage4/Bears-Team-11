@@ -65,13 +65,14 @@ class Redline extends React.Component<
         />
         <div className="redline-canvas">
           <div>
-            <ImageLayer imageLink={this.state.revision.imageURL} />
             <AnnotationLayer
               tool={this.state.tool}
               onMarkerAdd={this.selectCursorTool}
               revisionId={this.getURLParams().revisionId}
               projectId={this.getURLParams().projectId}
-            />
+            >
+              <ImageLayer imageLink={this.state.revision.imageURL} />
+            </AnnotationLayer>
           </div>
         </div>
       </div>

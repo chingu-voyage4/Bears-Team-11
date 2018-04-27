@@ -421,7 +421,7 @@ module.exports = function(passport) {
 
   // TODO: Add authorization and validation
   // add marker to a revision
-  router.post('/:id/revision/:revisionId/marker', function(req, res) {
+  router.post('/revision/:revisionId/marker', function(req, res) {
     var marker = new Marker({
       type: req.body.type,
       creator: req.body.username,
@@ -438,7 +438,8 @@ module.exports = function(passport) {
       } else {
         res.json({
           message:
-            'Marker successfully added to revision ' + req.params.revisionId
+            'Marker successfully added to revision ' + req.params.revisionId,
+          marker
         });
       }
     });

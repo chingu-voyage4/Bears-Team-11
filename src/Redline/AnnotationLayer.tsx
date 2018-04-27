@@ -67,7 +67,6 @@ class AnnotationLayer extends React.Component<{
     return markers;
   };
 
-  // BUG: annotation canvas does not wrap the image
   addMarker = (e: any) => {
     var marker: any;
     switch (this.props.tool) {
@@ -138,7 +137,8 @@ class AnnotationLayer extends React.Component<{
   drawCircle = (id: any, x: any, y: any) => {
     var style = {
       top: `${y}px`,
-      left: `${x}px`
+      left: `${x}px`,
+      zIndex: 100
     };
     return (
       <div
@@ -240,6 +240,7 @@ class AnnotationLayer extends React.Component<{
     return (
       <div className="redline-annotations" onClick={this.addMarker}>
         {this.drawMarkers()}
+        {this.props.children}
       </div>
     );
   }
