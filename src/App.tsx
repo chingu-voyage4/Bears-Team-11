@@ -11,6 +11,7 @@ import ProjectsPage from './Projects Page/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
 import PublicProfile from './UserProfileAndSettingsPage/PublicProfile';
+import Redline from './Redline';
 import ProjectPortalPage from './ProjectPortalPage/ProjectPortalPage';
 
 const store = createStore(
@@ -36,6 +37,16 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
               <Route exact={true} path="/projects" component={ProjectsPage} />
               <Route
                 exact={true}
+                path="/projects/:id"
+                component={ProjectPortalPage}
+              />
+              <Route
+                exact={true}
+                path="/projects/:projectId/revision/:revisionId"
+                component={Redline}
+              />
+              <Route
+                exact={true}
                 path="/projects/add"
                 component={AddProjectsPage}
               />
@@ -54,7 +65,6 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
                 path="/user/profile"
                 component={PublicProfile}
               />
-              <Route path="/projects/:id" component={ProjectPortalPage} />
             </Switch>
           </Router>
         </div>
