@@ -1,7 +1,6 @@
 import { User } from './User.d';
 import { Dispatch } from 'react-redux';
 import { Project } from './Projects.d';
-
 export interface State {}
 
 // Action
@@ -13,12 +12,20 @@ export interface ProjectAction extends Action {
   data: Project;
 }
 
-export interface ProjectState {}
+export interface ProjectPageState {
+  searchTerm: string;
+  projectComponent: any | null;
+}
 
-export interface ProjectsProps {}
-
-export interface PassedProps {
+export interface ProjectPageProps {
   user: User;
   projects: Array<Project>;
-  getProjects: () => (dispatch: Dispatch<Action>) => void;
+  searchResults: string | null;
+  searchProjects: (
+    query: string | null
+  ) => (dispatch: Dispatch<Action>) => void;
+  getProjects: (
+    options: object,
+    query: object | null
+  ) => (dispatch: Dispatch<Action>) => void;
 }

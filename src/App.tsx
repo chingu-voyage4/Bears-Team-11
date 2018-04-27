@@ -11,7 +11,9 @@ import ProjectsPage from './Projects Page/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
 import PublicProfile from './UserProfileAndSettingsPage/PublicProfile';
+import Redline from './Redline';
 import ProjectPortalPage from './ProjectPortalPage/ProjectPortalPage';
+import { HYDRATE_USER } from './actions/actionTypes';
 
 const store = createStore(
   rootReducer,
@@ -25,6 +27,16 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
     };
   }
 
+  componentDidMount() {
+    var user = localStorage.getItem('user');
+    if (user) {
+      store.dispatch({
+        type: HYDRATE_USER,
+        data: JSON.parse(user)
+      });
+    }
+  }
+
   render() {
     return (
       <Provider store={store}>
@@ -36,7 +48,22 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
               <Route exact={true} path="/projects" component={ProjectsPage} />
               <Route
                 exact={true}
+                path="/projects/:id"
+                component={ProjectPortalPage}
+              />
+              <Route
+                exact={true}
+                path="/projects/:projectId/revision/:revisionId"
+                component={Redline}
+              />
+              <Route
+                exact={true}
                 path="/projects/add"
+                component={AddProjectsPage}
+              />
+              <Route
+                exact={true}
+                path="/projects/update/:id"
                 component={AddProjectsPage}
               />
               <Route
@@ -49,7 +76,6 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
                 path="/user/profile"
                 component={PublicProfile}
               />
-              <Route path="/projects/:id" component={ProjectPortalPage} />
             </Switch>
           </Router>
         </div>

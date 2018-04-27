@@ -1,11 +1,8 @@
-export interface State {
+export interface ProjectFilterState {
   sortBy?: string;
   roles?: string;
-  categories?: string;
+  categories?: string[];
   status?: string;
   tags?: string[];
+  searchTerm?: null | string;
 }
-
-export interface Props { }
-
-export interface PassedProps { }

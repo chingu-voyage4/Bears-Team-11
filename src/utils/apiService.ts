@@ -1,7 +1,9 @@
 import { Project } from '../types/Projects.d';
 import { User } from '../types/User.d';
+import { Marker } from '../types/Marker.d';
 import { Categories } from '../types/Category';
 import { Tags } from '../types/Tags';
+import axios from 'axios';
 
 /* User */
 function login(email: string, password: string): Promise<User | string> {
@@ -29,13 +31,11 @@ function login(email: string, password: string): Promise<User | string> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        console.log(res);
         if (res.message === 'Successfully logged in') {
           var user = res.user;
           var userDetails = res.userDetail;
-          console.log('user=' + user);
-          console.log('userDetails=' + userDetails);
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -84,16 +84,14 @@ function googleLogin(idToken: string): Promise<User | Error> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        console.log(res);
         if (
           res.message === 'Successfully logged in with Google' ||
           res.message === 'Sucessfully registered with Google'
         ) {
           var user = res.user;
           var userDetails = res.userDetail;
-          console.log('user=' + user);
-          console.log('userDetails=' + userDetails);
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -152,10 +150,10 @@ function register(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        // console.log('JSON.stringify=' + JSON.stringify(res));
         if (res.message === 'User Registration Succesful') {
           var user = res.user;
           resolve({
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -237,12 +235,40 @@ function activate(username: string, password: string): Promise<string | Error> {
   });
 }
 
-function logout(): Promise<boolean> {
+function userSettingsUpdate(
+  aboutme: string,
+  location: string,
+  roles: string[],
+  skills: string[],
+  linkedin: string,
+  github: string,
+  portfolio: string,
+  website: string,
+  twitter: string,
+  blog: string,
+  userId: string
+): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/logout';
-
+    const endpoint = 'http://localhost:8080/api/user/update/public';
     var data: object = {
-      method: 'GET'
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        description: aboutme,
+        location: location,
+        roles: roles,
+        techstack: skills,
+        linkedInLink: linkedin,
+        githubLink: github,
+        portfolioLink: portfolio,
+        websiteLink: website,
+        twitterLink: twitter,
+        blogLink: blog,
+        userId: userId
+      })
     };
 
     fetch(endpoint, data)
@@ -252,13 +278,39 @@ function logout(): Promise<boolean> {
       })
       // tslint:disable-next-line
       .then(function(res: any) {
-        JSON.stringify(res);
-        if (res.text === 'Successfully Logged Out') {
-          resolve(res.text); // what should the result be?
+        if (res.message === 'Successfully updated user details') {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
         } else {
           reject(res.error);
         }
       });
+  });
+}
+
+function logout() {
+  return axios.get('http://localhost:8080/api/logout').then(response => {
+    return null;
   });
 }
 
@@ -291,22 +343,28 @@ function getAllUsers(): Promise<Array<User>> {
 }
 
 /* Project */
-function getProjects(): Promise<Array<Project>> {
+function getProjects(
+  options: object,
+  query: object | null
+): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/projects';
+    var bodyData;
 
+    if (query === null) {
+      bodyData = { options };
+    } else {
+      bodyData = { options, query };
+    }
     var data: object = {
-      body: {
-        options: {
-          select: { status: true }, // returns active projects
-          sort: { createdAt: -1 } // returns by newest
-        }
-      },
+      body: JSON.stringify(bodyData),
       headers: {
         'Content-Type': 'application/json'
       },
-      method: 'GET'
+      method: 'POST'
     };
+
+    console.log(data);
 
     fetch(endpoint, data)
       // tslint:disable-next-line
@@ -317,7 +375,7 @@ function getProjects(): Promise<Array<Project>> {
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'Succesfully retrieved projects') {
-          resolve(res.projects);
+          resolve(res.projects.docs);
         } else {
           reject(res.error);
         }
@@ -326,38 +384,9 @@ function getProjects(): Promise<Array<Project>> {
 }
 
 function getProject(projectId: string) {
-  return new Promise((resolve, reject) => {
-    resolve({
-      name: 'Momentum Project',
-      creator: 'lilgangwolf',
-      githubLink: 'https://github.com',
-      mockupLink: 'https://google.com',
-      liveLink: 'https://google.com',
-
-      images: [
-        // tslint:disable-next-line
-        'https://images.unsplash.com/photo-1515111293107-b0cd6448f5f6?ixlib=rb-0.3.5&s=cba9fa015c2090a9c73d76dab3ed6dd0&auto=format&fit=crop&w=2700&q=80',
-        // tslint:disable-next-line
-        'https://images.unsplash.com/photo-1500482176473-ccba10e1e880?ixlib=rb-0.3.5&s=7c0d4e6d85c1dc526c84a070890c058c&auto=format&fit=crop&w=1534&q=80'
-      ],
-      mockups: ['mockupid_1', 'mockupid_2', 'mockupid_3'],
-      team: ['lilgangwolf', 'natapot'],
-      description:
-        // tslint:disable-next-line
-        'Clone of the momentum chrome eetnsion, with these following design changes: (1) adding a link to github repots, (2) ability to search and pin new weather locations. We are looking for a designer to re-work the layout based off our uploaded precedents.',
-      contact: 'lilgangwolf@gmail.com',
-      lookingFor: ['designer'],
-      comments: [],
-      createdAt: Date.now(),
-      dueDate: Date.now(),
-      views: 1,
-      category: 'extension',
-      tags: ['extension'],
-      status: true,
-      upVotes: 1,
-      modifiedAt: Date.now()
-    });
-  });
+  return axios
+    .get('http://localhost:8080/api/projects/' + projectId)
+    .then(response => response.data.project);
 }
 
 function addProject(project: Project): Promise<Project> {
@@ -396,7 +425,6 @@ function addProject(project: Project): Promise<Project> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        console.log(res);
         if (res.message === 'New project saved successfully') {
           resolve(res.newProject);
         } else {
@@ -406,23 +434,21 @@ function addProject(project: Project): Promise<Project> {
   });
 }
 
-function updateProject(
-  name: string,
-  update: string,
-  id: string
+function uploadProjectImage(
+  file: FileList,
+  projectId: string
 ): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/update';
+    const endpoint =
+      'http://localhost:8080/api/upload/image/project?projectId=' + projectId;
+
+    var formData = new FormData();
+    for (var i = 0; i < file.length; i++) {
+      formData.append('projectImages', file[i]);
+    }
 
     var data: object = {
-      body: JSON.stringify({
-        id: id,
-        updateKey: name,
-        updateObject: update
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      body: formData,
       method: 'POST',
       credentials: 'include'
     };
@@ -435,7 +461,112 @@ function updateProject(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (res.message === 'Successfully updated project') {
+        if (
+          res.message ===
+          'Successfully uploaded and saved project image URL to project'
+        ) {
+          resolve(res.project);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function uploadProfileImage(file: File, userId: string): Promise<User> {
+  return new Promise((resolve, reject) => {
+    const endpoint =
+      'http://localhost:8080/api/upload/image/profile?userId=' + userId;
+
+    var formData = new FormData();
+    formData.append('projectImages', file);
+
+    var data: object = {
+      body: formData,
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (
+          res.message ===
+          'Successfully uploaded and saved profile image URL to project'
+        ) {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function downloadProjectImageURLS(projectId: string): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    const endpoint =
+      'http://localhost:8080/api/download/project?projectId=' + projectId;
+    var data: object = {
+      method: 'GET'
+    };
+    fetch(endpoint, data)
+      .then(function(res: any) {
+        return res.json();
+      })
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved project image URL') {
+          resolve(res.urls);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+function getOneProject(id: string): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/projects/' + id;
+
+    var data: object = {
+      method: 'GET',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully retrieved project') {
           resolve(res.project);
         } else {
           reject(res.error);
@@ -477,7 +608,6 @@ function deleteProject(id: string): Promise<Project> {
 }
 
 function getTags(): Promise<Tags> {
-  console.log('getting tags');
   return new Promise((resolve, reject) => {
     const endpoint = 'http://localhost:8080/api/projects/tags';
 
@@ -533,6 +663,82 @@ function getCategories(): Promise<Categories> {
   });
 }
 
+/*
+ * Annotations
+ */
+function getMarkers(revisionId: string) {
+  return axios
+    .get(`http://localhost:8080/api/projects/revision/${revisionId}/markers`)
+    .then(response => {
+      return response.data.markers;
+    });
+}
+
+function saveMarker(revisionId: string, marker: Marker) {
+  return axios
+    .post(`http://localhost:8080/api/projects/revision/${revisionId}/marker`, {
+      type: marker.type,
+      creator: marker.creator,
+      x: marker.x,
+      y: marker.y,
+      width: marker.width,
+      height: marker.height
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function updateMarkerPosition(id: string, x: string, y: string) {
+  return axios
+    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+      x,
+      y
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function updateMarkerDimensions(id: string, width: string, height: string) {
+  return axios
+    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+      width,
+      height
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function getMarkerComments(markerId: string) {
+  return axios
+    .get(
+      `http://localhost:8080/api/projects/revision/markers/${markerId}/comments`
+    )
+    .then(response => {
+      return response.data.comments;
+    });
+}
+
+function addMarkerComment(
+  revisionId: string,
+  markerId: string,
+  comment: { user: string; time: string; message: string }
+) {
+  return axios
+    .post(
+      `http://localhost:8080/api/projects/revision/marker/${markerId}/comment`,
+      {
+        creator: comment.user,
+        comment: comment.message
+      }
+    )
+    .then(response => {
+      return response.data.comment;
+    });
+}
+
 /* Service Module */
 var apiService = {
   login,
@@ -544,11 +750,21 @@ var apiService = {
   getProjects,
   getProject,
   addProject,
-  updateProject,
+  getMarkers,
+  getMarkerComments,
+  addMarkerComment,
+  saveMarker,
+  updateMarkerPosition,
+  updateMarkerDimensions,
+  getOneProject,
   deleteProject,
   getTags,
   getCategories,
-  getAllUsers
+  getAllUsers,
+  uploadProjectImage,
+  uploadProfileImage,
+  downloadProjectImageURLS,
+  userSettingsUpdate
 };
 
 export default apiService;

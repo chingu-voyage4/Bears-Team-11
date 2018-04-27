@@ -1,4 +1,5 @@
 export interface AddProjectState {
+  _id?: string;
   name?: string;
   description?: string;
   dueDate?: string;

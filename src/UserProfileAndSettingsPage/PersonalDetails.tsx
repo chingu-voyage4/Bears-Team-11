@@ -1,6 +1,28 @@
 import * as React from 'react';
+import { PersonalDetailsProps } from '../types/PersonalDetails.d';
+import { PersonalDetailsState } from '../types/PersonalDetails.d';
 
-class PersonalDetails extends React.Component {
+class PersonalDetails extends React.Component<
+  PersonalDetailsProps,
+  PersonalDetailsState
+> {
+  constructor(props: PersonalDetailsProps) {
+    super(props);
+    this.state = {
+      username: '',
+      email: '',
+      password: ''
+    };
+  }
+
+  public handleInputChange(e: React.FormEvent<HTMLInputElement>): void {
+    var { name, value } = e.currentTarget;
+    this.setState({
+      [name]: value
+      // tslint:disable-next-line
+    } as any);
+  }
+
   render() {
     return (
       <div>
@@ -10,46 +32,31 @@ class PersonalDetails extends React.Component {
           </div>
           <div className="settings-labels">
             <h3>Username:</h3>
-            <textarea className="settings-textarea" />
-          </div>
-          <div className="settings-headers">
-            <h1>Skills</h1>
-          </div>
-          <div className="settings-labels">
-            <h3>Password:</h3>
-            <textarea className="settings-textarea" />
+            <input
+              className="settings-input"
+              name="username"
+              value={this.state.username}
+              onChange={e => this.handleInputChange(e)}
+            />
           </div>
           <div className="settings-labels">
             <h3>Email:</h3>
-            <textarea className="settings-textarea" />
-          </div>
-          <div className="settings-headers">
-            <h1>Links</h1>
-          </div>
-          <div className="settings-labels">
-            <h3>LinkedIn:</h3>
-            <textarea className="settings-textarea" />
+            <input
+              className="settings-input"
+              name="email"
+              value={this.state.email}
+              onChange={e => this.handleInputChange(e)}
+            />
           </div>
           <div className="settings-labels">
-            <h3>GitHub:</h3>
-            <textarea className="settings-textarea" />
+            <h3>Password:</h3>
+            <input
+              className="settings-input"
+              value={this.state.password}
+              onChange={e => this.handleInputChange(e)}
+            />
           </div>
-          <div className="settings-labels">
-            <h3>Portfolio:</h3>
-            <textarea className="settings-textarea" />
-          </div>
-          <div className="settings-labels">
-            <h3>Website:</h3>
-            <textarea className="settings-textarea" />
-          </div>
-          <div className="settings-labels">
-            <h3>Twitter:</h3>
-            <textarea className="settings-textarea" />
-          </div>
-          <div className="settings-labels">
-            <h3>Blog:</h3>
-            <textarea className="settings-textarea" />
-          </div>
+          <button className="personal-details-save-button">Save</button>
         </div>
       </div>
     );

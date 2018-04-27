@@ -1,18 +1,42 @@
 import * as React from 'react';
+import * as moment from 'moment';
+import { Link } from 'react-router-dom';
 
-class Revision extends React.PureComponent<{}, {}> {
+class Revision extends React.PureComponent<
+  {
+    revision: any;
+    projectId: string;
+  },
+  {}
+> {
   render() {
     return (
       <div className="revision">
         <div className="revision__image_container">
-          <img src="http://via.placeholder.com/350x150" alt="" />
-          <div className="revision__changes">3</div>
+          <Link
+            to={`/projects/${this.props.projectId}/revision/${
+              this.props.revision._id
+            }`}
+          >
+            <img src={this.props.revision.imageURL} alt="" />
+            {/* <div className="revision__changes">{}</div> */}
+          </Link>
         </div>
-        <h3 className="revision__title">Revision 3 - Changes to header</h3>
+        <h3 className="revision__title">
+          Revision {this.props.revision.revisionNumber} -{' '}
+          {this.props.revision.description}
+        </h3>
         <p className="revision__author">
-          author: lilganewolf | date: 11/28/2017
+          author: {this.props.revision.creator} | date:{' '}
+          {moment(this.props.revision.createdAt).format('ll')}
         </p>
-        <span className="revision__version">Final Version</span>
+        <span
+          className={
+            this.props.revision.finalVersion ? 'revision__version' : ''
+          }
+        >
+          {this.props.revision.finalVersion ? 'Final Version' : null}
+        </span>
       </div>
     );
   }

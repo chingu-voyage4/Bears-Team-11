@@ -1,7 +1,12 @@
-export interface Props {}
+import { User } from './User.d';
+import { Projects } from './Projects.d';
 
-export interface PassedProps {}
+export interface LoggedInHeaderProps {
+  user: User;
+  projects: Projects;
+  logout: any;
+}
 
-export interface State {
+export interface LoggedInHeaderState {
   username: String;
 }

@@ -1,38 +1,47 @@
 @import '_variables.scss';
-
-.settingsContainer {
+/*
+==========================
+OVERALL GRID CONTAINER
+==========================
+*/
+.settings-container {
+  max-width: 1080px;
+  font-family: $font;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto;
-  grid-template-areas: 'm m m m i i i i i i';
+  grid-template-areas: 'm i i i i';
+  grid-gap: 40px;
 }
-
+/*
+==========================
+SETTINGS LEFT_HAND MENU
+==========================
+*/
 .settings-menu-div {
   grid-area: m;
   display: inline-block;
-  height: 1000px;
-  width: 25%;
   text-align: center;
   vertical-align: top;
-  margin-top: 5%;
 }
 
 .settings-profile-image {
-  height: 250px;
-  width: 250px;
-  background-color: grey;
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
-.personal-details-button {
-  border: none;
-  height: 77px;
-  width: 150px;
-  background-color: white;
-  vertical-align: middle;
-  max-height: 45px;
-  border-top: 1px solid black;
+.settings-name {
+  color: $dark-grey;
+  font-size: 16px;
+  font-weight: 900;
 }
 
+.personal-details-button,
 .public-profile-button {
   border: none;
   height: 77px;
@@ -40,27 +49,64 @@
   background-color: white;
   vertical-align: middle;
   max-height: 45px;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  color: $dark-grey;
 }
 
+.public-profile-button {
+  border-bottom: 1px solid $light-grey;
+}
+
+.personal-details-button {
+  border-top: 1px solid $light-grey;
+  border-bottom: 1px solid $light-grey;
+}
+
+.personal-details-button:hover,
+.personal-details-button:active,
+.public-profile-button:hover,
+.public-profile-button:active {
+  color: white;
+  background-color: $theme-blue;
+}
+/*
+==========================
+SETTINGS UPDATE PORTION
+==========================
+*/
 .settings-info-div {
+  font-family: $font;
+  color: $dark-grey;
   grid-area: i;
-  height: 100%;
-  display: inline-block;
-  width: 65%;
-  box-shadow: 0px 0px 5px 5px lightgrey;
-  max-height: 100%;
-  margin-top: 5%;
+  box-shadow: $box-shadow;
 }
 
 .settings-headers {
-  color: grey;
-  border-bottom: 1px solid black;
+  color: $dark-grey;
+  border-bottom: 1px solid $light-grey;
+}
+.settings-subhead-text {
+  color: $dark-grey;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.settings-labels,
+.settings-labels-roles {
+  color: $dark-grey;
+  font-size: 20px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
 }
 
 .settings-labels {
-  color: grey;
+  grid-template-areas: 'l i i i i';
+}
+
+.updateUserLabel {
+  font-size: 16px;
+  margin-top: 25px;
+  font-weight: 500;
 }
 
 .info-container {
@@ -68,15 +114,98 @@
 }
 
 .settings-textarea {
-  color: grey;
-  float: right;
-  width: 90%;
-  margin-top: 1%;
+  border: 1px solid $light-grey;
+  resize: vertical;
+  min-height: 60px;
+  max-height: 100px;
 }
 
-.settings-labels-aboutme {
-  color: grey;
+.settings-input {
+  border: 1px solid $light-grey;
+  height: 30px;
 }
-h3 {
+
+.settings-input,
+.settings-textarea {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  grid-area: i;
+  color: $dark-grey;
+  font-family: $font;
+  font-size: 14px;
+}
+
+/*
+==========================
+ROLES OPTION BUTTONS
+==========================
+*/
+.settings-labels-roles {
+  grid-template-areas: 'l a a b b';
+  grid-gap: 5px;
+}
+
+.settings-roles-option-a {
+  grid-area: a;
+}
+
+.settings-roles-option-b {
+  grid-area: b;
+}
+
+.settings-roles-option-a,
+.settings-roles-option-b {
+  @include white-text-blue-background-button;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.options-button-disabled {
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+.options-button-disabled:hover {
+  opacity: 1;
+  box-shadow: $box-shadow;
+}
+/*
+==========================
+SUBMIT BUTTONS
+==========================
+*/
+.personal-details-save-button,
+.public-profile-save-button {
+  @include white-text-blue-background-button;
+  box-shadow: none;
+}
+
+.personal-details-save-button:hover,
+.public-profile-save-button:hover {
+  box-shadow: $box-shadow;
+}
+.update-profile-btn {
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+
+/*
+==========================
+SKILLS
+==========================
+*/
+.skill-container {
   display: inline-block;
+  border: 1px solid $theme-blue;
+  padding: 3px;
+  margin-right: 5px;
+}
+
+.remove-tag-btn {
+  cursor: pointer;
+}
+
+.chosen-skills-grid-container {
+  grid-area: i;
 }
