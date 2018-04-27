@@ -445,7 +445,7 @@ module.exports = function(passport) {
   });
 
   // get markers for revisions
-  router.get('/:id/revision/:revisionId/markers', function(req, res) {
+  router.get('/revision/:revisionId/markers', function(req, res) {
     Marker.find({ revision: req.params.revisionId }, function(err, markers) {
       if (err) {
         console.log(err);
