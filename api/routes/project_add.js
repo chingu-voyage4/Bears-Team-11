@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser');
 var isAuthenticated = require('../utils/authentication');
 var Project = require('../models/Projects');
 var Tags = require('../models/Tags');

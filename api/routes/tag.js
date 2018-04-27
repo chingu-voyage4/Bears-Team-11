@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser');
 var isAuthenticated = require('../utils/authentication');
 var mongoosePaginate = require('mongoose-paginate');
 var Tags = require('../models/Tags');
