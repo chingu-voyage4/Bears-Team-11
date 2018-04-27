@@ -70,17 +70,13 @@ export function resizeMarker(
 }
 
 export function addComment(
-  revisionId: string,
   markerId: string,
-  comment: {
-    user: string;
-    time: string;
-    message: string;
-  }
+  user: string,
+  message: string
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService
-      .addMarkerComment(revisionId, markerId, comment)
+      .addMarkerComment(markerId, user, message)
       .then((updatedMarker: Marker) => {
         dispatch({
           type: ADD_COMMENT,

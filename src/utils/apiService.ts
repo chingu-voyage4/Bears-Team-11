@@ -765,17 +765,13 @@ function getMarkerComments(markerId: string) {
     });
 }
 
-function addMarkerComment(
-  revisionId: string,
-  markerId: string,
-  comment: { user: string; time: string; message: string }
-) {
+function addMarkerComment(markerId: string, user: string, message: string) {
   return axios
     .post(
       `http://localhost:8080/api/projects/revision/marker/${markerId}/comment`,
       {
-        creator: comment.user,
-        comment: comment.message
+        creator: user,
+        comment: message
       }
     )
     .then(response => {

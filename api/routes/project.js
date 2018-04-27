@@ -580,10 +580,7 @@ module.exports = function(passport) {
 
   // TODO: Add authorization and validation
   // add comment to marker
-  router.post('/:id/revision/:revisionId/marker/:markerId/comment', function(
-    req,
-    res
-  ) {
+  router.post('/revision/marker/:markerId/comment', function(req, res) {
     var comment = new Comment({
       creator: req.body.username,
       comment: req.body.comment,
@@ -595,17 +592,16 @@ module.exports = function(passport) {
         console.log(err);
       } else {
         res.json({
-          message: 'Comment successfully added to marker ' + req.params.markerId
+          message:
+            'Comment successfully added to marker ' + req.params.markerId,
+          comment
         });
       }
     });
   });
 
   // get comments for a marker
-  router.get('/:id/revision/:revisionId/markers/:markerId/comments', function(
-    req,
-    res
-  ) {
+  router.get('/revision//markers/:markerId/comments', function(req, res) {
     Comment.find(
       {
         marker: req.params.markerId

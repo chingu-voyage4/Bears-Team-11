@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Store } from '../types/Redux';
 import { User } from '../types/User';
 import { addComment } from '../actions/markerActions';
-import * as moment from 'moment';
 
 class CommentBox extends React.Component<
   {
@@ -33,13 +32,12 @@ class CommentBox extends React.Component<
   };
   handleKeyPress = (e: any) => {
     if (e.keyCode === 13 || e.which == 13) {
-      // enter key is pressed
-      // BUG: this should cause component to re-render because props should have been updated
-      this.props.addComment(this.props.revisionId, this.props.markerId, {
-        user: this.props.user,
-        time: moment().format('LT'),
-        message: this.state.message
-      });
+      // FIX ME: this should cause component to re-render because props should have been updated
+      this.props.addComment(
+        this.props.markerId,
+        this.props.user.username,
+        this.state.message
+      );
     }
   };
   renderComments = () => {
@@ -52,7 +50,6 @@ class CommentBox extends React.Component<
   };
 
   stopEvent = (e: any) => {
-    console.log('stop');
     e.stopPropagation();
   };
 
