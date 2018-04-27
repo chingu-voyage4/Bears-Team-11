@@ -5,12 +5,12 @@ import {
   ProjectSettingsProps,
   ProjectSettingsState
 } from '../types/ProjectSettings';
-import Projects from '../Projects';
 import {
   getProjects,
   updateProject,
   deleteProject
 } from '../actions/projectActions';
+import ProjectForEdit from '../ProjectContainerForSettings';
 
 class ProjectSettings extends React.Component<
   ProjectSettingsProps,
@@ -25,11 +25,39 @@ class ProjectSettings extends React.Component<
   }
 
   render() {
-    return (
-      <div className="info-container">
-        <Projects arrayOfProjects="settings" />
-      </div>
-    );
+    var returnedComponent;
+    var projectArray = this.props.projects;
+    projectArray = projectArray.filter(project => {
+      return (
+        project.creator === this.props.user.username ||
+        project.team!.indexOf(this.props.user.username!) !== -1
+      );
+    });
+    console.log(projectArray);
+    if (projectArray.length === 0) {
+      returnedComponent = null;
+    } else if (
+      projectArray.length === 1 ||
+      Array.isArray(projectArray) === false
+    ) {
+      returnedComponent = (
+        <ProjectForEdit projId={projectArray[0]._id} data={projectArray} />
+      );
+    } else {
+      returnedComponent = projectArray.map(function(
+        projectData: any,
+        index: number
+      ) {
+        return (
+          <ProjectForEdit
+            key={'projects_Edit_' + index}
+            projId={projectData._id}
+            data={projectData}
+          />
+        );
+      });
+    }
+    return <div className="info-container">{returnedComponent}</div>;
   }
 }
 

@@ -35,11 +35,23 @@ class LoggedInHeader extends React.Component<
     > {
       render() {
         var listOfProjects = this.props.user.projects;
-        var activeProjects = this.props.projects.filter((project: any) => {
-          if (listOfProjects.includes(project._id) && project.status === true) {
-            return project;
-          }
-        });
+        var activeProjects;
+        if (
+          Array.isArray(listOfProjects) === false ||
+          listOfProjects.length === 1
+        ) {
+          activeProjects = listOfProjects;
+        } else {
+          activeProjects = this.props.projects.filter((project: any) => {
+            if (
+              listOfProjects.includes(project._id) &&
+              project.status === true
+            ) {
+              return project;
+            }
+          });
+        }
+
         console.log(activeProjects);
         var links = activeProjects.map((project: any, index: number) => {
           var linkTo = '/projects/' + project._id;

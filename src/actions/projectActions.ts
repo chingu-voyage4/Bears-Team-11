@@ -11,7 +11,6 @@ import {
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
 import { Action } from '../types/Redux';
-// import { Project } from '../types/Projects.d';
 
 export function getProjects(
   options: object,
@@ -56,23 +55,35 @@ export function addProject(
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService.addProject(project).then(newProject => {
-      apiService.uploadProjectImage(files, newProject._id).then(() => {
+      if (files) {
+        return apiService.uploadProjectImage(files, newProject._id).then(() => {
+          return dispatch({
+            type: ADD_PROJECT,
+            data: newProject
+          });
+        });
+      } else {
         return dispatch({
           type: ADD_PROJECT,
           data: newProject
         });
-      });
+      }
     });
   };
 }
 
 export function updateProject(
-  id: string
+  project: any,
+  files: FileList
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return dispatch({
-      type: UPDATE_PROJECT,
-      data: id
+    return apiService.updateProject(project).then(projects => {
+      apiService.uploadProjectImage(files, projects._id).then(() => {
+        return dispatch({
+          type: UPDATE_PROJECT,
+          data: projects
+        });
+      });
     });
   };
 }

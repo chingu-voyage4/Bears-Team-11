@@ -435,6 +435,8 @@ function addProject(project: Project): Promise<Project> {
       credentials: 'include'
     };
 
+    console.log(data);
+
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
@@ -452,6 +454,52 @@ function addProject(project: Project): Promise<Project> {
   });
 }
 
+function updateProject(project: Project): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/projects/add';
+
+    var data: object = {
+      body: JSON.stringify({
+        _id: project._id,
+        name: project.name,
+        description: project.description,
+        dueDate: project.dueDate,
+        team: project.team,
+        githubLink: project.githubLink,
+        mockupLink: project.mockupLink,
+        liveLink: project.liveLink,
+        lookingFor: project.lookingFor,
+        status: project.status,
+        category: project.category,
+        tags: project.tags,
+        images: project.images,
+        contact: project.contact,
+        creator: project.creator
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Project saved successfully') {
+          resolve(res.project);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
 function uploadProjectImage(
   file: FileList,
   projectId: string
@@ -462,7 +510,7 @@ function uploadProjectImage(
 
     var formData = new FormData();
     for (var i = 0; i < file.length; i++) {
-      formData.append('projectImages', file[i]);
+      formData.append('projectImages', file![i]);
     }
 
     var data: object = {
@@ -595,7 +643,7 @@ function getOneProject(id: string): Promise<Project> {
 
 function deleteProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/delete/one';
+    const endpoint = 'http://localhost:8080/api/projects/delete';
 
     var data: object = {
       body: JSON.stringify({
@@ -604,7 +652,7 @@ function deleteProject(id: string): Promise<Project> {
       headers: {
         'Content-Type': 'application/json'
       },
-      method: 'POST',
+      method: 'DELETE',
       credentials: 'include'
     };
 
@@ -700,7 +748,8 @@ var apiService = {
   uploadProjectImage,
   uploadProfileImage,
   downloadProjectImageURLS,
-  userSettingsUpdate
+  userSettingsUpdate,
+  updateProject
 };
 
 export default apiService;

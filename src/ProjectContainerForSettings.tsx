@@ -11,9 +11,11 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
     super(props);
   }
 
-  public deleteProject(e: React.MouseEvent<HTMLButtonElement>): void {
-    var { id } = e.currentTarget;
-    this.props.deleteProject(id);
+  public deleteProject(
+    e: React.MouseEvent<HTMLButtonElement>,
+    projId: string
+  ): void {
+    this.props.deleteProject(projId);
   }
 
   render() {
@@ -77,7 +79,12 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
             </div>
           </div>
           <div>
-            <button className="project-delete-btn">Delete Project</button>
+            <button
+              onClick={e => this.deleteProject(e, this.props.projId)}
+              className="project-delete-btn"
+            >
+              Delete Project
+            </button>
           </div>
           <div />
           <div />
