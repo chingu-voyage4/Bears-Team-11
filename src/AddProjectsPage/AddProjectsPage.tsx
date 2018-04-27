@@ -826,7 +826,7 @@ class AddProjectsPage extends React.Component<
                 accept="image/png, image/jpeg, image/gif"
                 name="projectImages"
                 className="uploadImageBtn"
-                multiple={true}
+                multiple={false}
                 onChange={this.handleImageText}
               />
               <button

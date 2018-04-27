@@ -80,6 +80,11 @@ export function addProject(
   };
 }
 
+export type addProjectFnSignature = (
+  project: any,
+  files: FileList
+) => (dispatch: Dispatch<Action>) => void;
+
 export function updateProject(
   project: any,
   files: FileList

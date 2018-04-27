@@ -5,7 +5,8 @@ import { Marker } from './Marker.d';
 import { Tags, Tag } from './Tags.d';
 import { Categories, Category } from './Category.d';
 import { RegisterLoginWindow } from './AppAction';
-
+import { getAllUsersFnType } from '../actions/userActions';
+import { addProjectFnSignature } from '../actions/projectActions';
 // Action
 export interface Action {
   type: string;
@@ -106,11 +107,8 @@ export interface AddProjectProps {
   imageLinks: string[];
   addOrUpdateProject: Project;
   match: { params: { id: string } };
-  addProject: (
-    project: any,
-    files: FileList
-  ) => (dispatch: Dispatch<ProjectAction>) => void;
-  getAllUsers: () => (dispatch: Dispatch<Action>) => void;
+  addProject: addProjectFnSignature;
+  getAllUsers: () => getAllUsersFnType;
   getCategories: () => (dispatch: Dispatch<Action>) => void;
   getTags: () => (dispatch: Dispatch<Action>) => void;
   updateProject: (

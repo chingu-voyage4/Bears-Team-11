@@ -492,7 +492,7 @@ function uploadProjectImage(
 
     var formData = new FormData();
     for (var i = 0; i < file.length; i++) {
-      formData.append('projectImages', file![i]);
+      formData.append('image', file![i]);
     }
 
     var data: object = {
@@ -509,10 +509,7 @@ function uploadProjectImage(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (
-          res.message ===
-          'Successfully uploaded and saved project image URL to project'
-        ) {
+        if (res.message === 'Successfully saved project image') {
           resolve(res.project);
         } else {
           reject(res.error);
@@ -527,7 +524,7 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
       'http://localhost:8080/api/upload/image/profile?userId=' + userId;
 
     var formData = new FormData();
-    formData.append('projectImages', file);
+    formData.append('image', file);
 
     var data: object = {
       body: formData,
@@ -543,10 +540,7 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (
-          res.message ===
-          'Successfully uploaded and saved profile image URL to project'
-        ) {
+        if (res.message === 'Successfully saved profile image') {
           var user = res.user;
           var userDetails = res.userDetail;
           resolve({
