@@ -13,6 +13,7 @@ import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
 import PublicProfile from './UserProfileAndSettingsPage/PublicProfile';
 import Redline from './Redline';
 import ProjectPortalPage from './ProjectPortalPage/ProjectPortalPage';
+import { HYDRATE_USER } from './actions/actionTypes';
 
 const store = createStore(
   rootReducer,
@@ -24,6 +25,16 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
     this.state = {
       reduxManualTest: false
     };
+  }
+
+  componentDidMount() {
+    var user = localStorage.getItem('user');
+    if (user) {
+      store.dispatch({
+        type: HYDRATE_USER,
+        data: JSON.parse(user)
+      });
+    }
   }
 
   render() {

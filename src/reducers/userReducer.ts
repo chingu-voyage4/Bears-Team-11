@@ -4,13 +4,16 @@ import {
   LOGOUT,
   GOOGLE_LOGIN,
   UPLOAD_PROFILE_IMAGE,
-  USER_SETTINGS_UPDATE
+  USER_SETTINGS_UPDATE,
+  HYDRATE_USER
 } from '../actions/actionTypes';
 import { User } from '../types/User';
 import { UserState, UserAction } from '../types/Redux';
 
 function userReducer(state: UserState = {}, action: UserAction): UserState {
   switch (action.type) {
+    case HYDRATE_USER:
+      return action.data as User;
     case LOGIN:
       return action.data as User;
     case REGISTER:
