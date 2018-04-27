@@ -22,11 +22,9 @@ class Redline extends React.Component<
   }
 
   componentDidMount() {
-    var { projectId, revisionId } = this.getURLParams();
+    var { revisionId } = this.getURLParams();
     axios
-      .get(
-        `http://localhost:8080/api/projects/${projectId}/revisions/${revisionId}`
-      )
+      .get(`http://localhost:8080/api/projects/revision/${revisionId}`)
       .then(response => {
         this.setState({
           revision: response.data.revision
