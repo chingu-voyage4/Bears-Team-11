@@ -21,12 +21,13 @@ CAROUSEL
 ==========================
 */
 .project-portal__carousel__background {
-  background: #2b353d;
+  background: $black-grey;
   width: 100%;
+  min-height: 60vh;
 }
 
 .project-portal__carousel {
-  background: #2b353d;
+  background: $black-grey;
   width: 1080px;
   margin: 0 auto;
   position: relative;
@@ -62,7 +63,7 @@ REVISIONS
 
 .revision__version {
   color: #ffffff;
-  background: #fe0000;
+  background: $attention-red;
   padding: 5px 15px;
   border: none;
 }
@@ -78,7 +79,7 @@ REVISIONS
   position: absolute;
   top: -15px;
   right: -15px;
-  background: #fe0000;
+  background: $attention-red;
   border: none;
   width: 50px;
   height: 50px;
@@ -279,11 +280,12 @@ ABOUT
 }
 
 .looking-for {
-  color: #489be2;
+  color: $theme-blue;
 }
 
 .button {
-  background: #489be2;
-  color: #ffffff;
-  padding: 5px;
+  @include white-text-blue-background-button;
+  // background: $theme-blue;
+  // color: #ffffff;
+  // padding: 5px;
 }
