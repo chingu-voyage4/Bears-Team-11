@@ -1,0 +1,70 @@
+@import '_variables.scss';
+/*
+==========================
+DOCUMENT SETUP
+==========================
+*/
+body,
+html {
+  @include html-body-fontfamily;
+}
+/*
+==========================
+COMPONENTS
+==========================
+*/
+
+.project-match-container,
+.team-collaboration-container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr) / auto-flow 1fr;
+  grid-template-rows: auto;
+  max-width: 1080px;
+  margin: auto;
+  padding: auto;
+}
+.project-match-container {
+  grid-template-areas: 't t i i i i';
+}
+.team-collaboration-container {
+  grid-template-areas: 'i i i i t t';
+}
+/*
+==========================
+TEXT 
+==========================
+*/
+.project-feature-heading,
+.project-feature-text {
+  font-family: $font;
+  color: $theme-blue;
+  text-align: left;
+}
+.project-feature-heading {
+  grid-area: t;
+  font-size: $project-feature-header;
+  margin-top: 100px;
+  font-weight: 700;
+}
+.project-feature-text {
+  padding-top: 145px;
+  grid-area: t;
+  font-size: $landing-subtext-size;
+  line-height: 24px;
+  font-weight: 500;
+  max-width: 400px;
+}
+
+/*
+==========================
+IMAGE
+==========================
+*/
+.project-feature-image-div {
+  grid-area: i;
+}
+.project-feature-imac {
+  padding-bottom: 30px;
+  width: 100%;
+  object-fit: cover;
+}

@@ -1,0 +1,154 @@
+@import '_variables.scss';
+
+/*
+==========================
+COMPONENTS
+==========================
+*/
+.footer-max-container {
+  background-color: $theme-blue;
+  font-family: $font;
+}
+.footer-container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 1fr);
+  grid-template-areas: '. c . n . a . s .';
+  color: white;
+  padding: 60px 0px 80px 0px;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*
+==========================
+TEXT
+==========================
+*/
+
+.footer-subtitle {
+  font-size: $footer-subheader-font-size;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.footer-subcategories {
+  font-size: $footer-font-size;
+  padding-top: 10px;
+  margin: 0px;
+  min-width: 150px;
+  display: block;
+}
+
+.footer-subcategories:visited {
+  color: $light-blue;
+}
+
+/*
+==========================
+GRID AREAS
+==========================
+*/
+
+.contactUs {
+  grid-area: c;
+}
+
+.needHelp {
+  grid-area: n;
+}
+
+.about {
+  grid-area: a;
+}
+
+/*
+==========================
+Subscribe Area
+==========================
+*/
+
+.subscribe {
+  grid-area: s;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: 't t t ' 'i i b';
+}
+
+.subscribe-subtitle {
+  grid-area: t;
+}
+
+.emailInput {
+  grid-area: i;
+  border: 1px solid white;
+  padding: 5px;
+  background-color: $theme-blue;
+  color: white;
+  text-transform: capitalize;
+}
+
+.emailInput::placeholder {
+  color: white;
+  font-size: $footer-font-size;
+}
+
+.subscribeButton {
+  float: left;
+  border: none;
+  background-color: white;
+  color: $theme-blue;
+  text-transform: capitalize;
+  font-size: $footer-subheader-font-size;
+  padding: 5px;
+  font-weight: 700;
+  max-width: 120px;
+}
+
+/*
+==========================
+MEDIA QUERIES
+==========================
+*/
+
+@media all and (max-width: 1079px) and (min-width: 0px) {
+  .footer-container {
+    grid-template-areas: 'c n' 'a s';
+    margin: auto;
+    padding-bottom: 0px;
+  }
+  .contactUs,
+  .needHelp,
+  .about,
+  .subscribe {
+    margin-bottom: 60px;
+    margin-left: 30px;
+  }
+  .subscribe {
+    max-width: 300px;
+  }
+}
+
+@media all and (max-width: 600px) and (min-width: 0px) {
+  .footer-container {
+    grid-template-areas: 'c ' 'n' 'a' 's';
+    margin: auto;
+    padding-bottom: 0px;
+  }
+  .contactUs,
+  .needHelp,
+  .about,
+  .subscribe {
+    margin-bottom: 60px;
+    margin-left: 30px;
+  }
+  .subscribe {
+    max-width: 300px;
+  }
+}
