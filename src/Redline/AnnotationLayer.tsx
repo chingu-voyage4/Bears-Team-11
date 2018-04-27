@@ -48,10 +48,11 @@ class AnnotationLayer extends React.Component<{
   drawMarkers = () => {
     var markers: any = [];
     this.props.markers.forEach((annotation: any) => {
+      // console.log(annotation);
       if (annotation.type === 'rectangle') {
         markers.push(
           this.drawRect(
-            annotation.id,
+            annotation._id,
             annotation.x,
             annotation.y,
             annotation.width,
@@ -130,7 +131,7 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <CommentBox markerId={id} revisionId={this.props.revisionId} />
+        <CommentBox key={id} markerId={id} revisionId={this.props.revisionId} />
       </div>
     );
   };
@@ -149,7 +150,7 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <CommentBox markerId={id} revisionId={this.props.revisionId} />
+        <CommentBox key={id} markerId={id} revisionId={this.props.revisionId} />
       </div>
     );
   };
