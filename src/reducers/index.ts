@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import userReducer from './userReducer';
 import projectReducer from './projectReducer';
+import markerReducer from './markerReducer';
 import appReducer from './appReducer';
 import tagsReducer from './tagsReducer';
 import categoriesReducer from './categoriesReducer';
@@ -13,6 +14,7 @@ import currentProjectReducer from './currentProjectReducer';
 export default combineReducers({
   user: userReducer,
   projects: projectReducer,
+  markers: markerReducer,
   registerLoginWindow: appReducer,
   tags: tagsReducer,
   categories: categoriesReducer,

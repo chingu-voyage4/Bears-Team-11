@@ -1,9 +1,11 @@
 import { Dispatch } from 'react-redux';
 import { Project } from './Projects.d';
 import { User } from './User.d';
+import { Marker } from './Marker.d';
 import { Tags, Tag } from './Tags.d';
 import { Categories, Category } from './Category.d';
 import { RegisterLoginWindow } from './AppAction';
+
 // Action
 export interface Action {
   type: string;
@@ -35,6 +37,10 @@ export interface CategoryAction extends Action {
   data: Categories;
 }
 
+export interface MarkerAction extends Action {
+  data: Array<Marker> | Marker;
+}
+
 export type Users = Array<User>;
 
 // Reducers
@@ -42,6 +48,7 @@ export type UserState = User | {};
 
 export type ProjectState = Array<Project>;
 
+// ReduxTextPage Component
 export type CurrentProjectState = Project;
 
 export type UsersState = Users | {};
@@ -63,6 +70,7 @@ export interface Store {
   addOrUpdateProject: Project;
   searchResults: string | null;
   currentProject: Project;
+  markers: Array<Marker>;
 }
 
 export interface LoginProps {
