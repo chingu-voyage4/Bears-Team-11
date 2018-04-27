@@ -51,15 +51,7 @@ class AnnotationLayer extends React.Component<{
     this.props.markers.forEach((annotation: any) => {
       // console.log(annotation);
       if (annotation.type === 'rectangle') {
-        markers.push(
-          this.drawRect(
-            annotation._id,
-            annotation.x,
-            annotation.y,
-            annotation.width,
-            annotation.height
-          )
-        );
+        markers.push(this.drawRect(annotation._id, annotation.x, annotation.y));
       } else {
         markers.push(
           this.drawCircle(annotation._id, annotation.x, annotation.y)
