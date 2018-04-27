@@ -7,6 +7,7 @@ import {
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Store } from './types/Redux';
+import { logout } from './actions/userActions';
 
 class LoggedInHeader extends React.Component<
   LoggedInHeaderProps,
@@ -20,7 +21,7 @@ class LoggedInHeader extends React.Component<
   }
 
   public logout = () => {
-    // log out function
+    this.props.logout();
   };
 
   public toggleSettingsDropdown(e: React.MouseEvent<HTMLButtonElement>): void {
@@ -137,4 +138,4 @@ function mapStateToProps(state: Store) {
   };
 }
 
-export default connect(mapStateToProps, {})(LoggedInHeader);
+export default connect(mapStateToProps, { logout })(LoggedInHeader);

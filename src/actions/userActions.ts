@@ -24,6 +24,7 @@ export function login(
     return apiService
       .login(email, password)
       .then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
         return dispatch({
           type: LOGIN,
           data: user
@@ -45,6 +46,7 @@ export function googleLogin(
     return apiService
       .googleLogin(idToken)
       .then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
         return dispatch({
           type: GOOGLE_LOGIN,
           data: user
@@ -70,6 +72,7 @@ export function register(
     return apiService
       .register(firstName, lastName, username, email, password)
       .then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
         return dispatch({
           type: REGISTER,
           data: user
@@ -102,6 +105,7 @@ export function logout(): (dispatch: Dispatch<UserAction>) => void {
     return apiService
       .logout()
       .then(res => {
+        localStorage.removeItem('user');
         return dispatch({
           type: LOGOUT
         });
