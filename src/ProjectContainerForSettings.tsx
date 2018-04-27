@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import * as React from 'react';
 import './styles/Project.css';
-import { ProjectForEditProps, State } from './types/Projects.d';
-import { Store } from './types/Redux';
+import { State } from './types/Projects.d';
+import { Store, ProjectForEditProps } from './types/Redux';
 import { connect } from 'react-redux';
 import { deleteProject } from './actions/projectActions';
 

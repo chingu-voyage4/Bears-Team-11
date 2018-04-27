@@ -6,8 +6,8 @@ import LandingImage from './LandingImage';
 import ProjectFeatures from './ProjectFeatures';
 import RecentProjects from './RecentProjects';
 import ReadyToTry from './ReadyToTry';
-import { LandingPageProps, LandingPageState } from '../types/LandingPage.d';
-import { Store } from '../types/Redux';
+import { LandingPageState } from '../types/LandingPage.d';
+import { Store, LandingPageProps } from '../types/Redux';
 
 class LandingPage extends React.Component<LandingPageProps, LandingPageState> {
   render() {

@@ -9,6 +9,10 @@ import { MarkerAction } from '../types/Redux.d';
 import { Marker } from '../types/Marker.d';
 import apiService from '../utils/apiService';
 
+export type getMarkers_fntype = (
+  revisionId: string
+) => (dispatch: Dispatch<MarkerAction>) => void;
+
 export function getMarkers(
   revisionId: string
 ): (dispatch: Dispatch<MarkerAction>) => void {
@@ -21,6 +25,11 @@ export function getMarkers(
     });
   };
 }
+
+export type addMarker_fntype = (
+  revisionId: string,
+  marker: Marker
+) => (dispatch: Dispatch<MarkerAction>) => void;
 
 export function addMarker(
   revisionId: string,
@@ -35,6 +44,15 @@ export function addMarker(
     });
   };
 }
+
+export type moveMarker_fntype = (
+  revisionId: string,
+  id: string,
+  x: string,
+  y: string,
+  width: string,
+  height: string
+) => (dispatch: Dispatch<MarkerAction>) => void;
 
 export function moveMarker(
   revisionId: string,
@@ -53,6 +71,16 @@ export function moveMarker(
     });
   };
 }
+
+export type addComment_fntype = (
+  revisionId: string,
+  markerId: string,
+  comment: {
+    user: string;
+    time: string;
+    message: string;
+  }
+) => (dispatch: Dispatch<MarkerAction>) => void;
 
 export function addComment(
   revisionId: string,

@@ -521,7 +521,7 @@ function uploadProjectImage(
 function uploadProfileImage(file: File, userId: string): Promise<User> {
   return new Promise((resolve, reject) => {
     const endpoint =
-      'http://localhost:8080/api/upload/image/profile?userId=' + userId;
+      'http://localhost:8080/api/upload/image/profile?userName=' + userId;
 
     var formData = new FormData();
     formData.append('image', file);
@@ -563,6 +563,42 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
             twitterLink: userDetails.twitterLink,
             blogLink: userDetails.blogLink
           });
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function uploadRevisionImage(
+  file: FileList,
+  projectId: string
+): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    const endpoint =
+      'http://localhost:8080/api/upload/image/revision?revisionId=' + projectId;
+
+    var formData = new FormData();
+    for (var i = 0; i < file.length; i++) {
+      formData.append('image', file![i]);
+    }
+
+    var data: object = {
+      body: formData,
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully saved revision image') {
+          resolve(res.revision);
         } else {
           reject(res.error);
         }
@@ -807,7 +843,8 @@ var apiService = {
   uploadProfileImage,
   downloadProjectImageURLS,
   userSettingsUpdate,
-  updateProject
+  updateProject,
+  uploadRevisionImage
 };
 
 export default apiService;

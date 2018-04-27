@@ -37,21 +37,8 @@ export interface Props {
   projId: string;
 }
 
-export interface ProjectForEditProps {
-  projects: Project;
-  projId: string;
-  data: any;
-  deleteProject: (id: string) => (dispatch: Dispatch<Action>) => void;
-}
-
 export interface EmptyProp {}
 
 export interface ProjectsProps {}
 
-export interface ProjectsInheritedProps {
-  projects: Array<Project>;
-  arrayOfProjects: string;
-  user: User;
-  searchResults: string | null;
-}
 export interface ProjectsState {}

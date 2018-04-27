@@ -1,12 +1,7 @@
 import * as React from 'react';
 import './styles/Project.css';
-import {
-  State,
-  Props,
-  ProjectsState,
-  ProjectsInheritedProps
-} from './types/Projects.d';
-import { Store } from './types/Redux';
+import { State, Props, ProjectsState } from './types/Projects.d';
+import { Store, ProjectsInheritedProps } from './types/Redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
