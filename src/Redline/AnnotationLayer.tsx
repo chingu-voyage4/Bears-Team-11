@@ -119,7 +119,8 @@ class AnnotationLayer extends React.Component<{
       top: `${y}px`,
       left: `${x}px`,
       width: `${width}px`,
-      height: `${height}px`
+      height: `${height}px`,
+      zIndex: 100
     };
     return (
       <div
