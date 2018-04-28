@@ -16,6 +16,11 @@ import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
 import { UserAction, Action } from '../types/Redux';
 
+export type login_fntype = (
+  email: string,
+  password: string
+) => (dispatch: Dispatch<UserAction>) => void;
+
 export function login(
   email: string,
   password: string
@@ -39,6 +44,10 @@ export function login(
   };
 }
 
+export type googleLogin_fntype = (
+  idToken: string
+) => (dispatch: Dispatch<UserAction>) => void;
+
 export function googleLogin(
   idToken: string
 ): (dispatch: Dispatch<UserAction>) => void {
@@ -60,6 +69,14 @@ export function googleLogin(
       });
   };
 }
+
+export type register_fntype = (
+  firstName: string,
+  lastName: string,
+  username: string,
+  email: string,
+  password: string
+) => (dispatch: Dispatch<UserAction>) => void;
 
 export function register(
   firstName: string,
@@ -87,6 +104,11 @@ export function register(
   };
 }
 
+export type uploadProfileImage_fntype = (
+  file: File,
+  userId: string
+) => (dispatch: Dispatch<UserAction>) => void;
+
 export function uploadProfileImage(
   file: File,
   userId: string
@@ -100,6 +122,9 @@ export function uploadProfileImage(
     });
   };
 }
+
+export type logout_fntype = () => (dispatch: Dispatch<UserAction>) => void;
+
 export function logout(): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService
@@ -119,6 +144,8 @@ export function logout(): (dispatch: Dispatch<UserAction>) => void {
   };
 }
 
+export type getAllUsers_fntype = () => (dispatch: Dispatch<Action>) => void;
+
 export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService
@@ -137,6 +164,20 @@ export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
       });
   };
 }
+
+export type userSettingsUpdate_fntype = (
+  aboutme: string,
+  location: string,
+  roles: string[],
+  skills: string[],
+  linkedin: string,
+  github: string,
+  portfolio: string,
+  website: string,
+  twitter: string,
+  blog: string,
+  userId: string
+) => (dispatch: Dispatch<Action>) => void;
 
 export function userSettingsUpdate(
   aboutme: string,

@@ -1,19 +1,21 @@
 import { Link } from 'react-router-dom';
 import * as React from 'react';
-import './styles/Project.css';
-import { ProjectForEditProps, State } from './types/Projects.d';
-import { Store } from './types/Redux';
+import '../styles/Project.css';
+import { State } from '../types/Projects.d';
+import { Store, ProjectForEditProps } from '../types/Redux';
 import { connect } from 'react-redux';
-import { deleteProject } from './actions/projectActions';
+import { deleteProject } from '../actions/projectActions';
 
 class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
   constructor(props: ProjectForEditProps) {
     super(props);
   }
 
-  public deleteProject(e: React.MouseEvent<HTMLButtonElement>): void {
-    var { id } = e.currentTarget;
-    this.props.deleteProject(id);
+  public deleteProject(
+    e: React.MouseEvent<HTMLButtonElement>,
+    projId: string
+  ): void {
+    this.props.deleteProject(projId);
   }
 
   render() {
@@ -57,10 +59,10 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
             className="project-edit-image"
             alt={data.name}
             src={
-              data.images === [] ||
+              data.images.length === 0 ||
               data.images === undefined ||
               data.images === null
-                ? require('./assets/imagePlaceholder.jpg')
+                ? require('../assets/imagePlaceholder.jpg')
                 : data.images[0]
             }
           />
@@ -77,7 +79,12 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
             </div>
           </div>
           <div>
-            <button className="project-delete-btn">Delete Project</button>
+            <button
+              onClick={e => this.deleteProject(e, this.props.projId)}
+              className="project-delete-btn"
+            >
+              Delete Project
+            </button>
           </div>
           <div />
           <div />

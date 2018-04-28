@@ -1,5 +1,5 @@
 export interface Marker {
-  id: string;
+  _id: string;
   type: string;
   x: string;
   y: string;

@@ -128,7 +128,6 @@ class ProjectsFilter extends React.Component<
     };
 
     const callNewProjects = () => {
-      console.log('calling new projects');
       // create options and query objects
       var options = {};
       var query: object | null = {};

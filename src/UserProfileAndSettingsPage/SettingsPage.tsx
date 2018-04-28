@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import PublicProfile from './PublicProfile';
 import PersonalDetails from './PersonalDetails';
 import ProjectSettings from './ProjectSettings';
-import HeaderContainer from '../HeaderContainer';
-import Footer from '../Footer';
+import HeaderContainer from '../Headers&Footers/HeaderContainer';
+import Footer from '../Headers&Footers/Footer';
 
 class SettingsPage extends React.Component<PassedProps, State> {
   constructor(props: PassedProps) {

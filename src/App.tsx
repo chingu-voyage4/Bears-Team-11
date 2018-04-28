@@ -48,6 +48,11 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
               <Route exact={true} path="/projects" component={ProjectsPage} />
               <Route
                 exact={true}
+                path="/projects/add"
+                component={AddProjectsPage}
+              />
+              <Route
+                exact={true}
                 path="/projects/:id"
                 component={ProjectPortalPage}
               />
@@ -55,11 +60,6 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
                 exact={true}
                 path="/projects/:projectId/revision/:revisionId"
                 component={Redline}
-              />
-              <Route
-                exact={true}
-                path="/projects/add"
-                component={AddProjectsPage}
               />
               <Route
                 exact={true}

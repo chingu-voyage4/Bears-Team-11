@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Store } from '../types/Redux';
-import {
-  PublicProfileProps,
-  PublicProfileState
-} from '../types/PublicProfile.d';
+import { Store, PublicProfileProps } from '../types/Redux';
+import { PublicProfileState } from '../types/PublicProfile.d';
 import { userSettingsUpdate } from '../actions/userActions';
 
 class PublicProfile extends React.Component<
@@ -283,7 +280,7 @@ class PublicProfile extends React.Component<
             <input
               className="settings-input"
               name="website"
-              value={this.state.portfolio}
+              value={this.state.website}
               onChange={e => this.handleInputChange(e)}
             />
           </div>

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Footer from '../Footer';
+import Footer from '../Headers&Footers/Footer';
 import '../styles/AddProjectsPage.css';
-import HeaderContainer from '../HeaderContainer';
+import HeaderContainer from '../Headers&Footers/HeaderContainer';
 import { AddProjectState } from '../types/AddProjectsPage.d';
 import { connect } from 'react-redux';
 import {
@@ -61,7 +61,7 @@ class AddProjectsPage extends React.Component<
         {
           name: project.name,
           description: project.description,
-          dueDate: project.dueDate.slice(0, 10),
+          dueDate: project.dueDate !== null ? project.dueDate.slice(0, 10) : '',
           team: project.team,
           githubLink: project.githubLink,
           mockupLink: project.mockupLink,
@@ -81,12 +81,11 @@ class AddProjectsPage extends React.Component<
           files: null
         },
         () => {
-          console.log(this.state);
+          // console.log(this.state);
           // var doc: any;
           // if (this.state.lookingFor === ['Programmer']) {
           //   doc = document.getElementById('new-project-role-p')!;
           //   doc.checked = true;
-
           // } else if (this.state.lookingFor === ['Designer']) {
           //   doc = document.getElementById('new-project-role-d')![0];
           //   doc.checked = true;
@@ -172,7 +171,6 @@ class AddProjectsPage extends React.Component<
             arrayOfRoles.push(node.value);
           }
         });
-        console.log(arrayOfRoles);
         this.setState({ lookingFor: arrayOfRoles } as any);
       }
     } else {
@@ -208,25 +206,46 @@ class AddProjectsPage extends React.Component<
     });
 
     this.setState({ lookingFor: lookingForArray }, () => {
-      this.props.addProject(
-        {
-          name: this.state.name,
-          description: this.state.description,
-          dueDate: this.state.dueDate,
-          team: this.state.team,
-          githubLink: this.state.githubLink,
-          mockupLink: this.state.mockupLink,
-          liveLink: this.state.liveLink,
-          lookingFor: this.state.lookingFor,
-          status: this.state.status,
-          category: this.state.category,
-          tags: this.state.tags,
-          contact: this.state.contact,
-          creator: this.props.user.username
-        },
-
-        this.state.files
-      );
+      if (this.props.match.params.hasOwnProperty('id')) {
+        this.props.updateProject(
+          {
+            _id: this.props.addOrUpdateProject._id,
+            name: this.state.name,
+            description: this.state.description,
+            dueDate: this.state.dueDate,
+            team: this.state.team,
+            githubLink: this.state.githubLink,
+            mockupLink: this.state.mockupLink,
+            liveLink: this.state.liveLink,
+            lookingFor: this.state.lookingFor,
+            status: this.state.status,
+            category: this.state.category,
+            tags: this.state.tags,
+            contact: this.state.contact,
+            creator: this.props.user.username
+          },
+          this.state.files
+        );
+      } else {
+        this.props.addProject(
+          {
+            name: this.state.name,
+            description: this.state.description,
+            dueDate: this.state.dueDate,
+            team: this.state.team,
+            githubLink: this.state.githubLink,
+            mockupLink: this.state.mockupLink,
+            liveLink: this.state.liveLink,
+            lookingFor: this.state.lookingFor,
+            status: this.state.status,
+            category: this.state.category,
+            tags: this.state.tags,
+            contact: this.state.contact,
+            creator: this.props.user.username
+          },
+          this.state.files
+        );
+      }
     });
   };
 
@@ -805,7 +824,7 @@ class AddProjectsPage extends React.Component<
                 accept="image/png, image/jpeg, image/gif"
                 name="projectImages"
                 className="uploadImageBtn"
-                multiple={true}
+                multiple={false}
                 onChange={this.handleImageText}
               />
               <button
@@ -837,7 +856,7 @@ class AddProjectsPage extends React.Component<
                 onClick={e => this.toggleDropdown(e, 'new-status-dropdown')}
                 className="new-project-dropdown-btn"
               >
-                {this.state.status}
+                {this.state.statusPlaceholder}
               </button>
               <div
                 id="new-status-dropdown"
@@ -852,7 +871,7 @@ class AddProjectsPage extends React.Component<
               className="new-project-submit-btn"
               onClick={this.handleSubmit}
             >
-              Submit New Project
+              Save Project
             </button>
           </div>
           {/* end of box 2 */}

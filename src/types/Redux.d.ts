@@ -5,7 +5,37 @@ import { Marker } from './Marker.d';
 import { Tags, Tag } from './Tags.d';
 import { Categories, Category } from './Category.d';
 import { RegisterLoginWindow } from './AppAction';
-
+import { getTags_fntype } from '../actions/tagsActions';
+import { getCategories_fntype } from '../actions/categoryActions';
+import {
+  getAllUsers_fntype,
+  userSettingsUpdate_fntype,
+  uploadProfileImage_fntype,
+  logout_fntype,
+  register_fntype,
+  googleLogin_fntype,
+  login_fntype
+} from '../actions/userActions';
+import {
+  addProject_fntype,
+  getOneProject_fntype,
+  deleteProject_fntype,
+  downloadProjectImageURLS_fntype,
+  updateProject_fntype,
+  getProject_fntype,
+  searchProjects_fntype,
+  getProjects_fntype
+} from '../actions/projectActions';
+import {
+  getMarkers_fntype,
+  addMarker_fntype,
+  moveMarker_fntype,
+  addComment_fntype
+} from '../actions/markerActions';
+import {
+  showRegisterWindow_fntype,
+  showLoginWindow_fntype
+} from '../actions/appActions';
 // Action
 export interface Action {
   type: string;
@@ -36,7 +66,6 @@ export interface TagAction extends Action {
 export interface CategoryAction extends Action {
   data: Categories;
 }
-
 export interface MarkerAction extends Action {
   data: Array<Marker> | Marker;
 }
@@ -75,26 +104,17 @@ export interface Store {
 
 export interface LoginProps {
   visibleLoginWindow: boolean;
-  login: (
-    email: string,
-    password: string
-  ) => (dispatch: Dispatch<UserAction>) => void;
-  showLoginWindow: () => (dispatch: Dispatch<AppAction>) => void;
+  login: login_fntype;
+  showLoginWindow: showLoginWindow_fntype;
 }
 export interface RegisterProps {
-  register: (
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    username: string
-  ) => (dispatch: Dispatch<UserAction>) => void;
+  register: register_fntype;
   visibleRegisterWindow: boolean;
-  showRegisterWindow: () => (dispatch: Dispatch<AppAction>) => void;
+  showRegisterWindow: showRegisterWindow_fntype;
 }
 
 export interface ProjectProps {
-  getProjects: () => (dispatch: Dispatch<ProjectAction>) => void;
+  getProjects: getProjects_fntype;
 }
 
 export interface AddProjectProps {
@@ -106,15 +126,12 @@ export interface AddProjectProps {
   imageLinks: string[];
   addOrUpdateProject: Project;
   match: { params: { id: string } };
-  addProject: (
-    project: any,
-    files: FileList
-  ) => (dispatch: Dispatch<ProjectAction>) => void;
-  getAllUsers: () => (dispatch: Dispatch<Action>) => void;
-  getCategories: () => (dispatch: Dispatch<Action>) => void;
-  getTags: () => (dispatch: Dispatch<Action>) => void;
-  updateProject: (id: string) => (dispatch: Dispatch<Action>) => void;
-  getOneProject: (id: string) => (dispatch: Dispatch<Action>) => void;
+  addProject: addProject_fntype;
+  getAllUsers: getAllUsers_fntype;
+  getCategories: getCategories_fntype;
+  getTags: getTags_fntype;
+  updateProject: updateProject_fntype;
+  getOneProject: getOneProject_fntype;
 }
 
 export interface ProjectPageFilterProps {
@@ -122,16 +139,71 @@ export interface ProjectPageFilterProps {
   categories: Categories | any;
   tags: Tags | any;
   searchResults: string | null;
-  getCategories: () => (dispatch: Dispatch<Action>) => void;
-  getTags: () => (dispatch: Dispatch<Action>) => void;
-  searchProjects: (
-    query: string | null
-  ) => (dispatch: Dispatch<Action>) => void;
-  getProjects: (
-    options: object,
-    query: object | null
-  ) => (dispatch: Dispatch<ProjectAction>) => void;
+  getCategories: getCategories_fntype;
+  getTags: getTags_fntype;
+  searchProjects: searchProjects_fntype;
+  getProjects: getProjects_fntype;
 }
 
-// Register Component
+export interface GoogleProps {
+  googleLogin: googleLogin_fntype;
+}
+
+export interface HeaderProps {
+  visibleLoginWindow: boolean;
+  visibleRegisterWindow: boolean;
+  showRegisterWindow: showRegisterWindow_fntype;
+  showLoginWindow: showLoginWindow_fntype;
+}
+
+export interface RecentProjectsProps {
+  projects: Array<Project>;
+  getProjects: getProjects_fntype;
+}
+
+export interface LandingPageProps {
+  user: User;
+}
+
+export interface LoggedInHeaderProps {
+  user: User;
+  projects: Project;
+  logout: any;
+}
+
 export interface State {}
+
+export interface ProjectForEditProps {
+  projects: Project;
+  projId: string;
+  data: any;
+  deleteProject: deleteProject_fntype;
+}
+
+export interface ProjectsInheritedProps {
+  projects: Array<Project>;
+  arrayOfProjects: string;
+  user: User;
+  searchResults: string | null;
+}
+
+export interface ProjectSettingsProps {
+  user: User;
+  projects: Array<Project>;
+  deleteProject: deleteProject_fntype;
+  getProjects: getProjects_fntype;
+  updateProject: updateProject_fntype;
+}
+
+export interface ProjectPageProps {
+  user: User;
+  projects: Array<Project>;
+  searchResults: string | null;
+  searchProjects: searchProjects_fntype;
+  getProjects: getProjects_fntype;
+}
+
+export interface PublicProfileProps {
+  user: User;
+  userSettingsUpdate: userSettingsUpdate_fntype;
+}

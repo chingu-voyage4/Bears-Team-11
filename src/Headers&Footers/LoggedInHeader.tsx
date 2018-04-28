@@ -1,13 +1,10 @@
 import * as React from 'react';
-import './styles/LoggedInHeader.css';
-import {
-  LoggedInHeaderProps,
-  LoggedInHeaderState
-} from './types/LoggedInHeader.d';
+import '../styles/LoggedInHeader.css';
+import { LoggedInHeaderState } from '../types/LoggedInHeader.d';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Store } from './types/Redux';
-import { logout } from './actions/userActions';
+import { Store, LoggedInHeaderProps } from '../types/Redux';
+import { logout } from '../actions/userActions';
 
 class LoggedInHeader extends React.Component<
   LoggedInHeaderProps,
@@ -35,25 +32,51 @@ class LoggedInHeader extends React.Component<
       {}
     > {
       render() {
-        var listOfProjects = this.props.user.projects;
-        var activeProjects = this.props.projects.filter((project: any) => {
-          if (listOfProjects.includes(project._id) && project.status === true) {
-            return project;
-          }
-        });
-        console.log(activeProjects);
-        var links = activeProjects.map((project: any, index: number) => {
-          var linkTo = '/projects/' + project._id;
-          return (
+        var listOfProjects = this.props.projects;
+        var username = this.props.user.username;
+        var activeProjects;
+        var links;
+
+        console.log(listOfProjects);
+        if (listOfProjects === null || listOfProjects === undefined) {
+          links = null;
+        } else {
+          activeProjects = listOfProjects.filter((project: any) => {
+            if (
+              project.creator === username ||
+              (project.team!.indexOf(username) !== -1 &&
+                project.status === true)
+            ) {
+              return project;
+            } else {
+              return null;
+            }
+          });
+        }
+        if (!Array.isArray(activeProjects)) {
+          links = (
             <Link
               className="header-project-portal-link"
-              to={linkTo}
-              key={index}
+              to={'/projects/' + activeProjects._id}
             >
-              {project.name}
+              {activeProjects.name}
             </Link>
           );
-        });
+        } else {
+          links = activeProjects.map((project: any, index: number) => {
+            var linkTo = '/projects/' + project._id;
+            return (
+              <Link
+                className="header-project-portal-link"
+                to={linkTo}
+                key={index}
+              >
+                {project.name}
+              </Link>
+            );
+          });
+        }
+
         return (
           <div>
             {links}
@@ -96,7 +119,7 @@ class LoggedInHeader extends React.Component<
                   src={
                     this.props.user.profileImage
                       ? this.props.user.profileImage
-                      : require('./assets/blank image.png')
+                      : require('../assets/blank image.png')
                   }
                 />
               </button>

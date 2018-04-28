@@ -1,15 +1,9 @@
 import * as React from 'react';
-import './styles/Project.css';
-import {
-  State,
-  Props,
-  ProjectsState,
-  ProjectsInheritedProps
-} from './types/Projects.d';
-import { Store } from './types/Redux';
+import '../styles/Project.css';
+import { State, Props, ProjectsState } from '../types/Projects.d';
+import { Store, ProjectsInheritedProps } from '../types/Redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import ProjectForEdit from './ProjectContainerForSettings';
 
 class Project extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -50,23 +44,23 @@ class Project extends React.Component<Props, State> {
     }
 
     return (
-      <Link to={'/projects/' + this.props.projId} className="project">
-        <img
-          className="project-image"
-          alt={data.name}
-          // src="https://s3.us-east-2.amazonaws.com/project-match/project/5ada5b2132bf984d80ebc697/1524525889261.jpeg"
-          src={
-            data.images === [] ||
-            data.images![0] === undefined ||
-            data.images![0] === null
-              ? require('./assets/imagePlaceholder.jpg')
-              : data.images![0]
-          }
-        />
+      <div className="project">
+        <Link to={'/projects/' + this.props.projId}>
+          <img
+            className="project-image"
+            alt={data.name}
+            src={
+              data.images === [] ||
+              data.images![0] === undefined ||
+              data.images![0] === null
+                ? require('../assets/imagePlaceholder.jpg')
+                : data.images![0]
+            }
+          />
+        </Link>
         <div className="project-info">
           <div className="project-name">{data.name}</div>
           <div className="project-description">{data.description}</div>
-          {/* <div className="project-category">{category}</div> */}
           <div className="project-tags">
             {category}
             {tags}
@@ -78,11 +72,11 @@ class Project extends React.Component<Props, State> {
           <a>
             <img
               className="project-save"
-              src={require('./assets/Bookmark Icon.png')}
+              src={require('../assets/Bookmark Icon.png')}
             />
           </a>
         </div>
-      </Link>
+      </div>
     );
   }
 }
@@ -109,21 +103,6 @@ class Projects extends React.Component<ProjectsInheritedProps, ProjectsState> {
           project={projectArray[0]}
         />
       );
-    } else if (this.props.arrayOfProjects === 'settings') {
-      projectArray = projectArray.filter(project => {
-        // will need to adjust to check for user in teams
-        return project.creator === this.props.user.username;
-      });
-      console.log(projectArray);
-      return projectArray.map(function(projectData: any, index: number) {
-        return (
-          <ProjectForEdit
-            key={'projects_Edit_' + index}
-            projId={projectData._id}
-            data={projectData}
-          />
-        );
-      });
     } else if (projectArray) {
       projectComponent = projectArray.map(function(
         projectData: any,

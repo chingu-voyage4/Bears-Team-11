@@ -64,7 +64,7 @@ IMAGE
 .project-edit-image {
   grid-area: i;
   height: 100%;
-  width: 300px;
+  width: 100%;
   object-fit: cover;
   border: $border;
   vertical-align: middle;
@@ -109,6 +109,7 @@ ROLES
 }
 .project-roles-needed {
   padding: 10px;
+  padding-left: 10px;
   color: $dark-grey;
   text-transform: lowercase;
   text-align: left;
@@ -176,7 +177,7 @@ TAGS & CATEGORY LINKS
 */
 .project-tags {
   padding: 7px 10px 5px 10px;
-  display: inline-block;
+  display: block;
 }
 
 .projects-tag-links,

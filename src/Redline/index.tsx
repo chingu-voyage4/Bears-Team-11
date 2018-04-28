@@ -5,6 +5,7 @@ import Toolbar from './Toolbar';
 import ImageLayer from './ImageLayer';
 import AnnotationLayer from './AnnotationLayer';
 import axios from 'axios';
+import HeaderContainer from '../Headers&Footers/HeaderContainer';
 
 class Redline extends React.Component<
   { imageLink: string; match: any },
@@ -22,11 +23,9 @@ class Redline extends React.Component<
   }
 
   componentDidMount() {
-    var { projectId, revisionId } = this.getURLParams();
+    var { revisionId } = this.getURLParams();
     axios
-      .get(
-        `http://localhost:8080/api/projects/${projectId}/revisions/${revisionId}`
-      )
+      .get(`http://localhost:8080/api/projects/revision/${revisionId}`)
       .then(response => {
         this.setState({
           revision: response.data.revision
@@ -57,26 +56,30 @@ class Redline extends React.Component<
 
   render() {
     return (
-      <div className="redline-container">
-        <Toolbar
-          tool={this.state.tool}
-          selectCursorTool={this.selectCursorTool}
-          selectCircleTool={this.selectCircleTool}
-          selectRectangleTool={this.selectRectangleTool}
-          selectCommentTool={this.selectCommentTool}
-        />
-        <div className="redline-canvas">
-          <div>
-            <ImageLayer imageLink={this.state.revision.imageURL} />
-            <AnnotationLayer
-              tool={this.state.tool}
-              onMarkerAdd={this.selectCursorTool}
-              revisionId={this.getURLParams().revisionId}
-              projectId={this.getURLParams().projectId}
-            />
+      <React.Fragment>
+        <HeaderContainer />
+        <div className="redline-container">
+          <Toolbar
+            tool={this.state.tool}
+            selectCursorTool={this.selectCursorTool}
+            selectCircleTool={this.selectCircleTool}
+            selectRectangleTool={this.selectRectangleTool}
+            selectCommentTool={this.selectCommentTool}
+          />
+          <div className="redline-canvas">
+            <div>
+              <AnnotationLayer
+                tool={this.state.tool}
+                onMarkerAdd={this.selectCursorTool}
+                revisionId={this.getURLParams().revisionId}
+                projectId={this.getURLParams().projectId}
+              >
+                <ImageLayer imageLink={this.state.revision.imageURL} />
+              </AnnotationLayer>
+            </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

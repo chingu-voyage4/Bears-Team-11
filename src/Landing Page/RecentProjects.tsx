@@ -1,9 +1,8 @@
 import * as React from 'react';
 import '../styles/RecentProjects.css';
-import Projects from '../Projects';
-import { RecentProjectsProps } from '../types/LandingPage.d';
+import Projects from '../Project/Projects';
 import { Link } from 'react-router-dom';
-import { Store } from '../types/Redux';
+import { Store, RecentProjectsProps } from '../types/Redux';
 import { connect } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
 class RecentProjects extends React.Component<RecentProjectsProps, {}> {

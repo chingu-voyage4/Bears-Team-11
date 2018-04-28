@@ -11,7 +11,11 @@ import {
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
 import { Action } from '../types/Redux';
-// import { Project } from '../types/Projects.d';
+
+export type getProjects_fntype = (
+  options: object,
+  query: object | null
+) => (dispatch: Dispatch<Action>) => void;
 
 export function getProjects(
   options: object,
@@ -19,13 +23,21 @@ export function getProjects(
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService.getProjects(options, query).then(projects => {
-      return dispatch({
-        type: GET_PROJECTS,
-        data: projects
-      });
+      if (projects) {
+        return dispatch({
+          type: GET_PROJECTS,
+          data: projects
+        });
+      } else {
+        return null;
+      }
     });
   };
 }
+
+export type searchProjects_fntype = (
+  query: string | null
+) => (dispatch: Dispatch<Action>) => void;
 
 export function searchProjects(
   query: string | null
@@ -38,44 +50,86 @@ export function searchProjects(
   };
 }
 
+export type getProject_fntype = (
+  projectId: string
+) => (dispatch: Dispatch<Action>) => void;
+
 export function getProject(
   projectId: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService.getProject(projectId).then(project => {
-      return dispatch({
-        type: GET_PROJECT,
-        data: project
-      });
+      if (project) {
+        return dispatch({
+          type: GET_PROJECT,
+          data: project
+        });
+      } else {
+        return null;
+      }
     });
   };
 }
+
+export type addProject_fntype = (
+  project: any,
+  files: FileList
+) => (dispatch: Dispatch<Action>) => void;
+
 export function addProject(
   project: any,
   files: FileList
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService.addProject(project).then(newProject => {
-      apiService.uploadProjectImage(files, newProject._id).then(() => {
+      if (files) {
+        return apiService.uploadProjectImage(files, newProject._id).then(() => {
+          return dispatch({
+            type: ADD_PROJECT,
+            data: newProject
+          });
+        });
+      } else {
         return dispatch({
           type: ADD_PROJECT,
           data: newProject
         });
-      });
+      }
     });
   };
 }
 
+export type updateProject_fntype = (
+  project: any,
+  files: FileList
+) => (dispatch: Dispatch<Action>) => void;
+
 export function updateProject(
-  id: string
+  project: any,
+  files: FileList
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return dispatch({
-      type: UPDATE_PROJECT,
-      data: id
+    return apiService.updateProject(project).then(projects => {
+      if (files) {
+        return apiService.uploadProjectImage(files, projects._id).then(() => {
+          return dispatch({
+            type: UPDATE_PROJECT,
+            data: projects
+          });
+        });
+      } else {
+        return dispatch({
+          type: UPDATE_PROJECT,
+          data: projects
+        });
+      }
     });
   };
 }
+
+export type getOneProject_fntype = (
+  id: string
+) => (dispatch: Dispatch<Action>) => void;
 
 export function getOneProject(
   id: string
@@ -90,18 +144,26 @@ export function getOneProject(
   };
 }
 
+export type deleteProject_fntype = (
+  id: string
+) => (dispatch: Dispatch<Action>) => void;
+
 export function deleteProject(
   id: string
 ): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
-    return apiService.deleteProject(id).then(deletedProject => {
+    return apiService.deleteProject(id).then(project => {
       return dispatch({
         type: DELETE_PROJECT,
-        data: deletedProject
+        data: project
       });
     });
   };
 }
+
+export type downloadProjectImageURLS_fntype = (
+  projectId: string
+) => (dispatch: Dispatch<Action>) => void;
 
 export function downloadProjectImageURLS(
   projectId: string

@@ -364,8 +364,6 @@ function getProjects(
       method: 'POST'
     };
 
-    console.log(data);
-
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
@@ -434,6 +432,51 @@ function addProject(project: Project): Promise<Project> {
   });
 }
 
+function updateProject(project: Project): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/projects/update/' + project._id;
+
+    var data: object = {
+      body: JSON.stringify({
+        name: project.name,
+        description: project.description,
+        dueDate: project.dueDate,
+        team: project.team,
+        githubLink: project.githubLink,
+        mockupLink: project.mockupLink,
+        liveLink: project.liveLink,
+        lookingFor: project.lookingFor,
+        status: project.status,
+        category: project.category,
+        tags: project.tags,
+        images: project.images,
+        contact: project.contact,
+        creator: project.creator
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Project saved successfully') {
+          resolve(res.project);
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
 function uploadProjectImage(
   file: FileList,
   projectId: string
@@ -444,7 +487,7 @@ function uploadProjectImage(
 
     var formData = new FormData();
     for (var i = 0; i < file.length; i++) {
-      formData.append('projectImages', file[i]);
+      formData.append('image', file![i]);
     }
 
     var data: object = {
@@ -461,10 +504,7 @@ function uploadProjectImage(
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (
-          res.message ===
-          'Successfully uploaded and saved project image URL to project'
-        ) {
+        if (res.message === 'Successfully saved project image') {
           resolve(res.project);
         } else {
           reject(res.error);
@@ -476,10 +516,10 @@ function uploadProjectImage(
 function uploadProfileImage(file: File, userId: string): Promise<User> {
   return new Promise((resolve, reject) => {
     const endpoint =
-      'http://localhost:8080/api/upload/image/profile?userId=' + userId;
+      'http://localhost:8080/api/upload/image/profile?userName=' + userId;
 
     var formData = new FormData();
-    formData.append('projectImages', file);
+    formData.append('image', file);
 
     var data: object = {
       body: formData,
@@ -495,10 +535,7 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        if (
-          res.message ===
-          'Successfully uploaded and saved profile image URL to project'
-        ) {
+        if (res.message === 'Successfully saved profile image') {
           var user = res.user;
           var userDetails = res.userDetail;
           resolve({
@@ -521,6 +558,42 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
             twitterLink: userDetails.twitterLink,
             blogLink: userDetails.blogLink
           });
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function uploadRevisionImage(
+  file: FileList,
+  projectId: string
+): Promise<Project> {
+  return new Promise((resolve, reject) => {
+    const endpoint =
+      'http://localhost:8080/api/upload/image/revision?revisionId=' + projectId;
+
+    var formData = new FormData();
+    for (var i = 0; i < file.length; i++) {
+      formData.append('image', file![i]);
+    }
+
+    var data: object = {
+      body: formData,
+      method: 'POST',
+      credentials: 'include'
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully saved revision image') {
+          resolve(res.revision);
         } else {
           reject(res.error);
         }
@@ -577,7 +650,7 @@ function getOneProject(id: string): Promise<Project> {
 
 function deleteProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/delete/one';
+    const endpoint = 'http://localhost:8080/api/projects/delete';
 
     var data: object = {
       body: JSON.stringify({
@@ -586,7 +659,7 @@ function deleteProject(id: string): Promise<Project> {
       headers: {
         'Content-Type': 'application/json'
       },
-      method: 'POST',
+      method: 'DELETE',
       credentials: 'include'
     };
 
@@ -690,8 +763,9 @@ function saveMarker(revisionId: string, marker: Marker) {
 }
 
 function updateMarkerPosition(id: string, x: string, y: string) {
+  console.log('updating marker position...');
   return axios
-    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+    .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
       x,
       y
     })
@@ -701,8 +775,9 @@ function updateMarkerPosition(id: string, x: string, y: string) {
 }
 
 function updateMarkerDimensions(id: string, width: string, height: string) {
+  console.log('updating marker dimensions...');
   return axios
-    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+    .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
       width,
       height
     })
@@ -714,24 +789,21 @@ function updateMarkerDimensions(id: string, width: string, height: string) {
 function getMarkerComments(markerId: string) {
   return axios
     .get(
-      `http://localhost:8080/api/projects/revision/markers/${markerId}/comments`
+      `http://localhost:8080/api/projects/revision//markers/${markerId}/comments`
     )
     .then(response => {
       return response.data.comments;
     });
 }
 
-function addMarkerComment(
-  revisionId: string,
-  markerId: string,
-  comment: { user: string; time: string; message: string }
-) {
+function addMarkerComment(markerId: string, username: string, message: string) {
+  console.log(username);
   return axios
     .post(
       `http://localhost:8080/api/projects/revision/marker/${markerId}/comment`,
       {
-        creator: comment.user,
-        comment: comment.message
+        creator: username,
+        comment: message
       }
     )
     .then(response => {
@@ -764,7 +836,9 @@ var apiService = {
   uploadProjectImage,
   uploadProfileImage,
   downloadProjectImageURLS,
-  userSettingsUpdate
+  userSettingsUpdate,
+  updateProject,
+  uploadRevisionImage
 };
 
 export default apiService;
