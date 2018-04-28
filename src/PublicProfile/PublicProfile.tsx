@@ -1,36 +1,36 @@
 import * as React from 'react';
-import Footer from '../Footer';
+import Footer from '../Headers&Footers/Footer';
 import ProfileDetails from './profileDetails';
 import SkillLabel from './skillLabel';
-import Projects from '../Projects';
-import HeaderContainer from '../HeaderContainer';
+import Projects from '../Project/Projects';
+import HeaderContainer from '../Headers&Footers/HeaderContainer';
 import { Store, UserProfileProps } from '../types/Redux';
 import { connect } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
-import './PublicProfile.css';
+import '../styles/PublicProfile.css';
 
 class PublicProfile extends React.Component<UserProfileProps, {}> {
   render() {
     return (
-      <div className="container">
+      <div>
         <HeaderContainer />
-        <div className="image">
-          <img src={require('../assets/person-placeholder.jpg')} />
-        </div>
-        <div className="details">
-          <ProfileDetails />
-        </div>
-        <div className="skills">
-          <SkillLabel />
-        </div>
+        <div className="container">
+          <div className="image">
+            <img src={require('../assets/blank image.png')} />
+          </div>
+          <div className="details">
+            <ProfileDetails />
+          </div>
+          <div className="skills">
+            <SkillLabel />
+          </div>
 
-        <div className="projects">
-          <h3>Projects</h3>
-          <Projects arrayOfProjects={'projects'} />
+          <div className="projects">
+            <h3>Projects</h3>
+            <Projects arrayOfProjects={'projects'} />
+          </div>
         </div>
-
         <Footer />
-        
       </div>
     );
   }
