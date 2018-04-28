@@ -167,7 +167,7 @@ export interface LandingPageProps {
 
 export interface LoggedInHeaderProps {
   user: User;
-  projects: Project;
+  projects: Array<Project>;
   logout: any;
 }
 

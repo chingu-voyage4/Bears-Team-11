@@ -7,15 +7,36 @@ body {
 .logged-in-container-blue {
   background-color: $theme-blue;
 }
-.logged-in-header-container {
+
+.logged-in-header-container,
+.logged-in-header-container-sub-1080,
+.logged-in-header-container-sub-725 {
   font: $font;
   max-width: 1080px;
   max-height: 75px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
+}
+
+.logged-in-header-container {
+  grid-template-columns: repeat(4, 1fr);
   grid-template-areas: 't d d s';
+}
+
+.logged-in-header-container-sub-1080 {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: 't d s';
+}
+
+.logged-in-header-container-sub-1080 {
+  display: none;
+}
+
+.logged-in-header-container-sub-725 {
+  display: none;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas: 't s';
 }
 
 a {
@@ -30,6 +51,7 @@ a {
   grid-template-rows: auto;
   grid-template-areas: 'a a b';
 }
+
 /*
 ==========================
 LOGO
@@ -87,11 +109,13 @@ PROFILE IMAGE
   height: 50px;
   width: 50px;
 }
+
 /*
 ==========================
 SETTINGS DROPDOWN MENU
 ==========================
 */
+
 .headerOptionsDropdown {
   background-color: white;
   z-index: 10;
@@ -113,14 +137,17 @@ SETTINGS DROPDOWN MENU
   font-weight: 500;
   cursor: pointer;
 }
+
 .lineAbove {
   border-top: 1px solid $light-grey;
 }
+
 /*
 ==========================
 PROJECT DROPDOWN MENU
 ==========================
 */
+
 .dropdown {
   grid-area: d;
   position: relative;
@@ -174,27 +201,65 @@ PROJECT DROPDOWN MENU
 // .dropdown:hover .dropbtn {
 //   background-color: rgb(62, 140, 209);
 // }
-
 .dropdown-profileLink {
   border-top: 2px solid black;
 }
 
-@media all and (max-width: 755px) and (min-width: 0px) {
+.dropdown-content-title {
+  text-align: right;
+  font-weight: 700;
+  color: $theme-blue;
+  font-family: $font;
+  padding: 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+/*
+==========================
+MEDIA QUERIES
+==========================
+*/
+
+@media all and (max-width: 1020px) and (min-width: 0px) {
+  .logged-in-header-container {
+    display: none;
+  }
+  .logged-in-header-container-sub-1080 {
+    display: grid;
+  }
+  .logged-in-header-container-right {
+    grid-area: s;
+    margin-right: 10px;
+  }
+  .headerOptionsDropdown {
+    width: 150px;
+    margin-left: -120px;
+  }
+  .logged-in-header-profileImageButton {
+    margin-right: 5px;
+  }
   .logged-in-header-logo {
-    // font-size: 15px;
+    margin-left: 10px;
   }
-  .dropbtn {
-    // font-size: 15px;
+}
+
+@media all and (max-width: 775px) and (min-width: 0px) {
+  .logged-in-header-container-sub-1080 {
+    display: none;
   }
-  .profileImage {
-    border-radius: 50%;
-    // height: 25px;
-    // width: 25px;
+  .logged-in-header-container-sub-725 {
+    display: grid;
   }
-  .logged-in-header-createButton {
-    // font-size: 7px;
+  .dropdown-content {
+    display: block;
+    position: relative;
+    box-shadow: none;
+    z-index: 10;
+    border-top: 1px solid $light-grey;
+    background-color: $pale-grey;
   }
-  .logged-in-header-create {
-    white-space: initial;
+  .header-project-portal-link {
+    text-align: right;
+    border: none;
   }
 }
