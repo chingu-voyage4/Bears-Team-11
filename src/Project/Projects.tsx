@@ -1,12 +1,7 @@
 import * as React from 'react';
-import './styles/Project.css';
-import {
-  State,
-  Props,
-  ProjectsState,
-  ProjectsInheritedProps
-} from './types/Projects.d';
-import { Store } from './types/Redux';
+import '../styles/Project.css';
+import { State, Props, ProjectsState } from '../types/Projects.d';
+import { Store, ProjectsInheritedProps } from '../types/Redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -58,7 +53,7 @@ class Project extends React.Component<Props, State> {
               data.images === [] ||
               data.images![0] === undefined ||
               data.images![0] === null
-                ? require('./assets/imagePlaceholder.jpg')
+                ? require('../assets/imagePlaceholder.jpg')
                 : data.images![0]
             }
           />
@@ -77,7 +72,7 @@ class Project extends React.Component<Props, State> {
           <a>
             <img
               className="project-save"
-              src={require('./assets/Bookmark Icon.png')}
+              src={require('../assets/Bookmark Icon.png')}
             />
           </a>
         </div>

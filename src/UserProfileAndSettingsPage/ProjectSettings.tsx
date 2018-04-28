@@ -1,16 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Store } from '../types/Redux';
-import {
-  ProjectSettingsProps,
-  ProjectSettingsState
-} from '../types/ProjectSettings';
+import { Store, ProjectSettingsProps } from '../types/Redux';
+import { ProjectSettingsState } from '../types/ProjectSettings';
 import {
   getProjects,
   updateProject,
   deleteProject
 } from '../actions/projectActions';
-import ProjectForEdit from '../ProjectContainerForSettings';
+import ProjectForEdit from '../Project/ProjectContainerForSettings';
 
 class ProjectSettings extends React.Component<
   ProjectSettingsProps,
@@ -33,7 +30,6 @@ class ProjectSettings extends React.Component<
         project.team!.indexOf(this.props.user.username!) !== -1
       );
     });
-    console.log(projectArray);
     if (projectArray.length === 0) {
       returnedComponent = null;
     } else if (

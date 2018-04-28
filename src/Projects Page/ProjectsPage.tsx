@@ -1,12 +1,12 @@
 import * as React from 'react';
-import HeaderContainer from '../HeaderContainer';
-import Footer from '../Footer';
-import Projects from '../Projects';
+import HeaderContainer from '../Headers&Footers/HeaderContainer';
+import Footer from '../Headers&Footers/Footer';
+import Projects from '../Project/Projects';
 import ProjectsFilter from './ProjectsFilter';
 import '../styles/ProjectsPage.css';
 import '../styles/Project.css';
-import { ProjectPageProps, ProjectPageState } from '../types/ProjectsPage.d';
-import { Store } from '../types/Redux';
+import { ProjectPageState } from '../types/ProjectsPage.d';
+import { Store, ProjectPageProps } from '../types/Redux';
 import { connect } from 'react-redux';
 import { getProjects, searchProjects } from '../actions/projectActions';
 
@@ -37,9 +37,6 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
     this.props.getProjects(
       { limit: 24 },
       { searchTerm: this.state.searchTerm }
-    );
-    console.log(
-      'setting searchResults in projectsPage=' + this.props.searchResults
     );
   }
 

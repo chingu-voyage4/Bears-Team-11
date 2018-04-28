@@ -13,7 +13,7 @@ var s3 = new AWS.S3();
 var Projects = require('../models/Projects');
 var User = require('../models/Users');
 var UserDetails = require('../models/UserDetails');
-
+var Revisions = require('../models/Revisions');
 /**
  * FOR USER
  */
@@ -156,7 +156,22 @@ router.post('/revision', function(req, res) {
       return res.send({ error: 'Image Upload not successfull ' + err.message });
     } else {
       console.log('succeefully uploaded');
-      return res.send({ imageURL: req.file.location });
+      Revisions.findByIdAndUpdate(
+        req.query.revisionId,
+        { imageURL: req.file.location },
+        { new: true },
+        function(err, revision) {
+          if (err || !revision) {
+            res.json({ error: 'Error in uploading revision images: ' + err });
+          } else {
+            return res.json({
+              revision: revision,
+              imageURL: req.file.location,
+              message: 'Successfully saved revision image'
+            });
+          }
+        }
+      );
     }
   });
 });

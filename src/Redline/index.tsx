@@ -5,7 +5,7 @@ import Toolbar from './Toolbar';
 import ImageLayer from './ImageLayer';
 import AnnotationLayer from './AnnotationLayer';
 import axios from 'axios';
-import HeaderContainer from '../HeaderContainer';
+import HeaderContainer from '../Headers&Footers/HeaderContainer';
 
 class Redline extends React.Component<
   { imageLink: string; match: any },

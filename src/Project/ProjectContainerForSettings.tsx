@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import * as React from 'react';
-import './styles/Project.css';
-import { ProjectForEditProps, State } from './types/Projects.d';
-import { Store } from './types/Redux';
+import '../styles/Project.css';
+import { State } from '../types/Projects.d';
+import { Store, ProjectForEditProps } from '../types/Redux';
 import { connect } from 'react-redux';
-import { deleteProject } from './actions/projectActions';
+import { deleteProject } from '../actions/projectActions';
 
 class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
   constructor(props: ProjectForEditProps) {
@@ -20,7 +20,6 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
 
   render() {
     var data = this.props.data;
-    console.log('data=' + JSON.stringify(data));
 
     var roles;
     if (data.lookingFor && data.lookingFor!.length > 1) {
@@ -63,7 +62,7 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
               data.images.length === 0 ||
               data.images === undefined ||
               data.images === null
-                ? require('./assets/imagePlaceholder.jpg')
+                ? require('../assets/imagePlaceholder.jpg')
                 : data.images[0]
             }
           />

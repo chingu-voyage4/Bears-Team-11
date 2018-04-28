@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Footer from '../Footer';
+import Footer from '../Headers&Footers/Footer';
 import '../styles/AddProjectsPage.css';
-import HeaderContainer from '../HeaderContainer';
+import HeaderContainer from '../Headers&Footers/HeaderContainer';
 import { AddProjectState } from '../types/AddProjectsPage.d';
 import { connect } from 'react-redux';
 import {
@@ -81,12 +81,11 @@ class AddProjectsPage extends React.Component<
           files: null
         },
         () => {
-          console.log(this.state);
+          // console.log(this.state);
           // var doc: any;
           // if (this.state.lookingFor === ['Programmer']) {
           //   doc = document.getElementById('new-project-role-p')!;
           //   doc.checked = true;
-
           // } else if (this.state.lookingFor === ['Designer']) {
           //   doc = document.getElementById('new-project-role-d')![0];
           //   doc.checked = true;
@@ -172,7 +171,6 @@ class AddProjectsPage extends React.Component<
             arrayOfRoles.push(node.value);
           }
         });
-        console.log(arrayOfRoles);
         this.setState({ lookingFor: arrayOfRoles } as any);
       }
     } else {
