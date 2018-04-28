@@ -4,7 +4,6 @@
   grid-template-columns: repeat(2/2fr);
   grid-template-rows: repeat(12/1fr);
   grid-template-areas: 
-  "h h h h h h h"
   ". . . . . . ."
   ". i d d . . ."
   ". . d d . . ."
@@ -12,10 +11,7 @@
   ". p p p p . ."
   ". p p p p . ."
   ". p p p p . ."
-  ". . . . . . ."
-  "f f f f f f f"
-  "f f f f f f f"
-  "f f f f f f f";
+  ". . . . . . .";
 }
 
 .header{

@@ -1,21 +1,21 @@
 import * as React from 'react';
-import Header from '../Header';
 import Footer from '../Footer';
-import ProfileImage from './profileImage';
 import ProfileDetails from './profileDetails';
 import SkillLabel from './skillLabel';
 import Projects from '../Projects';
+import HeaderContainer from '../HeaderContainer';
+import { Store, UserProfileProps } from '../types/Redux';
+import { connect } from 'react-redux';
+import { getProjects } from '../actions/projectActions';
 import './PublicProfile.css';
 
-class PublicProfile extends React.Component {
+class PublicProfile extends React.Component<UserProfileProps, {}> {
   render() {
     return (
       <div className="container">
-        <div className="header">
-          <Header />
-        </div>
+        <HeaderContainer />
         <div className="image">
-          <ProfileImage />
+          <img src={require('../assets/person-placeholder.jpg')} />
         </div>
         <div className="details">
           <ProfileDetails />
@@ -26,14 +26,20 @@ class PublicProfile extends React.Component {
 
         <div className="projects">
           <h3>Projects</h3>
-          <Projects count={2} />
+          <Projects arrayOfProjects={'projects'} />
         </div>
-        <div className="footer">
-          <Footer />
-        </div>
+
+        <Footer />
+        
       </div>
     );
   }
 }
 
-export default PublicProfile;
+function mapStateToProps(state: Store) {
+  return {
+    user: state.user,
+    projects: state.projects
+  };
+}
+export default connect(mapStateToProps, { getProjects })(PublicProfile);
