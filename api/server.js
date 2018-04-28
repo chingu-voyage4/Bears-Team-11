@@ -14,6 +14,11 @@ var routes = require('./routes/index')(passport);
 var forgetPasswordRout = require('./routes/forgetPassword');
 var passwordResetRout = require('./routes/reset');
 var projectsRoute = require('./routes/project')(passport);
+var projectsAddRoute = require('./routes/project_add')(passport);
+var projectsUpdateRoute = require('./routes/project_update')(passport);
+var projectsDeleteRoute = require('./routes/project_delete')(passport);
+var tagRoute = require('./routes/tag');
+var categoryRoute = require('./routes/category');
 var uploadImagesRoute = require('./routes/upload');
 var downloadImagesRoute = require('./routes/download');
 var imageRoute = require('./routes/image');
@@ -64,10 +69,13 @@ app.use('/api', routes);
 app.use('/api/forgot', forgetPasswordRout);
 app.use('/api/reset', passwordResetRout);
 app.use('/api/projects', projectsRoute);
+app.use('/api/projects/add', projectsAddRoute);
+app.use('/api/projects/update', projectsUpdateRoute);
+app.use('/api/projects/delete', projectsDeleteRoute);
+app.use('/api/projects/tags', tagRoute);
+app.use('/api/projects/categories', categoryRoute);
 app.use('/api/upload/image', imageRoute);
-// app.use('/api/upload', uploadImagesRoute);
 app.use('/api/download', downloadImagesRoute);
-// app.use('/api/download', downloadImagesRoute);
 app.use('/api/user', userRoute);
 
 /// catch 404 and forward to error handler

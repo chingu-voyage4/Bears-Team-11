@@ -20,7 +20,6 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
 
   render() {
     var data = this.props.data;
-    console.log('data=' + JSON.stringify(data));
 
     var roles;
     if (data.lookingFor && data.lookingFor!.length > 1) {

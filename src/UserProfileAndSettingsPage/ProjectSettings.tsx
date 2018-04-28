@@ -30,7 +30,6 @@ class ProjectSettings extends React.Component<
         project.team!.indexOf(this.props.user.username!) !== -1
       );
     });
-    console.log(projectArray);
     if (projectArray.length === 0) {
       returnedComponent = null;
     } else if (

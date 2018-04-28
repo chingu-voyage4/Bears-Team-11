@@ -19,7 +19,6 @@ class PersonalDetails extends React.Component<
     var { name, value } = e.currentTarget;
     this.setState({
       [name]: value
-      // tslint:disable-next-line
     } as any);
   }
 

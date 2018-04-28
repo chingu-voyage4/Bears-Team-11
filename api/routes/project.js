@@ -1,11 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser');
 var isAuthenticated = require('../utils/authentication');
 var mongoosePaginate = require('mongoose-paginate');
 var Project = require('../models/Projects');
-var Tags = require('../models/Tags');
-var Categories = require('../models/Categories');
 var UserDetails = require('../models/UserDetails');
 var Comment = require('../models/COmments');
 var Revision = require('../models/Revisions');
@@ -31,8 +28,8 @@ module.exports = function(passport) {
       });
     }
 
-    console.log(JSON.stringify(query));
-    console.log(options);
+    // console.log(JSON.stringify(query));
+    // console.log(options);
     Project.paginate(
       query === undefined || query === {} ? {} : query,
       options,
@@ -49,127 +46,6 @@ module.exports = function(passport) {
     );
   });
 
-  router.get('/tags', function(req, res) {
-    // retrieve all items in the tags collection. receive tagName and array of projects involved
-    return Tags.find({}, function(err, tags) {
-      if (err) {
-        return res.json({ error: 'Error getting tags: ' + err });
-      } else {
-        return res.json({ tags: tags, message: 'Successfully retrieved tags' });
-      }
-    });
-  });
-
-  router.get('/categories', function(req, res) {
-    // retrieve all items in the categories collection. receive tagName and array of projects involved
-    return Categories.find({}, function(err, categories) {
-      if (err) {
-        return res.json({ error: 'Error getting categories: ' + err });
-      } else {
-        return res.json({
-          categories: categories,
-          message: 'Successfully retrieved categories'
-        });
-      }
-    });
-  });
-
-  router.get('/tags/setup', function(req, res) {
-    var tagArray = [
-      'web app',
-      'mobile app',
-      'machine learning',
-      'data science',
-      'finances',
-      'food',
-      'budgeting',
-      'bot',
-      'travel',
-      'portfolio',
-      'mockups',
-      'collaboration',
-      'weather',
-      'chrome extension',
-      'anime',
-      'chingu',
-      'landing page',
-      'music',
-      'chat',
-      'fitness',
-      'game'
-    ];
-
-    saveNewTag = tagName => {
-      var newTag = new Tags({ tagName: tagName });
-      newTag.save(function(err) {
-        if (err) {
-          console.log('Error in saving tag: ' + err);
-        }
-      });
-    };
-
-    async function mapThenSaveTags() {
-      await tagArray.map(tag => {
-        saveNewTag(tag);
-      });
-      return Tags.find({}, function(err, tags) {
-        if (err || !tags) {
-          res.json({ error: 'Error in saving and retrieving tags: ' + err });
-        } else {
-          res.json({ tags: tags, message: 'Successfully saved batch tags' });
-        }
-      });
-    }
-
-    mapThenSaveTags();
-  });
-
-  router.get('/categories/setup', function(req, res) {
-    var categoryArray = [
-      'Educational',
-      'Fun',
-      'News & Weather',
-      'Search Tools',
-      'Shopping',
-      'Social & Communication',
-      'Sports',
-      'Non-Profit',
-      'Developer Tools',
-      'Design Tools',
-      'Productivity'
-    ];
-
-    saveNewCategories = categoryName => {
-      var newCategory = new Categories({ categoryName: categoryName });
-      newCategory.save(function(err) {
-        if (err) {
-          res.json({ error: 'Error in saving category: ' + category });
-        }
-      });
-    };
-
-    async function mapThenSaveCategories() {
-      await categoryArray.map(category => {
-        saveNewCategories(category);
-      });
-
-      Categories.find({}, function(err, categories) {
-        if (err || !categories) {
-          res.json({
-            error: 'Error in saving and retrieving categories: ' + err
-          });
-        } else {
-          res.json({
-            categories: categories,
-            message: 'Successfully saved batch categories'
-          });
-        }
-      });
-    }
-
-    mapThenSaveCategories();
-  });
-
   // retrieves project by id
   router.get('/:id', function(req, res) {
     Project.findOne({ _id: req.params.id }, function(err, project) {
@@ -179,125 +55,6 @@ module.exports = function(passport) {
         res.json({
           message: 'Successfully retrieved project',
           project: project
-        });
-      }
-    });
-  });
-
-  // add projects
-  router.post('/add', isAuthenticated, function(req, res) {
-    // create new project
-    console.log(req.body);
-    var newProject = new Project();
-
-    newProject.name = req.body.name;
-    newProject.description = req.body.description;
-    newProject.dueDate = req.body.dueDate;
-    newProject.team = req.body.team;
-    newProject.githubLink = req.body.githubLink;
-    newProject.mockupLink = req.body.mockupLink;
-    newProject.liveLink = req.body.liveLink;
-    newProject.lookingFor = req.body.lookingFor;
-    newProject.status = req.body.status;
-    newProject.category = req.body.category;
-    newProject.tags = req.body.tags;
-    newProject.contact = req.body.contact;
-    newProject.creator = req.body.creator;
-
-    newProject.save(function(err, project) {
-      if (err) {
-        res.json({ error: 'Error in saving project: ' + err });
-      } else {
-        // check through array of tags and save new ones in collection
-        if (project.tags) {
-          project.tags.forEach(tag => {
-            saveTag(tag);
-          });
-        }
-        console.log('New project saved successfully=' + project);
-        res.json({
-          message: 'New project saved successfully',
-          newProject: project
-        });
-      }
-    });
-  });
-
-  // update project
-  router.post('/update/:id', isAuthenticated, function(req, res) {
-    console.log('_id=' + req.params.id);
-    var projectId = req.params.id;
-    var updateBody = req.body;
-    delete updateBody._id;
-    delete updateBody.images;
-
-    Project.findOne({ _id: projectId }, function(err, project) {
-      if (err) {
-        return res.json({ error: err });
-      } else if (!project) {
-        return res.json({ error: 'Project does not exist: ' + err });
-      } else {
-        console.log('looping through updateBody');
-        // loop through every key/value pair on updateBody, saves each to userDetails
-        var updateEachKey = () => {
-          for (var key in updateBody) {
-            Project.findByIdAndUpdate(
-              projectId,
-              { [key]: updateBody[key] },
-              { new: true },
-              function(err, updatedObject) {
-                if (err || !updatedObject) {
-                  return res.json({
-                    error: 'Could not update project: ' + err
-                  });
-                }
-              }
-            );
-          }
-        };
-        async function updateThenReturn() {
-          await updateEachKey();
-
-          await Project.findById(projectId, function(err, project) {
-            if (err || !project) {
-              return res.json({ error: 'Error in retrieving project: ' + err });
-            } else {
-              // check through array of tags and save new ones in collection
-              if (project.tags) {
-                project.tags.forEach(tag => {
-                  saveTag(tag);
-                });
-              }
-              res.json({
-                project: project,
-                message: 'Project saved successfully'
-              });
-            }
-          });
-        }
-
-        updateThenReturn();
-      }
-    });
-  });
-  // delete a single project by id
-  router.delete('/delete', isAuthenticated, function(req, res) {
-    console.log('id=' + req.body.id);
-
-    console.log('deleting project');
-    Project.findByIdAndRemove(req.body.id, function(err, project) {
-      if (err || !project) {
-        res.json({ error: 'Error in deleting project: ' + err });
-      } else {
-        Project.find({}, function(err, projects) {
-          if (err || !projects) {
-            res.json({ error: 'Error in finding projects: ' + err });
-          } else {
-            res.json({
-              message: 'Project successfully deleted',
-              project: projects
-            });
-          }
         });
       }
     });
@@ -486,19 +243,4 @@ module.exports = function(passport) {
   });
 
   return router;
-};
-
-saveTag = tagName => {
-  Tags.findOne({ tagName: tagName }, function(err, tag) {
-    if (err) {
-      console.log('Error in retrieving tag: ' + err);
-    } else if (!tag) {
-      var newTag = new Tags({ tagName: tagName });
-      newTag.save(function(err) {
-        if (err) {
-          console.log('Error in saving tag: ' + err);
-        }
-      });
-    }
-  });
 };
