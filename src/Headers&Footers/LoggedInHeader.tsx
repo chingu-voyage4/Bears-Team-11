@@ -1,10 +1,10 @@
 import * as React from 'react';
 import './styles/LoggedInHeader.css';
-import { LoggedInHeaderState } from './types/LoggedInHeader.d';
+import { LoggedInHeaderState } from '../types/LoggedInHeader.d';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Store, LoggedInHeaderProps } from './types/Redux';
-import { logout } from './actions/userActions';
+import { Store, LoggedInHeaderProps } from '../types/Redux';
+import { logout } from '../actions/userActions';
 
 class LoggedInHeader extends React.Component<
   LoggedInHeaderProps,

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../styles/RecentProjects.css';
-import Projects from '../Projects';
+import Projects from '../Project/Projects';
 import { Link } from 'react-router-dom';
 import { Store, RecentProjectsProps } from '../types/Redux';
 import { connect } from 'react-redux';

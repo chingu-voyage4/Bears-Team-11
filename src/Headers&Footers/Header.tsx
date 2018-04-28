@@ -1,12 +1,12 @@
 import * as React from 'react';
 import './styles/Header.css';
-import { HeaderState } from './types/Header.d';
-import Login from './Register-Login Page/Login';
-import Register from './Register-Login Page/Register';
+import { HeaderState } from '../types/Header.d';
+import Login from '../Register-Login Page/Login';
+import Register from '../Register-Login Page/Register';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { showRegisterWindow, showLoginWindow } from './actions/appActions';
-import { Store, HeaderProps } from './types/Redux';
+import { showRegisterWindow, showLoginWindow } from '../actions/appActions';
+import { Store, HeaderProps } from '../types/Redux';
 
 class Header extends React.Component<HeaderProps, HeaderState> {
   constructor(props: HeaderProps) {
