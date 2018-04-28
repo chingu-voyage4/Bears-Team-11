@@ -14,18 +14,21 @@ class PublicProfile extends React.Component<UserProfileProps, {}> {
     return (
       <div>
         <HeaderContainer />
-        <div className="container">
-          <div className="image">
-            <img src={require('../assets/blank image.png')} />
-          </div>
-          <div className="details">
-            <ProfileDetails />
-          </div>
-          <div className="skills">
-            <SkillLabel />
+        <div className="public-profile-container">
+          <div className="public-profile-user-data">
+            <img
+              className="public-profile-image"
+              src={require('../assets/blank image.png')}
+            />
+            <div className="public-profile-details">
+              <ProfileDetails />
+            </div>
+            <div className="public-profile-skills">
+              <SkillLabel />
+            </div>
           </div>
 
-          <div className="projects">
+          <div className="public-profile-projects">
             <h3>Projects</h3>
             <Projects arrayOfProjects={'projects'} />
           </div>
