@@ -207,3 +207,9 @@ export interface PublicProfileProps {
   user: User;
   userSettingsUpdate: userSettingsUpdate_fntype;
 }
+
+export interface UserProfileProps {
+  user: User;
+  projects: Array<Project> | Project;
+  getProjects: getProjects_fntype;
+}
