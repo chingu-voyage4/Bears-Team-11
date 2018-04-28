@@ -1,0 +1,46 @@
+.container {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2/2fr);
+  grid-template-rows: repeat(12/1fr);
+  grid-template-areas: 
+  "h h h h h h h"
+  ". . . . . . ."
+  ". i d d . . ."
+  ". . d d . . ."
+  ". . s s s . ."
+  ". p p p p . ."
+  ". p p p p . ."
+  ". p p p p . ."
+  ". . . . . . ."
+  "f f f f f f f"
+  "f f f f f f f"
+  "f f f f f f f";
+}
+
+.header{
+  grid-area: h;
+}
+
+.image{
+  grid-area: i;
+  
+}
+
+.details{
+  grid-area: d;
+}
+
+.skills{
+  grid-area: s;
+
+}
+
+.projects{
+  grid-area: p;
+}
+
+.footer{
+  grid-area: f;
+}
+
