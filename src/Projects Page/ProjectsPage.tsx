@@ -38,9 +38,6 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
       { limit: 24 },
       { searchTerm: this.state.searchTerm }
     );
-    console.log(
-      'setting searchResults in projectsPage=' + this.props.searchResults
-    );
   }
 
   public searchInputHandler(e: React.KeyboardEvent<HTMLInputElement>): void {

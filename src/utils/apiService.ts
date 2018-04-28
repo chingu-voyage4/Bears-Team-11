@@ -364,8 +364,6 @@ function getProjects(
       method: 'POST'
     };
 
-    console.log(data);
-
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
@@ -416,8 +414,6 @@ function addProject(project: Project): Promise<Project> {
       method: 'POST',
       credentials: 'include'
     };
-
-    console.log(data);
 
     fetch(endpoint, data)
       // tslint:disable-next-line
@@ -473,7 +469,6 @@ function updateProject(project: Project): Promise<Project> {
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'Project saved successfully') {
-          console.log(res.project);
           resolve(res.project);
         } else {
           reject(res.error);
