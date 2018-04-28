@@ -1,8 +1,10 @@
 import {
   ADD_MARKER,
   MOVE_MARKER,
+  RESIZE_MARKER,
   ADD_COMMENT,
-  GET_MARKERS
+  GET_MARKERS,
+  GET_MARKER_COMMENT
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import { MarkerAction } from '../types/Redux.d';
@@ -55,12 +57,9 @@ export type moveMarker_fntype = (
 ) => (dispatch: Dispatch<MarkerAction>) => void;
 
 export function moveMarker(
-  revisionId: string,
   id: string,
   x: string,
-  y: string,
-  width: string,
-  height: string
+  y: string
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService.updateMarkerPosition(id, x, y).then(updatedMarker => {
@@ -72,6 +71,22 @@ export function moveMarker(
   };
 }
 
+export function resizeMarker(
+  id: string,
+  width: string,
+  height: string
+): (dispatch: Dispatch<MarkerAction>) => void {
+  return dispatch => {
+    return apiService
+      .updateMarkerDimensions(id, width, height)
+      .then(updatedMarker => {
+        dispatch({
+          type: RESIZE_MARKER,
+          data: updatedMarker
+        });
+      });
+  };
+}
 export type addComment_fntype = (
   revisionId: string,
   markerId: string,
@@ -83,20 +98,31 @@ export type addComment_fntype = (
 ) => (dispatch: Dispatch<MarkerAction>) => void;
 
 export function addComment(
-  revisionId: string,
   markerId: string,
-  comment: {
-    user: string;
-    time: string;
-    message: string;
-  }
+  username: string,
+  message: string
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService
-      .addMarkerComment(revisionId, markerId, comment)
+      .addMarkerComment(markerId, username, message)
       .then((updatedMarker: Marker) => {
         dispatch({
           type: ADD_COMMENT,
+          data: updatedMarker
+        });
+      });
+  };
+}
+
+export function getComments(
+  markerId: string
+): (dispatch: Dispatch<MarkerAction>) => void {
+  return dispatch => {
+    return apiService
+      .getMarkerComments(markerId)
+      .then((updatedMarker: Marker) => {
+        dispatch({
+          type: GET_MARKER_COMMENT,
           data: updatedMarker
         });
       });
