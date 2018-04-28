@@ -3,7 +3,8 @@ import {
   MOVE_MARKER,
   RESIZE_MARKER,
   ADD_COMMENT,
-  GET_MARKERS
+  GET_MARKERS,
+  GET_MARKER_COMMENT
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import { MarkerAction } from '../types/Redux.d';
@@ -71,15 +72,30 @@ export function resizeMarker(
 
 export function addComment(
   markerId: string,
-  user: string,
+  username: string,
   message: string
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService
-      .addMarkerComment(markerId, user, message)
+      .addMarkerComment(markerId, username, message)
       .then((updatedMarker: Marker) => {
         dispatch({
           type: ADD_COMMENT,
+          data: updatedMarker
+        });
+      });
+  };
+}
+
+export function getComments(
+  markerId: string
+): (dispatch: Dispatch<MarkerAction>) => void {
+  return dispatch => {
+    return apiService
+      .getMarkerComments(markerId)
+      .then((updatedMarker: Marker) => {
+        dispatch({
+          type: GET_MARKER_COMMENT,
           data: updatedMarker
         });
       });

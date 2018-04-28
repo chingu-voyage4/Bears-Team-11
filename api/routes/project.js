@@ -582,12 +582,14 @@ module.exports = function(passport) {
   // add comment to marker
   router.post('/revision/marker/:markerId/comment', function(req, res) {
     var comment = new Comment({
-      creator: req.body.username,
+      creator: req.body.creator,
       comment: req.body.comment,
       marker: req.params.markerId
     });
 
     comment.save(function(err) {
+      console.log(req.body);
+      console.log(comment);
       if (err) {
         console.log(err);
       } else {

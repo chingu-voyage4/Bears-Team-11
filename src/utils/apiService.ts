@@ -758,19 +758,20 @@ function updateMarkerDimensions(id: string, width: string, height: string) {
 function getMarkerComments(markerId: string) {
   return axios
     .get(
-      `http://localhost:8080/api/projects/revision/markers/${markerId}/comments`
+      `http://localhost:8080/api/projects/revision//markers/${markerId}/comments`
     )
     .then(response => {
       return response.data.comments;
     });
 }
 
-function addMarkerComment(markerId: string, user: string, message: string) {
+function addMarkerComment(markerId: string, username: string, message: string) {
+  console.log(username);
   return axios
     .post(
       `http://localhost:8080/api/projects/revision/marker/${markerId}/comment`,
       {
-        creator: user,
+        creator: username,
         comment: message
       }
     )

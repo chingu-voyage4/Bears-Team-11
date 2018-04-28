@@ -3,6 +3,7 @@ import {
   ADD_MARKER,
   MOVE_MARKER,
   ADD_COMMENT,
+  GET_MARKER_COMMENT,
   RESIZE_MARKER
 } from '../actions/actionTypes';
 import { Marker } from '../types/Marker';
@@ -31,6 +32,9 @@ function markerReducer(state: Array<Marker> = [], action: MarkerAction) {
       replaceMarker(newState, action.data as Marker);
       return newState;
     case ADD_COMMENT:
+      replaceMarker(newState, action.data as Marker);
+      return newState;
+    case GET_MARKER_COMMENT:
       replaceMarker(newState, action.data as Marker);
       return newState;
     default:
