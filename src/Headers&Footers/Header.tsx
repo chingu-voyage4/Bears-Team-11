@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './styles/Header.css';
+import '../styles/Header.css';
 import { HeaderState } from '../types/Header.d';
 import Login from '../Register-Login Page/Login';
 import Register from '../Register-Login Page/Register';

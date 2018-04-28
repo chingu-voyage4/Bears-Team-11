@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './styles/LoggedInHeader.css';
+import '../styles/LoggedInHeader.css';
 import { LoggedInHeaderState } from '../types/LoggedInHeader.d';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -119,7 +119,7 @@ class LoggedInHeader extends React.Component<
                   src={
                     this.props.user.profileImage
                       ? this.props.user.profileImage
-                      : require('./assets/blank image.png')
+                      : require('../assets/blank image.png')
                   }
                 />
               </button>
