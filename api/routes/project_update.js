@@ -7,7 +7,7 @@ var User = require('../models/Users');
 
 module.exports = function(passport) {
   // update project
-  router.post('/update/:id', isAuthenticated, function(req, res) {
+  router.post('/:id', isAuthenticated, function(req, res) {
     var projectId = req.params.id;
     var updateBody = req.body;
     delete updateBody._id;

@@ -7,7 +7,7 @@ var User = require('../models/Users');
 
 module.exports = function(passport) {
   // add projects
-  router.post('/add', isAuthenticated, function(req, res) {
+  router.post('/', isAuthenticated, function(req, res) {
     // create new project
     var newProject = new Project();
 

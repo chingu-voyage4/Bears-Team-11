@@ -7,7 +7,7 @@ import {
   updateProject,
   deleteProject
 } from '../actions/projectActions';
-import ProjectForEdit from '../ProjectContainerForSettings';
+import ProjectForEdit from '../Project/ProjectContainerForSettings';
 
 class ProjectSettings extends React.Component<
   ProjectSettingsProps,
