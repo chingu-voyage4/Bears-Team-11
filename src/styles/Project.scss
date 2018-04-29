@@ -138,7 +138,8 @@ SAVE PROJECT BUTTON
 }
 
 .project-edit-btn,
-.project-delete-btn {
+.project-delete-btn,
+.project-project-portal-btn {
   color: white;
   border: none;
   width: 100px;
@@ -149,16 +150,21 @@ SAVE PROJECT BUTTON
 }
 .project-edit-btn {
   float: right;
-  background-color: $theme-blue;
+  background-color: $edit-orange;
   text-align: center;
 }
 .project-delete-btn {
   float: left;
   background-color: $attention-red;
 }
+.project-project-portal-btn {
+  background-color: $theme-blue;
+  text-align: center;
+}
 
 .project-edit-btn:hover,
-.project-delete-btn:hover {
+.project-delete-btn:hover,
+.project-project-portal-btn:hover {
   box-shadow: $box-shadow;
 }
 

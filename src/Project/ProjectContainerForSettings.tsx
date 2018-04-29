@@ -66,7 +66,10 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
                 : data.images[0]
             }
           />
-          <div className="project-edit-info">
+          <Link
+            className="project-edit-info"
+            to={'/projects/' + this.props.projId}
+          >
             <div className="project-name">{data.name}</div>
             <div className="project-description">{data.description}</div>
             <div className="project-tags">
@@ -77,7 +80,7 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
               looking for
               <div className="project-roles">{roles}</div>
             </div>
-          </div>
+          </Link>
           <div>
             <button
               onClick={e => this.deleteProject(e, this.props.projId)}
