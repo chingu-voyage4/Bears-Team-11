@@ -58,6 +58,9 @@ class SettingsPage extends React.Component<PassedProps, State> {
                     : require('../assets/blank image.png')
                 }
               />
+              <div className="settings-profile-image-upload">
+                Update Profile Picture
+              </div>
             </div>
             <h2 className="settings-name">{this.props.user.username}</h2>
             <div className="settins-buttton-div">
