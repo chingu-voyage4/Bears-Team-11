@@ -112,8 +112,7 @@ class AnnotationLayer extends React.Component<{
       top: `${y}px`,
       left: `${x}px`,
       width: `${width}px`,
-      height: `${height}px`,
-      zIndex: 100
+      height: `${height}px`
     };
     return (
       <div
@@ -131,8 +130,7 @@ class AnnotationLayer extends React.Component<{
   drawCircle = (id: any, x: any, y: any) => {
     var style = {
       top: `${y}px`,
-      left: `${x}px`,
-      zIndex: 100
+      left: `${x}px`
     };
     return (
       <div
