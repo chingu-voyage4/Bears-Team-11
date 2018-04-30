@@ -55,21 +55,23 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
     return (
       <div id={this.props.projId} className="project-edit-box">
         <div className="project-edit-container">
-          <img
-            className="project-edit-image"
-            alt={data.name}
-            src={
-              data.images.length === 0 ||
-              data.images === undefined ||
-              data.images === null
-                ? require('../assets/imagePlaceholder.jpg')
-                : data.images[0]
-            }
-          />
           <Link
-            className="project-edit-info"
             to={'/projects/' + this.props.projId}
+            className="project-edit-image-container"
           >
+            <img
+              className="project-edit-image"
+              alt={data.name}
+              src={
+                data.images.length === 0 ||
+                data.images === undefined ||
+                data.images === null
+                  ? require('../assets/imagePlaceholder.jpg')
+                  : data.images[0]
+              }
+            />
+          </Link>
+          <div className="project-edit-info">
             <div className="project-name">{data.name}</div>
             <div className="project-description">{data.description}</div>
             <div className="project-tags">
@@ -80,7 +82,7 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
               looking for
               <div className="project-roles">{roles}</div>
             </div>
-          </Link>
+          </div>
           <div>
             <button
               onClick={e => this.deleteProject(e, this.props.projId)}
