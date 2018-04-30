@@ -513,14 +513,15 @@ function uploadProjectImage(
   });
 }
 
-function uploadProfileImage(file: File, userId: string): Promise<User> {
+function uploadProfileImage(file: FileList, userId: string): Promise<User> {
   return new Promise((resolve, reject) => {
     const endpoint =
       'http://localhost:8080/api/upload/image/profile?userName=' + userId;
 
     var formData = new FormData();
-    formData.append('image', file);
-
+    for (var i = 0; i < file.length; i++) {
+      formData.append('image', file![i]);
+    }
     var data: object = {
       body: formData,
       method: 'POST',

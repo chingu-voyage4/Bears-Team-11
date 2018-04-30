@@ -4,6 +4,7 @@
 OVERALL GRID CONTAINER
 ==========================
 */
+
 .settings-container {
   max-width: 1080px;
   font-family: $font;
@@ -16,11 +17,13 @@ OVERALL GRID CONTAINER
   grid-template-areas: 'm i i i i';
   grid-gap: 40px;
 }
+
 /*
 ==========================
 SETTINGS LEFT_HAND MENU
 ==========================
 */
+
 .settings-menu-div {
   grid-area: m;
   display: inline-block;
@@ -35,29 +38,45 @@ SETTINGS LEFT_HAND MENU
   border-radius: 50%;
 }
 
-.settings-profile-image:hover {
-  .settings-profile-image-upload {
-    display: block;
-  }
-}
-
 .settings-profile-image-upload {
   width: 150px;
-  height: 75px;
+  height: 150px;
+  border-radius: 50%;
   z-index: 5;
-  border-radius: 0 0 150px 150px;
-  background: black;
+  background-color: $dark-grey;
   cursor: pointer;
-  background-blend-mode: multiply;
-  opacity: 0.5;
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
+  mix-blend-mode: normal;
+  opacity: 0.75;
   position: absolute;
   margin: 0 auto;
-  margin-top: -80px;
-  margin-left: 18px;
-  vertical-align: middle;
+  margin-top: -155px;
+  margin-left: 17px;
+  display: none;
+  overflow: hidden;
+}
+
+.settings-profile-image-icon {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  z-index: 10;
+  margin-top: 60px;
+  margin-left: -20px;
+}
+
+.settings-image-upload-show {
+  display: block;
+}
+
+#settings-profile-image-id > input[type='file'] {
+  font-size: 130px;
+  position: absolute;
+  opacity: 0;
+  width: 150px;
+  height: 150px;
+  margin-left: -80px;
+  z-index: 20;
 }
 
 .settings-name {
@@ -93,11 +112,13 @@ SETTINGS LEFT_HAND MENU
   color: white;
   background-color: $theme-blue;
 }
+
 /*
 ==========================
 SETTINGS UPDATE PORTION
 ==========================
 */
+
 .settings-info-div {
   font-family: $font;
   color: $dark-grey;
@@ -109,6 +130,7 @@ SETTINGS UPDATE PORTION
   color: $dark-grey;
   border-bottom: 1px solid $light-grey;
 }
+
 .settings-subhead-text {
   color: $dark-grey;
   font-weight: 700;
@@ -165,6 +187,7 @@ SETTINGS UPDATE PORTION
 ROLES OPTION BUTTONS
 ==========================
 */
+
 .settings-labels-roles {
   grid-template-areas: 'l a a b b';
   grid-gap: 5px;
@@ -194,11 +217,13 @@ ROLES OPTION BUTTONS
   opacity: 1;
   box-shadow: $box-shadow;
 }
+
 /*
 ==========================
 SUBMIT BUTTONS
 ==========================
 */
+
 .personal-details-save-button,
 .public-profile-save-button {
   @include white-text-blue-background-button;
@@ -209,6 +234,7 @@ SUBMIT BUTTONS
 .public-profile-save-button:hover {
   box-shadow: $box-shadow;
 }
+
 .update-profile-btn {
   margin: 0 auto;
   display: block;
@@ -220,6 +246,7 @@ SUBMIT BUTTONS
 SKILLS
 ==========================
 */
+
 .skill-container {
   display: inline-block;
   border: 1px solid $theme-blue;

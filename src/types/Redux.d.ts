@@ -207,3 +207,8 @@ export interface PublicProfileProps {
   user: User;
   userSettingsUpdate: userSettingsUpdate_fntype;
 }
+
+export interface SettingsPageProps {
+  user: User;
+  uploadProfileImage: uploadProfileImage_fntype;
+}
