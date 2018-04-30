@@ -188,8 +188,11 @@ PROJECT DROPDOWN MENU
   text-decoration: none;
   text-align: center;
   display: block;
+  font-weight: 500;
 }
-
+.header-project-portal-link:hover {
+  background-color: $light-blue;
+}
 .top-border {
   border-top: 1px solid $light-grey;
 }
@@ -198,9 +201,6 @@ PROJECT DROPDOWN MENU
   display: block;
 }
 
-// .dropdown:hover .dropbtn {
-//   background-color: rgb(62, 140, 209);
-// }
 .dropdown-profileLink {
   border-top: 2px solid black;
 }

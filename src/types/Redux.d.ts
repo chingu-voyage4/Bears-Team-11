@@ -195,6 +195,14 @@ export interface ProjectSettingsProps {
   updateProject: updateProject_fntype;
 }
 
+export interface ProjectForPublicProfileProps {
+  projects: Project;
+  user: User;
+  projId: string;
+  data: Project;
+  getProjects: getProjects_fntype;
+}
+
 export interface ProjectPageProps {
   user: User;
   projects: Array<Project>;
