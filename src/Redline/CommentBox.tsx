@@ -97,6 +97,7 @@ class CommentBox extends React.Component<
           type="text"
           onKeyDown={this.handleKeyPress}
           onChange={this.handleInput}
+          placeholder="type something..."
         />
       </div>
     );
