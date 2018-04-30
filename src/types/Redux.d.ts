@@ -132,6 +132,7 @@ export interface AddProjectProps {
   getTags: getTags_fntype;
   updateProject: updateProject_fntype;
   getOneProject: getOneProject_fntype;
+  getProjects: getProjects_fntype;
 }
 
 export interface ProjectPageFilterProps {
