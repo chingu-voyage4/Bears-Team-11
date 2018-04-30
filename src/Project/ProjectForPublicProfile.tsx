@@ -75,7 +75,7 @@ class ProjectForPublicProfile extends React.Component<
             }
           />
           <Link
-            className="project-edit-info"
+            className="project-edit-info-forPublicProfile"
             to={'/projects/' + this.props.projId}
           >
             <div className="project-name">{data.name}</div>
