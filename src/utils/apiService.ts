@@ -786,6 +786,16 @@ function updateMarkerDimensions(id: string, width: string, height: string) {
     });
 }
 
+function resolveMarker(id: string) {
+  return axios
+    .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
+      isResolved: true
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
 function getMarkerComments(markerId: string) {
   return axios
     .get(
@@ -848,6 +858,7 @@ var apiService = {
   saveMarker,
   updateMarkerPosition,
   updateMarkerDimensions,
+  resolveMarker,
   getOneProject,
   deleteProject,
   getTags,

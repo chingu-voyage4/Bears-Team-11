@@ -276,7 +276,10 @@ module.exports = function(passport) {
     );
   });
 
-  // update marker positions
+  // update marker
+  // - position
+  // - dimension
+  // - reolvedness
   router.put('/revision/marker/:markerId', function(req, res) {
     Marker.findOneAndUpdate(
       {
