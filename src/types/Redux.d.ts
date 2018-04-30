@@ -226,3 +226,8 @@ export interface UserProfileProps {
   projects: Array<Project> | Project;
   getProjects: getProjects_fntype;
 }
+
+export interface ReadyToTryProps {
+  visibleRegisterWindow: boolean;
+  showRegisterWindow: showRegisterWindow_fntype;
+}
