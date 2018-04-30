@@ -15,7 +15,8 @@ COMPONENTS
 */
 
 .project-match-container,
-.team-collaboration-container {
+.team-collaboration-container,
+.project-new-container {
   display: grid;
   grid-template-columns: repeat(6, 1fr) / auto-flow 1fr;
   grid-template-rows: auto;
@@ -23,12 +24,14 @@ COMPONENTS
   margin: auto;
   padding: auto;
 }
-.project-match-container {
+.project-match-container,
+.team-collaboration-container,
+.project-new-container {
   grid-template-areas: 't t i i i i';
 }
-.team-collaboration-container {
-  grid-template-areas: 'i i i i t t';
-}
+// .project-new-container  {
+//   grid-template-areas: 'i i i i t t';
+// }
 /*
 ==========================
 TEXT 
@@ -45,6 +48,7 @@ TEXT
   font-size: $project-feature-header;
   margin-top: 100px;
   font-weight: 700;
+  text-transform: capitalize;
 }
 .project-feature-text {
   padding-top: 145px;
