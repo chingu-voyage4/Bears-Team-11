@@ -85,18 +85,15 @@
   display: flex;
   flex-direction: column;
 }
-
 .redline-annotations {
   position: absolute;
   width: 100%;
   height: 100%;
   z-index: 10;
 }
-
 .redline-canvas {
   padding-top: 25px;
 }
-
 .redline-image-container {
   margin: 0 auto;
   position: relative;
@@ -104,46 +101,38 @@
   background: #d1d1d1;
   z-index: -1;
 }
-
 .redline-annotations {
   margin: 0 auto;
   position: relative;
   width: 1280px;
 }
-
 .redline-image {
   width: 100%;
   height: auto;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
-
 .redline-comments {
   position: absolute;
   width: 100%;
   height: 100%;
 }
-
 .toolbar {
   height: 50px;
   display: flex;
   justify-content: center;
   background: #2b353d;
 }
-
 .toolbar__tools {
   list-style: none;
 }
-
 .toolbar__tool {
   display: inline-block;
   margin: 0 8px;
   color: #ffffff;
 }
-
 .toolbar__tool--active {
   color: #489be2;
 }
-
 .annotation-rectangle {
   position: absolute;
   width: 100px;
@@ -153,7 +142,6 @@
   border-radius: 5px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
-
 .annotation-circle {
   position: absolute;
   width: 42px;
@@ -162,6 +150,7 @@
   border-radius: 50%;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
+
 /**
  * COMMENT BOX
  **/
@@ -180,7 +169,6 @@
     sans-serif;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
-
 .comment-box:after {
   content: '';
   position: absolute;
@@ -215,18 +203,17 @@
 .comment-box__trash {
   color: #2b353d;
 }
+
 .comment-box__comment {
   display: flex;
   padding-top: 10px;
 }
-
 .comment-box__name {
   margin: 0;
   padding: 0;
   font-size: 0.8rem;
   font-weight: bold;
 }
-
 .comment-box__timestamp {
   color: #2b353d;
   padding: 0 5px;
@@ -242,21 +229,18 @@
     float: right;
   }
 }
-
 .comment-box__body {
   margin: 5px 0 0 0;
   padding: 0;
   font-size: 0.75rem;
   color: #2b353d;
 }
-
 .comment-box__input {
   position: absolute;
   outline: none;
   bottom: 15px;
   width: calc(100% - 36px);
 }
-
 .comment-box__profile_picture {
   width: 32px;
   height: 32px;

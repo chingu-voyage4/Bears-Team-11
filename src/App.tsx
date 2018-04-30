@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ProjectsPage from './Projects Page/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
-import PublicProfile from './UserProfileAndSettingsPage/PublicProfile';
+import PublicProfile from './PublicProfile/PublicProfile';
 import Redline from './Redline';
 import ProjectPortalPage from './ProjectPortalPage/ProjectPortalPage';
 import { HYDRATE_USER } from './actions/actionTypes';

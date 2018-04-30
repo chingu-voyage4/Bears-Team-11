@@ -168,7 +168,7 @@ export interface LandingPageProps {
 
 export interface LoggedInHeaderProps {
   user: User;
-  projects: Project;
+  projects: Array<Project>;
   logout: any;
 }
 
@@ -196,6 +196,14 @@ export interface ProjectSettingsProps {
   updateProject: updateProject_fntype;
 }
 
+export interface ProjectForPublicProfileProps {
+  projects: Project;
+  user: User;
+  projId: string;
+  data: Project;
+  getProjects: getProjects_fntype;
+}
+
 export interface ProjectPageProps {
   user: User;
   projects: Array<Project>;
@@ -207,4 +215,20 @@ export interface ProjectPageProps {
 export interface PublicProfileProps {
   user: User;
   userSettingsUpdate: userSettingsUpdate_fntype;
+}
+
+export interface SettingsPageProps {
+  user: User;
+  uploadProfileImage: uploadProfileImage_fntype;
+}
+
+export interface UserProfileProps {
+  user: User;
+  projects: Array<Project> | Project;
+  getProjects: getProjects_fntype;
+}
+
+export interface ReadyToTryProps {
+  visibleRegisterWindow: boolean;
+  showRegisterWindow: showRegisterWindow_fntype;
 }
