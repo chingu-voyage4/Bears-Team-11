@@ -87,6 +87,10 @@ class CommentBox extends React.Component<
         style={{ display: 'none' }}
         onClick={this.stopEvent}
       >
+        <div className="comment-box__toolbar">
+          <i className="comment-box__trash far fa-trash-alt" />
+          <span className="comment-box__resolve">Resolve</span>
+        </div>
         {this.renderComments()}
         <input
           className="comment-box__input"
