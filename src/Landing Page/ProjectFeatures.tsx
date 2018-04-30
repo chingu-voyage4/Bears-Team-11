@@ -11,11 +11,12 @@ class ProjectFeatures extends React.Component {
           </div>
           <div className="project-feature-text">
             Filter through all our projects by category, tags, or desired roles.
+            Once your find an interesting project, request to join the team!
           </div>
           <div className="project-feature-image-div">
             <img
               className="project-feature-imac"
-              src={require('../assets/proj_imac.png')}
+              src={require('../assets/projectFilterFeature.gif')}
             />
           </div>
         </div>
@@ -28,7 +29,7 @@ class ProjectFeatures extends React.Component {
           <div className="project-feature-image-div">
             <img
               className="project-feature-imac"
-              src={require('../assets/proj_imac.png')}
+              src={require('../assets/projectFilterFeature.gif')}
             />
           </div>
         </div>

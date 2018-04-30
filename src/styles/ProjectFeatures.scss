@@ -27,7 +27,10 @@ COMPONENTS
 .project-match-container,
 .team-collaboration-container,
 .project-new-container {
-  grid-template-areas: 't t i i i i';
+  grid-template-areas: 'i i i i t t';
+  margin-top: 30px;
+  margin-bottom: 80px;
+  grid-column-gap: 20px;
 }
 // .project-new-container  {
 //   grid-template-areas: 'i i i i t t';
@@ -68,7 +71,9 @@ IMAGE
   grid-area: i;
 }
 .project-feature-imac {
-  padding-bottom: 30px;
   width: 100%;
   object-fit: cover;
+  width: 680px;
+  height: 430px;
+  box-shadow: $box-shadow;
 }
