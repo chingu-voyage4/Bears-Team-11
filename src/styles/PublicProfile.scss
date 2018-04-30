@@ -1,0 +1,61 @@
+@import '_variables.scss';
+
+/*
+==========================
+OVERALL GRID CONTAINER
+==========================
+*/
+.public-profile-container {
+  height: 100%;
+  max-width: 1080px;
+  font-family: $font;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas:
+    'd d d d'
+    'p p p p'
+    'p p p p'
+    'p p p p';
+}
+
+/*
+==========================
+SUB GRID CONTAINER & USER INFO
+==========================
+*/
+.public-profile-user-data {
+  grid-area: d;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas:
+    'i t t t'
+    'i s s s';
+}
+
+.public-profile-image {
+  grid-area: i;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.public-profile-details {
+  grid-area: t;
+}
+
+.public-profile-skills {
+  grid-area: s;
+}
+/*
+==========================
+USER PROJECTS
+==========================
+*/
+.public-profile-projects {
+  grid-area: p;
+}

@@ -1,16 +1,23 @@
 import * as React from 'react';
 import Message from './Message';
+import { connect } from 'react-redux';
 import axios from 'axios';
 
+// FIX NEEDED: Comments do not appear when submited, page must be refreshed
 class Chat extends React.PureComponent<
-  { projectId: string },
+  {
+    projectId: string;
+    user: any;
+  },
   {
     comments: Array<any>;
+    message: string;
   }
 > {
-  constructor(props: { projectId: string }) {
+  constructor(props: { projectId: string; user: any }) {
     super(props);
     this.state = {
+      message: '',
       comments: []
     };
   }
@@ -26,6 +33,36 @@ class Chat extends React.PureComponent<
         });
       });
   }
+  handleSubmit = (e: any) => {
+    if (e.which === 13) {
+      this.addComment(this.state.message);
+    }
+  };
+
+  handleChange = (e: any) => {
+    this.setState({ message: e.currentTarget.value });
+  };
+
+  addComment = (comment: any) => {
+    axios
+      .post(
+        `http://localhost:8080/api/projects/${this.props.projectId}/comment`,
+        {
+          username: this.props.user.username,
+          comment
+        }
+      )
+      .then(response => {
+        console.log(response);
+        this.setState(prevState => {
+          prevState.comments.push(response.data);
+          return {
+            comments: prevState.comments
+          };
+        });
+      });
+  };
+
   displayMessages = () => {
     return this.state.comments.map(comment => {
       return (
@@ -51,6 +88,9 @@ class Chat extends React.PureComponent<
             className="message-input"
             type="text"
             placeholder="Type something..."
+            onKeyPress={this.handleSubmit}
+            onChange={this.handleChange}
+            value={this.state.message}
           />
           <a className="message-send">
             <i className="far fa-paper-plane" />
@@ -61,4 +101,9 @@ class Chat extends React.PureComponent<
   }
 }
 
-export default Chat;
+function mapStateToProps(state: any) {
+  return {
+    user: state.user
+  };
+}
+export default connect(mapStateToProps)(Chat);

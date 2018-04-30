@@ -4,8 +4,8 @@ import Comment from './Comment';
 import { connect } from 'react-redux';
 import { Store } from '../types/Redux';
 import { User } from '../types/User';
-import { addComment } from '../actions/markerActions';
-import * as moment from 'moment';
+import { addComment, getComments } from '../actions/markerActions';
+import axios from 'axios';
 
 class CommentBox extends React.Component<
   {
@@ -14,15 +14,34 @@ class CommentBox extends React.Component<
     user: User;
     comments: Array<{ user: string; time: string; message: string }>;
     addComment: any;
+    getComments: any;
   },
-  { message: string }
+  {
+    message: string;
+    comments: any;
+  }
 > {
   constructor(props: any) {
     super(props);
     this.state = {
-      message: ''
+      message: '',
+      comments: []
     };
   }
+  componentDidMount() {
+    axios
+      .get(
+        `http://localhost:8080/api/projects/revision//markers/${
+          this.props.markerId
+        }/comments`
+      )
+      .then(response => {
+        this.setState({
+          comments: response.data.comments
+        });
+      });
+  }
+
   handleInput = (e: any) => {
     var target = e.target;
     var value = target.value;
@@ -33,26 +52,31 @@ class CommentBox extends React.Component<
   };
   handleKeyPress = (e: any) => {
     if (e.keyCode === 13 || e.which == 13) {
-      // enter key is pressed
-      // BUG: this should cause component to re-render because props should have been updated
-      this.props.addComment(this.props.revisionId, this.props.markerId, {
-        user: this.props.user,
-        time: moment().format('LT'),
-        message: this.state.message
-      });
+      // FIX ME: this should cause component to re-render because props should have been updated
+      this.props.addComment(
+        this.props.markerId,
+        this.props.user.username,
+        this.state.message
+      );
     }
   };
   renderComments = () => {
     if (this.props.comments) {
-      return this.props.comments.map(comment => {
-        return <Comment key={Math.random()} {...comment} />;
+      return this.state.comments.map((comment: any) => {
+        return (
+          <Comment
+            key={comment._id}
+            username={comment.creator}
+            message={comment.comment}
+            time={comment.createdAt}
+          />
+        );
       });
     }
     return null;
   };
 
   stopEvent = (e: any) => {
-    console.log('stop');
     e.stopPropagation();
   };
 
@@ -78,7 +102,7 @@ class CommentBox extends React.Component<
 function mapStateToProps(state: Store, ownProps: any) {
   var comments;
   for (var i = 0; i < state.markers.length; i++) {
-    if (state.markers[i].id === ownProps.markerId) {
+    if (state.markers[i]._id === ownProps.markerId) {
       comments = state.markers[i].comments;
     }
   }
@@ -89,4 +113,6 @@ function mapStateToProps(state: Store, ownProps: any) {
   };
 }
 
-export default connect(mapStateToProps, { addComment })(CommentBox);
+export default connect(mapStateToProps, { addComment, getComments })(
+  CommentBox
+);

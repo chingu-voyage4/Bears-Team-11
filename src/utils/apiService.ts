@@ -764,8 +764,9 @@ function saveMarker(revisionId: string, marker: Marker) {
 }
 
 function updateMarkerPosition(id: string, x: string, y: string) {
+  console.log('updating marker position...');
   return axios
-    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+    .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
       x,
       y
     })
@@ -775,8 +776,9 @@ function updateMarkerPosition(id: string, x: string, y: string) {
 }
 
 function updateMarkerDimensions(id: string, width: string, height: string) {
+  console.log('updating marker dimensions...');
   return axios
-    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+    .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
       width,
       height
     })
@@ -788,24 +790,21 @@ function updateMarkerDimensions(id: string, width: string, height: string) {
 function getMarkerComments(markerId: string) {
   return axios
     .get(
-      `http://localhost:8080/api/projects/revision/markers/${markerId}/comments`
+      `http://localhost:8080/api/projects/revision//markers/${markerId}/comments`
     )
     .then(response => {
       return response.data.comments;
     });
 }
 
-function addMarkerComment(
-  revisionId: string,
-  markerId: string,
-  comment: { user: string; time: string; message: string }
-) {
+function addMarkerComment(markerId: string, username: string, message: string) {
+  console.log(username);
   return axios
     .post(
       `http://localhost:8080/api/projects/revision/marker/${markerId}/comment`,
       {
-        creator: comment.user,
-        comment: comment.message
+        creator: username,
+        comment: message
       }
     )
     .then(response => {

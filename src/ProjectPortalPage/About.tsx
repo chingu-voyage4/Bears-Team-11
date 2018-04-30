@@ -39,7 +39,7 @@ class About extends React.PureComponent<
                 looking for{' '}
                 {this.props.lookingFor && this.props.lookingFor.length > 0
                   ? this.props.lookingFor[0].toUpperCase()
-                  : null}
+                  : 'NONE'}
               </li>
               <li>
                 <a className="button" href="">
