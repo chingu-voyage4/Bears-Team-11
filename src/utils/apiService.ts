@@ -762,6 +762,13 @@ function saveMarker(revisionId: string, marker: Marker) {
       return response.data.marker;
     });
 }
+function deleteMarker(markerId: string) {
+  return axios
+    .delete(`http://localhost:8080/api/projects/revision/marker/${markerId}`)
+    .then(response => {
+      return response.data.marker;
+    });
+}
 
 function updateMarkerPosition(id: string, x: string, y: string) {
   console.log('updating marker position...');
@@ -857,6 +864,7 @@ var apiService = {
   getMarkerComments,
   addMarkerComment,
   saveMarker,
+  deleteMarker,
   updateMarkerPosition,
   updateMarkerDimensions,
   resolveMarker,
