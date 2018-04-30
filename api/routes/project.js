@@ -255,6 +255,25 @@ module.exports = function(passport) {
     });
   });
 
+  // delete marker
+  router.delete('/revision/marker/:markerId', function(req, res) {
+    Marker.findOneAndRemove(
+      {
+        _id: req.query.markerId
+      },
+      function(err, marker) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message: `Marker ${req.params.markerId} successfully deleted`,
+            marker
+          });
+        }
+      }
+    );
+  });
+
   // get markers for revisions
   router.get('/revision/:revisionId/markers', function(req, res) {
     Marker.find(
