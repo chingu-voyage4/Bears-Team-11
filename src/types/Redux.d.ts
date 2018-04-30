@@ -68,6 +68,7 @@ export interface CategoryAction extends Action {
 }
 export interface MarkerAction extends Action {
   data: Array<Marker> | Marker;
+  markerId: string;
 }
 
 export type Users = Array<User>;

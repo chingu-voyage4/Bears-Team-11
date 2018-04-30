@@ -257,9 +257,10 @@ module.exports = function(passport) {
 
   // delete marker
   router.delete('/revision/marker/:markerId', function(req, res) {
+    console.log(req.params.markerId);
     Marker.findOneAndRemove(
       {
-        _id: req.query.markerId
+        _id: req.params.markerId
       },
       function(err, marker) {
         if (err) {

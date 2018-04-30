@@ -7,7 +7,9 @@ import {
   addMarker,
   moveMarker,
   resizeMarker,
-  addComment
+  addComment,
+  resolveMarker,
+  deleteMarker
 } from '../actions/markerActions';
 import { Store } from '../types/Redux';
 import { Marker } from '../types/Marker';
@@ -28,6 +30,8 @@ class AnnotationLayer extends React.Component<{
   getMarkers: any;
   moveMarker: any;
   addComment: any;
+  resolveMarker: any;
+  deleteMarker: any;
   resizeMarker: any;
 }> {
   componentDidMount() {
@@ -49,12 +53,23 @@ class AnnotationLayer extends React.Component<{
   drawMarkers = () => {
     var markers: any = [];
     this.props.markers.forEach((annotation: any) => {
-      // console.log(annotation);
       if (annotation.type === 'rectangle') {
-        markers.push(this.drawRect(annotation._id, annotation.x, annotation.y));
+        markers.push(
+          this.drawRect(
+            annotation._id,
+            annotation.x,
+            annotation.y,
+            annotation.isResolved
+          )
+        );
       } else {
         markers.push(
-          this.drawCircle(annotation._id, annotation.x, annotation.y)
+          this.drawCircle(
+            annotation._id,
+            annotation.x,
+            annotation.y,
+            annotation.isResolved
+          )
         );
       }
     });
@@ -107,7 +122,14 @@ class AnnotationLayer extends React.Component<{
     }
   };
 
-  drawRect = (id: any, x: any, y: any, width = 100, height = 100): any => {
+  drawRect = (
+    id: any,
+    x: any,
+    y: any,
+    isResolved: any,
+    width = 100,
+    height = 100
+  ): any => {
     var style = {
       top: `${y}px`,
       left: `${x}px`,
@@ -122,16 +144,30 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <CommentBox key={id} markerId={id} revisionId={this.props.revisionId} />
+        {isResolved ? (
+          <div>
+            <i className="fas fa-check" />
+          </div>
+        ) : null}
+        <CommentBox
+          key={id}
+          markerId={id}
+          revisionId={this.props.revisionId}
+          deleteMarker={this.deleteMarker}
+          resolveMarker={this.resolveMarker}
+          isResolved={isResolved}
+        />
       </div>
     );
   };
 
-  drawCircle = (id: any, x: any, y: any) => {
+  drawCircle = (id: any, x: any, y: any, isResolved: any) => {
     var style = {
       top: `${y}px`,
-      left: `${x}px`
+      left: `${x}px`,
+      backgroundColor: isResolved ? '#f9a621' : null
     };
+
     return (
       <div
         key={id}
@@ -140,7 +176,14 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <CommentBox key={id} markerId={id} revisionId={this.props.revisionId} />
+        <CommentBox
+          key={id}
+          markerId={id}
+          revisionId={this.props.revisionId}
+          deleteMarker={this.deleteMarker}
+          resolveMarker={this.resolveMarker}
+          isResolved={isResolved}
+        />
       </div>
     );
   };
@@ -206,6 +249,14 @@ class AnnotationLayer extends React.Component<{
     });
   };
 
+  resolveMarker = (markerId: any) => {
+    this.props.resolveMarker(markerId);
+  };
+
+  deleteMarker = (markerId: any) => {
+    this.props.deleteMarker(markerId);
+  };
+
   // TODO: make into one function?
   disableDrag = (id: any) => {
     window.$(`#${id}`).draggable('disable');
@@ -244,5 +295,7 @@ export default connect(mapStateToProps, {
   addMarker,
   moveMarker,
   resizeMarker,
-  addComment
+  addComment,
+  resolveMarker,
+  deleteMarker
 })(AnnotationLayer);
