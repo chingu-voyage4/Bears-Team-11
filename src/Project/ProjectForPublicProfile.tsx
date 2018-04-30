@@ -2,20 +2,28 @@ import { Link } from 'react-router-dom';
 import * as React from 'react';
 import '../styles/Project.css';
 import { State } from '../types/Projects.d';
-import { Store, ProjectForEditProps } from '../types/Redux';
+import { Store, ProjectForPublicProfileProps } from '../types/Redux';
 import { connect } from 'react-redux';
-import { deleteProject } from '../actions/projectActions';
+import { getProjects } from '../actions/projectActions';
 
-class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
-  constructor(props: ProjectForEditProps) {
+class ProjectForPublicProfile extends React.Component<
+  ProjectForPublicProfileProps,
+  State
+> {
+  constructor(props: ProjectForPublicProfileProps) {
     super(props);
   }
 
-  public deleteProject(
-    e: React.MouseEvent<HTMLButtonElement>,
-    projId: string
-  ): void {
-    this.props.deleteProject(projId);
+  componentWillMount() {
+    this.props.getProjects(
+      { createdAt: -1 },
+      {
+        $or: [
+          { creator: this.props.user.username },
+          { team: { $in: [this.props.user.username] } }
+        ]
+      }
+    );
   }
 
   render() {
@@ -59,7 +67,7 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
             className="project-edit-image"
             alt={data.name}
             src={
-              data.images.length === 0 ||
+              data.images!.length === 0 ||
               data.images === undefined ||
               data.images === null
                 ? require('../assets/imagePlaceholder.jpg')
@@ -67,7 +75,7 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
             }
           />
           <Link
-            className="project-edit-info"
+            className="project-edit-info-forPublicProfile"
             to={'/projects/' + this.props.projId}
           >
             <div className="project-name">{data.name}</div>
@@ -80,26 +88,13 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
               looking for
               <div className="project-roles">{roles}</div>
             </div>
+            <a>
+              <img
+                className="project-save"
+                src={require('../assets/Bookmark Icon.png')}
+              />
+            </a>
           </Link>
-          <div>
-            <button
-              onClick={e => this.deleteProject(e, this.props.projId)}
-              className="project-delete-btn"
-            >
-              Delete Project
-            </button>
-          </div>
-          <div />
-          <div />
-          <div />
-          <div>
-            <Link
-              className="project-edit-btn"
-              to={'/projects/update/' + this.props.projId}
-            >
-              Edit Project
-            </Link>
-          </div>
         </div>
       </div>
     );
@@ -108,8 +103,11 @@ class ProjectForEdit extends React.Component<ProjectForEditProps, State> {
 
 const mapStateToProps = (state: Store) => {
   return {
-    projects: state.projects
+    projects: state.projects,
+    user: state.user
   };
 };
 
-export default connect(mapStateToProps, { deleteProject })(ProjectForEdit);
+export default connect(mapStateToProps, { getProjects })(
+  ProjectForPublicProfile
+);

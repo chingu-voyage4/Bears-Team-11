@@ -16,40 +16,103 @@ OVERALL GRID CONTAINER
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
   grid-template-areas:
-    'd d d d'
-    'p p p p'
-    'p p p p'
-    'p p p p';
+    'd p p p'
+    'd p p p'
+    'd p p p';
 }
 
 /*
 ==========================
-SUB GRID CONTAINER & USER INFO
+SUB GRID CONTAINER FOR USER INFO
 ==========================
 */
 .public-profile-user-data {
   grid-area: d;
+  margin-right: 50px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   grid-template-rows: auto;
   grid-template-areas:
-    'i t t t'
-    'i s s s';
+    'i'
+    't'
+    's';
 }
+/*
+==========================
+HEADER TEXT
+==========================
+*/
+.public-profile-header {
+  color: $light-grey;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+/*
+==========================
+IMAGE
+==========================
+*/
 
 .public-profile-image {
   grid-area: i;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
+  margin: 0 auto;
+  object-fit: cover;
 }
+
+/*
+==========================
+SKILLS
+==========================
+*/
+.public-profile-skill-container {
+  grid-area: s;
+  border-top: 1px solid $light-grey;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+}
+
+.public-profile-skill {
+  color: $dark-grey;
+  border: 1px solid $light-grey;
+  padding: 5px 9px 5px 9px;
+  margin: 5px 5px 5px 0px;
+  display: inline-block;
+  font-size: 12px;
+}
+/*
+==========================
+USER DETAILS
+==========================
+*/
 
 .public-profile-details {
   grid-area: t;
+  padding-bottom: 10px;
 }
 
-.public-profile-skills {
-  grid-area: s;
+.public-profile-details-text {
+  color: $dark-grey;
+  font-size: 14px;
+  margin: 5px 5px 5px 0px;
+}
+
+.details-bold {
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  margin-top: -20px;
+}
+
+.details-location {
+  margin-bottom: 30px;
+  text-align: center;
+  text-transform: capitalize;
 }
 /*
 ==========================
@@ -58,4 +121,63 @@ USER PROJECTS
 */
 .public-profile-projects {
   grid-area: p;
+}
+
+/*
+==========================
+USER LINKS
+==========================
+*/
+
+.public-profile-links-container {
+  margin: 0 auto;
+  border-top: 1px solid $light-grey;
+  width: 100%;
+  padding-top: 10px;
+}
+.public-profile-link-icons {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  margin-right: 5px;
+}
+
+/*
+==========================
+ROLES / CHECKMARKS
+==========================
+*/
+.public-profile-roles-text {
+  display: inline-block;
+  font-size: 14px;
+  margin: 5px 5px 5px 0px;
+  color: $dark-grey;
+  text-transform: capitalize;
+}
+.checkmark-roles {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  margin-bottom: -5px;
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+}
+
+.checkmark_stem {
+  position: absolute;
+  width: 3px;
+  height: 9px;
+  background-color: $theme-blue;
+  left: 11px;
+  top: 6px;
+}
+
+.checkmark_kick {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: $theme-blue;
+  left: 8px;
+  top: 12px;
 }

@@ -105,12 +105,12 @@ export function register(
 }
 
 export type uploadProfileImage_fntype = (
-  file: File,
+  file: FileList,
   userId: string
 ) => (dispatch: Dispatch<UserAction>) => void;
 
 export function uploadProfileImage(
-  file: File,
+  file: FileList,
   userId: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {

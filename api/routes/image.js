@@ -53,7 +53,7 @@ router.post('/profile', function(req, res) {
     } else {
       console.log('Successfully uploaded profile pic');
       User.findOneAndUpdate(
-        { username: req.query.userName },
+        { _id: req.query.userName },
         { profileImage: req.file.location },
         { new: true },
         function(err, user) {
