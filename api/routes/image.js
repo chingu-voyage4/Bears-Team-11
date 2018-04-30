@@ -152,11 +152,8 @@ router.post('/revision', function(req, res) {
   console.log('Posting to revision');
 
   var revision = new Revisions({
-    revisionNumber: req.body.revisionNumber,
-    finalVersion: req.body.finalVersion,
-    imageURL: '',
-    creator: req.body.creator,
-    description: req.body.description
+    revisionNumber: req.query.revisionNumber,
+    creator: req.query.user
   });
 
   revision.save(function(err) {

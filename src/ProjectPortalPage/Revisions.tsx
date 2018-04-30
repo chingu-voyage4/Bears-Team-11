@@ -49,7 +49,8 @@ class Revisions extends React.PureComponent<
       .uploadRevisionImage(
         e.target.files,
         this.props.projectId,
-        this.props.username
+        this.props.username,
+        this.state.revisions.length + 1
       )
       .then(res => {
         this.setState({ isLoading: false });

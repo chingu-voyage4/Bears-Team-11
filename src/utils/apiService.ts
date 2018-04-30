@@ -568,9 +568,10 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
 function uploadRevisionImage(
   file: FileList,
   projectId: string,
-  username: string
+  username: string,
+  revisionNumber: number
 ) {
-  const endpoint = `http://localhost:8080/api/upload/image/revision?user=${username}`;
+  const endpoint = `http://localhost:8080/api/upload/image/revision?user=${username}&revisionNumber=${revisionNumber}`;
 
   var formData = new FormData();
   for (var i = 0; i < file.length; i++) {
