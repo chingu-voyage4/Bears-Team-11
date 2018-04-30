@@ -21,6 +21,8 @@ export const MOVE_MARKER = 'MOVE_MARKER';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const GET_MARKER_COMMENT = 'GET_MARKER_COMMENT';
 export const RESIZE_MARKER = 'RESIZE_MARKER';
+export const DELETE_MARKER = 'DELETE_MARKER';
+export const RESOLVE_MARKER = 'RESOLVE_MARKER';
 
 export const GET_TAGS = 'API:GET_TAGS';
 export const GET_CATEGORIES = 'API:GET_CATEGORIES';

@@ -15,19 +15,25 @@ class CommentBox extends React.Component<
     comments: Array<{ user: string; time: string; message: string }>;
     addComment: any;
     getComments: any;
+    deleteMarker: any;
+    resolveMarker: any;
+    isResolved: any;
   },
   {
     message: string;
     comments: any;
+    isDeleted: boolean;
   }
 > {
   constructor(props: any) {
     super(props);
     this.state = {
       message: '',
-      comments: []
+      comments: [],
+      isDeleted: false
     };
   }
+
   componentDidMount() {
     axios
       .get(
@@ -50,6 +56,7 @@ class CommentBox extends React.Component<
       message: value
     });
   };
+
   handleKeyPress = (e: any) => {
     if (e.keyCode === 13 || e.which == 13) {
       // FIX ME: this should cause component to re-render because props should have been updated
@@ -60,6 +67,7 @@ class CommentBox extends React.Component<
       );
     }
   };
+
   renderComments = () => {
     if (this.props.comments) {
       return this.state.comments.map((comment: any) => {
@@ -87,12 +95,26 @@ class CommentBox extends React.Component<
         style={{ display: 'none' }}
         onClick={this.stopEvent}
       >
+        {this.props.isResolved ? null : (
+          <div className="comment-box__toolbar">
+            <div onClick={() => this.props.deleteMarker(this.props.markerId)}>
+              <i className="comment-box__trash far fa-trash-alt" />
+            </div>
+            <span
+              className="comment-box__resolve"
+              onClick={() => this.props.resolveMarker(this.props.markerId)}
+            >
+              Resolve
+            </span>
+          </div>
+        )}
         {this.renderComments()}
         <input
           className="comment-box__input"
           type="text"
           onKeyDown={this.handleKeyPress}
           onChange={this.handleInput}
+          placeholder="type something..."
         />
       </div>
     );
