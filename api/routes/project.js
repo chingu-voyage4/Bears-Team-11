@@ -255,6 +255,26 @@ module.exports = function(passport) {
     });
   });
 
+  // delete marker
+  router.delete('/revision/marker/:markerId', function(req, res) {
+    console.log(req.params.markerId);
+    Marker.findOneAndRemove(
+      {
+        _id: req.params.markerId
+      },
+      function(err, marker) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message: `Marker ${req.params.markerId} successfully deleted`,
+            marker
+          });
+        }
+      }
+    );
+  });
+
   // get markers for revisions
   router.get('/revision/:revisionId/markers', function(req, res) {
     Marker.find(
@@ -276,7 +296,10 @@ module.exports = function(passport) {
     );
   });
 
-  // update marker positions
+  // update marker
+  // - position
+  // - dimension
+  // - reolvedness
   router.put('/revision/marker/:markerId', function(req, res) {
     Marker.findOneAndUpdate(
       {

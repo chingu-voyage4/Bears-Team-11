@@ -4,7 +4,9 @@ import {
   RESIZE_MARKER,
   ADD_COMMENT,
   GET_MARKERS,
-  GET_MARKER_COMMENT
+  GET_MARKER_COMMENT,
+  DELETE_MARKER,
+  RESOLVE_MARKER
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import { MarkerAction } from '../types/Redux.d';
@@ -126,5 +128,31 @@ export function getComments(
           data: updatedMarker
         });
       });
+  };
+}
+
+export function deleteMarker(
+  markerId: string
+): (dispatch: Dispatch<MarkerAction>) => void {
+  return dispatch => {
+    return apiService.deleteMarker(markerId).then(marker => {
+      dispatch({
+        type: DELETE_MARKER,
+        markerId
+      });
+    });
+  };
+}
+
+export function resolveMarker(
+  markerId: string
+): (dispatch: Dispatch<MarkerAction>) => void {
+  return dispatch => {
+    return apiService.resolveMarker(markerId).then(marker => {
+      dispatch({
+        type: RESOLVE_MARKER,
+        markerId
+      });
+    });
   };
 }

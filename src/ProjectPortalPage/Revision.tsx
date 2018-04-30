@@ -18,18 +18,22 @@ class Revision extends React.PureComponent<
               this.props.revision._id
             }`}
           >
-            <img src={this.props.revision.imageURL} alt="" />
+            <img
+              className="revision__image"
+              src={this.props.revision.imageURL}
+              alt=""
+            />
             {/* <div className="revision__changes">{}</div> */}
           </Link>
         </div>
         <h3 className="revision__title">
-          Revision {this.props.revision.revisionNumber} -{' '}
-          {this.props.revision.description}
+          Revision {this.props.revision.revisionNumber}
         </h3>
         <p className="revision__author">
           author: {this.props.revision.creator} | date:{' '}
           {moment(this.props.revision.createdAt).format('ll')}
         </p>
+        <p>{this.props.revision.description}</p>
         <span
           className={
             this.props.revision.finalVersion ? 'revision__version' : ''

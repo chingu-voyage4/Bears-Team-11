@@ -1,9 +1,11 @@
 import * as React from 'react';
 import Revision from './Revision';
 import axios from 'axios';
+import apiService from '../utils/apiService';
+import { connect } from 'react-redux';
 
 class Revisions extends React.PureComponent<
-  { mockups: Array<string> | undefined; projectId: string },
+  { mockups: Array<string> | undefined; projectId: string; username: string },
   {
     revisions: Array<{
       _id: string;
@@ -13,15 +15,18 @@ class Revisions extends React.PureComponent<
       createdAt: string;
       finalVersion: boolean;
     }>;
+    isLoading: boolean;
   }
 > {
   constructor(props: {
     mockups: Array<string> | undefined;
     projectId: string;
+    username: string;
   }) {
     super(props);
     this.state = {
-      revisions: []
+      revisions: [],
+      isLoading: false
     };
   }
   componentDidMount() {
@@ -36,6 +41,30 @@ class Revisions extends React.PureComponent<
         });
       });
   }
+
+  handleFile = (e: any) => {
+    e.preventDefault();
+    this.setState({ isLoading: true });
+    apiService
+      .uploadRevisionImage(
+        e.target.files,
+        this.props.projectId,
+        this.props.username,
+        this.state.revisions.length + 1
+      )
+      .then(res => {
+        this.setState({ isLoading: false });
+        console.log(res);
+      });
+  };
+
+  openFileSelectDialog = (e: any) => {
+    e.preventDefault();
+    var revisionUpload = document.getElementById('revisionUpload');
+    if (revisionUpload) {
+      revisionUpload.click();
+    }
+  };
 
   displayRevisions = () => {
     if (this.state.revisions.length > 0) {
@@ -56,14 +85,33 @@ class Revisions extends React.PureComponent<
     return (
       <React.Fragment>
         <div className="upload-link__container">
-          <a className="upload-link" href="">
+          <input
+            id="revisionUpload"
+            type="file"
+            hidden={true}
+            onChange={this.handleFile}
+          />
+          <a
+            className="upload-link"
+            href=""
+            onClick={this.openFileSelectDialog}
+          >
             upload new document <i className="fas fa-cloud-upload-alt fa-2x" />
           </a>
         </div>
         <div className="revisions-list">{this.displayRevisions()}</div>
+        {this.state.isLoading ? (
+          <div className="new-project-image-loader" />
+        ) : null}
       </React.Fragment>
     );
   }
 }
 
-export default Revisions;
+function mapStateToProps(state: any) {
+  return {
+    username: state.user.username
+  };
+}
+
+export default connect(mapStateToProps)(Revisions);

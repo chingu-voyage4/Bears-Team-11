@@ -4,7 +4,9 @@ import {
   MOVE_MARKER,
   ADD_COMMENT,
   GET_MARKER_COMMENT,
-  RESIZE_MARKER
+  RESIZE_MARKER,
+  RESOLVE_MARKER,
+  DELETE_MARKER
 } from '../actions/actionTypes';
 import { Marker } from '../types/Marker';
 import { MarkerAction } from '../types/Redux';
@@ -37,6 +39,17 @@ function markerReducer(state: Array<Marker> = [], action: MarkerAction) {
     case GET_MARKER_COMMENT:
       replaceMarker(newState, action.data as Marker);
       return newState;
+    case DELETE_MARKER:
+      return state.filter(marker => {
+        return marker._id !== action.markerId;
+      });
+    case RESOLVE_MARKER:
+      return state.map(marker => {
+        if (marker._id === action.markerId) {
+          return Object.assign({}, marker, { isResolved: true });
+        }
+        return marker;
+      });
     default:
       return state;
   }

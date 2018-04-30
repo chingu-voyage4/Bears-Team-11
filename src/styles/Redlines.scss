@@ -89,6 +89,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  z-index: 10;
 }
 .redline-canvas {
   padding-top: 25px;
@@ -98,6 +99,7 @@
   position: relative;
   width: 1280px;
   background: #d1d1d1;
+  z-index: -1;
 }
 .redline-annotations {
   margin: 0 auto;
@@ -148,10 +150,14 @@
   border-radius: 50%;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
+
+/**
+ * COMMENT BOX
+ **/
 .comment-box {
   position: absolute;
   display: flex;
-  z-index: 9;
+  z-index: 10;
   flex-direction: column;
   background: #ffffff;
   border-radius: 5px;
@@ -166,7 +172,7 @@
 .comment-box:after {
   content: '';
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   top: 20px;
   right: -5px;
   width: 10px;
@@ -176,6 +182,28 @@
   transform: rotate(-45deg);
   box-shadow: 2px 3px 3px -1px rgba(0, 0, 0, 0.16);
 }
+
+.comment-box__toolbar {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.comment-box__resolve {
+  color: #489be2;
+  display: inline-block;
+  font-size: 0.75rem;
+  border: 1px solid #489be2;
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-right: 8px;
+}
+
+.comment-box__trash {
+  color: #2b353d;
+}
+
 .comment-box__comment {
   display: flex;
   padding-top: 10px;

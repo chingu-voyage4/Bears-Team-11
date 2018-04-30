@@ -72,6 +72,11 @@ REVISIONS
   position: relative;
 }
 
+.revision__image {
+  width: 350px;
+  height: 200px;
+}
+
 .revision__changes {
   display: flex;
   justify-content: center;
@@ -288,4 +293,29 @@ ABOUT
   // background: $theme-blue;
   // color: #ffffff;
   // padding: 5px;
+}
+
+/*
+==========================
+LOADER
+==========================
+*/
+.new-project-image-loader {
+  margin: 0 auto;
+  border: 8px solid $light-grey;
+  border-top: 8px solid $theme-blue;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

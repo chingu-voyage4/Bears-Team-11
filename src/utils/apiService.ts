@@ -568,23 +568,24 @@ function uploadProfileImage(file: FileList, userId: string): Promise<User> {
 
 function uploadRevisionImage(
   file: FileList,
-  projectId: string
-): Promise<Project> {
-  return new Promise((resolve, reject) => {
-    const endpoint =
-      'http://localhost:8080/api/upload/image/revision?revisionId=' + projectId;
+  projectId: string,
+  username: string,
+  revisionNumber: number
+) {
+  const endpoint = `http://localhost:8080/api/upload/image/revision?user=${username}&revisionNumber=${revisionNumber}`;
 
-    var formData = new FormData();
-    for (var i = 0; i < file.length; i++) {
-      formData.append('image', file![i]);
-    }
+  var formData = new FormData();
+  for (var i = 0; i < file.length; i++) {
+    formData.append('image', file![i]);
+  }
 
-    var data: object = {
-      body: formData,
-      method: 'POST',
-      credentials: 'include'
-    };
+  var data: object = {
+    body: formData,
+    method: 'POST',
+    credentials: 'include'
+  };
 
+  return (
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
@@ -594,12 +595,12 @@ function uploadRevisionImage(
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'Successfully saved revision image') {
-          resolve(res.revision);
+          return res.revision;
         } else {
-          reject(res.error);
+          return res.error;
         }
-      });
-  });
+      })
+  );
 }
 
 function downloadProjectImageURLS(projectId: string): Promise<string[]> {
@@ -762,6 +763,13 @@ function saveMarker(revisionId: string, marker: Marker) {
       return response.data.marker;
     });
 }
+function deleteMarker(markerId: string) {
+  return axios
+    .delete(`http://localhost:8080/api/projects/revision/marker/${markerId}`)
+    .then(response => {
+      return response.data.marker;
+    });
+}
 
 function updateMarkerPosition(id: string, x: string, y: string) {
   console.log('updating marker position...');
@@ -781,6 +789,16 @@ function updateMarkerDimensions(id: string, width: string, height: string) {
     .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
       width,
       height
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function resolveMarker(id: string) {
+  return axios
+    .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
+      isResolved: true
     })
     .then(response => {
       return response.data.marker;
@@ -812,6 +830,26 @@ function addMarkerComment(markerId: string, username: string, message: string) {
     });
 }
 
+function addRevision(
+  projectId: string,
+  finalVersion: number,
+  imageURL: string,
+  creator: string,
+  description: string
+) {
+  return axios
+    .post(`http://localhost:8080/api/projects/${projectId}/revision`, {
+      revisionNumber: 'string',
+      finalVersion: true,
+      imageURL: '',
+      creator: '',
+      description: ''
+    })
+    .then(response => {
+      console.log(response);
+    });
+}
+
 /* Service Module */
 var apiService = {
   login,
@@ -827,8 +865,10 @@ var apiService = {
   getMarkerComments,
   addMarkerComment,
   saveMarker,
+  deleteMarker,
   updateMarkerPosition,
   updateMarkerDimensions,
+  resolveMarker,
   getOneProject,
   deleteProject,
   getTags,
@@ -839,7 +879,8 @@ var apiService = {
   downloadProjectImageURLS,
   userSettingsUpdate,
   updateProject,
-  uploadRevisionImage
+  uploadRevisionImage,
+  addRevision
 };
 
 export default apiService;
