@@ -20,10 +20,26 @@ module.exports = function(passport) {
       query = delete query.searchTerm;
       query = Object.assign({}, query, {
         $or: [
-          { name: { $regex: queryToRegex } },
-          { description: { $regex: queryToRegex } },
-          { category: { $regex: queryToRegex } },
-          { tags: { $regex: queryToRegex } }
+          {
+            name: {
+              $regex: queryToRegex
+            }
+          },
+          {
+            description: {
+              $regex: queryToRegex
+            }
+          },
+          {
+            category: {
+              $regex: queryToRegex
+            }
+          },
+          {
+            tags: {
+              $regex: queryToRegex
+            }
+          }
         ]
       });
     }
@@ -35,7 +51,9 @@ module.exports = function(passport) {
       options,
       function(err, result) {
         if (err) {
-          return res.json({ error: 'Error retrieving project: ' + err });
+          return res.json({
+            error: 'Error retrieving project: ' + err
+          });
         } else {
           res.json({
             projects: result,
@@ -48,45 +66,64 @@ module.exports = function(passport) {
 
   // retrieves project by id
   router.get('/:id', function(req, res) {
-    Project.findOne({ _id: req.params.id }, function(err, project) {
-      if (err || !project) {
-        res.json({ error: 'Error in retrieving project: ' + err });
-      } else {
-        res.json({
-          message: 'Successfully retrieved project',
-          project: project
-        });
+    Project.findOne(
+      {
+        _id: req.params.id
+      },
+      function(err, project) {
+        if (err || !project) {
+          res.json({
+            error: 'Error in retrieving project: ' + err
+          });
+        } else {
+          res.json({
+            message: 'Successfully retrieved project',
+            project: project
+          });
+        }
       }
-    });
+    );
   });
 
   // get team thumbnails
   router.get('/:id/team/thumbnails', function(req, res) {
-    UserDetails.find({ projects: { $in: [req.params.id] } }, function(
-      err,
-      userDetails
-    ) {
-      if (err) {
-        console.log(err);
-      } else {
-        var usernames = userDetails.map(userdetail => {
-          return userdetail.username;
-        });
-        User.find({ username: { $in: usernames } }, function(err, user) {
-          if (err) {
-            console.log(err);
-          } else {
-            var thumbnailsURLs = user.map(data => {
-              return data.profileImage;
-            });
-            res.json({
-              message: 'Team successfully found for project ' + req.params.id,
-              thumbnailsURLs
-            });
-          }
-        });
+    UserDetails.find(
+      {
+        projects: {
+          $in: [req.params.id]
+        }
+      },
+      function(err, userDetails) {
+        if (err) {
+          console.log(err);
+        } else {
+          var usernames = userDetails.map(userdetail => {
+            return userdetail.username;
+          });
+          User.find(
+            {
+              username: {
+                $in: usernames
+              }
+            },
+            function(err, user) {
+              if (err) {
+                console.log(err);
+              } else {
+                var thumbnailsURLs = user.map(data => {
+                  return data.profileImage;
+                });
+                res.json({
+                  message:
+                    'Team successfully found for project ' + req.params.id,
+                  thumbnailsURLs
+                });
+              }
+            }
+          );
+        }
       }
-    });
+    );
   });
 
   // TODO: Add authorization and validation
@@ -111,16 +148,22 @@ module.exports = function(passport) {
 
   // get comments for a project
   router.get('/:id/comments', function(req, res) {
-    Comment.find({ project: req.params.id }, function(err, comments) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({
-          message: 'Comment successfully retreived for poject ' + req.params.id,
-          comments
-        });
+    Comment.find(
+      {
+        project: req.params.id
+      },
+      function(err, comments) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message:
+              'Comment successfully retreived for poject ' + req.params.id,
+            comments
+          });
+        }
       }
-    });
+    );
   });
 
   // TODO: Add authorization and validation
@@ -148,22 +191,47 @@ module.exports = function(passport) {
 
   // get revisions for a project
   router.get('/:id/revisions', function(req, res) {
-    Revision.find({ project: req.params.id }, function(err, revisions) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({
-          message:
-            'Revisions successfully retrieved for project ' + req.params.id,
-          revisions
-        });
+    Revision.find(
+      {
+        project: req.params.id
+      },
+      function(err, revisions) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message:
+              'Revisions successfully retrieved for project ' + req.params.id,
+            revisions
+          });
+        }
       }
-    });
+    );
+  });
+
+  // get revision for a project
+  router.get('/revision/:revisionId', function(req, res) {
+    Revision.findOne(
+      {
+        _id: req.params.revisionId
+      },
+      function(err, revision) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message:
+              'Revision successfully retrieved for project ' + req.params.id,
+            revision
+          });
+        }
+      }
+    );
   });
 
   // TODO: Add authorization and validation
   // add marker to a revision
-  router.post('/:id/revision/:revisionId/marker', function(req, res) {
+  router.post('/revision/:revisionId/marker', function(req, res) {
     var marker = new Marker({
       type: req.body.type,
       creator: req.body.username,
@@ -180,66 +248,96 @@ module.exports = function(passport) {
       } else {
         res.json({
           message:
-            'Marker successfully added to revision ' + req.params.revisionId
+            'Marker successfully added to revision ' + req.params.revisionId,
+          marker
         });
       }
     });
   });
 
   // get markers for revisions
-  router.get('/:id/revision/:revisionId/markers', function(req, res) {
-    Marker.find({ revision: req.params.revisionId }, function(err, markers) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({
-          message:
-            'Markers successfully retrieved for revision ' +
-            req.params.revisionId,
-          markers
-        });
+  router.get('/revision/:revisionId/markers', function(req, res) {
+    Marker.find(
+      {
+        revision: req.params.revisionId
+      },
+      function(err, markers) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message:
+              'Markers successfully retrieved for revision ' +
+              req.params.revisionId,
+            markers
+          });
+        }
       }
-    });
+    );
+  });
+
+  // update marker positions
+  router.put('/revision/marker/:markerId', function(req, res) {
+    Marker.findOneAndUpdate(
+      {
+        _id: req.params.markerId
+      },
+      req.body,
+      function(err, marker) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message: `Marker ${req.params.markerId} successfully updated`,
+            marker
+          });
+        }
+      }
+    );
   });
 
   // TODO: Add authorization and validation
   // add comment to marker
-  router.post('/:id/revision/:revisionId/marker/:markerId/comment', function(
-    req,
-    res
-  ) {
+  router.post('/revision/marker/:markerId/comment', function(req, res) {
     var comment = new Comment({
-      creator: req.body.username,
+      creator: req.body.creator,
       comment: req.body.comment,
       marker: req.params.markerId
     });
 
     comment.save(function(err) {
+      console.log(req.body);
+      console.log(comment);
       if (err) {
         console.log(err);
       } else {
         res.json({
-          message: 'Comment successfully added to marker ' + req.params.markerId
+          message:
+            'Comment successfully added to marker ' + req.params.markerId,
+          comment
         });
       }
     });
   });
 
   // get comments for a marker
-  router.get('/:id/revision/:revisionId/markers/:markerId/comments', function(
-    req,
-    res
-  ) {
-    Comment.find({ marker: req.params.markerId }, function(err, comments) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({
-          message: 'Comment successfully retreived for marker ' + req.params.id,
-          comments
-        });
+  router.get('/revision//markers/:markerId/comments', function(req, res) {
+    Comment.find(
+      {
+        marker: req.params.markerId
+      },
+      function(err, comments) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json({
+            message:
+              'Comment successfully retreived for marker ' + req.params.id,
+            comments
+          });
+        }
       }
-    });
+    );
   });
 
   return router;

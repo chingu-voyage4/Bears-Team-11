@@ -212,3 +212,9 @@ export interface SettingsPageProps {
   user: User;
   uploadProfileImage: uploadProfileImage_fntype;
 }
+
+export interface UserProfileProps {
+  user: User;
+  projects: Array<Project> | Project;
+  getProjects: getProjects_fntype;
+}
