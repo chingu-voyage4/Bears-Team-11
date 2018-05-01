@@ -57,9 +57,9 @@ class Redline extends React.Component<
 
   shouldDisableToolBar = () => {
     if (this.props.user._id) {
-      return this.props.user.projects.some(
-        (projectId: any) => projectId === this.getURLParams().projectId
-      );
+      return !this.props.user.projects.some((projectId: any) => {
+        return projectId === this.getURLParams().projectId;
+      });
     } else {
       return true;
     }
