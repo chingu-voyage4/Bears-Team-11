@@ -37,7 +37,7 @@ class CommentBox extends React.Component<
   componentDidMount() {
     axios
       .get(
-        `http://localhost:8080/api/projects/revision//markers/${
+        `http://localhost:8080/api/projects/revision/markers/${
           this.props.markerId
         }/comments`
       )

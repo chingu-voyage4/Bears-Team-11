@@ -873,7 +873,7 @@ function resolveMarker(id: string) {
 function getMarkerComments(markerId: string) {
   return axios
     .get(
-      `http://localhost:8080/api/projects/revision//markers/${markerId}/comments`
+      `http://localhost:8080/api/projects/revision/markers/${markerId}/comments`
     )
     .then(response => {
       return response.data.comments;
