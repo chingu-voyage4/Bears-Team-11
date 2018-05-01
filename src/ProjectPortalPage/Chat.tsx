@@ -40,6 +40,15 @@ class Chat extends React.PureComponent<
     }
   };
 
+  handleClickSend = (e: any) => {
+    e.preventDefault();
+    if (
+      this.props.user.projects.some((id: string) => id === this.props.projectId)
+    ) {
+      this.addComment(this.state.message);
+    }
+  };
+
   handleChange = (e: any) => {
     this.setState({ message: e.currentTarget.value });
   };
@@ -101,7 +110,7 @@ class Chat extends React.PureComponent<
                 (id: string) => id === this.props.projectId
               )
                 ? 'Type something...'
-                : 'You must be a part of this project...'
+                : 'You must be a part of this team...'
             }
             onKeyPress={this.handleSubmit}
             onChange={this.handleChange}
@@ -114,7 +123,7 @@ class Chat extends React.PureComponent<
                 : true
             }
           />
-          <a className="message-send">
+          <a className="message-send" onClick={this.handleClickSend}>
             <i className="far fa-paper-plane" />
           </a>
         </div>
