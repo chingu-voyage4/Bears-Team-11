@@ -17,7 +17,8 @@ class Register extends React.Component<RegisterProps, RegisterState> {
       lastName: '',
       email: '',
       password: '',
-      username: ''
+      username: '',
+      shouldRedirect: false
     };
   }
 
@@ -43,10 +44,17 @@ class Register extends React.Component<RegisterProps, RegisterState> {
       );
     };
 
+    var redirect = () => {
+      this.setState({ shouldRedirect: true }, () => {
+        console.log(this.state.shouldRedirect);
+      });
+    };
+
     async function submitThenRedirect() {
       await submitRegistration();
-      return <Redirect from="/" to="/user/settings" />;
+      return redirect();
     }
+
     submitThenRedirect();
   }
 
@@ -56,6 +64,9 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   };
 
   render() {
+    if (this.state.shouldRedirect) {
+      return <Redirect from="/" push={true} to="/user/settings" />;
+    }
     return (
       <div className="registerPopupScreen">
         <form className="register-form">

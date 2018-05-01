@@ -2,8 +2,8 @@ import * as React from 'react';
 import '../styles/RecentProjects.css';
 import Projects from '../Project/Projects';
 import { Link } from 'react-router-dom';
-import { Store, RecentProjectsProps } from '../types/Redux';
-import { connect } from 'react-redux';
+import { Store, RecentProjectsProps, Action } from '../types/Redux';
+import { connect, Dispatch } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
 class RecentProjects extends React.Component<RecentProjectsProps, {}> {
   constructor(props: RecentProjectsProps) {
@@ -41,6 +41,12 @@ const mapStateToProps = (state: Store) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  getProjects
-})(RecentProjects);
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    getProjects: (options: object, query: object | null) => {
+      return dispatch(getProjects(options, query));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecentProjects);

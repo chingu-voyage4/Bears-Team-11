@@ -1,11 +1,11 @@
 import * as React from 'react';
 import '../styles/ProjectsPage.css';
 import { ProjectFilterState } from '../types/ProjectsFilter.d';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { getProjects, searchProjects } from '../actions/projectActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
-import { ProjectPageFilterProps, Store } from '../types/Redux';
+import { ProjectPageFilterProps, Store, Action } from '../types/Redux';
 
 class ProjectsFilter extends React.Component<
   ProjectPageFilterProps,
@@ -531,9 +531,16 @@ function mapStateToProps(state: Store) {
     searchResults: state.searchResults
   };
 }
-export default connect(mapStateToProps, {
-  getCategories,
-  getTags,
-  getProjects,
-  searchProjects
-})(ProjectsFilter);
+
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    getProjects: (options: object, query: object | null) => {
+      return dispatch(getProjects(options, query));
+    },
+    getCategories: getCategories,
+    getTags: getTags,
+    searchProjects: searchProjects
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsFilter);
