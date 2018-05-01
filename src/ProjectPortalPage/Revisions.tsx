@@ -106,9 +106,7 @@ class Revisions extends React.PureComponent<
           </a>
         </div>
         <div className="revisions-list">{this.displayRevisions()}</div>
-        {this.state.isLoading ? (
-          <div className="new-project-image-loader" />
-        ) : null}
+        {this.state.isLoading ? <div className="loader" /> : null}
       </React.Fragment>
     );
   }
