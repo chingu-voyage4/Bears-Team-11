@@ -1,5 +1,5 @@
 var express = require('express');
-
+var mongoose = require('mongoose');
 var multer = require('multer');
 var multerS3 = require('multer-s3');
 // credentials from aws
@@ -147,7 +147,8 @@ router.post('/revision', function(req, res) {
 
   var revision = new Revisions({
     revisionNumber: req.query.revisionNumber,
-    creator: req.query.user
+    creator: req.query.user,
+    project: mongoose.Types.ObjectId(req.query.projectId)
   });
 
   revision.save(function(err) {

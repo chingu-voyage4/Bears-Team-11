@@ -52,9 +52,15 @@ class Revisions extends React.PureComponent<
         this.props.username,
         this.state.revisions.length + 1
       )
-      .then(res => {
-        this.setState({ isLoading: false });
-        console.log(res);
+      .then(revision => {
+        this.setState(prevState => {
+          var newRevisions = prevState.revisions.slice();
+          newRevisions.push(revision);
+          return {
+            isLoading: false,
+            revisions: newRevisions
+          };
+        });
       });
   };
 
