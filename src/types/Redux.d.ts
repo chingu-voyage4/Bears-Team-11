@@ -232,3 +232,8 @@ export interface ReadyToTryProps {
   visibleRegisterWindow: boolean;
   showRegisterWindow: showRegisterWindow_fntype;
 }
+
+export interface PersonalDetailsProps {
+  user: User;
+  userPrivateSettingsUpdate: userPrivateSettingsUpdate_fntype;
+}
