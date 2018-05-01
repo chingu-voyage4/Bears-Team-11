@@ -12,7 +12,7 @@ import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
 import PublicProfile from './PublicProfile/PublicProfile';
 import Redline from './Redline';
-import ProjectPortalPage from './ProjectPortalPage/ProjectPortalPage';
+import ProjectPortalPage from './ProjectPortalPage';
 import { HYDRATE_USER } from './actions/actionTypes';
 
 const store = createStore(
