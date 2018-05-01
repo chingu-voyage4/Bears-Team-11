@@ -40,10 +40,10 @@ class PublicProfile extends React.Component<UserProfileProps, {}> {
           'twitterLink',
           'blogLink'
         ];
-        renderedLinks = linkNames.map((link: string) => {
+        renderedLinks = linkNames.map((link: string, index: number) => {
           if (user[link] !== '') {
             return (
-              <a href={user[link]}>
+              <a href={user[link]} key={'user-links-' + index}>
                 <img
                   className="public-profile-link-icons"
                   src={imageLinks[link]}
