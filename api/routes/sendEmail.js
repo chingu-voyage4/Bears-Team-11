@@ -5,7 +5,7 @@ var nodemailer = require('nodemailer');
 router.post('/', function(req, res) {
   let link = req.body.link;
   let to = req.body.email;
-  let sender = req.body.user;
+  let sender = req.body.username;
   let projectName = req.body.projectName;
   let projectId = req.body.projectId;
   let interestedParty = req.body.username;
@@ -30,7 +30,7 @@ router.post('/', function(req, res) {
     if (err) {
       res.json({ error: err.message });
     }
-    res.json('Success!');
+    res.json({ success: 'Success!' });
   });
 });
 
