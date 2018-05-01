@@ -120,7 +120,7 @@ export interface ProjectProps {
 
 export interface AddProjectProps {
   user: User;
-  projects: Project;
+  projects: Project | Array<Project>;
   categories: Categories | any;
   tags: Tags | any;
   allUsers: Users;

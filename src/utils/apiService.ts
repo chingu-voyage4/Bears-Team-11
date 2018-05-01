@@ -308,6 +308,69 @@ function userSettingsUpdate(
   });
 }
 
+function userPrivateSettingsUpdate(
+  firstName: string,
+  lastName: string,
+  // username: string,
+  email: string,
+  // password: string,
+  userId: string
+): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/update/personal';
+    var data: object = {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        // username: username,
+        email: email,
+        // password: password,
+        userId: userId
+      })
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.message === 'Successfully updated user personal details') {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
 function logout() {
   return axios.get('http://localhost:8080/api/logout').then(response => {
     return null;
@@ -882,7 +945,8 @@ var apiService = {
   userSettingsUpdate,
   updateProject,
   uploadRevisionImage,
-  addRevision
+  addRevision,
+  userPrivateSettingsUpdate
 };
 
 export default apiService;

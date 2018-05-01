@@ -22,7 +22,8 @@ var categoryRoute = require('./routes/category');
 var uploadImagesRoute = require('./routes/upload');
 var downloadImagesRoute = require('./routes/download');
 var imageRoute = require('./routes/image');
-var userRoute = require('./routes/users');
+var userRoute = require('./routes/users')(passport);
+var userUpdateRoute = require('./routes/user_update')(passport);
 var multer = require('multer');
 var multerS3 = require('multer-s3');
 
@@ -68,6 +69,8 @@ initPassport(passport);
 app.use('/api', routes);
 app.use('/api/forgot', forgetPasswordRout);
 app.use('/api/reset', passwordResetRout);
+app.use('/api/user/update', userUpdateRoute);
+app.use('/api/user', userRoute);
 app.use('/api/projects/tags', tagRoute);
 app.use('/api/projects/categories', categoryRoute);
 app.use('/api/projects', projectsRoute);
@@ -76,7 +79,6 @@ app.use('/api/projects/update', projectsUpdateRoute);
 app.use('/api/projects/delete', projectsDeleteRoute);
 app.use('/api/upload/image', imageRoute);
 app.use('/api/download', downloadImagesRoute);
-app.use('/api/user', userRoute);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
