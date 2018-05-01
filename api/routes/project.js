@@ -235,7 +235,7 @@ module.exports = function(passport) {
   router.post('/revision/:revisionId/marker', function(req, res) {
     var marker = new Marker({
       type: req.body.type,
-      creator: req.body.username,
+      creator: req.body.creator,
       revision: req.params.revisionId,
       x: req.body.x,
       y: req.body.y,

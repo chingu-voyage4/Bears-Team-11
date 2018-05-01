@@ -13,6 +13,7 @@ import {
 } from '../actions/markerActions';
 import { Store } from '../types/Redux';
 import { Marker } from '../types/Marker';
+import { User } from '../types/User';
 
 declare global {
   interface Window {
@@ -26,6 +27,7 @@ class AnnotationLayer extends React.Component<{
   revisionId: string;
   projectId: string;
   markers: Array<Marker>;
+  user: User;
   addMarker: any;
   getMarkers: any;
   moveMarker: any;
@@ -85,7 +87,8 @@ class AnnotationLayer extends React.Component<{
         marker = {
           x: e.pageX - left - 21,
           y: e.pageY - top - 21,
-          type: 'circle'
+          type: 'circle',
+          creator: this.props.user.username
         };
         this.saveMarker(marker);
         break;
@@ -96,7 +99,8 @@ class AnnotationLayer extends React.Component<{
           y: e.pageY - top - 50,
           width: 100,
           height: 100,
-          type: 'rectangle'
+          type: 'rectangle',
+          creator: this.props.user.username
         };
         this.saveMarker(marker);
         break;
@@ -106,7 +110,11 @@ class AnnotationLayer extends React.Component<{
   };
 
   saveMarker = (marker: Marker) => {
-    this.props.addMarker(this.props.revisionId, marker);
+    this.props.addMarker(
+      this.props.revisionId,
+      marker,
+      this.props.user.username
+    );
     this.props.onMarkerAdd();
   };
 
@@ -190,27 +198,33 @@ class AnnotationLayer extends React.Component<{
 
   makeInteractive = () => {
     this.props.markers.forEach((marker: any) => {
-      this.makeDraggable(marker._id);
-      if (marker.type === 'rectangle') {
-        this.makeResizeable(marker._id);
+      if (marker.creator === this.props.user.username) {
+        this.makeDraggable(marker._id);
+        if (marker.type === 'rectangle') {
+          this.makeResizeable(marker._id);
+        }
       }
     });
   };
 
   enableInteractivity = () => {
     this.props.markers.forEach((marker: any) => {
-      this.enableDrag(marker._id);
-      if (marker.type === 'rectangle') {
-        this.enableResize(marker._id);
+      if (marker.creator === this.props.user.username) {
+        this.enableDrag(marker._id);
+        if (marker.type === 'rectangle') {
+          this.enableResize(marker._id);
+        }
       }
     });
   };
 
   disableInteractivity = () => {
     this.props.markers.forEach((marker: any) => {
-      this.disableDrag(marker._id);
-      if (marker.type === 'rectangle') {
-        this.disableResize(marker._id);
+      if (marker.creator === this.props.user.username) {
+        this.disableDrag(marker._id);
+        if (marker.type === 'rectangle') {
+          this.disableResize(marker._id);
+        }
       }
     });
   };
@@ -286,7 +300,8 @@ class AnnotationLayer extends React.Component<{
 
 function mapStateToProps(state: Store, ownProps: any) {
   return {
-    markers: state.markers
+    markers: state.markers,
+    user: state.user
   };
 }
 
