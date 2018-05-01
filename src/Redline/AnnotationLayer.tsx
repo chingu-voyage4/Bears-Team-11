@@ -81,33 +81,39 @@ class AnnotationLayer extends React.Component<{
   };
 
   addMarker = (e: any) => {
-    var marker: any;
-    var { left, top } = e.target.getBoundingClientRect();
+    if (
+      this.props.user.projects!.some(
+        projectId => projectId === this.props.projectId
+      )
+    ) {
+      var marker: any;
+      var { left, top } = e.target.getBoundingClientRect();
 
-    switch (this.props.tool) {
-      case 'circle':
-        marker = {
-          x: e.pageX - left - 21,
-          y: e.pageY - top - 21,
-          type: 'circle',
-          creator: this.props.user.username
-        };
-        this.saveMarker(marker);
-        break;
-      case 'rectangle':
-        // center the cursor
-        marker = {
-          x: e.pageX - left - 50,
-          y: e.pageY - top - 50,
-          width: 100,
-          height: 100,
-          type: 'rectangle',
-          creator: this.props.user.username
-        };
-        this.saveMarker(marker);
-        break;
-      default:
-        break;
+      switch (this.props.tool) {
+        case 'circle':
+          marker = {
+            x: e.pageX - left - 21,
+            y: e.pageY - top - 21,
+            type: 'circle',
+            creator: this.props.user.username
+          };
+          this.saveMarker(marker);
+          break;
+        case 'rectangle':
+          // center the cursor
+          marker = {
+            x: e.pageX - left - 50,
+            y: e.pageY - top - 50,
+            width: 100,
+            height: 100,
+            type: 'rectangle',
+            creator: this.props.user.username
+          };
+          this.saveMarker(marker);
+          break;
+        default:
+          break;
+      }
     }
   };
 
