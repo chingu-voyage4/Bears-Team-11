@@ -537,9 +537,15 @@ function mapDispatchToProps(dispatch: Dispatch<Action>) {
     getProjects: (options: object, query: object | null) => {
       return dispatch(getProjects(options, query));
     },
-    getCategories: getCategories,
-    getTags: getTags,
-    searchProjects: searchProjects
+    getCategories: () => {
+      return dispatch(getCategories());
+    },
+    getTags: () => {
+      return dispatch(getTags());
+    },
+    searchProjects: (query: string | null) => {
+      return dispatch(searchProjects(query));
+    }
   };
 }
 

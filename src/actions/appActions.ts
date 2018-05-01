@@ -1,9 +1,15 @@
 import { SHOW_REGISTER_WINDOW, SHOW_LOGIN_WINDOW } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import { AppAction } from '../types/Redux';
+import { Action } from '../types/Redux';
 
+/*
+==========================
+REGISTER WINDOW VISIBILITY
+==========================
+*/
 export type showRegisterWindow_fntype = () => (
-  dispatch: Dispatch<AppAction>
+  dispatch: Dispatch<Action>
 ) => void;
 
 export function showRegisterWindow(): (dispatch: Dispatch<AppAction>) => void {
@@ -13,10 +19,12 @@ export function showRegisterWindow(): (dispatch: Dispatch<AppAction>) => void {
     });
   };
 }
-
-export type showLoginWindow_fntype = () => (
-  dispatch: Dispatch<AppAction>
-) => void;
+/*
+==========================
+LOGIN WINDOW VISIBILITY
+==========================
+*/
+export type showLoginWindow_fntype = () => (dispatch: Dispatch<Action>) => void;
 
 export function showLoginWindow(): (dispatch: Dispatch<AppAction>) => void {
   return dispatch => {

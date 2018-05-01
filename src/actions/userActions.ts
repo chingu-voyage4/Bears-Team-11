@@ -4,8 +4,6 @@ import {
   LOGIN,
   REGISTER,
   LOGOUT,
-  LOGIN_ERROR,
-  REGISTER_ERROR,
   LOGOUT_ERROR,
   GET_ALL_USERS,
   GET_ALL_USERS_ERROR,
@@ -21,31 +19,24 @@ import { UserAction, Action } from '../types/Redux';
 LOGIN
 ==========================
 */
-export type login_fntype = (
+async function loginWithDispatchAsync(
+  dispatchType: any,
+  dispatch: Dispatch<Action>,
   email: string,
   password: string
-) => (dispatch: Dispatch<UserAction>) => void;
+): Promise<void> {
+  var user = await apiService.login(email, password);
+  dispatch({ type: dispatchType, data: user });
+}
+
+export type login_fntype = (email: string, password: string) => Promise<void>;
 
 export function login(
   email: string,
   password: string
-): (dispatch: Dispatch<UserAction>) => void {
+): (dispatch: Dispatch<UserAction>) => Promise<void> {
   return dispatch => {
-    return apiService
-      .login(email, password)
-      .then(user => {
-        localStorage.setItem('user', JSON.stringify(user));
-        return dispatch({
-          type: LOGIN,
-          data: user
-        });
-      })
-      .catch(error => {
-        return dispatch({
-          type: LOGIN_ERROR,
-          error: 'Invalid email and/or password.'
-        });
-      });
+    return loginWithDispatchAsync(LOGIN, dispatch, email, password);
   };
 }
 /*
@@ -83,13 +74,32 @@ export function googleLogin(
 REGISTER
 ==========================
 */
+
+async function registerWithDispatchAsync(
+  dispatchType: any,
+  dispatch: Dispatch<Action>,
+  firstName: string,
+  lastName: string,
+  username: string,
+  email: string,
+  password: string
+): Promise<void> {
+  var user = await apiService.register(
+    firstName,
+    lastName,
+    username,
+    email,
+    password
+  );
+  dispatch({ type: dispatchType, data: user });
+}
 export type register_fntype = (
   firstName: string,
   lastName: string,
   username: string,
   email: string,
   password: string
-) => (dispatch: Dispatch<UserAction>) => void;
+) => Promise<void>;
 
 export function register(
   firstName: string,
@@ -97,23 +107,17 @@ export function register(
   username: string,
   email: string,
   password: string
-): (dispatch: Dispatch<UserAction>) => void {
+): (dispatch: Dispatch<UserAction>) => Promise<void> {
   return dispatch => {
-    return apiService
-      .register(firstName, lastName, username, email, password)
-      .then(user => {
-        localStorage.setItem('user', JSON.stringify(user));
-        return dispatch({
-          type: REGISTER,
-          data: user
-        });
-      })
-      .catch(error => {
-        return dispatch({
-          type: REGISTER_ERROR,
-          error
-        });
-      });
+    return registerWithDispatchAsync(
+      REGISTER,
+      dispatch,
+      firstName,
+      lastName,
+      username,
+      email,
+      password
+    );
   };
 }
 /*

@@ -100,7 +100,9 @@ function mapDispatchToProps(dispatch: Dispatch<Action>) {
     getProjects: (options: object, query: object | null) => {
       return dispatch(getProjects(options, query));
     },
-    searchProjects: searchProjects
+    searchProjects: (query: string | null) => {
+      return dispatch(searchProjects(query));
+    }
   };
 }
 

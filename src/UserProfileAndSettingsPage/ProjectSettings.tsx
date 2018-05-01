@@ -65,7 +65,9 @@ function mapDispatchToProps(dispatch: Dispatch<Action>) {
     getProjects: (options: object, query: object | null) => {
       return dispatch(getProjects(options, query));
     },
-    deleteProject: deleteProject
+    deleteProject: (id: string) => {
+      return dispatch(deleteProject(id));
+    }
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectSettings);

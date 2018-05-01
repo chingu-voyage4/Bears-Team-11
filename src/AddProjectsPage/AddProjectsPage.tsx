@@ -904,9 +904,15 @@ function mapDispatchToProps(dispatch: Dispatch<Action>) {
     addOrUpdateProject: (project: any, files: FileList) => {
       return dispatch(addOrUpdateProject(project, files));
     },
-    getAllUsers: getAllUsers,
-    getCategories: getCategories,
-    getTags: getTags,
+    getAllUsers: () => {
+      return dispatch(getAllUsers());
+    },
+    getCategories: () => {
+      return dispatch(getCategories());
+    },
+    getTags: () => {
+      return dispatch(getTags());
+    },
     getOneProject: (id: string) => {
       return dispatch(getOneProject(id));
     },

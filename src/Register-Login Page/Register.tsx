@@ -1,13 +1,16 @@
 import * as React from 'react';
-import { RegisterState } from '../types/Register.d';
-import { RegisterProps } from '../types/Redux.d';
-import { register } from '../actions/userActions';
-import { connect } from 'react-redux';
-import '../styles/Register-Login.css';
-import GoogleSignIn from '../GoogleSignIn';
-import { showRegisterWindow } from '../actions/appActions';
+import { connect, Dispatch } from 'react-redux';
 import { Store } from '../types/Redux';
 import { Redirect } from 'react-router';
+
+import { RegisterState } from '../types/Register.d';
+import { RegisterProps, Action } from '../types/Redux.d';
+import { register } from '../actions/userActions';
+import { showRegisterWindow } from '../actions/appActions';
+
+import GoogleSignIn from '../GoogleSignIn';
+
+import '../styles/Register-Login.css';
 
 class Register extends React.Component<RegisterProps, RegisterState> {
   constructor(props: RegisterProps) {
@@ -26,7 +29,6 @@ class Register extends React.Component<RegisterProps, RegisterState> {
     var { name, value } = e.currentTarget;
     this.setState({
       [name]: value
-      // tslint:disable-next-line
     } as any);
   }
 
@@ -34,28 +36,13 @@ class Register extends React.Component<RegisterProps, RegisterState> {
     e.preventDefault();
     const { firstName, lastName, username, email, password } = this.state;
 
-    var submitRegistration = () => {
-      return this.props.register(
-        firstName,
-        lastName,
-        username,
-        email,
-        password
-      );
-    };
-
-    var redirect = () => {
-      this.setState({ shouldRedirect: true }, () => {
-        console.log(this.state.shouldRedirect);
+    this.props
+      .register(firstName, lastName, username, email, password)
+      .then(() => {
+        this.setState({ shouldRedirect: true }, () => {
+          console.log(this.state.shouldRedirect);
+        });
       });
-    };
-
-    async function submitThenRedirect() {
-      await submitRegistration();
-      return redirect();
-    }
-
-    submitThenRedirect();
   }
 
   windowVisibility = (e: React.MouseEvent<HTMLButtonElement>): void => {
@@ -162,7 +149,22 @@ function mapStateToProps(state: Store) {
     visibleRegisterWindow: state.registerLoginWindow.visibleRegisterWindow
   };
 }
-export default connect(mapStateToProps, {
-  register,
-  showRegisterWindow
-})(Register);
+
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    register: (
+      firstName: string,
+      lastName: string,
+      username: string,
+      email: string,
+      password: string
+    ) => {
+      return dispatch(register(firstName, lastName, username, email, password));
+    },
+    showRegisterWindow: () => {
+      return dispatch(showRegisterWindow());
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

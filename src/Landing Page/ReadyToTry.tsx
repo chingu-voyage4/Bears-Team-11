@@ -1,8 +1,8 @@
 import * as React from 'react';
 import '../styles/ReadyToTry.css';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { showRegisterWindow } from '../actions/appActions';
-import { Store, ReadyToTryProps } from '../types/Redux';
+import { Store, ReadyToTryProps, Action } from '../types/Redux';
 
 class ReadyToTry extends React.Component<ReadyToTryProps, {}> {
   constructor(props: ReadyToTryProps) {
@@ -33,4 +33,12 @@ function mapStateToProps(state: Store) {
   };
 }
 
-export default connect(mapStateToProps, { showRegisterWindow })(ReadyToTry);
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    showRegisterWindow: () => {
+      return dispatch(showRegisterWindow());
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReadyToTry);

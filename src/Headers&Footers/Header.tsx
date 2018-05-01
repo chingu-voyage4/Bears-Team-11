@@ -4,9 +4,9 @@ import { HeaderState } from '../types/Header.d';
 import Login from '../Register-Login Page/Login';
 import Register from '../Register-Login Page/Register';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { showRegisterWindow, showLoginWindow } from '../actions/appActions';
-import { Store, HeaderProps } from '../types/Redux';
+import { Store, HeaderProps, Action } from '../types/Redux';
 
 class Header extends React.Component<HeaderProps, HeaderState> {
   constructor(props: HeaderProps) {
@@ -61,7 +61,15 @@ function mapStateToProps(state: Store) {
   };
 }
 
-export default connect(mapStateToProps, {
-  showRegisterWindow,
-  showLoginWindow
-})(Header);
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    showLoginWindow: () => {
+      return dispatch(showLoginWindow());
+    },
+    showRegisterWindow: () => {
+      return dispatch(showRegisterWindow());
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
