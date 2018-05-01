@@ -311,9 +311,9 @@ function userSettingsUpdate(
 function userPrivateSettingsUpdate(
   firstName: string,
   lastName: string,
-  username: string,
+  // username: string,
   email: string,
-  password: string,
+  // password: string,
   userId: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
@@ -327,9 +327,9 @@ function userPrivateSettingsUpdate(
       body: JSON.stringify({
         firstName: firstName,
         lastName: lastName,
-        username: username,
+        // username: username,
         email: email,
-        password: password,
+        // password: password,
         userId: userId
       })
     };
