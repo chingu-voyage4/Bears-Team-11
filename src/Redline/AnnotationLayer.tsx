@@ -155,7 +155,6 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <div className="annotation-initials">{creator}</div>
         <CommentBox
           key={id}
           markerId={id}
@@ -164,6 +163,7 @@ class AnnotationLayer extends React.Component<{
           resolveMarker={this.resolveMarker}
           isResolved={isResolved}
         />
+        <div className="annotation-initials">{creator}</div>
       </div>
     );
   };
@@ -183,7 +183,6 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <div className="annotation-initials">{creator}</div>
         <CommentBox
           key={id}
           markerId={id}
@@ -192,6 +191,7 @@ class AnnotationLayer extends React.Component<{
           resolveMarker={this.resolveMarker}
           isResolved={isResolved}
         />
+        <div className="annotation-initials">{creator}</div>
       </div>
     );
   };
