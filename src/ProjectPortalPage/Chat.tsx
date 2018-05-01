@@ -30,6 +30,8 @@ class Chat extends React.PureComponent<
         this.setState({
           comments
         });
+
+        this.scrollToBottom();
       });
   }
   handleSubmit = (e: any) => {
@@ -52,7 +54,6 @@ class Chat extends React.PureComponent<
         }
       )
       .then(response => {
-        console.log(response);
         this.setState(prevState => {
           var comments = prevState.comments.slice();
           comments.push(response.data.comment);
@@ -60,6 +61,8 @@ class Chat extends React.PureComponent<
             comments
           };
         });
+
+        this.scrollToBottom();
       });
   };
 
@@ -75,10 +78,16 @@ class Chat extends React.PureComponent<
       );
     });
   };
+
+  scrollToBottom = () => {
+    var messages = document.getElementById('messages');
+    messages!.scrollTop = messages!.scrollHeight;
+  };
+
   render() {
     return (
       <React.Fragment>
-        <div className="messages">
+        <div id="messages" className="messages">
           {this.state.comments.length > 0
             ? this.displayMessages()
             : 'No messages'}

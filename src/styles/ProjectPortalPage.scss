@@ -198,8 +198,8 @@ MESSAGE
 */
 .message {
   display: flex;
-  align-items: center;
   padding: 5px 0;
+  flex-direction: column;
   color: $dark-grey;
 }
 
