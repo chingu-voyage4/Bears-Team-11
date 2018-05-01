@@ -61,7 +61,8 @@ class AnnotationLayer extends React.Component<{
             annotation._id,
             annotation.x,
             annotation.y,
-            annotation.isResolved
+            annotation.isResolved,
+            annotation.creator
           )
         );
       } else {
@@ -70,7 +71,8 @@ class AnnotationLayer extends React.Component<{
             annotation._id,
             annotation.x,
             annotation.y,
-            annotation.isResolved
+            annotation.isResolved,
+            annotation.creator
           )
         );
       }
@@ -135,6 +137,7 @@ class AnnotationLayer extends React.Component<{
     x: any,
     y: any,
     isResolved: any,
+    creator: string,
     width = 100,
     height = 100
   ): any => {
@@ -152,11 +155,7 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        {isResolved ? (
-          <div>
-            <i className="fas fa-check" />
-          </div>
-        ) : null}
+        <div className="annotation-initials">{creator}</div>
         <CommentBox
           key={id}
           markerId={id}
@@ -169,7 +168,7 @@ class AnnotationLayer extends React.Component<{
     );
   };
 
-  drawCircle = (id: any, x: any, y: any, isResolved: any) => {
+  drawCircle = (id: any, x: any, y: any, isResolved: any, creator: string) => {
     var style = {
       top: `${y}px`,
       left: `${x}px`,
@@ -184,6 +183,7 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
+        <div className="annotation-initials">{creator}</div>
         <CommentBox
           key={id}
           markerId={id}
