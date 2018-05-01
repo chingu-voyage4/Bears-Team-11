@@ -2,19 +2,13 @@ var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
 
-/* For sending projec join request to the creator of the project
-// @params: link = user profile link, 
-*  email: the senders email id
-*  user: the name of the user who is senidng 
-*  projectName: name of the project the uer requesting to join
-*/
-router.post('/', function (req, res) {
-  
+router.post('/', function(req, res) {
   let link = req.body.link;
   let to = req.body.email;
   let sender = req.body.user;
   let projectName = req.body.projectName;
-  console.log(link, to, sender, projectName);
+  let projectId = req.body.projectId;
+  let interestedParty = req.body.username;
 
   let smtpTransport = nodemailer.createTransport({
     host: 'smtp.sendgrid.net',
@@ -29,21 +23,15 @@ router.post('/', function (req, res) {
   var mailOptions = {
     to: to,
     from: 'join_request@projectmatch.me',
-    subject: 'join request from Project Match',  
-    text:
-      'Hello,\n\n' +
-      'You have got a request from ' + sender + ', to join in your  ' +  projectName  + '  project'+ '\n\n' +
-      'You can see user profile by clicking the link below' + '\n' +
-       link + '\n'
+    subject: 'Project Match - Join Request',
+    text: `Hello,\n\nYou've got a request from ${sender} to join ${projectName}.\n\nYou can see their profile here: ${link}.\n\nTo accept the request, click: http://localhost:8080/api/projects/${projectId}/accept/${interestedParty}`
   };
   smtpTransport.sendMail(mailOptions, function(err) {
-    if(err){
-      res.json({error: err.message});
+    if (err) {
+      res.json({ error: err.message });
     }
     res.json('Success!');
-    
   });
-
 });
 
 module.exports = router;
