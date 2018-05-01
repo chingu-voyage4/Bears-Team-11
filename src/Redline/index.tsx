@@ -8,14 +8,19 @@ import axios from 'axios';
 import HeaderContainer from '../Headers&Footers/HeaderContainer';
 import { connect } from 'react-redux';
 
-class Redline extends React.Component<
-  { imageLink: string; match: any; user: any },
-  {
-    tool: string;
-    revision: any;
-  }
-> {
-  constructor(props: { imageLink: string; match: any; user: any }) {
+interface RedlineProps {
+  imageLink: string;
+  match: any;
+  user: any;
+}
+
+interface RedlineState {
+  tool: string;
+  revision: any;
+}
+
+class Redline extends React.Component<RedlineProps, RedlineState> {
+  constructor(props: RedlineProps) {
     super(props);
     this.state = {
       tool: 'cursor',

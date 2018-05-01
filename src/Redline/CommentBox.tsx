@@ -7,25 +7,26 @@ import { User } from '../types/User';
 import { addComment, getComments } from '../actions/markerActions';
 import axios from 'axios';
 
-class CommentBox extends React.Component<
-  {
-    revisionId: string;
-    markerId: string;
-    user: User;
-    comments: Array<{ user: string; time: string; message: string }>;
-    addComment: any;
-    getComments: any;
-    deleteMarker: any;
-    resolveMarker: any;
-    isResolved: any;
-  },
-  {
-    message: string;
-    comments: any;
-    isDeleted: boolean;
-  }
-> {
-  constructor(props: any) {
+interface CommentBoxProps {
+  revisionId: string;
+  markerId: string;
+  user: User;
+  comments: Array<{ user: string; time: string; message: string }>;
+  addComment: any;
+  getComments: any;
+  deleteMarker: any;
+  resolveMarker: any;
+  isResolved: any;
+}
+
+interface CommentBoxState {
+  message: string;
+  comments: any;
+  isDeleted: boolean;
+}
+
+class CommentBox extends React.Component<CommentBoxProps, CommentBoxState> {
+  constructor(props: CommentBoxProps) {
     super(props);
     this.state = {
       message: '',

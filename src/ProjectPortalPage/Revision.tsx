@@ -2,13 +2,12 @@ import * as React from 'react';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
 
-class Revision extends React.PureComponent<
-  {
-    revision: any;
-    projectId: string;
-  },
-  {}
-> {
+interface RevisionProps {
+  revision: any;
+  projectId: string;
+}
+
+class Revision extends React.PureComponent<RevisionProps> {
   render() {
     return (
       <div className="revision">

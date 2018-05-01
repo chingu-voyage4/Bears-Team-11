@@ -4,25 +4,26 @@ import axios from 'axios';
 import apiService from '../utils/apiService';
 import { connect } from 'react-redux';
 
-class Revisions extends React.PureComponent<
-  { mockups: Array<string> | undefined; projectId: string; username: string },
-  {
-    revisions: Array<{
-      _id: string;
-      revisionNumber: string;
-      description: string;
-      creator: string;
-      createdAt: string;
-      finalVersion: boolean;
-    }>;
-    isLoading: boolean;
-  }
-> {
-  constructor(props: {
-    mockups: Array<string> | undefined;
-    projectId: string;
-    username: string;
-  }) {
+interface RevisionsProps {
+  mockups: Array<string> | undefined;
+  projectId: string;
+  username: string;
+}
+
+interface RevisionsState {
+  revisions: Array<{
+    _id: string;
+    revisionNumber: string;
+    description: string;
+    creator: string;
+    createdAt: string;
+    finalVersion: boolean;
+  }>;
+  isLoading: boolean;
+}
+
+class Revisions extends React.PureComponent<RevisionsProps, RevisionsState> {
+  constructor(props: RevisionsProps) {
     super(props);
     this.state = {
       revisions: [],

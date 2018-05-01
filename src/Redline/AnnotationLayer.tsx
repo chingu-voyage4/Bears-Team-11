@@ -21,7 +21,7 @@ declare global {
   }
 }
 
-class AnnotationLayer extends React.Component<{
+interface AnnotationLayerProps {
   tool: any;
   onMarkerAdd: any;
   revisionId: string;
@@ -35,7 +35,9 @@ class AnnotationLayer extends React.Component<{
   resolveMarker: any;
   deleteMarker: any;
   resizeMarker: any;
-}> {
+}
+
+class AnnotationLayer extends React.Component<AnnotationLayerProps> {
   componentDidMount() {
     this.props.getMarkers(this.props.revisionId).then(() => {
       this.makeInteractive();
