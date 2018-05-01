@@ -145,6 +145,7 @@ TEAM
 
 .team__thumbnail {
   width: 50px;
+  height: 50px;
   border-radius: 50%;
 }
 
@@ -288,13 +289,6 @@ ABOUT
   color: $theme-blue;
 }
 
-.button {
-  @include white-text-blue-background-button;
-  // background: $theme-blue;
-  // color: #ffffff;
-  // padding: 5px;
-}
-
 /*
 ==========================
 LOADER
@@ -318,4 +312,16 @@ LOADER
   100% {
     transform: rotate(360deg);
   }
+}
+
+/*
+==========================
+MISC
+==========================
+*/
+.button {
+  @include white-text-blue-background-button;
+  // background: $theme-blue;
+  // color: #ffffff;
+  // padding: 5px;
 }
