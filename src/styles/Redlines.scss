@@ -1,3 +1,8 @@
+/*
+==========================
+CONTAINER
+==========================
+*/
 .redline-container {
   width: 100vw;
   height: 100vh;
@@ -85,15 +90,21 @@
   display: flex;
   flex-direction: column;
 }
-.redline-annotations {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-}
+
+/*
+==========================
+CANVAS
+==========================
+*/
 .redline-canvas {
   padding-top: 25px;
 }
+
+/*
+==========================
+IMAGE
+==========================
+*/
 .redline-image-container {
   margin: 0 auto;
   position: relative;
@@ -101,11 +112,7 @@
   background: #d1d1d1;
   z-index: -1;
 }
-.redline-annotations {
-  margin: 0 auto;
-  position: relative;
-  width: 1280px;
-}
+
 .redline-image {
   width: 100%;
   height: auto;
@@ -116,6 +123,12 @@
   width: 100%;
   height: 100%;
 }
+
+/*
+==========================
+TOOLBAR
+==========================
+*/
 .toolbar {
   height: 50px;
   display: flex;
@@ -133,6 +146,21 @@
 .toolbar__tool--active {
   color: #489be2;
 }
+
+/*
+==========================
+ANNOTATION
+==========================
+*/
+.redline-annotations {
+  position: absolute;
+  height: 100%;
+  z-index: 10;
+  margin: 0 auto;
+  position: relative;
+  width: 1280px;
+}
+
 .annotation-rectangle {
   position: absolute;
   width: 100px;
@@ -151,9 +179,11 @@
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-/**
- * COMMENT BOX
- **/
+/*
+==========================
+COMMENT BOX
+==========================
+*/
 .comment-box {
   position: absolute;
   display: flex;
