@@ -23,6 +23,8 @@ class AddProjectsPage extends React.Component<
   constructor(props: AddProjectProps) {
     super(props);
     this.state = {
+      shouldRedirect: false,
+      projIdRedirect: '',
       name: '',
       description: '',
       dueDate: '',
@@ -208,8 +210,6 @@ class AddProjectsPage extends React.Component<
     });
 
     this.setState({ lookingFor: lookingForArray }, () => {
-      var projId = this.props.addOrUpdateProject._id;
-      var newProjId: string;
       var sendData = () => {
         if (this.props.match.params.hasOwnProperty('id')) {
           this.props.updateProject(
@@ -252,45 +252,39 @@ class AddProjectsPage extends React.Component<
           );
         }
       };
-
-      var callProjectsByLatestModified = () => {
-        return this.props.getProjects({ modifiedAt: -1 }, null);
-      };
-
-      var retrieveLatestProjId = () => {
-        var data = this.props.projects[0];
-        return (newProjId = data._id);
-      };
-
-      async function sendThenRedirect() {
-        // save data to server
-        await sendData();
-        await callProjectsByLatestModified();
-        await retrieveLatestProjId();
-        console.log('/projects/' + newProjId);
-        console.log('/projects/' + projId);
-        // after posting project data, redirect to project portal
-        if (projId) {
-          return (
-            <Redirect
-              push={true}
-              from="/projects/add"
-              to={'/projects/' + projId}
-            />
-          );
-        } else {
-          return (
-            <Redirect
-              push={true}
-              from="/projects/add"
-              to={'/projects/' + newProjId}
-            />
-          );
-        }
-      }
-      sendThenRedirect();
+      return sendData();
     });
   };
+
+  // componentWillReceiveProps() {
+  //   var projId = this.props.addOrUpdateProject._id;
+  //   var newProjId: string;
+  //   var callProjectsByLatestModified = () => {
+  //     return this.props.getProjects({ sort: { createdAt: -1 } }, null);
+  //   };
+
+  //   var retrieveLatestProjId = () => {
+  //     console.log(this.props.projects);
+  //     var data = this.props.projects[0];
+  //     return (newProjId = data._id);
+  //   };
+
+  //   var setStateToRedirect = () => {
+  //     if (projId) {
+  //       this.setState({ shouldRedirect: true, projIdRedirect: projId });
+  //     } else {
+  //       this.setState({ shouldRedirect: true, projIdRedirect: newProjId });
+  //     }
+  //   };
+
+  //   async function sendThenRedirect() {
+  //     await callProjectsByLatestModified();
+  //     await retrieveLatestProjId();
+  //     // after posting project data, redirect to project portal
+  //     return setStateToRedirect();
+  //   }
+  //   sendThenRedirect();
+  // }
 
   public handleImageText = (e: React.FormEvent<HTMLInputElement>): void => {
     let files = e.currentTarget.files! as FileList;
@@ -381,6 +375,15 @@ class AddProjectsPage extends React.Component<
   };
 
   render() {
+    if (this.state.shouldRedirect) {
+      return (
+        <Redirect
+          push={true}
+          from="/projects/add"
+          to={'/projects/' + this.state.projIdRedirect}
+        />
+      );
+    }
     class StatusOptionsComponent extends React.Component<{
       onFormChange: any;
     }> {
