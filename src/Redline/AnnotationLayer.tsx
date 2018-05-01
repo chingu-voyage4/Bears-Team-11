@@ -27,7 +27,7 @@ class AnnotationLayer extends React.Component<{
   revisionId: string;
   projectId: string;
   markers: Array<Marker>;
-  user: User;
+  user: User | any;
   addMarker: any;
   getMarkers: any;
   moveMarker: any;
@@ -51,6 +51,15 @@ class AnnotationLayer extends React.Component<{
       this.enableInteractivity();
     }
   }
+
+  isTeamMember = () => {
+    if (this.props.user._id) {
+      return this.props.user.projects.some(
+        (id: string) => id === this.props.projectId
+      );
+    }
+    return false;
+  };
 
   drawMarkers = () => {
     var markers: any = [];
@@ -81,11 +90,7 @@ class AnnotationLayer extends React.Component<{
   };
 
   addMarker = (e: any) => {
-    if (
-      this.props.user.projects!.some(
-        projectId => projectId === this.props.projectId
-      )
-    ) {
+    if (this.isTeamMember()) {
       var marker: any;
       var { left, top } = e.target.getBoundingClientRect();
 
