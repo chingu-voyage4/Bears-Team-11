@@ -12,6 +12,12 @@ import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
 import { Action } from '../types/Redux';
 
+/*
+==========================
+GET PROJECTS
+==========================
+*/
+
 export type getProjects_fntype = (
   options: object,
   query: object | null
@@ -30,7 +36,11 @@ export function getProjects(
     return doAsyncWork();
   };
 }
-
+/*
+==========================
+SEARCH PROJECT
+==========================
+*/
 export type searchProjects_fntype = (
   query: string | null
 ) => (dispatch: Dispatch<Action>) => void;
@@ -45,7 +55,11 @@ export function searchProjects(
     });
   };
 }
-
+/*
+==========================
+GET PROJECT
+==========================
+*/
 export type getProject_fntype = (
   projectId: string
 ) => (dispatch: Dispatch<Action>) => void;
@@ -66,7 +80,11 @@ export function getProject(
     });
   };
 }
-
+/*
+==========================
+ADD / UPDATE PROJECT
+==========================
+*/
 async function addOrUpdateProjectWithDispatchAsync(
   dispatchType: any,
   dispatch: Dispatch<Action>,
@@ -101,7 +119,11 @@ export function addOrUpdateProject(
     );
   };
 }
-
+/*
+==========================
+GET ONE PROJECT
+==========================
+*/
 async function getOneProjectWithDispatchAsync(
   dispatchType: any,
   dispatch: Dispatch<Action>,
@@ -119,7 +141,11 @@ export function getOneProject(
     return getOneProjectWithDispatchAsync(GET_ONE_PROJECT, dispatch, id);
   };
 }
-
+/*
+==========================
+DELETE PROJECT
+==========================
+*/
 export type deleteProject_fntype = (
   id: string
 ) => (dispatch: Dispatch<Action>) => void;
@@ -136,7 +162,11 @@ export function deleteProject(
     });
   };
 }
-
+/*
+==========================
+DOWNLOAD PROJECT IMAGE URLS
+==========================
+*/
 export type downloadProjectImageURLS_fntype = (
   projectId: string
 ) => (dispatch: Dispatch<Action>) => void;

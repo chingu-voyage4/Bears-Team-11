@@ -16,6 +16,11 @@ import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
 import { UserAction, Action } from '../types/Redux';
 
+/*
+==========================
+LOGIN
+==========================
+*/
 export type login_fntype = (
   email: string,
   password: string
@@ -43,7 +48,11 @@ export function login(
       });
   };
 }
-
+/*
+==========================
+GOOGLE LOGIN
+==========================
+*/
 export type googleLogin_fntype = (
   idToken: string
 ) => (dispatch: Dispatch<UserAction>) => void;
@@ -69,7 +78,11 @@ export function googleLogin(
       });
   };
 }
-
+/*
+==========================
+REGISTER
+==========================
+*/
 export type register_fntype = (
   firstName: string,
   lastName: string,
@@ -103,7 +116,11 @@ export function register(
       });
   };
 }
-
+/*
+==========================
+UPLOAD PROFILE IMAGE
+==========================
+*/
 export type uploadProfileImage_fntype = (
   file: FileList,
   userId: string
@@ -122,7 +139,11 @@ export function uploadProfileImage(
     });
   };
 }
-
+/*
+==========================
+LOGOUT
+==========================
+*/
 export type logout_fntype = () => (dispatch: Dispatch<UserAction>) => void;
 
 export function logout(): (dispatch: Dispatch<UserAction>) => void {
@@ -144,6 +165,12 @@ export function logout(): (dispatch: Dispatch<UserAction>) => void {
   };
 }
 
+/*
+==========================
+GET ALL USERS
+==========================
+*/
+
 export type getAllUsers_fntype = () => (dispatch: Dispatch<Action>) => void;
 
 export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
@@ -164,6 +191,12 @@ export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
       });
   };
 }
+
+/*
+==========================
+USER SETTINGS (PUBLIC BIO) UPDATE
+==========================
+*/
 
 export type userSettingsUpdate_fntype = (
   aboutme: string,
@@ -215,6 +248,18 @@ export function userSettingsUpdate(
       });
   };
 }
+/*
+==========================
+USER SETTINGS (PRIVATE BIO) UPDATE
+==========================
+*/
+
+export type userPrivateSettingsUpdate_fntype = (
+  firstName: string,
+  lastName: string,
+  email: string,
+  userId: string
+) => (dispatch: Dispatch<Action>) => void;
 
 export function userPrivateSettingsUpdate(
   firstName: string,

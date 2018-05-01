@@ -10,6 +10,7 @@ import { getCategories_fntype } from '../actions/categoryActions';
 import {
   getAllUsers_fntype,
   userSettingsUpdate_fntype,
+  userPrivateSettingsUpdate_fntype,
   uploadProfileImage_fntype,
   logout_fntype,
   register_fntype,
