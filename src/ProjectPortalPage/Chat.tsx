@@ -96,10 +96,23 @@ class Chat extends React.PureComponent<
           <input
             className="message-input"
             type="text"
-            placeholder="Type something..."
+            placeholder={
+              this.props.user.projects.some(
+                (id: string) => id === this.props.projectId
+              )
+                ? 'Type something...'
+                : 'You must be a part of this project...'
+            }
             onKeyPress={this.handleSubmit}
             onChange={this.handleChange}
             value={this.state.message}
+            disabled={
+              this.props.user.projects.some(
+                (id: string) => id === this.props.projectId
+              )
+                ? false
+                : true
+            }
           />
           <a className="message-send">
             <i className="far fa-paper-plane" />
