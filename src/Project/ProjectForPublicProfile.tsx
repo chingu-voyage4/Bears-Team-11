@@ -63,21 +63,23 @@ class ProjectForPublicProfile extends React.Component<
     return (
       <div id={this.props.projId} className="project-edit-box">
         <div className="project-edit-container">
-          <img
-            className="project-edit-image"
-            alt={data.name}
-            src={
-              data.images!.length === 0 ||
-              data.images === undefined ||
-              data.images === null
-                ? require('../assets/imagePlaceholder.jpg')
-                : data.images[0]
-            }
-          />
           <Link
-            className="project-edit-info-forPublicProfile"
             to={'/projects/' + this.props.projId}
+            className="project-edit-image-container"
           >
+            <img
+              className="project-edit-image"
+              alt={data.name}
+              src={
+                data.images!.length === 0 ||
+                data.images === undefined ||
+                data.images === null
+                  ? require('../assets/imagePlaceholder.jpg')
+                  : data.images[0]
+              }
+            />
+          </Link>
+          <div className="project-edit-info-forPublicProfile">
             <div className="project-name">{data.name}</div>
             <div className="project-description">{data.description}</div>
             <div className="project-tags">
@@ -94,7 +96,7 @@ class ProjectForPublicProfile extends React.Component<
                 src={require('../assets/Bookmark Icon.png')}
               />
             </a>
-          </Link>
+          </div>
         </div>
       </div>
     );

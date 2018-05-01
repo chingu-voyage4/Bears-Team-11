@@ -6,30 +6,45 @@ class ProjectFeatures extends React.Component {
     return (
       <div>
         <div className="project-match-container">
-          <div className="project-feature-heading">PROJECT MATCH</div>
+          <div className="project-feature-heading">
+            Find the perfect project
+          </div>
           <div className="project-feature-text">
-            Programmers and designers use Project Match to find teammates for
-            budding ideas. Project Match will help find you projects and then
-            provide team collaboration tools to support mockup reviews.
+            Filter through all our projects by category, tags, or desired roles.
+            Once your find an interesting project, request to join the team!
           </div>
           <div className="project-feature-image-div">
             <img
               className="project-feature-imac"
-              src={require('../assets/proj_imac.png')}
+              src={require('../assets/projectFilterFeature.gif')}
+            />
+          </div>
+        </div>
+        <div className="project-new-container">
+          <div className="project-feature-heading">Got your own idea?</div>
+          <div className="project-feature-text">
+            Create your own project and recruit other programmers and designers
+            to work together and launch the MVP.
+          </div>
+          <div className="project-feature-image-div">
+            <img
+              className="project-feature-imac"
+              src={require('../assets/projectFilterFeature.gif')}
             />
           </div>
         </div>
         <div className="team-collaboration-container">
-          <div className="project-feature-heading">TEAM COLLABORATION</div>
+          <div className="project-feature-heading">
+            collaborate with your team
+          </div>
           <div className="project-feature-text">
-            Programmers and designers use Project Match to find teammates for
-            budding ideas. Project Match will help find you projects and then
-            provide team collaboration tools to support mockup reviews.
+            Use Project Portals as the dedicated platform for team chat and
+            project mockups reviews / redlines.
           </div>
           <div className="project-feature-image-div">
             <img
               className="project-feature-imac"
-              src={require('../assets/proj_imac.png')}
+              src={require('../assets/teamCollabFeature.gif')}
             />
           </div>
         </div>

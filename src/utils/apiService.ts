@@ -701,6 +701,7 @@ function getTags(): Promise<Tags> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
+        console.log(res);
         if (res.message === 'Successfully retrieved tags') {
           resolve(res.tags);
         } else {

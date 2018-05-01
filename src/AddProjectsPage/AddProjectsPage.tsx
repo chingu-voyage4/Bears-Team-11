@@ -7,12 +7,14 @@ import { connect } from 'react-redux';
 import {
   addProject,
   updateProject,
-  getOneProject
+  getOneProject,
+  getProjects
 } from '../actions/projectActions';
 import { getAllUsers } from '../actions/userActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
 import { Store, AddProjectProps } from '../types/Redux';
+import { Redirect } from 'react-router';
 
 class AddProjectsPage extends React.Component<
   AddProjectProps,
@@ -206,46 +208,87 @@ class AddProjectsPage extends React.Component<
     });
 
     this.setState({ lookingFor: lookingForArray }, () => {
-      if (this.props.match.params.hasOwnProperty('id')) {
-        this.props.updateProject(
-          {
-            _id: this.props.addOrUpdateProject._id,
-            name: this.state.name,
-            description: this.state.description,
-            dueDate: this.state.dueDate,
-            team: this.state.team,
-            githubLink: this.state.githubLink,
-            mockupLink: this.state.mockupLink,
-            liveLink: this.state.liveLink,
-            lookingFor: this.state.lookingFor,
-            status: this.state.status,
-            category: this.state.category,
-            tags: this.state.tags,
-            contact: this.state.contact,
-            creator: this.props.user.username
-          },
-          this.state.files
-        );
-      } else {
-        this.props.addProject(
-          {
-            name: this.state.name,
-            description: this.state.description,
-            dueDate: this.state.dueDate,
-            team: this.state.team,
-            githubLink: this.state.githubLink,
-            mockupLink: this.state.mockupLink,
-            liveLink: this.state.liveLink,
-            lookingFor: this.state.lookingFor,
-            status: this.state.status,
-            category: this.state.category,
-            tags: this.state.tags,
-            contact: this.state.contact,
-            creator: this.props.user.username
-          },
-          this.state.files
-        );
+      var projId = this.props.addOrUpdateProject._id;
+      var newProjId: string;
+      var sendData = () => {
+        if (this.props.match.params.hasOwnProperty('id')) {
+          this.props.updateProject(
+            {
+              _id: this.props.addOrUpdateProject._id,
+              name: this.state.name,
+              description: this.state.description,
+              dueDate: this.state.dueDate,
+              team: this.state.team,
+              githubLink: this.state.githubLink,
+              mockupLink: this.state.mockupLink,
+              liveLink: this.state.liveLink,
+              lookingFor: this.state.lookingFor,
+              status: this.state.status,
+              category: this.state.category,
+              tags: this.state.tags,
+              contact: this.state.contact,
+              creator: this.props.user.username
+            },
+            this.state.files
+          );
+        } else {
+          this.props.addProject(
+            {
+              name: this.state.name,
+              description: this.state.description,
+              dueDate: this.state.dueDate,
+              team: this.state.team,
+              githubLink: this.state.githubLink,
+              mockupLink: this.state.mockupLink,
+              liveLink: this.state.liveLink,
+              lookingFor: this.state.lookingFor,
+              status: this.state.status,
+              category: this.state.category,
+              tags: this.state.tags,
+              contact: this.state.contact,
+              creator: this.props.user.username
+            },
+            this.state.files
+          );
+        }
+      };
+
+      var callProjectsByLatestModified = () => {
+        return this.props.getProjects({ modifiedAt: -1 }, null);
+      };
+
+      var retrieveLatestProjId = () => {
+        var data = this.props.projects[0];
+        return (newProjId = data._id);
+      };
+
+      async function sendThenRedirect() {
+        // save data to server
+        await sendData();
+        await callProjectsByLatestModified();
+        await retrieveLatestProjId();
+        console.log('/projects/' + newProjId);
+        console.log('/projects/' + projId);
+        // after posting project data, redirect to project portal
+        if (projId) {
+          return (
+            <Redirect
+              push={true}
+              from="/projects/add"
+              to={'/projects/' + projId}
+            />
+          );
+        } else {
+          return (
+            <Redirect
+              push={true}
+              from="/projects/add"
+              to={'/projects/' + newProjId}
+            />
+          );
+        }
       }
+      sendThenRedirect();
     });
   };
 
@@ -899,5 +942,6 @@ export default connect(mapStateToProps, {
   getCategories,
   getTags,
   updateProject,
-  getOneProject
+  getOneProject,
+  getProjects
 })(AddProjectsPage);

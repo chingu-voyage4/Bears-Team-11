@@ -63,17 +63,19 @@ IMAGE
 .project-image {
   height: 225px;
   object-fit: cover;
-  border: $border;
 }
 
 .project-edit-image {
-  grid-area: i;
   height: 100%;
   width: 100%;
   object-fit: cover;
   border: $border;
   vertical-align: middle;
   border: none;
+}
+
+.project-edit-image-container {
+  grid-area: i;
 }
 /*
 ==========================
