@@ -198,8 +198,8 @@ MESSAGE
 */
 .message {
   display: flex;
-  align-items: center;
   padding: 5px 0;
+  flex-direction: column;
   color: $dark-grey;
 }
 
@@ -294,7 +294,7 @@ ABOUT
 LOADER
 ==========================
 */
-.new-project-image-loader {
+.loader {
   margin: 0 auto;
   border: 8px solid $light-grey;
   border-top: 8px solid $theme-blue;

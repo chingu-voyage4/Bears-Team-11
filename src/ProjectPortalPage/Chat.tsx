@@ -3,7 +3,6 @@ import Message from './Message';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-// FIX NEEDED: Comments do not appear when submited, page must be refreshed
 class Chat extends React.PureComponent<
   {
     projectId: string;
@@ -31,10 +30,21 @@ class Chat extends React.PureComponent<
         this.setState({
           comments
         });
+
+        this.scrollToBottom();
       });
   }
   handleSubmit = (e: any) => {
     if (e.which === 13) {
+      this.addComment(this.state.message);
+    }
+  };
+
+  handleClickSend = (e: any) => {
+    e.preventDefault();
+    if (
+      this.props.user.projects.some((id: string) => id === this.props.projectId)
+    ) {
       this.addComment(this.state.message);
     }
   };
@@ -53,13 +63,15 @@ class Chat extends React.PureComponent<
         }
       )
       .then(response => {
-        console.log(response);
         this.setState(prevState => {
-          prevState.comments.push(response.data);
+          var comments = prevState.comments.slice();
+          comments.push(response.data.comment);
           return {
-            comments: prevState.comments
+            comments
           };
         });
+
+        this.scrollToBottom();
       });
   };
 
@@ -75,10 +87,16 @@ class Chat extends React.PureComponent<
       );
     });
   };
+
+  scrollToBottom = () => {
+    var messages = document.getElementById('messages');
+    messages!.scrollTop = messages!.scrollHeight;
+  };
+
   render() {
     return (
       <React.Fragment>
-        <div className="messages">
+        <div id="messages" className="messages">
           {this.state.comments.length > 0
             ? this.displayMessages()
             : 'No messages'}
@@ -87,12 +105,25 @@ class Chat extends React.PureComponent<
           <input
             className="message-input"
             type="text"
-            placeholder="Type something..."
+            placeholder={
+              this.props.user.projects.some(
+                (id: string) => id === this.props.projectId
+              )
+                ? 'Type something...'
+                : 'You must be a part of this team...'
+            }
             onKeyPress={this.handleSubmit}
             onChange={this.handleChange}
             value={this.state.message}
+            disabled={
+              this.props.user.projects.some(
+                (id: string) => id === this.props.projectId
+              )
+                ? false
+                : true
+            }
           />
-          <a className="message-send">
+          <a className="message-send" onClick={this.handleClickSend}>
             <i className="far fa-paper-plane" />
           </a>
         </div>
