@@ -42,9 +42,7 @@ class Chat extends React.PureComponent<
 
   handleClickSend = (e: any) => {
     e.preventDefault();
-    if (
-      this.props.user.projects.some((id: string) => id === this.props.projectId)
-    ) {
+    if (this.isTeamMember()) {
       this.addComment(this.state.message);
     }
   };
@@ -93,6 +91,15 @@ class Chat extends React.PureComponent<
     messages!.scrollTop = messages!.scrollHeight;
   };
 
+  isTeamMember = () => {
+    if (this.props.user._id) {
+      return this.props.user.projects.some(
+        (id: string) => id === this.props.projectId
+      );
+    }
+    return false;
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -106,22 +113,14 @@ class Chat extends React.PureComponent<
             className="message-input"
             type="text"
             placeholder={
-              this.props.user.projects.some(
-                (id: string) => id === this.props.projectId
-              )
+              this.isTeamMember()
                 ? 'Type something...'
                 : 'You must be a part of this team...'
             }
             onKeyPress={this.handleSubmit}
             onChange={this.handleChange}
             value={this.state.message}
-            disabled={
-              this.props.user.projects.some(
-                (id: string) => id === this.props.projectId
-              )
-                ? false
-                : true
-            }
+            disabled={this.isTeamMember() ? false : true}
           />
           <a className="message-send" onClick={this.handleClickSend}>
             <i className="far fa-paper-plane" />

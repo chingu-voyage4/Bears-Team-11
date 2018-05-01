@@ -6,15 +6,16 @@ import ImageLayer from './ImageLayer';
 import AnnotationLayer from './AnnotationLayer';
 import axios from 'axios';
 import HeaderContainer from '../Headers&Footers/HeaderContainer';
+import { connect } from 'react-redux';
 
 class Redline extends React.Component<
-  { imageLink: string; match: any },
+  { imageLink: string; match: any; user: any },
   {
     tool: string;
     revision: any;
   }
 > {
-  constructor(props: { imageLink: string; match: any }) {
+  constructor(props: { imageLink: string; match: any; user: any }) {
     super(props);
     this.state = {
       tool: 'cursor',
@@ -54,12 +55,23 @@ class Redline extends React.Component<
     return this.props.match.params;
   };
 
+  shouldDisableToolBar = () => {
+    if (this.props.user._id) {
+      return !this.props.user.projects.some((projectId: any) => {
+        return projectId === this.getURLParams().projectId;
+      });
+    } else {
+      return true;
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
         <HeaderContainer />
         <div className="redline-container">
           <Toolbar
+            isDisabled={this.shouldDisableToolBar()}
             tool={this.state.tool}
             selectCursorTool={this.selectCursorTool}
             selectCircleTool={this.selectCircleTool}
@@ -84,4 +96,10 @@ class Redline extends React.Component<
   }
 }
 
-export default Redline;
+function mapStateToProps(state: any) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(Redline);

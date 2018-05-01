@@ -1,0 +1,23 @@
+.flash__container {
+  position: fixed;
+  top: 100px;
+  left: calc(50% - 350px / 2);
+  padding: 15px 25px;
+  width: 350px;
+  background: #ffffff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.flash__title {
+  color: #2b353d;
+  margin: 0;
+}
+
+.flash__message {
+  color: grey;
+}
+
+.flash__dismiss {
+  color: grey;
+  float: right;
+}

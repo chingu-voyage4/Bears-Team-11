@@ -22,6 +22,7 @@ var categoryRoute = require('./routes/category');
 var uploadImagesRoute = require('./routes/upload');
 var downloadImagesRoute = require('./routes/download');
 var imageRoute = require('./routes/image');
+var sendEmailRoute = require('./routes/sendEmail');
 var userRoute = require('./routes/users')(passport);
 var userUpdateRoute = require('./routes/user_update')(passport);
 var multer = require('multer');
@@ -79,6 +80,7 @@ app.use('/api/projects/update', projectsUpdateRoute);
 app.use('/api/projects/delete', projectsDeleteRoute);
 app.use('/api/upload/image', imageRoute);
 app.use('/api/download', downloadImagesRoute);
+app.use('/api/email', sendEmailRoute);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
