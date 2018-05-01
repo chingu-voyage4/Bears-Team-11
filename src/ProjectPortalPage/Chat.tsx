@@ -42,9 +42,7 @@ class Chat extends React.PureComponent<
 
   handleClickSend = (e: any) => {
     e.preventDefault();
-    if (
-      this.props.user.projects.some((id: string) => id === this.props.projectId)
-    ) {
+    if (this.isTeamMember()) {
       this.addComment(this.state.message);
     }
   };
