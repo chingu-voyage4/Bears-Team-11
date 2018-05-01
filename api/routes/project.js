@@ -4,7 +4,7 @@ var isAuthenticated = require('../utils/authentication');
 var mongoosePaginate = require('mongoose-paginate');
 var Project = require('../models/Projects');
 var UserDetails = require('../models/UserDetails');
-var Comment = require('../models/COmments');
+var Comment = require('../models/Comments');
 var Revision = require('../models/Revisions');
 var Marker = require('../models/Markers');
 var User = require('../models/Users');
@@ -140,7 +140,8 @@ module.exports = function(passport) {
         console.log(err);
       } else {
         res.json({
-          message: 'Comment successfully added to project ' + req.params.id
+          message: 'Comment successfully added to project ' + req.params.id,
+          comment
         });
       }
     });

@@ -3,7 +3,6 @@ import Message from './Message';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-// FIX NEEDED: Comments do not appear when submited, page must be refreshed
 class Chat extends React.PureComponent<
   {
     projectId: string;
@@ -55,9 +54,10 @@ class Chat extends React.PureComponent<
       .then(response => {
         console.log(response);
         this.setState(prevState => {
-          prevState.comments.push(response.data);
+          var comments = prevState.comments.slice();
+          comments.push(response.data.comment);
           return {
-            comments: prevState.comments
+            comments
           };
         });
       });
