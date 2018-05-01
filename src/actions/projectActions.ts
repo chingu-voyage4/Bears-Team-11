@@ -102,20 +102,21 @@ export function addOrUpdateProject(
   };
 }
 
-export type getOneProject_fntype = (
+async function getOneProjectWithDispatchAsync(
+  dispatchType: any,
+  dispatch: Dispatch<Action>,
   id: string
-) => (dispatch: Dispatch<Action>) => void;
+): Promise<void> {
+  var project = await apiService.getOneProject(id);
+  dispatch({ type: dispatchType, data: project });
+}
+export type getOneProject_fntype = (id: string) => Promise<void>;
 
 export function getOneProject(
   id: string
-): (dispatch: Dispatch<Action>) => void {
+): (dispatch: Dispatch<Action>) => Promise<void> {
   return dispatch => {
-    return apiService.getOneProject(id).then(project => {
-      return dispatch({
-        type: GET_ONE_PROJECT,
-        data: project
-      });
-    });
+    return getOneProjectWithDispatchAsync(GET_ONE_PROJECT, dispatch, id);
   };
 }
 

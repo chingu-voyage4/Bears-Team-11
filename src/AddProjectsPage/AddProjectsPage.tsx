@@ -907,7 +907,9 @@ function mapDispatchToProps(dispatch: Dispatch<Action>) {
     getAllUsers: getAllUsers,
     getCategories: getCategories,
     getTags: getTags,
-    getOneProject: getOneProject,
+    getOneProject: (id: string) => {
+      return dispatch(getOneProject(id));
+    },
     getProjects: (options: object, query: object | null) => {
       return dispatch(getProjects(options, query));
     }
