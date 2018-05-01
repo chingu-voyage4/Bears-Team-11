@@ -32,7 +32,6 @@ class LoggedInHeader extends React.Component<
     var activeProjects: any;
     var links: any;
 
-    console.log(listOfProjects);
     if (listOfProjects === null || listOfProjects === undefined) {
       links = null;
     } else {
