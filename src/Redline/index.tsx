@@ -33,22 +33,8 @@ class Redline extends React.Component<
         });
       });
   }
-
-  // NOTE: Possibly make a generic tool function
-  selectCursorTool = () => {
-    this.setState({ tool: 'cursor' });
-  };
-
-  selectCircleTool = () => {
-    this.setState({ tool: 'circle' });
-  };
-
-  selectRectangleTool = () => {
-    this.setState({ tool: 'rectangle' });
-  };
-
-  selectCommentTool = () => {
-    this.setState({ tool: 'comment' });
+  selectTool = (tool: string) => {
+    this.setState({ tool });
   };
 
   getURLParams = () => {
@@ -73,16 +59,16 @@ class Redline extends React.Component<
           <Toolbar
             isDisabled={this.shouldDisableToolBar()}
             tool={this.state.tool}
-            selectCursorTool={this.selectCursorTool}
-            selectCircleTool={this.selectCircleTool}
-            selectRectangleTool={this.selectRectangleTool}
-            selectCommentTool={this.selectCommentTool}
+            selectCursorTool={() => this.selectTool('cursor')}
+            selectCircleTool={() => this.selectTool('circle')}
+            selectRectangleTool={() => this.selectTool('rectangle')}
+            selectCommentTool={() => this.selectTool('comment')}
           />
           <div className="redline-canvas">
             <div>
               <AnnotationLayer
                 tool={this.state.tool}
-                onMarkerAdd={this.selectCursorTool}
+                onMarkerAdd={() => this.selectTool('cursor')}
                 revisionId={this.getURLParams().revisionId}
                 projectId={this.getURLParams().projectId}
               >
