@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../styles/LoggedInHeader.css';
 import { LoggedInHeaderState } from '../types/LoggedInHeader.d';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Store, LoggedInHeaderProps } from '../types/Redux';
 import { logout } from '../actions/userActions';
@@ -229,4 +229,6 @@ function mapStateToProps(state: Store) {
   };
 }
 
-export default connect(mapStateToProps, { logout })(LoggedInHeader);
+export default withRouter(connect(mapStateToProps, { logout })(
+  LoggedInHeader
+) as any);
