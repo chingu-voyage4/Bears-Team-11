@@ -1,5 +1,5 @@
 import * as React from 'react';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
+import HeaderContainer from '../Header/HeaderContainer';
 import About from './About';
 import Chat from './Chat';
 import Revisions from './Revisions';

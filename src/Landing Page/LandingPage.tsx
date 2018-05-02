@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
-import Footer from '../Headers&Footers/Footer';
+import HeaderContainer from '../Header/HeaderContainer';
+import Footer from '../Footer/Footer';
 import LandingImage from './LandingImage';
 import ProjectFeatures from './ProjectFeatures';
 import RecentProjects from './RecentProjects';

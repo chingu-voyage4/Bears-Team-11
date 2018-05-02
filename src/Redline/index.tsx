@@ -5,7 +5,7 @@ import Toolbar from './Toolbar';
 import ImageLayer from './ImageLayer';
 import AnnotationLayer from './AnnotationLayer';
 import axios from 'axios';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
+import HeaderContainer from '../Header/HeaderContainer';
 import { connect } from 'react-redux';
 
 interface RedlineProps {
