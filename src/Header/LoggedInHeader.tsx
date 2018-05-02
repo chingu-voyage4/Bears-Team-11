@@ -55,20 +55,20 @@ class LoggedInHeader extends React.Component<
       links = null;
     } else if (!Array.isArray(activeProjects)) {
       links = (
-        <Link
+        <a
           className="header-project-portal-link"
-          to={'/projects/' + activeProjects._id}
+          href={'/projects/' + activeProjects._id}
         >
           {activeProjects.name}
-        </Link>
+        </a>
       );
     } else {
       links = activeProjects.map((project: any, index: number) => {
         var linkTo = '/projects/' + project._id;
         return (
-          <Link className="header-project-portal-link" to={linkTo} key={index}>
+          <a className="header-project-portal-link" href={linkTo} key={index}>
             {project.name}
-          </Link>
+          </a>
         );
       });
     }
