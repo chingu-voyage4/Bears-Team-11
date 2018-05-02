@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import rootReducer from './reducers';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import LandingPage from './Landing Page/LandingPage';
+import LandingPage from './LandingPage/LandingPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ProjectsPage from './ProjectsPage/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
