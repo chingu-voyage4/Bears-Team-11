@@ -14,7 +14,8 @@ class PersonalDetails extends React.Component<
       firstName: '',
       lastName: '',
       email: '',
-      userId: ''
+      userId: '',
+      username: ''
     };
   }
 
@@ -23,7 +24,8 @@ class PersonalDetails extends React.Component<
       firstName: this.props.user.firstName,
       lastName: this.props.user.lastName,
       email: this.props.user.email,
-      userId: this.props.user._id
+      userId: this.props.user._id,
+      username: this.props.user.username
     });
   }
   public submit(e: React.FormEvent<HTMLButtonElement>): void {
@@ -77,11 +79,11 @@ class PersonalDetails extends React.Component<
             />
           </div>
           <div className="settings-labels">
-            <label className="updateUserLabel">UserId</label>
+            <label className="updateUserLabel">Username</label>
             <input
               className="settings-input unavailible"
               name="userId"
-              value={this.state.userId}
+              value={this.state.username}
               readOnly={true}
             />
           </div>

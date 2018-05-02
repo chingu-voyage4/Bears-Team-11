@@ -3,4 +3,5 @@ export interface PersonalDetailsState {
   lastName: string;
   email: string;
   userId: string;
+  username: string;
 }
