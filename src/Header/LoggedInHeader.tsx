@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Store, LoggedInHeaderProps } from '../types/Redux';
 import { logout } from '../actions/userActions';
+import { getProjects } from '../actions/projectActions';
 
 class LoggedInHeader extends React.Component<
   LoggedInHeaderProps,
@@ -15,6 +16,10 @@ class LoggedInHeader extends React.Component<
     this.state = {
       username: ''
     };
+  }
+
+  componentDidMount() {
+    this.props.getProjects({}, {});
   }
 
   public logout = () => {
@@ -229,6 +234,6 @@ function mapStateToProps(state: Store) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, { logout })(
-  LoggedInHeader
+export default withRouter(connect(mapStateToProps, { logout, getProjects })(
+  LoggedInHeader as any
 ) as any);

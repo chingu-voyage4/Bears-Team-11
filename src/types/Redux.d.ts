@@ -172,7 +172,8 @@ export interface LandingPageProps {
 export interface LoggedInHeaderProps {
   user: User;
   projects: Array<Project>;
-  logout: any;
+  logout: logout_fntype;
+  getProjects: getProjects_fntype;
 }
 
 export interface State {}
