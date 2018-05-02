@@ -17,6 +17,7 @@ interface RedlineProps {
 interface RedlineState {
   tool: string;
   revision: any;
+  team: Array<string>;
 }
 
 class Redline extends React.Component<RedlineProps, RedlineState> {
@@ -24,7 +25,8 @@ class Redline extends React.Component<RedlineProps, RedlineState> {
     super(props);
     this.state = {
       tool: 'cursor',
-      revision: {}
+      revision: {},
+      team: []
     };
   }
 
@@ -37,6 +39,17 @@ class Redline extends React.Component<RedlineProps, RedlineState> {
           revision: response.data.revision
         });
       });
+
+    axios
+      .get(
+        `http://localhost:8080/api/projects/${
+          this.getURLParams().projectId
+        }/team`
+      )
+      .then(response => {
+        var team = response.data.team;
+        this.setState({ team });
+      });
   }
   selectTool = (tool: string) => {
     this.setState({ tool });
@@ -46,14 +59,17 @@ class Redline extends React.Component<RedlineProps, RedlineState> {
     return this.props.match.params;
   };
 
-  shouldDisableToolBar = () => {
-    if (this.props.user._id) {
-      return !this.props.user.projects.some((projectId: any) => {
-        return projectId === this.getURLParams().projectId;
+  isTeamMember = () => {
+    if (this.props.user._id && this.state.team) {
+      return this.state.team.some(teammember => {
+        return teammember === this.props.user.username;
       });
-    } else {
-      return true;
     }
+    return false;
+  };
+
+  shouldDisableToolBar = () => {
+    return !this.isTeamMember();
   };
 
   render() {
