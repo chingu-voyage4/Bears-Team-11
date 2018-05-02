@@ -159,6 +159,7 @@ ANNOTATION
   border: 2px solid #2699fb;
   border-radius: 5px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  z-index: 11;
 }
 .annotation-circle {
   position: absolute;
@@ -170,6 +171,7 @@ ANNOTATION
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 11;
 }
 .annotation-initials {
   color: white;

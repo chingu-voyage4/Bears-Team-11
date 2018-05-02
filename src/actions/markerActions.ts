@@ -107,11 +107,15 @@ export function addComment(
   return dispatch => {
     return apiService
       .addMarkerComment(markerId, username, message)
-      .then((updatedMarker: Marker) => {
+      .then((comment: any) => {
         dispatch({
           type: ADD_COMMENT,
-          data: updatedMarker
+          data: {
+            markerId,
+            comment
+          }
         });
+        return comment;
       });
   };
 }

@@ -19,6 +19,17 @@ function replaceMarker(markers: Array<Marker>, marker: Marker) {
   }
 }
 
+function addCommentToMarker(markers: Array<Marker>, data: any) {
+  for (let i = 0; i < markers.length; i++) {
+    if (markers[i]._id === data.markerId) {
+      var marker = markers[i];
+      var newMarker = Object.assign({}, marker);
+      newMarker.comments.push(data.comment);
+      markers[i] = newMarker;
+    }
+  }
+}
+
 function markerReducer(state: Array<Marker> = [], action: MarkerAction) {
   var newState = state.slice();
   switch (action.type) {
@@ -34,7 +45,7 @@ function markerReducer(state: Array<Marker> = [], action: MarkerAction) {
       replaceMarker(newState, action.data as Marker);
       return newState;
     case ADD_COMMENT:
-      replaceMarker(newState, action.data as Marker);
+      addCommentToMarker(newState, action.data as any);
       return newState;
     case GET_MARKER_COMMENT:
       replaceMarker(newState, action.data as Marker);

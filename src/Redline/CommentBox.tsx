@@ -52,7 +52,6 @@ class CommentBox extends React.Component<CommentBoxProps, CommentBoxState> {
   handleInput = (e: any) => {
     var target = e.target;
     var value = target.value;
-    console.log(value);
     this.setState({
       message: value
     });
@@ -60,12 +59,22 @@ class CommentBox extends React.Component<CommentBoxProps, CommentBoxState> {
 
   handleKeyPress = (e: any) => {
     if (e.keyCode === 13 || e.which == 13) {
-      // FIX ME: this should cause component to re-render because props should have been updated
-      this.props.addComment(
-        this.props.markerId,
-        this.props.user.username,
-        this.state.message
-      );
+      this.props
+        .addComment(
+          this.props.markerId,
+          this.props.user.username,
+          this.state.message
+        )
+        .then((comment: any) => {
+          this.setState(prevState => {
+            var newComments = prevState.comments;
+            newComments.push(comment);
+            return {
+              message: '',
+              comments: newComments
+            };
+          });
+        });
     }
   };
 
@@ -116,6 +125,7 @@ class CommentBox extends React.Component<CommentBoxProps, CommentBoxState> {
           onKeyDown={this.handleKeyPress}
           onChange={this.handleInput}
           placeholder="type something..."
+          value={this.state.message}
         />
       </div>
     );
