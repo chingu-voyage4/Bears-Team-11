@@ -23,7 +23,8 @@ CAROUSEL
 .project-portal__carousel__background {
   background: $black-grey;
   width: 100%;
-  min-height: 60vh;
+  height: 60vh;
+  overflow: scroll;
 }
 
 .project-portal__carousel {
