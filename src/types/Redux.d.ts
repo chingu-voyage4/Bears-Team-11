@@ -102,6 +102,7 @@ export interface Store {
   currentProject: Project;
   markers: Array<Marker>;
   dispatch: Dispatch<Action>;
+  justRegistered: boolean;
 }
 
 export interface LoginProps {
@@ -113,6 +114,7 @@ export interface RegisterProps {
   register: register_fntype;
   visibleRegisterWindow: boolean;
   showRegisterWindow: showRegisterWindow_fntype;
+  completeRegistration: any;
 }
 
 export interface ProjectProps {

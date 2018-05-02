@@ -1,4 +1,8 @@
-import { SHOW_REGISTER_WINDOW, SHOW_LOGIN_WINDOW } from './actionTypes';
+import {
+  SHOW_REGISTER_WINDOW,
+  SHOW_LOGIN_WINDOW,
+  COMPLETE_REGISTRATION
+} from './actionTypes';
 import { Dispatch } from 'react-redux';
 import { AppAction } from '../types/Redux';
 import { Action } from '../types/Redux';
@@ -30,6 +34,22 @@ export function showLoginWindow(): (dispatch: Dispatch<AppAction>) => void {
   return dispatch => {
     return dispatch({
       type: SHOW_LOGIN_WINDOW
+    });
+  };
+}
+
+/*
+==========================
+COMPLETE REGISTRATION
+==========================
+*/
+
+export function completeRegistration(): (
+  dispatch: Dispatch<AppAction>
+) => void {
+  return dispatch => {
+    return dispatch({
+      type: COMPLETE_REGISTRATION
     });
   };
 }
