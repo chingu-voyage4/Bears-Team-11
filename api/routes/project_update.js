@@ -10,13 +10,13 @@ module.exports = function(passport) {
   router.post('/:id', isAuthenticated, function(req, res) {
     var projectId = req.params.id;
     var updateBody = req.body;
-
+    updateBody.modifiedAt = Date.now();
     delete updateBody._id;
     delete updateBody.images;
 
     Project.findOneAndUpdate(
       { _id: projectId },
-      { modifiedAt: Date.now() },
+      updateBody,
       { new: true },
       function(err, project) {
         if (err) {
@@ -24,47 +24,16 @@ module.exports = function(passport) {
         } else if (!project) {
           return res.json({ error: 'Project does not exist: ' + err });
         } else {
-          // loop through every key/value pair on updateBody, saves each to userDetails
-          var updateEachKey = () => {
-            for (var key in updateBody) {
-              Project.findByIdAndUpdate(
-                projectId,
-                { [key]: updateBody[key] },
-                { new: true },
-                function(err, updatedObject) {
-                  if (err || !updatedObject) {
-                    return res.json({
-                      error: 'Could not update project: ' + err
-                    });
-                  }
-                }
-              );
-            }
-          };
-          async function updateThenReturn() {
-            await updateEachKey();
-
-            await Project.findById(projectId, function(err, project) {
-              if (err || !project) {
-                return res.json({
-                  error: 'Error in retrieving project: ' + err
-                });
-              } else {
-                // check through array of tags and save new ones in collection
-                if (project.tags) {
-                  project.tags.forEach(tag => {
-                    saveTag(tag);
-                  });
-                }
-                res.json({
-                  project: project,
-                  message: 'Project saved successfully'
-                });
-              }
+          // check through array of tags and save new ones in collection
+          if (project.tags) {
+            project.tags.forEach(tag => {
+              saveTag(tag);
             });
           }
-
-          updateThenReturn();
+          res.json({
+            project: project,
+            message: 'Project saved successfully'
+          });
         }
       }
     );

@@ -36,7 +36,6 @@ class PersonalDetails extends React.Component<
       this.state.userId
     );
   }
-
   public handleInputChange(e: React.FormEvent<HTMLInputElement>): void {
     var { name, value } = e.currentTarget;
     this.setState({

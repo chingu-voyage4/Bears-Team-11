@@ -32,6 +32,14 @@ FILE SETUP
 }
 /*
 ==========================
+Z-INDEX
+==========================
+*/
+$login-register-window-z: 5;
+$redline-image-container-z: 10;
+$header-dropdown-z: 20;
+/*
+==========================
 FONTS
 ==========================
 */
@@ -86,7 +94,7 @@ LOGIN / REGISTER COMPONENTS
   right: 0;
   bottom: 0;
   margin: auto;
-  z-index: 5;
+  z-index: $login-register-window-z;
   width: 350px;
   border: 2px solid $theme-blue;
   box-shadow: $box-shadow;

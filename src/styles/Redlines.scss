@@ -1,3 +1,4 @@
+@import '_variables.scss';
 /*
 ==========================
 CONTAINER
@@ -104,7 +105,7 @@ IMAGE
   position: relative;
   width: 1280px;
   background: #d1d1d1;
-  z-index: -1;
+  z-index: $redline-image-container-z;
 }
 .redline-image {
   width: 100%;
@@ -170,7 +171,6 @@ ANNOTATION
   align-items: center;
   justify-content: center;
 }
-
 .annotation-initials {
   color: white;
   font-weight: 600;
@@ -242,7 +242,6 @@ COMMENT BOX
   margin: auto 5px;
   font-weight: normal;
 }
-
 .comment-box__menu {
   color: #d9d9d9;
   height: 15px;
