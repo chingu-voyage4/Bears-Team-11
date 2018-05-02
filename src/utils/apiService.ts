@@ -831,7 +831,6 @@ function getMarkerComments(markerId: string) {
 }
 
 function addMarkerComment(markerId: string, username: string, message: string) {
-  console.log(username);
   return axios
     .post(
       `http://localhost:8080/api/projects/revision/marker/${markerId}/comment`,

@@ -211,7 +211,7 @@ class AnnotationLayer extends React.Component<
 
   makeInteractive = () => {
     this.props.markers.forEach((marker: any) => {
-      if (marker.creator === this.props.user.username && !marker.isResolved) {
+      if (marker.creator === this.props.user.username) {
         this.makeDraggable(marker._id);
         if (marker.type === 'rectangle') {
           this.makeResizeable(marker._id);
