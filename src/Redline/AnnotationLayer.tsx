@@ -73,7 +73,9 @@ class AnnotationLayer extends React.Component<AnnotationLayerProps> {
             annotation.x,
             annotation.y,
             annotation.isResolved,
-            annotation.creator
+            annotation.creator,
+            annotation.width,
+            annotation.height
           )
         );
       } else {
