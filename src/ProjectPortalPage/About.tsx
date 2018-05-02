@@ -3,20 +3,20 @@ import Team from './Team';
 import * as moment from 'moment';
 import { connect } from 'react-redux';
 import axios from 'axios';
-class About extends React.PureComponent<
-  {
-    name: string | undefined;
-    dueDate: string | undefined;
-    description: string | undefined;
-    githubLink: string | undefined;
-    liveLink: string | undefined;
-    mockupLink: string | undefined;
-    lookingFor: Array<string> | undefined;
-    projectId: string;
-    user: any;
-  },
-  {}
-> {
+
+interface AboutProps {
+  name: string | undefined;
+  dueDate: string | undefined;
+  description: string | undefined;
+  githubLink: string | undefined;
+  liveLink: string | undefined;
+  mockupLink: string | undefined;
+  lookingFor: Array<string> | undefined;
+  projectId: string;
+  user: any;
+}
+
+class About extends React.PureComponent<AboutProps> {
   sendJoinRequest = (e: any) => {
     e.preventDefault();
     axios

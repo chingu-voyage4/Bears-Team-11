@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Footer from '../Headers&Footers/Footer';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
+import Footer from '../Footer/Footer';
+import HeaderContainer from '../Header/HeaderContainer';
 import { Store, UserProfileProps } from '../types/Redux';
 import { connect } from 'react-redux';
 import { getProjects } from '../actions/projectActions';

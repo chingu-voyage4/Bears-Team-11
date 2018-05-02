@@ -7,8 +7,8 @@ import { uploadProfileImage } from '../actions/userActions';
 import PublicProfile from './PublicProfile';
 import PersonalDetails from './PersonalDetails';
 import ProjectSettings from './ProjectSettings';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
-import Footer from '../Headers&Footers/Footer';
+import HeaderContainer from '../Header/HeaderContainer';
+import Footer from '../Footer/Footer';
 
 class SettingsPage extends React.Component<SettingsPageProps, State> {
   constructor(props: SettingsPageProps) {

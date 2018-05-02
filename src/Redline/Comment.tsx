@@ -1,11 +1,13 @@
 import * as React from 'react';
 import * as moment from 'moment';
 
-class Comment extends React.Component<{
+interface CommentProps {
   username: string;
   message: string;
   time: string;
-}> {
+}
+
+class Comment extends React.Component<CommentProps> {
   render() {
     return (
       <div className="comment-box__comment">

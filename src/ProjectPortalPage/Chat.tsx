@@ -3,17 +3,18 @@ import Message from './Message';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-class Chat extends React.PureComponent<
-  {
-    projectId: string;
-    user: any;
-  },
-  {
-    comments: Array<any>;
-    message: string;
-  }
-> {
-  constructor(props: { projectId: string; user: any }) {
+interface ChatProps {
+  projectId: string;
+  user: any;
+}
+
+interface ChatState {
+  comments: Array<any>;
+  message: string;
+}
+
+class Chat extends React.PureComponent<ChatProps, ChatState> {
+  constructor(props: ChatProps) {
     super(props);
     this.state = {
       message: '',
