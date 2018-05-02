@@ -14,7 +14,7 @@ class ProjectSettings extends React.Component<
   }
 
   componentWillMount() {
-    this.props.getProjects({}, { creator: this.props.user.username });
+    this.props.getProjects({}, {});
   }
 
   render() {
