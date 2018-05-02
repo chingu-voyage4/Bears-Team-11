@@ -20,6 +20,7 @@ interface RevisionsState {
     finalVersion: boolean;
   }>;
   isLoading: boolean;
+  team: Array<string>;
 }
 
 class Revisions extends React.PureComponent<RevisionsProps, RevisionsState> {
@@ -27,7 +28,8 @@ class Revisions extends React.PureComponent<RevisionsProps, RevisionsState> {
     super(props);
     this.state = {
       revisions: [],
-      isLoading: false
+      isLoading: false,
+      team: []
     };
   }
   componentDidMount() {
@@ -41,7 +43,23 @@ class Revisions extends React.PureComponent<RevisionsProps, RevisionsState> {
           revisions
         });
       });
+
+    axios
+      .get(`http://localhost:8080/api/projects/${this.props.projectId}/team`)
+      .then(response => {
+        var team = response.data.team;
+        this.setState({ team });
+      });
   }
+
+  isTeamMember = () => {
+    if (this.props.username && this.state.team) {
+      return this.state.team.some(teammember => {
+        return teammember === this.props.username;
+      });
+    }
+    return false;
+  };
 
   handleFile = (e: any) => {
     e.preventDefault();
@@ -67,9 +85,11 @@ class Revisions extends React.PureComponent<RevisionsProps, RevisionsState> {
 
   openFileSelectDialog = (e: any) => {
     e.preventDefault();
-    var revisionUpload = document.getElementById('revisionUpload');
-    if (revisionUpload) {
-      revisionUpload.click();
+    if (this.isTeamMember()) {
+      var revisionUpload = document.getElementById('revisionUpload');
+      if (revisionUpload) {
+        revisionUpload.click();
+      }
     }
   };
 

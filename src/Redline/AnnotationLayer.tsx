@@ -14,6 +14,7 @@ import {
 import { Store } from '../types/Redux';
 import { Marker } from '../types/Marker';
 import { User } from '../types/User';
+import axios from 'axios';
 
 declare global {
   interface Window {
@@ -37,11 +38,31 @@ interface AnnotationLayerProps {
   resizeMarker: any;
 }
 
-class AnnotationLayer extends React.Component<AnnotationLayerProps> {
+interface AnnotationLayerState {
+  team: Array<string>;
+}
+
+class AnnotationLayer extends React.Component<
+  AnnotationLayerProps,
+  AnnotationLayerState
+> {
+  constructor(props: AnnotationLayerProps) {
+    super(props);
+    this.state = {
+      team: []
+    };
+  }
   componentDidMount() {
     this.props.getMarkers(this.props.revisionId).then(() => {
       this.makeInteractive();
     });
+
+    axios
+      .get(`http://localhost:8080/api/projects/${this.props.projectId}/team`)
+      .then(response => {
+        var team = response.data.team;
+        this.setState({ team });
+      });
   }
 
   componentDidUpdate(nextProps: any) {
@@ -54,10 +75,10 @@ class AnnotationLayer extends React.Component<AnnotationLayerProps> {
   }
 
   isTeamMember = () => {
-    if (this.props.user._id) {
-      return this.props.user.projects.some(
-        (id: string) => id === this.props.projectId
-      );
+    if (this.props.user._id && this.state.team) {
+      return this.state.team.some(teammember => {
+        return teammember === this.props.user.username;
+      });
     }
     return false;
   };
