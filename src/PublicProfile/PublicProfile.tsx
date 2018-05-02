@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Footer from '../Footer/Footer';
 import HeaderContainer from '../Header/HeaderContainer';
-import { Store, UserProfileProps } from '../types/Redux';
-import { connect } from 'react-redux';
+import { Store, UserProfileProps, Action } from '../types/Redux';
+import { connect, Dispatch } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
 import '../styles/PublicProfile.css';
 import ProjectForPublicProfile from '../Project/ProjectForPublicProfile';
