@@ -18,7 +18,7 @@ OVERALL GRID CONTAINER
   grid-template-areas:
     'd p p p'
     'd p p p'
-    'd p p p';
+    '. p p p';
 }
 
 /*
@@ -73,7 +73,7 @@ SKILLS
   grid-area: s;
   border-top: 1px solid $light-grey;
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   width: 100%;
 }
 
@@ -93,7 +93,7 @@ USER DETAILS
 
 .public-profile-details {
   grid-area: t;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 }
 
 .public-profile-details-text {
@@ -106,7 +106,7 @@ USER DETAILS
   font-weight: 700;
   font-size: 18px;
   text-align: center;
-  margin-top: -20px;
+  margin-top: 20px;
 }
 
 .details-location {
