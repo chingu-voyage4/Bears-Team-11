@@ -11,10 +11,18 @@ class PersonalDetails extends React.Component<
   constructor(props: PersonalDetailsProps) {
     super(props);
     this.state = {
-      username: '',
-      email: '',
-      password: ''
+      firstName: '',
+      lastName: '',
+      email: ''
     };
+  }
+
+  componentWillMount() {
+    this.setState({
+      firstName: this.props.user.firstName,
+      lastName: this.props.user.lastName,
+      email: this.props.user.email
+    });
   }
 
   public handleInputChange(e: React.FormEvent<HTMLInputElement>): void {
@@ -24,24 +32,43 @@ class PersonalDetails extends React.Component<
     } as any);
   }
 
+  public submit(e: React.FormEvent<HTMLButtonElement>): void {
+    console.log(this.state);
+    this.props.userPrivateSettingsUpdate(
+      this.state.firstName,
+      this.state.lastName,
+      this.state.email,
+      this.props.user._id
+    );
+  }
+
   render() {
     return (
       <div>
         <div className="info-container">
           <div className="settings-headers">
-            <h1>Personal Stuff</h1>
+            <label className="settings-subhead-text">Personal Details</label>
           </div>
           <div className="settings-labels">
-            <h3>Username:</h3>
+            <label className="updateUserLabel">First Name</label>
             <input
               className="settings-input"
-              name="username"
-              value={this.state.username}
+              name="firstName"
+              value={this.state.firstName}
               onChange={e => this.handleInputChange(e)}
             />
           </div>
           <div className="settings-labels">
-            <h3>Email:</h3>
+            <label className="updateUserLabel">Last Name</label>
+            <input
+              className="settings-input"
+              name="lastName"
+              value={this.state.lastName}
+              onChange={e => this.handleInputChange(e)}
+            />
+          </div>
+          <div className="settings-labels">
+            <label className="updateUserLabel">Email</label>
             <input
               className="settings-input"
               name="email"
@@ -49,15 +76,14 @@ class PersonalDetails extends React.Component<
               onChange={e => this.handleInputChange(e)}
             />
           </div>
-          <div className="settings-labels">
-            <h3>Password:</h3>
-            <input
-              className="settings-input"
-              value={this.state.password}
-              onChange={e => this.handleInputChange(e)}
-            />
+          <div className="update-profile-btn">
+            <button
+              onClick={e => this.submit(e)}
+              className="personal-details-save-button"
+            >
+              Update User Settings
+            </button>
           </div>
-          <button className="personal-details-save-button">Save</button>
         </div>
       </div>
     );
