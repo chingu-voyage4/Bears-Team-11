@@ -13,33 +13,34 @@ class PersonalDetails extends React.Component<
     this.state = {
       firstName: '',
       lastName: '',
-      email: ''
+      email: '',
+      userId: '',
+      username: ''
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({
       firstName: this.props.user.firstName,
       lastName: this.props.user.lastName,
-      email: this.props.user.email
+      email: this.props.user.email,
+      userId: this.props.user._id,
+      username: this.props.user.username
     });
   }
-
+  public submit(e: React.FormEvent<HTMLButtonElement>): void {
+    this.props.userPrivateSettingsUpdate(
+      this.state.firstName,
+      this.state.lastName,
+      this.state.email,
+      this.state.userId
+    );
+  }
   public handleInputChange(e: React.FormEvent<HTMLInputElement>): void {
     var { name, value } = e.currentTarget;
     this.setState({
       [name]: value
     } as any);
-  }
-
-  public submit(e: React.FormEvent<HTMLButtonElement>): void {
-    console.log(this.state);
-    this.props.userPrivateSettingsUpdate(
-      this.state.firstName,
-      this.state.lastName,
-      this.state.email,
-      this.props.user._id
-    );
   }
 
   render() {
@@ -76,10 +77,19 @@ class PersonalDetails extends React.Component<
               onChange={e => this.handleInputChange(e)}
             />
           </div>
+          <div className="settings-labels">
+            <label className="updateUserLabel">Username</label>
+            <input
+              className="settings-input unavailible"
+              name="userId"
+              value={this.state.username}
+              readOnly={true}
+            />
+          </div>
           <div className="update-profile-btn">
             <button
+              className="public-profile-save-button"
               onClick={e => this.submit(e)}
-              className="personal-details-save-button"
             >
               Update User Settings
             </button>

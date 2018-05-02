@@ -3,7 +3,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  username?: string;
+  username: string;
   profileImage?: string;
   password?: string;
   googleId?: string;
