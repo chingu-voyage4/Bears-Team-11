@@ -308,6 +308,7 @@ module.exports = function(passport) {
         _id: req.params.markerId
       },
       req.body,
+      { new: true },
       function(err, marker) {
         if (err) {
           console.log(err);
