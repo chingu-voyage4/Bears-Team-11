@@ -2,11 +2,11 @@ import * as React from 'react';
 import '../styles/Register-Login.css';
 import { LoginState } from '../types/Login.d';
 import { LoginProps } from '../types/Redux';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { login } from '../actions/userActions';
 import GoogleSignIn from '../GoogleSignIn';
 import { showLoginWindow } from '../actions/appActions';
-import { Store } from '../types/Redux';
+import { Store, Action } from '../types/Redux';
 class Login extends React.Component<LoginProps, LoginState> {
   constructor(props: LoginProps) {
     super(props);
@@ -86,7 +86,16 @@ function mapStateToProps(state: Store) {
     visibleLoginWindow: state.registerLoginWindow.visibleLoginWindow
   };
 }
-export default connect(mapStateToProps, {
-  login,
-  showLoginWindow
-})(Login);
+
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    showLoginWindow: () => {
+      return dispatch(showLoginWindow());
+    },
+    login: (email: string, password: string) => {
+      return dispatch(login(email, password));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

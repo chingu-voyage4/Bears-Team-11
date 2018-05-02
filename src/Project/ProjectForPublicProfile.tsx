@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import * as React from 'react';
 import '../styles/Project.css';
 import { State } from '../types/Projects.d';
-import { Store, ProjectForPublicProfileProps } from '../types/Redux';
-import { connect } from 'react-redux';
+import { Store, ProjectForPublicProfileProps, Action } from '../types/Redux';
+import { connect, Dispatch } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
 
 class ProjectForPublicProfile extends React.Component<
@@ -110,6 +110,14 @@ const mapStateToProps = (state: Store) => {
   };
 };
 
-export default connect(mapStateToProps, { getProjects })(
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    getProjects: (options: object, query: object | null) => {
+      return dispatch(getProjects(options, query));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(
   ProjectForPublicProfile
 );

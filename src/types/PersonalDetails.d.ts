@@ -3,5 +3,3 @@ export interface PersonalDetailsState {
   email: string;
   password: string;
 }
-
-export interface PersonalDetailsProps {}
