@@ -118,7 +118,7 @@ SETTINGS DROPDOWN MENU
 
 .headerOptionsDropdown {
   background-color: white;
-  z-index: 10;
+  z-index: $header-dropdown-z;
   position: absolute;
   width: 120px;
   margin-left: -80px;
@@ -177,7 +177,7 @@ PROJECT DROPDOWN MENU
   background-color: white;
   min-width: 100%;
   box-shadow: $box-shadow;
-  z-index: 5;
+  z-index: $header-dropdown-z;
 }
 
 .header-project-portal-link {
