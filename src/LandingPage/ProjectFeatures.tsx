@@ -16,7 +16,7 @@ class ProjectFeatures extends React.Component {
           <div className="project-feature-image-div">
             <img
               className="project-feature-imac"
-              src={require('../assets/projectFilterFeature.gif')}
+              src={require('../assets/Feature3.png')}
             />
           </div>
         </div>
@@ -28,8 +28,8 @@ class ProjectFeatures extends React.Component {
           </div>
           <div className="project-feature-image-div">
             <img
-              className="project-feature-imac"
-              src={require('../assets/projectFilterFeature.gif')}
+              className="project-feature-imac push-right"
+              src={require('../assets/Feature1.png')}
             />
           </div>
         </div>
@@ -44,7 +44,7 @@ class ProjectFeatures extends React.Component {
           <div className="project-feature-image-div">
             <img
               className="project-feature-imac"
-              src={require('../assets/teamCollabFeature.gif')}
+              src={require('../assets/Feature2.png')}
             />
           </div>
         </div>

@@ -7,6 +7,7 @@
 # testing
 /coverage
 /.vscode
+launch.json
 
 # sensitive files
 /api/utils/s3_config.json
