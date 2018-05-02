@@ -26,6 +26,7 @@ async function loginWithDispatchAsync(
   password: string
 ): Promise<void> {
   var user = await apiService.login(email, password);
+  localStorage.setItem('user', JSON.stringify(user));
   dispatch({ type: dispatchType, data: user });
 }
 
@@ -91,6 +92,7 @@ async function registerWithDispatchAsync(
     email,
     password
   );
+  localStorage.setItem('user', JSON.stringify(user));
   dispatch({ type: dispatchType, data: user });
 }
 export type register_fntype = (
