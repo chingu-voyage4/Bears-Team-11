@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import LandingPage from './Landing Page/LandingPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import ProjectsPage from './Projects Page/ProjectsPage';
+import ProjectsPage from './ProjectsPage/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
 import PublicProfile from './PublicProfile/PublicProfile';
