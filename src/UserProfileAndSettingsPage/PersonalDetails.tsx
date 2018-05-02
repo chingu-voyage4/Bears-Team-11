@@ -18,6 +18,14 @@ class PersonalDetails extends React.Component<
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      firstName: this.props.user.firstName,
+      lastName: this.props.user.lastName,
+      email: this.props.user.email,
+      userId: this.props.user._id
+    });
+  }
   public submit(e: React.FormEvent<HTMLButtonElement>): void {
     this.props.userPrivateSettingsUpdate(
       this.state.firstName,
@@ -45,7 +53,7 @@ class PersonalDetails extends React.Component<
             <label className="updateUserLabel">First Name</label>
             <input
               className="settings-input"
-              name="blog"
+              name="firstName"
               value={this.state.firstName}
               onChange={e => this.handleInputChange(e)}
             />
@@ -54,7 +62,7 @@ class PersonalDetails extends React.Component<
             <label className="updateUserLabel">Last Name</label>
             <input
               className="settings-input"
-              name="blog"
+              name="lastName"
               value={this.state.lastName}
               onChange={e => this.handleInputChange(e)}
             />
@@ -63,7 +71,7 @@ class PersonalDetails extends React.Component<
             <label className="updateUserLabel">Email</label>
             <input
               className="settings-input"
-              name="blog"
+              name="email"
               value={this.state.email}
               onChange={e => this.handleInputChange(e)}
             />
@@ -72,7 +80,7 @@ class PersonalDetails extends React.Component<
             <label className="updateUserLabel">UserId</label>
             <input
               className="settings-input"
-              name="blog"
+              name="userId"
               value={this.state.userId}
               onChange={e => this.handleInputChange(e)}
             />
