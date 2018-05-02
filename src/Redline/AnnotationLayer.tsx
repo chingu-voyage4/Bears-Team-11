@@ -160,7 +160,9 @@ class AnnotationLayer extends React.Component<AnnotationLayerProps> {
       top: `${y}px`,
       left: `${x}px`,
       width: `${width}px`,
-      height: `${height}px`
+      height: `${height}px`,
+      backgroundColor: isResolved ? 'rgba(249,166,33,0.5)' : null,
+      borderColor: isResolved ? '#f9a621' : null
     };
     return (
       <div
