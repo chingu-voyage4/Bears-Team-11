@@ -16,30 +16,11 @@ module.exports = function(passport) {
       } else if (!user) {
         return res.json({ error: 'User ' + userId + 'does not exist' });
       } else {
-        // looks through every key/value pair on update object, saves each to userDetails
-        var loopAndSave = () => {
-          for (var key in updateObject) {
-            UserDetails.findOneAndUpdate(
-              { username: user.username },
-              { [key]: updateObject[key] },
-              { new: true },
-              function(err, userDetail) {
-                if (err) {
-                  return res.json({ error: err });
-                } else if (!userDetail) {
-                  return res.json({ error: 'UserDetail does not exist' });
-                }
-              }
-            );
-          }
-        };
-        async function saveThenSendBack() {
-          await loopAndSave();
-          // once loop is done, retrieve the userDetails again (assured that all fields have been updated)
-          UserDetails.findOne({ username: user.username }, function(
-            err,
-            userDetail
-          ) {
+        UserDetails.findOneAndUpdate(
+          { username: user.username },
+          updateObject,
+          { new: true },
+          function(err, userDetail) {
             if (err) {
               return res.json({ error: err });
             } else if (!userDetail) {
@@ -51,8 +32,8 @@ module.exports = function(passport) {
                 message: 'Successfully updated user details'
               });
             }
-          });
-        }
+          }
+        );
       }
     });
   });
@@ -63,51 +44,32 @@ module.exports = function(passport) {
     delete updateObject.userId;
     console.log(updateObject);
 
-    User.findOne({ _id: userId }, function(err, user) {
+    User.findByIdAndUpdate(userId, updateObject, { new: true }, function(
+      err,
+      user
+    ) {
       if (err) {
         return res.json({ error: err });
       } else if (!user) {
         return res.json({ error: 'User ' + userId + 'does not exist' });
       } else {
-        // looks through every key/value pair on update object, saves each to user
-        var loopAndSave = () => {
-          for (var key in updateObject) {
-            User.findOneAndUpdate(
-              { _id: user._id },
-              { [key]: updateObject[key] },
-              { new: true },
-              function(err, user) {
-                if (err) {
-                  return res.json({ error: err });
-                } else if (!user) {
-                  return res.json({ error: 'User does not exist' });
-                }
-              }
-            );
+        // once loop is done, retrieve the userDetails again
+        return UserDetails.findOne({ username: user.username }, function(
+          err,
+          userDetail
+        ) {
+          if (err) {
+            return res.json({ error: err });
+          } else if (!userDetail) {
+            return res.json({ error: 'UserDetail does not exist' });
+          } else {
+            return res.json({
+              user: user,
+              userDetail: userDetail,
+              message: 'Successfully updated user personal details'
+            });
           }
-        };
-        async function updateThenSendBack() {
-          await loopAndSave();
-          // once loop is done, retrieve the userDetails again (assured that all fields have been updated)
-          UserDetails.findOne({ username: user.username }, function(
-            err,
-            userDetail
-          ) {
-            if (err) {
-              return res.json({ error: err });
-            } else if (!userDetail) {
-              return res.json({ error: 'UserDetail does not exist' });
-            } else {
-              return res.json({
-                user: user,
-                userDetail: userDetail,
-                message: 'Successfully updated user personal details'
-              });
-            }
-          });
-        }
-
-        updateThenSendBack();
+        });
       }
     });
   });

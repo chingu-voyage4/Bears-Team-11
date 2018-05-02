@@ -1,11 +1,11 @@
 import * as React from 'react';
 import '../styles/ProjectsPage.css';
 import { ProjectFilterState } from '../types/ProjectsFilter.d';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { getProjects, searchProjects } from '../actions/projectActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
-import { ProjectPageFilterProps, Store } from '../types/Redux';
+import { ProjectPageFilterProps, Store, Action } from '../types/Redux';
 
 class ProjectsFilter extends React.Component<
   ProjectPageFilterProps,
@@ -133,9 +133,17 @@ class ProjectsFilter extends React.Component<
       var query: object | null = {};
 
       if (this.state.categories!.length > 0) {
-        var category = {
-          category: { $in: this.state.categories }
-        };
+        var category;
+        if (this.state.categories!.length === 1) {
+          category = {
+            category: { $in: [this.state.categories] }
+          };
+        } else {
+          category = {
+            category: { $all: this.state.categories }
+          };
+        }
+
         query = Object.assign({}, query, category);
       }
 
@@ -181,9 +189,13 @@ class ProjectsFilter extends React.Component<
 
       if (this.state.roles !== '') {
         if (this.state.roles === 'Programmer') {
-          query = Object.assign({}, query, { lookingFor: ['Programmer'] });
+          query = Object.assign({}, query, {
+            lookingFor: { $in: ['Programmer'] }
+          });
         } else if (this.state.roles === 'Designer') {
-          query = Object.assign({}, query, { lookingFor: ['Designer'] });
+          query = Object.assign({}, query, {
+            lookingFor: { $in: ['Designer'] }
+          });
         }
       }
 
@@ -195,11 +207,7 @@ class ProjectsFilter extends React.Component<
         }
       }
 
-      console.log(
-        'searchResults in projectsFilter=' + this.props.searchResults
-      );
       if (this.props.searchResults !== '') {
-        console.log('in assigning searchterm');
         query = Object.assign({}, query, {
           searchTerm: this.props.searchResults
         });
@@ -531,9 +539,22 @@ function mapStateToProps(state: Store) {
     searchResults: state.searchResults
   };
 }
-export default connect(mapStateToProps, {
-  getCategories,
-  getTags,
-  getProjects,
-  searchProjects
-})(ProjectsFilter);
+
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    getProjects: (options: object, query: object | null) => {
+      return dispatch(getProjects(options, query));
+    },
+    getCategories: () => {
+      return dispatch(getCategories());
+    },
+    getTags: () => {
+      return dispatch(getTags());
+    },
+    searchProjects: (query: string | null) => {
+      return dispatch(searchProjects(query));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsFilter);

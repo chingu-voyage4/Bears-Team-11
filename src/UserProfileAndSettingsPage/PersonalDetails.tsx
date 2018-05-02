@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { PersonalDetailsProps } from '../types/PersonalDetails.d';
+import { Store, PersonalDetailsProps } from '../types/Redux';
 import { PersonalDetailsState } from '../types/PersonalDetails.d';
+import { connect } from 'react-redux';
+import { userPrivateSettingsUpdate } from '../actions/userActions';
 
 class PersonalDetails extends React.Component<
   PersonalDetailsProps,
@@ -61,5 +63,12 @@ class PersonalDetails extends React.Component<
     );
   }
 }
+function mapStateToProps(state: Store) {
+  return {
+    user: state.user
+  };
+}
 
-export default PersonalDetails;
+export default connect(mapStateToProps, { userPrivateSettingsUpdate })(
+  PersonalDetails
+);

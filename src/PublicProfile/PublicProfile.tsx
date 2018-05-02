@@ -1,8 +1,8 @@
 import * as React from 'react';
-import Footer from '../Headers&Footers/Footer';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
-import { Store, UserProfileProps } from '../types/Redux';
-import { connect } from 'react-redux';
+import Footer from '../Footer/Footer';
+import HeaderContainer from '../Header/HeaderContainer';
+import { Store, UserProfileProps, Action } from '../types/Redux';
+import { connect, Dispatch } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
 import '../styles/PublicProfile.css';
 import ProjectForPublicProfile from '../Project/ProjectForPublicProfile';
@@ -40,10 +40,10 @@ class PublicProfile extends React.Component<UserProfileProps, {}> {
           'twitterLink',
           'blogLink'
         ];
-        renderedLinks = linkNames.map((link: string) => {
+        renderedLinks = linkNames.map((link: string, index: number) => {
           if (user[link] !== '') {
             return (
-              <a href={user[link]}>
+              <a href={user[link]} key={'user-links-' + index}>
                 <img
                   className="public-profile-link-icons"
                   src={imageLinks[link]}
@@ -176,4 +176,12 @@ function mapStateToProps(state: Store) {
     projects: state.projects
   };
 }
-export default connect(mapStateToProps, { getProjects })(PublicProfile);
+
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    getProjects: (options: object, query: object | null) => {
+      return dispatch(getProjects(options, query));
+    }
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(PublicProfile);

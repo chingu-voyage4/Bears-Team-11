@@ -1,13 +1,13 @@
 import * as React from 'react';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
-import Footer from '../Headers&Footers/Footer';
+import HeaderContainer from '../Header/HeaderContainer';
+import Footer from '../Footer/Footer';
 import Projects from '../Project/Projects';
 import ProjectsFilter from './ProjectsFilter';
 import '../styles/ProjectsPage.css';
 import '../styles/Project.css';
 import { ProjectPageState } from '../types/ProjectsPage.d';
-import { Store, ProjectPageProps } from '../types/Redux';
-import { connect } from 'react-redux';
+import { Store, ProjectPageProps, Action } from '../types/Redux';
+import { connect, Dispatch } from 'react-redux';
 import { getProjects, searchProjects } from '../actions/projectActions';
 
 class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
@@ -95,7 +95,15 @@ const mapStateToProps = (state: Store) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  getProjects,
-  searchProjects
-})(ProjectsPage);
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    getProjects: (options: object, query: object | null) => {
+      return dispatch(getProjects(options, query));
+    },
+    searchProjects: (query: string | null) => {
+      return dispatch(searchProjects(query));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsPage);

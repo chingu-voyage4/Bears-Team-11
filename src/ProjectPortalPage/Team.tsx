@@ -1,13 +1,15 @@
 import * as React from 'react';
 import axios from 'axios';
 
-class Team extends React.PureComponent<
-  { projectId: string },
-  {
-    thumbnails: Array<string>;
-  }
-> {
-  constructor(props: { projectId: string }) {
+interface TeamProps {
+  projectId: string;
+}
+
+interface TeamState {
+  thumbnails: Array<string>;
+}
+class Team extends React.PureComponent<TeamProps, TeamState> {
+  constructor(props: TeamProps) {
     super(props);
     this.state = {
       thumbnails: []

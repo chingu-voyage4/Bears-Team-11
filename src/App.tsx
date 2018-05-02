@@ -5,14 +5,14 @@ import { Provider } from 'react-redux';
 import rootReducer from './reducers';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import LandingPage from './Landing Page/LandingPage';
+import LandingPage from './LandingPage/LandingPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import ProjectsPage from './Projects Page/ProjectsPage';
+import ProjectsPage from './ProjectsPage/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
 import PublicProfile from './PublicProfile/PublicProfile';
 import Redline from './Redline';
-import ProjectPortalPage from './ProjectPortalPage/ProjectPortalPage';
+import ProjectPortalPage from './ProjectPortalPage';
 import { HYDRATE_USER } from './actions/actionTypes';
 
 const store = createStore(

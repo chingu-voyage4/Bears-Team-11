@@ -2,23 +2,24 @@ import * as React from 'react';
 import * as moment from 'moment';
 // import axios from 'axios';
 
-// FIX NEEDED: API for fetching user images broken due to recent changes
-class Message extends React.PureComponent<
-  {
-    creator: string;
-    createdAt: string;
-    comment: string;
-  },
-  { thumbnailURL: string }
-> {
-  constructor(props: { creator: string; createdAt: string; comment: string }) {
-    super(props);
+interface MessageProps {
+  creator: string;
+  createdAt: string;
+  comment: string;
+}
 
+interface MessageState {
+  thumbnailURL: string;
+}
+class Message extends React.PureComponent<MessageProps, MessageState> {
+  constructor(props: MessageProps) {
+    super(props);
     this.state = {
       thumbnailURL: ''
     };
   }
   componentDidMount() {
+    // FIX NEEDED: API for fetching user images broken due to recent changes
     // axios
     //   .get(
     //     `http://localhost:8080/api/user/${this.props.creator}/profile/picture`

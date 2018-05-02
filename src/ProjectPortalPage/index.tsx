@@ -1,19 +1,24 @@
 import * as React from 'react';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
+import HeaderContainer from '../Header/HeaderContainer';
 import About from './About';
 import Chat from './Chat';
 import Revisions from './Revisions';
 import '../styles/ProjectPortalPage.css';
 import apiService from '../utils/apiService';
+
+interface ProjectPortalPageProps {
+  match: { params: { id: string } };
+}
+
+interface ProjectPortalPageState {
+  currentProject: any;
+}
+
 class ProjectPortalPage extends React.Component<
-  {
-    match: { params: { id: string } };
-  },
-  {
-    currentProject: any;
-  }
+  ProjectPortalPageProps,
+  ProjectPortalPageState
 > {
-  constructor(props: { match: { params: { id: string } } }) {
+  constructor(props: ProjectPortalPageProps) {
     super(props);
     this.state = {
       currentProject: {}

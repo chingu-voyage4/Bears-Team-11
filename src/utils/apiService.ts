@@ -450,93 +450,43 @@ function getProject(projectId: string) {
     .then(response => response.data.project);
 }
 
-function addProject(project: Project): Promise<Project> {
-  return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/add';
+async function addOrUpdateProject(project: Project): Promise<Project> {
+  const endpoint = project.hasOwnProperty('_id')
+    ? 'http://localhost:8080/api/projects/update/' + project._id
+    : 'http://localhost:8080/api/projects/add';
 
-    var data: object = {
-      body: JSON.stringify({
-        name: project.name,
-        description: project.description,
-        dueDate: project.dueDate,
-        team: project.team,
-        githubLink: project.githubLink,
-        mockupLink: project.mockupLink,
-        liveLink: project.liveLink,
-        lookingFor: project.lookingFor,
-        status: project.status,
-        category: project.category,
-        tags: project.tags,
-        images: project.images,
-        contact: project.contact,
-        creator: project.creator
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      credentials: 'include'
-    };
+  var data: object = {
+    body: JSON.stringify({
+      name: project.name,
+      description: project.description,
+      dueDate: project.dueDate,
+      team: project.team,
+      githubLink: project.githubLink,
+      mockupLink: project.mockupLink,
+      liveLink: project.liveLink,
+      lookingFor: project.lookingFor,
+      status: project.status,
+      category: project.category,
+      tags: project.tags,
+      contact: project.contact,
+      creator: project.creator
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    credentials: 'include'
+  };
 
-    fetch(endpoint, data)
-      // tslint:disable-next-line
-      .then(function(res: any) {
-        return res.json();
-      })
-      // tslint:disable-next-line
-      .then(function(res: any) {
-        JSON.stringify(res);
-        if (res.message === 'New project saved successfully') {
-          resolve(res.newProject);
-        } else {
-          reject(res.error);
-        }
-      });
-  });
-}
-
-function updateProject(project: Project): Promise<Project> {
-  return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/update/' + project._id;
-
-    var data: object = {
-      body: JSON.stringify({
-        name: project.name,
-        description: project.description,
-        dueDate: project.dueDate,
-        team: project.team,
-        githubLink: project.githubLink,
-        mockupLink: project.mockupLink,
-        liveLink: project.liveLink,
-        lookingFor: project.lookingFor,
-        status: project.status,
-        category: project.category,
-        tags: project.tags,
-        images: project.images,
-        contact: project.contact,
-        creator: project.creator
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      credentials: 'include'
-    };
-
-    fetch(endpoint, data)
-      // tslint:disable-next-line
-      .then(function(res: any) {
-        return res.json();
-      })
-      // tslint:disable-next-line
-      .then(function(res: any) {
-        JSON.stringify(res);
-        if (res.message === 'Project saved successfully') {
-          resolve(res.project);
-        } else {
-          reject(res.error);
-        }
-      });
+  var fetchResult = await fetch(endpoint, data);
+  return fetchResult.json().then(res => {
+    if (res.message === 'New project saved successfully') {
+      return res.newProject;
+    } else if (res.message === 'Project saved successfully') {
+      return res.project;
+    } else {
+      return res.error;
+    }
   });
 }
 
@@ -873,7 +823,7 @@ function resolveMarker(id: string) {
 function getMarkerComments(markerId: string) {
   return axios
     .get(
-      `http://localhost:8080/api/projects/revision//markers/${markerId}/comments`
+      `http://localhost:8080/api/projects/revision/markers/${markerId}/comments`
     )
     .then(response => {
       return response.data.comments;
@@ -925,7 +875,6 @@ var apiService = {
   logout,
   getProjects,
   getProject,
-  addProject,
   getMarkers,
   getMarkerComments,
   addMarkerComment,
@@ -943,7 +892,7 @@ var apiService = {
   uploadProfileImage,
   downloadProjectImageURLS,
   userSettingsUpdate,
-  updateProject,
+  addOrUpdateProject,
   uploadRevisionImage,
   addRevision,
   userPrivateSettingsUpdate

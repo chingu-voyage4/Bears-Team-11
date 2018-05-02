@@ -10,6 +10,7 @@ import { getCategories_fntype } from '../actions/categoryActions';
 import {
   getAllUsers_fntype,
   userSettingsUpdate_fntype,
+  userPrivateSettingsUpdate_fntype,
   uploadProfileImage_fntype,
   logout_fntype,
   register_fntype,
@@ -17,11 +18,10 @@ import {
   login_fntype
 } from '../actions/userActions';
 import {
-  addProject_fntype,
+  addOrUpdateProject_fntype,
   getOneProject_fntype,
   deleteProject_fntype,
   downloadProjectImageURLS_fntype,
-  updateProject_fntype,
   getProject_fntype,
   searchProjects_fntype,
   getProjects_fntype
@@ -101,6 +101,8 @@ export interface Store {
   searchResults: string | null;
   currentProject: Project;
   markers: Array<Marker>;
+  dispatch: Dispatch<Action>;
+  justRegistered: boolean;
 }
 
 export interface LoginProps {
@@ -112,6 +114,7 @@ export interface RegisterProps {
   register: register_fntype;
   visibleRegisterWindow: boolean;
   showRegisterWindow: showRegisterWindow_fntype;
+  completeRegistration: any;
 }
 
 export interface ProjectProps {
@@ -125,13 +128,12 @@ export interface AddProjectProps {
   tags: Tags | any;
   allUsers: Users;
   imageLinks: string[];
-  addOrUpdateProject: Project;
+  currentProject: Project;
   match: { params: { id: string } };
-  addProject: addProject_fntype;
+  addOrUpdateProject: addOrUpdateProject_fntype;
   getAllUsers: getAllUsers_fntype;
   getCategories: getCategories_fntype;
   getTags: getTags_fntype;
-  updateProject: updateProject_fntype;
   getOneProject: getOneProject_fntype;
   getProjects: getProjects_fntype;
 }
@@ -194,7 +196,6 @@ export interface ProjectSettingsProps {
   projects: Array<Project>;
   deleteProject: deleteProject_fntype;
   getProjects: getProjects_fntype;
-  updateProject: updateProject_fntype;
 }
 
 export interface ProjectForPublicProfileProps {
@@ -232,4 +233,9 @@ export interface UserProfileProps {
 export interface ReadyToTryProps {
   visibleRegisterWindow: boolean;
   showRegisterWindow: showRegisterWindow_fntype;
+}
+
+export interface PersonalDetailsProps {
+  user: User;
+  userPrivateSettingsUpdate: userPrivateSettingsUpdate_fntype;
 }
