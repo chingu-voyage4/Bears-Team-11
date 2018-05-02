@@ -86,45 +86,52 @@ module.exports = function(passport) {
     );
   });
 
+  // get team members
+  router.get('/:id/team', function(req, res) {
+    Project.findById(req.params.id, function(err, project) {
+      if (err) {
+        res.send(err);
+      } else {
+        var team = project.team;
+        team.push(project.creator);
+        res.json({
+          message: `Successfully retrieved team for ${project._id}`,
+          team
+        });
+      }
+    });
+  });
+
   // get team thumbnails
   router.get('/:id/team/thumbnails', function(req, res) {
-    UserDetails.find(
-      {
-        projects: {
-          $in: [req.params.id]
-        }
-      },
-      function(err, userDetails) {
-        if (err) {
-          console.log(err);
-        } else {
-          var usernames = userDetails.map(userdetail => {
-            return userdetail.username;
-          });
-          User.find(
-            {
-              username: {
-                $in: usernames
-              }
-            },
-            function(err, user) {
-              if (err) {
-                console.log(err);
-              } else {
-                var thumbnailsURLs = user.map(data => {
-                  return data.profileImage;
-                });
-                res.json({
-                  message:
-                    'Team successfully found for project ' + req.params.id,
-                  thumbnailsURLs
-                });
-              }
+    Project.findById(req.params.id, function(err, project) {
+      if (err) {
+        res.send(err);
+      } else {
+        var team = project.team;
+        team.push(project.creator);
+        User.find(
+          {
+            username: {
+              $in: team
             }
-          );
-        }
+          },
+          function(err, user) {
+            if (err) {
+              res.send(err);
+            } else {
+              var thumbnailsURLs = user.map(data => {
+                return data.profileImage;
+              });
+              res.json({
+                message: 'Team successfully found for project ' + req.params.id,
+                thumbnailsURLs
+              });
+            }
+          }
+        );
       }
-    );
+    });
   });
 
   // TODO: Add authorization and validation
