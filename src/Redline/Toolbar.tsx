@@ -3,6 +3,7 @@ import * as React from 'react';
 
 class Toolbar extends React.Component<
   {
+    isDisabled: boolean;
     tool: any;
     selectCursorTool: any;
     selectCircleTool: any;
@@ -12,6 +13,15 @@ class Toolbar extends React.Component<
   {}
 > {
   render() {
+    if (this.props.isDisabled) {
+      return (
+        <div className="toolbar">
+          <p className="toolbar__message">
+            Only team members can access the tool bar 😅
+          </p>
+        </div>
+      );
+    }
     return (
       <div className="toolbar">
         <div>

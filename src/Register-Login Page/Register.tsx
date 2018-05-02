@@ -7,6 +7,8 @@ import '../styles/Register-Login.css';
 import GoogleSignIn from '../GoogleSignIn';
 import { showRegisterWindow } from '../actions/appActions';
 import { Store } from '../types/Redux';
+import { Redirect } from 'react-router';
+
 class Register extends React.Component<RegisterProps, RegisterState> {
   constructor(props: RegisterProps) {
     super(props);
@@ -30,7 +32,22 @@ class Register extends React.Component<RegisterProps, RegisterState> {
   public handleSubmit(e: React.FormEvent<HTMLButtonElement>): void {
     e.preventDefault();
     const { firstName, lastName, username, email, password } = this.state;
-    this.props.register(firstName, lastName, username, email, password);
+
+    var submitRegistration = () => {
+      return this.props.register(
+        firstName,
+        lastName,
+        username,
+        email,
+        password
+      );
+    };
+
+    async function submitThenRedirect() {
+      await submitRegistration();
+      return <Redirect from="/" to="/user/settings" />;
+    }
+    submitThenRedirect();
   }
 
   windowVisibility = (e: React.MouseEvent<HTMLButtonElement>): void => {

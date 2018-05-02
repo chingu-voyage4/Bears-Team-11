@@ -308,6 +308,69 @@ function userSettingsUpdate(
   });
 }
 
+function userPrivateSettingsUpdate(
+  firstName: string,
+  lastName: string,
+  // username: string,
+  email: string,
+  // password: string,
+  userId: string
+): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = 'http://localhost:8080/api/user/update/personal';
+    var data: object = {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        // username: username,
+        email: email,
+        // password: password,
+        userId: userId
+      })
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.message === 'Successfully updated user personal details') {
+          var user = res.user;
+          var userDetails = res.userDetail;
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
 function logout() {
   return axios.get('http://localhost:8080/api/logout').then(response => {
     return null;
@@ -513,14 +576,15 @@ function uploadProjectImage(
   });
 }
 
-function uploadProfileImage(file: File, userId: string): Promise<User> {
+function uploadProfileImage(file: FileList, userId: string): Promise<User> {
   return new Promise((resolve, reject) => {
     const endpoint =
       'http://localhost:8080/api/upload/image/profile?userName=' + userId;
 
     var formData = new FormData();
-    formData.append('image', file);
-
+    for (var i = 0; i < file.length; i++) {
+      formData.append('image', file![i]);
+    }
     var data: object = {
       body: formData,
       method: 'POST',
@@ -567,23 +631,25 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
 
 function uploadRevisionImage(
   file: FileList,
-  projectId: string
-): Promise<Project> {
-  return new Promise((resolve, reject) => {
-    const endpoint =
-      'http://localhost:8080/api/upload/image/revision?revisionId=' + projectId;
+  projectId: string,
+  username: string,
+  revisionNumber: number
+) {
+  // tslint:disable-next-line
+  const endpoint = `http://localhost:8080/api/upload/image/revision?projectId=${projectId}&user=${username}&revisionNumber=${revisionNumber}`;
 
-    var formData = new FormData();
-    for (var i = 0; i < file.length; i++) {
-      formData.append('image', file![i]);
-    }
+  var formData = new FormData();
+  for (var i = 0; i < file.length; i++) {
+    formData.append('image', file![i]);
+  }
 
-    var data: object = {
-      body: formData,
-      method: 'POST',
-      credentials: 'include'
-    };
+  var data: object = {
+    body: formData,
+    method: 'POST',
+    credentials: 'include'
+  };
 
+  return (
     fetch(endpoint, data)
       // tslint:disable-next-line
       .then(function(res: any) {
@@ -593,12 +659,12 @@ function uploadRevisionImage(
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'Successfully saved revision image') {
-          resolve(res.revision);
+          return res.revision;
         } else {
-          reject(res.error);
+          return res.error;
         }
-      });
-  });
+      })
+  );
 }
 
 function downloadProjectImageURLS(projectId: string): Promise<string[]> {
@@ -699,6 +765,7 @@ function getTags(): Promise<Tags> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
+        console.log(res);
         if (res.message === 'Successfully retrieved tags') {
           resolve(res.tags);
         } else {
@@ -761,6 +828,13 @@ function saveMarker(revisionId: string, marker: Marker) {
       return response.data.marker;
     });
 }
+function deleteMarker(markerId: string) {
+  return axios
+    .delete(`http://localhost:8080/api/projects/revision/marker/${markerId}`)
+    .then(response => {
+      return response.data.marker;
+    });
+}
 
 function updateMarkerPosition(id: string, x: string, y: string) {
   console.log('updating marker position...');
@@ -780,6 +854,16 @@ function updateMarkerDimensions(id: string, width: string, height: string) {
     .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
       width,
       height
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function resolveMarker(id: string) {
+  return axios
+    .put(`http://localhost:8080/api/projects/revision/marker/${id}`, {
+      isResolved: true
     })
     .then(response => {
       return response.data.marker;
@@ -811,6 +895,26 @@ function addMarkerComment(markerId: string, username: string, message: string) {
     });
 }
 
+function addRevision(
+  projectId: string,
+  finalVersion: number,
+  imageURL: string,
+  creator: string,
+  description: string
+) {
+  return axios
+    .post(`http://localhost:8080/api/projects/${projectId}/revision`, {
+      revisionNumber: 'string',
+      finalVersion: true,
+      imageURL: '',
+      creator: '',
+      description: ''
+    })
+    .then(response => {
+      console.log(response);
+    });
+}
+
 /* Service Module */
 var apiService = {
   login,
@@ -826,8 +930,10 @@ var apiService = {
   getMarkerComments,
   addMarkerComment,
   saveMarker,
+  deleteMarker,
   updateMarkerPosition,
   updateMarkerDimensions,
+  resolveMarker,
   getOneProject,
   deleteProject,
   getTags,
@@ -838,7 +944,9 @@ var apiService = {
   downloadProjectImageURLS,
   userSettingsUpdate,
   updateProject,
-  uploadRevisionImage
+  uploadRevisionImage,
+  addRevision,
+  userPrivateSettingsUpdate
 };
 
 export default apiService;

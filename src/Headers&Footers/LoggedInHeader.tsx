@@ -22,61 +22,53 @@ class LoggedInHeader extends React.Component<
   };
 
   public toggleSettingsDropdown(e: React.MouseEvent<HTMLButtonElement>): void {
-    var doc = document.getElementById('headerOptionsDropdwn')!;
+    var doc = e.currentTarget.nextElementSibling!;
     doc.classList.toggle('new-project-show');
   }
 
   render() {
-    class ProjectLinksDropdown extends React.Component<
-      { user: any; projects: any },
-      {}
-    > {
+    var listOfProjects = this.props.projects;
+    var username = this.props.user.username;
+    var activeProjects: any;
+    var links: any;
+
+    if (listOfProjects === null || listOfProjects === undefined) {
+      links = null;
+    } else {
+      activeProjects = listOfProjects.filter((project: any) => {
+        if (
+          project.creator === username ||
+          (project.team!.indexOf(username) !== -1 && project.status === true)
+        ) {
+          return project;
+        } else {
+          return null;
+        }
+      });
+    }
+    if (activeProjects === undefined) {
+      links = null;
+    } else if (!Array.isArray(activeProjects)) {
+      links = (
+        <Link
+          className="header-project-portal-link"
+          to={'/projects/' + activeProjects._id}
+        >
+          {activeProjects.name}
+        </Link>
+      );
+    } else {
+      links = activeProjects.map((project: any, index: number) => {
+        var linkTo = '/projects/' + project._id;
+        return (
+          <Link className="header-project-portal-link" to={linkTo} key={index}>
+            {project.name}
+          </Link>
+        );
+      });
+    }
+    class ProjectLinksDropdown extends React.Component<{}, {}> {
       render() {
-        var listOfProjects = this.props.projects;
-        var username = this.props.user.username;
-        var activeProjects;
-        var links;
-
-        console.log(listOfProjects);
-        if (listOfProjects === null || listOfProjects === undefined) {
-          links = null;
-        } else {
-          activeProjects = listOfProjects.filter((project: any) => {
-            if (
-              project.creator === username ||
-              (project.team!.indexOf(username) !== -1 &&
-                project.status === true)
-            ) {
-              return project;
-            } else {
-              return null;
-            }
-          });
-        }
-        if (!Array.isArray(activeProjects)) {
-          links = (
-            <Link
-              className="header-project-portal-link"
-              to={'/projects/' + activeProjects._id}
-            >
-              {activeProjects.name}
-            </Link>
-          );
-        } else {
-          links = activeProjects.map((project: any, index: number) => {
-            var linkTo = '/projects/' + project._id;
-            return (
-              <Link
-                className="header-project-portal-link"
-                to={linkTo}
-                key={index}
-              >
-                {project.name}
-              </Link>
-            );
-          });
-        }
-
         return (
           <div>
             {links}
@@ -99,10 +91,7 @@ class LoggedInHeader extends React.Component<
           <div className="dropdown">
             <button className="dropbtn">Choose A Portal &#x25BC;</button>
             <div className="dropdown-content">
-              <ProjectLinksDropdown
-                projects={this.props.projects}
-                user={this.props.user}
-              />
+              <ProjectLinksDropdown />
             </div>
           </div>
           <div className="logged-in-header-container-right">
@@ -127,6 +116,97 @@ class LoggedInHeader extends React.Component<
                 <Link className="headerOptionsDropdownText" to="/user/settings">
                   User Settings
                 </Link>
+                <div
+                  className="headerOptionsDropdownText lineAbove"
+                  onClick={this.logout}
+                >
+                  Log Out
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="logged-in-header-container-sub-1080">
+          <Link to="/" className="logged-in-header-logo">
+            project match
+          </Link>
+          <div className="dropdown">
+            <button className="dropbtn">Choose A Portal &#x25BC;</button>
+            <div className="dropdown-content">
+              <ProjectLinksDropdown />
+            </div>
+          </div>
+          <div className="logged-in-header-container-right">
+            <div className="logged-in-header-profileImageDiv">
+              <button
+                onClick={e => this.toggleSettingsDropdown(e)}
+                className="logged-in-header-profileImageButton"
+              >
+                <img
+                  className="profileImage"
+                  src={
+                    this.props.user.profileImage
+                      ? this.props.user.profileImage
+                      : require('../assets/blank image.png')
+                  }
+                />
+              </button>
+              <div
+                className="headerOptionsDropdown"
+                id="headerOptionsDropdwn-sub1080"
+              >
+                <Link to="/projects/add" className="headerOptionsDropdownText">
+                  Create New Project
+                </Link>
+                <Link className="headerOptionsDropdownText" to="/user/settings">
+                  User Settings
+                </Link>
+                <div
+                  className="headerOptionsDropdownText lineAbove"
+                  onClick={this.logout}
+                >
+                  Log Out
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="logged-in-header-container-sub-725">
+          <Link to="/" className="logged-in-header-logo">
+            project match
+          </Link>
+          <div className="logged-in-header-container-right">
+            <div className="logged-in-header-profileImageDiv">
+              <button
+                onClick={e => this.toggleSettingsDropdown(e)}
+                className="logged-in-header-profileImageButton"
+              >
+                <img
+                  className="profileImage"
+                  src={
+                    this.props.user.profileImage
+                      ? this.props.user.profileImage
+                      : require('../assets/blank image.png')
+                  }
+                />
+              </button>
+              <div
+                className="headerOptionsDropdown"
+                id="headerOptionsDropdwn-sub1080"
+              >
+                <Link to="/projects/add" className="headerOptionsDropdownText">
+                  Create New Project
+                </Link>
+                <Link className="headerOptionsDropdownText" to="/user/settings">
+                  User Settings
+                </Link>
+                <Link className="headerOptionsDropdownText" to="/user/profile">
+                  {'Public Profile'}
+                </Link>
+                <div className="dropdown-content">
+                  <div className="dropdown-content-title">Project Portals</div>
+                  {links}
+                </div>
                 <div
                   className="headerOptionsDropdownText lineAbove"
                   onClick={this.logout}

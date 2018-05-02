@@ -7,10 +7,13 @@ import {
   addMarker,
   moveMarker,
   resizeMarker,
-  addComment
+  addComment,
+  resolveMarker,
+  deleteMarker
 } from '../actions/markerActions';
 import { Store } from '../types/Redux';
 import { Marker } from '../types/Marker';
+import { User } from '../types/User';
 
 declare global {
   interface Window {
@@ -24,10 +27,13 @@ class AnnotationLayer extends React.Component<{
   revisionId: string;
   projectId: string;
   markers: Array<Marker>;
+  user: User | any;
   addMarker: any;
   getMarkers: any;
   moveMarker: any;
   addComment: any;
+  resolveMarker: any;
+  deleteMarker: any;
   resizeMarker: any;
 }> {
   componentDidMount() {
@@ -46,15 +52,37 @@ class AnnotationLayer extends React.Component<{
     }
   }
 
+  isTeamMember = () => {
+    if (this.props.user._id) {
+      return this.props.user.projects.some(
+        (id: string) => id === this.props.projectId
+      );
+    }
+    return false;
+  };
+
   drawMarkers = () => {
     var markers: any = [];
     this.props.markers.forEach((annotation: any) => {
-      // console.log(annotation);
       if (annotation.type === 'rectangle') {
-        markers.push(this.drawRect(annotation._id, annotation.x, annotation.y));
+        markers.push(
+          this.drawRect(
+            annotation._id,
+            annotation.x,
+            annotation.y,
+            annotation.isResolved,
+            annotation.creator
+          )
+        );
       } else {
         markers.push(
-          this.drawCircle(annotation._id, annotation.x, annotation.y)
+          this.drawCircle(
+            annotation._id,
+            annotation.x,
+            annotation.y,
+            annotation.isResolved,
+            annotation.creator
+          )
         );
       }
     });
@@ -62,36 +90,44 @@ class AnnotationLayer extends React.Component<{
   };
 
   addMarker = (e: any) => {
-    var marker: any;
-    var { left, top } = e.target.getBoundingClientRect();
+    if (this.isTeamMember()) {
+      var marker: any;
+      var { left, top } = e.target.getBoundingClientRect();
 
-    switch (this.props.tool) {
-      case 'circle':
-        marker = {
-          x: e.pageX - left - 21,
-          y: e.pageY - top - 21,
-          type: 'circle'
-        };
-        this.saveMarker(marker);
-        break;
-      case 'rectangle':
-        // center the cursor
-        marker = {
-          x: e.pageX - left - 50,
-          y: e.pageY - top - 50,
-          width: 100,
-          height: 100,
-          type: 'rectangle'
-        };
-        this.saveMarker(marker);
-        break;
-      default:
-        break;
+      switch (this.props.tool) {
+        case 'circle':
+          marker = {
+            x: e.pageX - left - 21,
+            y: e.pageY - top - 21,
+            type: 'circle',
+            creator: this.props.user.username
+          };
+          this.saveMarker(marker);
+          break;
+        case 'rectangle':
+          // center the cursor
+          marker = {
+            x: e.pageX - left - 50,
+            y: e.pageY - top - 50,
+            width: 100,
+            height: 100,
+            type: 'rectangle',
+            creator: this.props.user.username
+          };
+          this.saveMarker(marker);
+          break;
+        default:
+          break;
+      }
     }
   };
 
   saveMarker = (marker: Marker) => {
-    this.props.addMarker(this.props.revisionId, marker);
+    this.props.addMarker(
+      this.props.revisionId,
+      marker,
+      this.props.user.username
+    );
     this.props.onMarkerAdd();
   };
 
@@ -107,13 +143,20 @@ class AnnotationLayer extends React.Component<{
     }
   };
 
-  drawRect = (id: any, x: any, y: any, width = 100, height = 100): any => {
+  drawRect = (
+    id: any,
+    x: any,
+    y: any,
+    isResolved: any,
+    creator: string,
+    width = 100,
+    height = 100
+  ): any => {
     var style = {
       top: `${y}px`,
       left: `${x}px`,
       width: `${width}px`,
-      height: `${height}px`,
-      zIndex: 100
+      height: `${height}px`
     };
     return (
       <div
@@ -123,17 +166,26 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <CommentBox key={id} markerId={id} revisionId={this.props.revisionId} />
+        <CommentBox
+          key={id}
+          markerId={id}
+          revisionId={this.props.revisionId}
+          deleteMarker={this.deleteMarker}
+          resolveMarker={this.resolveMarker}
+          isResolved={isResolved}
+        />
+        <div className="annotation-initials">{creator}</div>
       </div>
     );
   };
 
-  drawCircle = (id: any, x: any, y: any) => {
+  drawCircle = (id: any, x: any, y: any, isResolved: any, creator: string) => {
     var style = {
       top: `${y}px`,
       left: `${x}px`,
-      zIndex: 100
+      backgroundColor: isResolved ? '#f9a621' : null
     };
+
     return (
       <div
         key={id}
@@ -142,34 +194,48 @@ class AnnotationLayer extends React.Component<{
         style={style}
         onClick={this.toggleCommentBox}
       >
-        <CommentBox key={id} markerId={id} revisionId={this.props.revisionId} />
+        <CommentBox
+          key={id}
+          markerId={id}
+          revisionId={this.props.revisionId}
+          deleteMarker={this.deleteMarker}
+          resolveMarker={this.resolveMarker}
+          isResolved={isResolved}
+        />
+        <div className="annotation-initials">{creator}</div>
       </div>
     );
   };
 
   makeInteractive = () => {
     this.props.markers.forEach((marker: any) => {
-      this.makeDraggable(marker._id);
-      if (marker.type === 'rectangle') {
-        this.makeResizeable(marker._id);
+      if (marker.creator === this.props.user.username) {
+        this.makeDraggable(marker._id);
+        if (marker.type === 'rectangle') {
+          this.makeResizeable(marker._id);
+        }
       }
     });
   };
 
   enableInteractivity = () => {
     this.props.markers.forEach((marker: any) => {
-      this.enableDrag(marker._id);
-      if (marker.type === 'rectangle') {
-        this.enableResize(marker._id);
+      if (marker.creator === this.props.user.username) {
+        this.enableDrag(marker._id);
+        if (marker.type === 'rectangle') {
+          this.enableResize(marker._id);
+        }
       }
     });
   };
 
   disableInteractivity = () => {
     this.props.markers.forEach((marker: any) => {
-      this.disableDrag(marker._id);
-      if (marker.type === 'rectangle') {
-        this.disableResize(marker._id);
+      if (marker.creator === this.props.user.username) {
+        this.disableDrag(marker._id);
+        if (marker.type === 'rectangle') {
+          this.disableResize(marker._id);
+        }
       }
     });
   };
@@ -208,6 +274,14 @@ class AnnotationLayer extends React.Component<{
     });
   };
 
+  resolveMarker = (markerId: any) => {
+    this.props.resolveMarker(markerId);
+  };
+
+  deleteMarker = (markerId: any) => {
+    this.props.deleteMarker(markerId);
+  };
+
   // TODO: make into one function?
   disableDrag = (id: any) => {
     window.$(`#${id}`).draggable('disable');
@@ -237,7 +311,8 @@ class AnnotationLayer extends React.Component<{
 
 function mapStateToProps(state: Store, ownProps: any) {
   return {
-    markers: state.markers
+    markers: state.markers,
+    user: state.user
   };
 }
 
@@ -246,5 +321,7 @@ export default connect(mapStateToProps, {
   addMarker,
   moveMarker,
   resizeMarker,
-  addComment
+  addComment,
+  resolveMarker,
+  deleteMarker
 })(AnnotationLayer);

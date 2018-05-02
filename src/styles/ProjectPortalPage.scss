@@ -72,6 +72,11 @@ REVISIONS
   position: relative;
 }
 
+.revision__image {
+  width: 350px;
+  height: 200px;
+}
+
 .revision__changes {
   display: flex;
   justify-content: center;
@@ -140,6 +145,7 @@ TEAM
 
 .team__thumbnail {
   width: 50px;
+  height: 50px;
   border-radius: 50%;
 }
 
@@ -192,8 +198,8 @@ MESSAGE
 */
 .message {
   display: flex;
-  align-items: center;
   padding: 5px 0;
+  flex-direction: column;
   color: $dark-grey;
 }
 
@@ -283,6 +289,36 @@ ABOUT
   color: $theme-blue;
 }
 
+/*
+==========================
+LOADER
+==========================
+*/
+.loader {
+  margin: 0 auto;
+  border: 8px solid $light-grey;
+  border-top: 8px solid $theme-blue;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*
+==========================
+MISC
+==========================
+*/
 .button {
   @include white-text-blue-background-button;
   // background: $theme-blue;

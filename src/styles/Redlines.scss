@@ -1,3 +1,8 @@
+/*
+==========================
+CONTAINER
+==========================
+*/
 .redline-container {
   width: 100vw;
   height: 100vh;
@@ -86,27 +91,26 @@
   flex-direction: column;
 }
 
-.redline-annotations {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
+/*
+==========================
+CANVAS
+==========================
+*/
 .redline-canvas {
   padding-top: 25px;
 }
 
+/*
+==========================
+IMAGE
+==========================
+*/
 .redline-image-container {
   margin: 0 auto;
   position: relative;
   width: 1280px;
   background: #d1d1d1;
-}
-
-.redline-annotations {
-  margin: 0 auto;
-  position: relative;
-  width: 1280px;
+  z-index: -1;
 }
 
 .redline-image {
@@ -114,32 +118,51 @@
   height: auto;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
-
 .redline-comments {
   position: absolute;
   width: 100%;
   height: 100%;
 }
 
+/*
+==========================
+TOOLBAR
+==========================
+*/
 .toolbar {
   height: 50px;
   display: flex;
   justify-content: center;
   background: #2b353d;
 }
-
 .toolbar__tools {
   list-style: none;
 }
-
 .toolbar__tool {
   display: inline-block;
   margin: 0 8px;
   color: #ffffff;
 }
-
 .toolbar__tool--active {
   color: #489be2;
+}
+
+.toolbar__message {
+  color: white;
+}
+
+/*
+==========================
+ANNOTATION
+==========================
+*/
+.redline-annotations {
+  position: absolute;
+  height: 100%;
+  z-index: 10;
+  margin: 0 auto;
+  position: relative;
+  width: 1280px;
 }
 
 .annotation-rectangle {
@@ -151,7 +174,6 @@
   border-radius: 5px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
-
 .annotation-circle {
   position: absolute;
   width: 42px;
@@ -159,12 +181,26 @@
   background: #2699fb;
   border-radius: 50%;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.annotation-initials {
+  color: white;
+  font-weight: 600;
+  font-size: 0.6rem;
+}
+
+/*
+==========================
+COMMENT BOX
+==========================
+*/
 .comment-box {
   position: absolute;
   display: flex;
-  z-index: 9;
+  z-index: 10;
   flex-direction: column;
   background: #ffffff;
   border-radius: 5px;
@@ -176,11 +212,10 @@
     sans-serif;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
-
 .comment-box:after {
   content: '';
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   top: 20px;
   right: -5px;
   width: 10px;
@@ -191,18 +226,37 @@
   box-shadow: 2px 3px 3px -1px rgba(0, 0, 0, 0.16);
 }
 
+.comment-box__toolbar {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.comment-box__resolve {
+  color: #489be2;
+  display: inline-block;
+  font-size: 0.75rem;
+  border: 1px solid #489be2;
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-right: 8px;
+}
+
+.comment-box__trash {
+  color: #2b353d;
+}
+
 .comment-box__comment {
   display: flex;
   padding-top: 10px;
 }
-
 .comment-box__name {
   margin: 0;
   padding: 0;
   font-size: 0.8rem;
   font-weight: bold;
 }
-
 .comment-box__timestamp {
   color: #2b353d;
   padding: 0 5px;
@@ -218,21 +272,18 @@
     float: right;
   }
 }
-
 .comment-box__body {
   margin: 5px 0 0 0;
   padding: 0;
   font-size: 0.75rem;
   color: #2b353d;
 }
-
 .comment-box__input {
   position: absolute;
   outline: none;
   bottom: 15px;
   width: calc(100% - 36px);
 }
-
 .comment-box__profile_picture {
   width: 32px;
   height: 32px;

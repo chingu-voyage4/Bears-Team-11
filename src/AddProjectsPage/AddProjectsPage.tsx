@@ -7,12 +7,14 @@ import { connect } from 'react-redux';
 import {
   addProject,
   updateProject,
-  getOneProject
+  getOneProject,
+  getProjects
 } from '../actions/projectActions';
 import { getAllUsers } from '../actions/userActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
 import { Store, AddProjectProps } from '../types/Redux';
+import { Redirect } from 'react-router';
 
 class AddProjectsPage extends React.Component<
   AddProjectProps,
@@ -21,6 +23,8 @@ class AddProjectsPage extends React.Component<
   constructor(props: AddProjectProps) {
     super(props);
     this.state = {
+      shouldRedirect: false,
+      projIdRedirect: '',
       name: '',
       description: '',
       dueDate: '',
@@ -206,48 +210,81 @@ class AddProjectsPage extends React.Component<
     });
 
     this.setState({ lookingFor: lookingForArray }, () => {
-      if (this.props.match.params.hasOwnProperty('id')) {
-        this.props.updateProject(
-          {
-            _id: this.props.addOrUpdateProject._id,
-            name: this.state.name,
-            description: this.state.description,
-            dueDate: this.state.dueDate,
-            team: this.state.team,
-            githubLink: this.state.githubLink,
-            mockupLink: this.state.mockupLink,
-            liveLink: this.state.liveLink,
-            lookingFor: this.state.lookingFor,
-            status: this.state.status,
-            category: this.state.category,
-            tags: this.state.tags,
-            contact: this.state.contact,
-            creator: this.props.user.username
-          },
-          this.state.files
-        );
-      } else {
-        this.props.addProject(
-          {
-            name: this.state.name,
-            description: this.state.description,
-            dueDate: this.state.dueDate,
-            team: this.state.team,
-            githubLink: this.state.githubLink,
-            mockupLink: this.state.mockupLink,
-            liveLink: this.state.liveLink,
-            lookingFor: this.state.lookingFor,
-            status: this.state.status,
-            category: this.state.category,
-            tags: this.state.tags,
-            contact: this.state.contact,
-            creator: this.props.user.username
-          },
-          this.state.files
-        );
-      }
+      var sendData = () => {
+        if (this.props.match.params.hasOwnProperty('id')) {
+          this.props.updateProject(
+            {
+              _id: this.props.addOrUpdateProject._id,
+              name: this.state.name,
+              description: this.state.description,
+              dueDate: this.state.dueDate,
+              team: this.state.team,
+              githubLink: this.state.githubLink,
+              mockupLink: this.state.mockupLink,
+              liveLink: this.state.liveLink,
+              lookingFor: this.state.lookingFor,
+              status: this.state.status,
+              category: this.state.category,
+              tags: this.state.tags,
+              contact: this.state.contact,
+              creator: this.props.user.username
+            },
+            this.state.files
+          );
+        } else {
+          this.props.addProject(
+            {
+              name: this.state.name,
+              description: this.state.description,
+              dueDate: this.state.dueDate,
+              team: this.state.team,
+              githubLink: this.state.githubLink,
+              mockupLink: this.state.mockupLink,
+              liveLink: this.state.liveLink,
+              lookingFor: this.state.lookingFor,
+              status: this.state.status,
+              category: this.state.category,
+              tags: this.state.tags,
+              contact: this.state.contact,
+              creator: this.props.user.username
+            },
+            this.state.files
+          );
+        }
+      };
+      return sendData();
     });
   };
+
+  // componentWillReceiveProps() {
+  //   var projId = this.props.addOrUpdateProject._id;
+  //   var newProjId: string;
+  //   var callProjectsByLatestModified = () => {
+  //     return this.props.getProjects({ sort: { createdAt: -1 } }, null);
+  //   };
+
+  //   var retrieveLatestProjId = () => {
+  //     console.log(this.props.projects);
+  //     var data = this.props.projects[0];
+  //     return (newProjId = data._id);
+  //   };
+
+  //   var setStateToRedirect = () => {
+  //     if (projId) {
+  //       this.setState({ shouldRedirect: true, projIdRedirect: projId });
+  //     } else {
+  //       this.setState({ shouldRedirect: true, projIdRedirect: newProjId });
+  //     }
+  //   };
+
+  //   async function sendThenRedirect() {
+  //     await callProjectsByLatestModified();
+  //     await retrieveLatestProjId();
+  //     // after posting project data, redirect to project portal
+  //     return setStateToRedirect();
+  //   }
+  //   sendThenRedirect();
+  // }
 
   public handleImageText = (e: React.FormEvent<HTMLInputElement>): void => {
     let files = e.currentTarget.files! as FileList;
@@ -338,6 +375,15 @@ class AddProjectsPage extends React.Component<
   };
 
   render() {
+    if (this.state.shouldRedirect) {
+      return (
+        <Redirect
+          push={true}
+          from="/projects/add"
+          to={'/projects/' + this.state.projIdRedirect}
+        />
+      );
+    }
     class StatusOptionsComponent extends React.Component<{
       onFormChange: any;
     }> {
@@ -899,5 +945,6 @@ export default connect(mapStateToProps, {
   getCategories,
   getTags,
   updateProject,
-  getOneProject
+  getOneProject,
+  getProjects
 })(AddProjectsPage);

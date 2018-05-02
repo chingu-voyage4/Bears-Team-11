@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as moment from 'moment';
-import axios from 'axios';
+// import axios from 'axios';
 
+// FIX NEEDED: API for fetching user images broken due to recent changes
 class Message extends React.PureComponent<
   {
     creator: string;
@@ -18,25 +19,25 @@ class Message extends React.PureComponent<
     };
   }
   componentDidMount() {
-    axios
-      .get(
-        `http://localhost:8080/api/user/${this.props.creator}/profile/picture`
-      )
-      .then(response => {
-        this.setState({
-          thumbnailURL: response.data.profileImage
-        });
-      });
+    // axios
+    //   .get(
+    //     `http://localhost:8080/api/user/${this.props.creator}/profile/picture`
+    //   )
+    //   .then(response => {
+    //     this.setState({
+    //       thumbnailURL: response.data.profileImage
+    //     });
+    //   });
   }
 
   render() {
     return (
       <div className="message">
-        <img
+        {/* <img
           className="message__thumbnail"
           src={this.state.thumbnailURL}
           alt=""
-        />
+        /> */}
         <div className="message__body">
           <h3 className="message__sender">
             {this.props.creator}{' '}

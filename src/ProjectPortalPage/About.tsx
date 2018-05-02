@@ -1,7 +1,8 @@
 import * as React from 'react';
 import Team from './Team';
 import * as moment from 'moment';
-
+import { connect } from 'react-redux';
+import axios from 'axios';
 class About extends React.PureComponent<
   {
     name: string | undefined;
@@ -12,9 +13,30 @@ class About extends React.PureComponent<
     mockupLink: string | undefined;
     lookingFor: Array<string> | undefined;
     projectId: string;
+    user: any;
   },
   {}
 > {
+  sendJoinRequest = (e: any) => {
+    e.preventDefault();
+    axios
+      .post('http://localhost:8080/api/email/', {
+        link: this.props.user.websiteLink,
+        email: this.props.user.email,
+        username: this.props.user.username,
+        projectName: this.props.name,
+        projectId: this.props.projectId
+      })
+      .then(res => {
+        if (res.status === 200) {
+          alert('Request sent successfully!');
+        } else {
+          alert(
+            'There was an issue sending your request, please try again later'
+          );
+        }
+      });
+  };
   render() {
     return (
       <React.Fragment>
@@ -42,7 +64,7 @@ class About extends React.PureComponent<
                   : 'NONE'}
               </li>
               <li>
-                <a className="button" href="">
+                <a className="button" href="" onClick={this.sendJoinRequest}>
                   Join Team
                 </a>
               </li>
@@ -56,5 +78,10 @@ class About extends React.PureComponent<
     );
   }
 }
+function mapStateToProps(state: any) {
+  return {
+    user: state.user
+  };
+}
 
-export default About;
+export default connect(mapStateToProps)(About);

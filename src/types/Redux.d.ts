@@ -68,6 +68,7 @@ export interface CategoryAction extends Action {
 }
 export interface MarkerAction extends Action {
   data: Array<Marker> | Marker;
+  markerId: string;
 }
 
 export type Users = Array<User>;
@@ -119,7 +120,7 @@ export interface ProjectProps {
 
 export interface AddProjectProps {
   user: User;
-  projects: Project;
+  projects: Project | Array<Project>;
   categories: Categories | any;
   tags: Tags | any;
   allUsers: Users;
@@ -132,6 +133,7 @@ export interface AddProjectProps {
   getTags: getTags_fntype;
   updateProject: updateProject_fntype;
   getOneProject: getOneProject_fntype;
+  getProjects: getProjects_fntype;
 }
 
 export interface ProjectPageFilterProps {
@@ -167,7 +169,7 @@ export interface LandingPageProps {
 
 export interface LoggedInHeaderProps {
   user: User;
-  projects: Project;
+  projects: Array<Project>;
   logout: any;
 }
 
@@ -195,6 +197,14 @@ export interface ProjectSettingsProps {
   updateProject: updateProject_fntype;
 }
 
+export interface ProjectForPublicProfileProps {
+  projects: Project;
+  user: User;
+  projId: string;
+  data: Project;
+  getProjects: getProjects_fntype;
+}
+
 export interface ProjectPageProps {
   user: User;
   projects: Array<Project>;
@@ -206,4 +216,20 @@ export interface ProjectPageProps {
 export interface PublicProfileProps {
   user: User;
   userSettingsUpdate: userSettingsUpdate_fntype;
+}
+
+export interface SettingsPageProps {
+  user: User;
+  uploadProfileImage: uploadProfileImage_fntype;
+}
+
+export interface UserProfileProps {
+  user: User;
+  projects: Array<Project> | Project;
+  getProjects: getProjects_fntype;
+}
+
+export interface ReadyToTryProps {
+  visibleRegisterWindow: boolean;
+  showRegisterWindow: showRegisterWindow_fntype;
 }

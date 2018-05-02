@@ -105,12 +105,12 @@ export function register(
 }
 
 export type uploadProfileImage_fntype = (
-  file: File,
+  file: FileList,
   userId: string
 ) => (dispatch: Dispatch<UserAction>) => void;
 
 export function uploadProfileImage(
-  file: File,
+  file: FileList,
   userId: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
@@ -216,29 +216,29 @@ export function userSettingsUpdate(
   };
 }
 
-export function userPrivateSettingsUpdate(
-  firstName: string,
-  lastName: string,
-  username: string,
-  email: string,
-  password: string,
-  userId: string
-): (dispatch: Dispatch<Action>) => void {
-  return dispatch => {
-    return apiService
-      .userPrivateSettingsUpdate(
-        firstName,
-        lastName,
-        username,
-        email,
-        password,
-        userId
-      )
-      .then(user => {
-        return dispatch({
-          type: USER_SETTINGS_UPDATE,
-          data: user
-        });
-      });
-  };
-}
+// export function userPrivateSettingsUpdate(
+//   firstName: string,
+//   lastName: string,
+//   username: string,
+//   email: string,
+//   password: string,
+//   userId: string
+// ): (dispatch: Dispatch<Action>) => void {
+//   return dispatch => {
+//     return apiService
+//       .userPrivateSettingsUpdate(
+//         firstName,
+//         lastName,
+//         username,
+//         email,
+//         password,
+//         userId
+//       )
+//       .then(user => {
+//         return dispatch({
+//           type: USER_SETTINGS_UPDATE,
+//           data: user
+//         });
+//       });
+//   };
+// }

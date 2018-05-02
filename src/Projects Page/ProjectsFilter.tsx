@@ -139,10 +139,18 @@ class ProjectsFilter extends React.Component<
         query = Object.assign({}, query, category);
       }
 
-      if (this.state.tags!.length > 0) {
-        var tags = {
-          tags: { $in: this.state.tags }
-        };
+      if (this.state.tags !== undefined && this.state.tags!.length > 0) {
+        console.log(this.state.tags);
+        var tags: any;
+        if (this.state.tags!.length === 1) {
+          tags = {
+            tags: { $in: [this.state.tags] }
+          };
+        } else {
+          tags = {
+            tags: { $all: this.state.tags }
+          };
+        }
         query = Object.assign({}, query, tags);
       }
 
