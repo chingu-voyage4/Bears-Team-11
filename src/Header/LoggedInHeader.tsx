@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Store, LoggedInHeaderProps } from '../types/Redux';
 import { logout } from '../actions/userActions';
+import { getProjects } from '../actions/projectActions';
 
 class LoggedInHeader extends React.Component<
   LoggedInHeaderProps,
@@ -15,6 +16,10 @@ class LoggedInHeader extends React.Component<
     this.state = {
       username: ''
     };
+  }
+
+  componentDidMount() {
+    this.props.getProjects({}, {});
   }
 
   public logout = () => {
@@ -50,20 +55,20 @@ class LoggedInHeader extends React.Component<
       links = null;
     } else if (!Array.isArray(activeProjects)) {
       links = (
-        <Link
+        <a
           className="header-project-portal-link"
-          to={'/projects/' + activeProjects._id}
+          href={'/projects/' + activeProjects._id}
         >
           {activeProjects.name}
-        </Link>
+        </a>
       );
     } else {
       links = activeProjects.map((project: any, index: number) => {
         var linkTo = '/projects/' + project._id;
         return (
-          <Link className="header-project-portal-link" to={linkTo} key={index}>
+          <a className="header-project-portal-link" href={linkTo} key={index}>
             {project.name}
-          </Link>
+          </a>
         );
       });
     }
@@ -229,6 +234,6 @@ function mapStateToProps(state: Store) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, { logout })(
-  LoggedInHeader
+export default withRouter(connect(mapStateToProps, { logout, getProjects })(
+  LoggedInHeader as any
 ) as any);

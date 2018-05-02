@@ -16,7 +16,7 @@ class RecentProjects extends React.Component<RecentProjectsProps, {}> {
         sort: { createdAt: -1 },
         limit: 6
       },
-      { status: true }
+      {}
     );
   }
 
