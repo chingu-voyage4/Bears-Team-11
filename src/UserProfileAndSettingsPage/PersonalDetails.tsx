@@ -79,10 +79,10 @@ class PersonalDetails extends React.Component<
           <div className="settings-labels">
             <label className="updateUserLabel">UserId</label>
             <input
-              className="settings-input"
+              className="settings-input unavailible"
               name="userId"
               value={this.state.userId}
-              onChange={e => this.handleInputChange(e)}
+              readOnly={true}
             />
           </div>
           <div className="update-profile-btn">
