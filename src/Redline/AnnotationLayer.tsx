@@ -44,8 +44,7 @@ class AnnotationLayer extends React.Component<AnnotationLayerProps> {
     });
   }
 
-  componentWillReceiveProps(nextProps: any) {
-    // TODO: need a better way to toggle states
+  componentDidUpdate(nextProps: any) {
     this.makeInteractive();
     if (nextProps.tool !== 'cursor' && this.props.tool === 'cursor') {
       this.disableInteractivity();
@@ -65,32 +64,74 @@ class AnnotationLayer extends React.Component<AnnotationLayerProps> {
 
   drawMarkers = () => {
     var markers: any = [];
-    this.props.markers.forEach((annotation: any) => {
-      if (annotation.type === 'rectangle') {
-        markers.push(
-          this.drawRect(
-            annotation._id,
-            annotation.x,
-            annotation.y,
-            annotation.isResolved,
-            annotation.creator,
-            annotation.width,
-            annotation.height
-          )
-        );
+    this.props.markers.forEach((marker: any) => {
+      if (marker.type === 'rectangle') {
+        markers.push(this.drawRect(marker));
       } else {
-        markers.push(
-          this.drawCircle(
-            annotation._id,
-            annotation.x,
-            annotation.y,
-            annotation.isResolved,
-            annotation.creator
-          )
-        );
+        markers.push(this.drawCircle(marker));
       }
     });
     return markers;
+  };
+
+  drawRect = (marker: Marker): any => {
+    var { _id, x, y, isResolved, creator, width, height } = marker;
+    var style = {
+      top: `${y}px`,
+      left: `${x}px`,
+      width: `${width || 100}px`,
+      height: `${height || 100}px`,
+      backgroundColor: isResolved ? 'rgba(249,166,33,0.5)' : null,
+      borderColor: isResolved ? '#f9a621' : null
+    };
+    return (
+      <div
+        key={_id}
+        id={_id}
+        className="annotation-rectangle"
+        style={style}
+        onClick={this.toggleCommentBox}
+      >
+        <CommentBox
+          key={_id}
+          markerId={_id}
+          revisionId={this.props.revisionId}
+          deleteMarker={this.deleteMarker}
+          resolveMarker={this.resolveMarker}
+          isResolved={isResolved}
+        />
+        <div className="annotation-initials">{creator}</div>
+      </div>
+    );
+  };
+
+  drawCircle = (marker: Marker) => {
+    var { _id, x, y, isResolved, creator } = marker;
+    var style = {
+      top: `${y}px`,
+      left: `${x}px`,
+      backgroundColor: isResolved ? '#f9a621' : null
+    };
+
+    return (
+      <div
+        key={_id}
+        id={_id}
+        className="annotation-circle"
+        style={style}
+        onClick={this.toggleCommentBox}
+      >
+        <CommentBox
+          key={_id}
+          markerId={_id}
+          revisionId={this.props.revisionId}
+          deleteMarker={this.deleteMarker}
+          resolveMarker={this.resolveMarker}
+          isResolved={isResolved}
+        />
+        <div className="annotation-initials">{creator}</div>
+      </div>
+    );
   };
 
   addMarker = (e: any) => {
@@ -145,72 +186,6 @@ class AnnotationLayer extends React.Component<AnnotationLayerProps> {
         child.style.display = 'none';
       }
     }
-  };
-
-  drawRect = (
-    id: any,
-    x: any,
-    y: any,
-    isResolved: any,
-    creator: string,
-    width = 100,
-    height = 100
-  ): any => {
-    var style = {
-      top: `${y}px`,
-      left: `${x}px`,
-      width: `${width}px`,
-      height: `${height}px`,
-      backgroundColor: isResolved ? 'rgba(249,166,33,0.5)' : null,
-      borderColor: isResolved ? '#f9a621' : null
-    };
-    return (
-      <div
-        key={id}
-        id={id}
-        className="annotation-rectangle"
-        style={style}
-        onClick={this.toggleCommentBox}
-      >
-        <CommentBox
-          key={id}
-          markerId={id}
-          revisionId={this.props.revisionId}
-          deleteMarker={this.deleteMarker}
-          resolveMarker={this.resolveMarker}
-          isResolved={isResolved}
-        />
-        <div className="annotation-initials">{creator}</div>
-      </div>
-    );
-  };
-
-  drawCircle = (id: any, x: any, y: any, isResolved: any, creator: string) => {
-    var style = {
-      top: `${y}px`,
-      left: `${x}px`,
-      backgroundColor: isResolved ? '#f9a621' : null
-    };
-
-    return (
-      <div
-        key={id}
-        id={id}
-        className="annotation-circle"
-        style={style}
-        onClick={this.toggleCommentBox}
-      >
-        <CommentBox
-          key={id}
-          markerId={id}
-          revisionId={this.props.revisionId}
-          deleteMarker={this.deleteMarker}
-          resolveMarker={this.resolveMarker}
-          isResolved={isResolved}
-        />
-        <div className="annotation-initials">{creator}</div>
-      </div>
-    );
   };
 
   makeInteractive = () => {
@@ -288,7 +263,6 @@ class AnnotationLayer extends React.Component<AnnotationLayerProps> {
     this.props.deleteMarker(markerId);
   };
 
-  // TODO: make into one function?
   disableDrag = (id: any) => {
     window.$(`#${id}`).draggable('disable');
   };
