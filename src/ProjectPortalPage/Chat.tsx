@@ -3,17 +3,18 @@ import Message from './Message';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-class Chat extends React.PureComponent<
-  {
-    projectId: string;
-    user: any;
-  },
-  {
-    comments: Array<any>;
-    message: string;
-  }
-> {
-  constructor(props: { projectId: string; user: any }) {
+interface ChatProps {
+  projectId: string;
+  user: any;
+}
+
+interface ChatState {
+  comments: Array<any>;
+  message: string;
+}
+
+class Chat extends React.PureComponent<ChatProps, ChatState> {
+  constructor(props: ChatProps) {
     super(props);
     this.state = {
       message: '',
@@ -42,9 +43,7 @@ class Chat extends React.PureComponent<
 
   handleClickSend = (e: any) => {
     e.preventDefault();
-    if (
-      this.props.user.projects.some((id: string) => id === this.props.projectId)
-    ) {
+    if (this.isTeamMember()) {
       this.addComment(this.state.message);
     }
   };
@@ -93,6 +92,15 @@ class Chat extends React.PureComponent<
     messages!.scrollTop = messages!.scrollHeight;
   };
 
+  isTeamMember = () => {
+    if (this.props.user._id) {
+      return this.props.user.projects.some(
+        (id: string) => id === this.props.projectId
+      );
+    }
+    return false;
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -106,22 +114,14 @@ class Chat extends React.PureComponent<
             className="message-input"
             type="text"
             placeholder={
-              this.props.user.projects.some(
-                (id: string) => id === this.props.projectId
-              )
+              this.isTeamMember()
                 ? 'Type something...'
                 : 'You must be a part of this team...'
             }
             onKeyPress={this.handleSubmit}
             onChange={this.handleChange}
             value={this.state.message}
-            disabled={
-              this.props.user.projects.some(
-                (id: string) => id === this.props.projectId
-              )
-                ? false
-                : true
-            }
+            disabled={this.isTeamMember() ? false : true}
           />
           <a className="message-send" onClick={this.handleClickSend}>
             <i className="far fa-paper-plane" />

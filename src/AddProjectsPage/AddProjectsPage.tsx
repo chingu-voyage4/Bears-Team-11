@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Footer from '../Headers&Footers/Footer';
+import Footer from '../Footer/Footer';
 import '../styles/AddProjectsPage.css';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
+import HeaderContainer from '../Header/HeaderContainer';
 import { AddProjectState } from '../types/AddProjectsPage.d';
 import { connect, Dispatch } from 'react-redux';
 import {

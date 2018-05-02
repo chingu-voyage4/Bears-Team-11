@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var isAuthenticated = require('../utils/authentication');
+var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 var Project = require('../models/Projects');
 var UserDetails = require('../models/UserDetails');
@@ -235,7 +236,7 @@ module.exports = function(passport) {
   router.post('/revision/:revisionId/marker', function(req, res) {
     var marker = new Marker({
       type: req.body.type,
-      creator: req.body.username,
+      creator: req.body.creator,
       revision: req.params.revisionId,
       x: req.body.x,
       y: req.body.y,
@@ -345,7 +346,7 @@ module.exports = function(passport) {
   });
 
   // get comments for a marker
-  router.get('/revision//markers/:markerId/comments', function(req, res) {
+  router.get('/revision/markers/:markerId/comments', function(req, res) {
     Comment.find(
       {
         marker: req.params.markerId
@@ -359,6 +360,41 @@ module.exports = function(passport) {
               'Comment successfully retreived for marker ' + req.params.id,
             comments
           });
+        }
+      }
+    );
+  });
+
+  // join team
+  router.get('/:projectId/accept/:username', function(req, res) {
+    // add user to team
+    Project.findByIdAndUpdate(
+      req.params.projectId,
+      {
+        $push: {
+          team: req.params.username
+        }
+      },
+      function(err, project) {
+        if (err) {
+          console.log(err);
+        } else {
+          // add project to user
+          UserDetails.findOneAndUpdate(
+            { username: req.params.username },
+            {
+              $push: {
+                projects: mongoose.Types.ObjectId(req.params.prpojectId)
+              }
+            },
+            function(err, user) {
+              if (err) {
+                console.log(err);
+              } else {
+                res.status(200);
+              }
+            }
+          );
         }
       }
     );

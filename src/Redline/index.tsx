@@ -5,16 +5,22 @@ import Toolbar from './Toolbar';
 import ImageLayer from './ImageLayer';
 import AnnotationLayer from './AnnotationLayer';
 import axios from 'axios';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
+import HeaderContainer from '../Header/HeaderContainer';
+import { connect } from 'react-redux';
 
-class Redline extends React.Component<
-  { imageLink: string; match: any },
-  {
-    tool: string;
-    revision: any;
-  }
-> {
-  constructor(props: { imageLink: string; match: any }) {
+interface RedlineProps {
+  imageLink: string;
+  match: any;
+  user: any;
+}
+
+interface RedlineState {
+  tool: string;
+  revision: any;
+}
+
+class Redline extends React.Component<RedlineProps, RedlineState> {
+  constructor(props: RedlineProps) {
     super(props);
     this.state = {
       tool: 'cursor',
@@ -32,26 +38,22 @@ class Redline extends React.Component<
         });
       });
   }
-
-  // NOTE: Possibly make a generic tool function
-  selectCursorTool = () => {
-    this.setState({ tool: 'cursor' });
-  };
-
-  selectCircleTool = () => {
-    this.setState({ tool: 'circle' });
-  };
-
-  selectRectangleTool = () => {
-    this.setState({ tool: 'rectangle' });
-  };
-
-  selectCommentTool = () => {
-    this.setState({ tool: 'comment' });
+  selectTool = (tool: string) => {
+    this.setState({ tool });
   };
 
   getURLParams = () => {
     return this.props.match.params;
+  };
+
+  shouldDisableToolBar = () => {
+    if (this.props.user._id) {
+      return !this.props.user.projects.some((projectId: any) => {
+        return projectId === this.getURLParams().projectId;
+      });
+    } else {
+      return true;
+    }
   };
 
   render() {
@@ -60,17 +62,18 @@ class Redline extends React.Component<
         <HeaderContainer />
         <div className="redline-container">
           <Toolbar
+            isDisabled={this.shouldDisableToolBar()}
             tool={this.state.tool}
-            selectCursorTool={this.selectCursorTool}
-            selectCircleTool={this.selectCircleTool}
-            selectRectangleTool={this.selectRectangleTool}
-            selectCommentTool={this.selectCommentTool}
+            selectCursorTool={() => this.selectTool('cursor')}
+            selectCircleTool={() => this.selectTool('circle')}
+            selectRectangleTool={() => this.selectTool('rectangle')}
+            selectCommentTool={() => this.selectTool('comment')}
           />
           <div className="redline-canvas">
             <div>
               <AnnotationLayer
                 tool={this.state.tool}
-                onMarkerAdd={this.selectCursorTool}
+                onMarkerAdd={() => this.selectTool('cursor')}
                 revisionId={this.getURLParams().revisionId}
                 projectId={this.getURLParams().projectId}
               >
@@ -84,4 +87,10 @@ class Redline extends React.Component<
   }
 }
 
-export default Redline;
+function mapStateToProps(state: any) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(Redline);

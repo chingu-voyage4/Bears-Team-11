@@ -1,6 +1,6 @@
 import * as React from 'react';
-import HeaderContainer from '../Headers&Footers/HeaderContainer';
-import Footer from '../Headers&Footers/Footer';
+import HeaderContainer from '../Header/HeaderContainer';
+import Footer from '../Footer/Footer';
 import Projects from '../Project/Projects';
 import ProjectsFilter from './ProjectsFilter';
 import '../styles/ProjectsPage.css';
