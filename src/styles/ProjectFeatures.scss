@@ -4,10 +4,12 @@
 DOCUMENT SETUP
 ==========================
 */
+
 body,
 html {
   @include html-body-fontfamily;
 }
+
 /*
 ==========================
 COMPONENTS
@@ -18,34 +20,43 @@ COMPONENTS
 .team-collaboration-container,
 .project-new-container {
   display: grid;
-  grid-template-columns: repeat(6, 1fr) / auto-flow 1fr;
+  grid-template-columns: repeat(3, 1fr) / auto-flow 1fr;
   grid-template-rows: auto;
   max-width: 1080px;
   margin: auto;
   padding: auto;
 }
+
 .project-match-container,
 .team-collaboration-container,
 .project-new-container {
-  grid-template-areas: 'i i i i t t';
   margin-top: 30px;
   margin-bottom: 80px;
   grid-column-gap: 20px;
 }
-// .project-new-container  {
-//   grid-template-areas: 'i i i i t t';
-// }
+
+.project-match-container,
+.team-collaboration-container {
+  grid-template-areas: 'i i t';
+}
+
+.project-new-container {
+  grid-template-areas: 't i i';
+}
+
 /*
 ==========================
 TEXT 
 ==========================
 */
+
 .project-feature-heading,
 .project-feature-text {
   font-family: $font;
   color: $theme-blue;
   text-align: left;
 }
+
 .project-feature-heading {
   grid-area: t;
   font-size: $project-feature-header;
@@ -53,6 +64,7 @@ TEXT
   font-weight: 700;
   text-transform: capitalize;
 }
+
 .project-feature-text {
   padding-top: 145px;
   grid-area: t;
@@ -67,13 +79,54 @@ TEXT
 IMAGE
 ==========================
 */
+
 .project-feature-image-div {
   grid-area: i;
 }
+
 .project-feature-imac {
   width: 100%;
   object-fit: cover;
-  width: 680px;
-  height: 430px;
+  width: 540px;
+  height: 375px;
   box-shadow: $box-shadow;
+  margin: 0 auto;
+}
+
+.push-right {
+  float: right;
+}
+
+/*
+==========================
+MEDIA QUERIES
+==========================
+*/
+
+@media all and (max-width: 1079px) and (min-width: 0px) {
+  .project-match-container,
+  .team-collaboration-container,
+  .project-new-container {
+    grid-template-columns: repeat(1, 1fr) / auto-flow 1fr;
+    grid-template-areas: 'i' 't';
+    margin: 0 auto;
+  }
+  .project-feature-heading,
+  .project-feature-text {
+    text-align: center;
+    margin: 0 auto;
+  }
+  .push-right {
+    float: none;
+  }
+  .project-feature-image-div {
+    margin: 0 auto;
+  }
+  .project-feature-text {
+    padding-top: 50px;
+    padding-bottom: 80px;
+  }
+  .project-feature-heading {
+    padding-top: 20px;
+  }
 }
