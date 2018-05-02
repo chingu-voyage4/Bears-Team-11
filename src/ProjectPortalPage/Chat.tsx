@@ -11,6 +11,7 @@ interface ChatProps {
 interface ChatState {
   comments: Array<any>;
   message: string;
+  team: Array<string>;
 }
 
 class Chat extends React.PureComponent<ChatProps, ChatState> {
@@ -18,7 +19,8 @@ class Chat extends React.PureComponent<ChatProps, ChatState> {
     super(props);
     this.state = {
       message: '',
-      comments: []
+      comments: [],
+      team: []
     };
   }
   componentDidMount() {
@@ -33,6 +35,13 @@ class Chat extends React.PureComponent<ChatProps, ChatState> {
         });
 
         this.scrollToBottom();
+      });
+
+    axios
+      .get(`http://localhost:8080/api/projects/${this.props.projectId}/team`)
+      .then(response => {
+        var team = response.data.team;
+        this.setState({ team });
       });
   }
   handleSubmit = (e: any) => {
@@ -93,10 +102,10 @@ class Chat extends React.PureComponent<ChatProps, ChatState> {
   };
 
   isTeamMember = () => {
-    if (this.props.user._id) {
-      return this.props.user.projects.some(
-        (id: string) => id === this.props.projectId
-      );
+    if (this.props.user._id && this.state.team) {
+      return this.state.team.some(teammember => {
+        return teammember === this.props.user.username;
+      });
     }
     return false;
   };
