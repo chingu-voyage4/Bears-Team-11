@@ -47,6 +47,7 @@ class Chat extends React.PureComponent<ChatProps, ChatState> {
   handleSubmit = (e: any) => {
     if (e.which === 13) {
       this.addComment(this.state.message);
+      this.setState({ message: '' });
     }
   };
 

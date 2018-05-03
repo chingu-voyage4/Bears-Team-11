@@ -95,15 +95,18 @@ class Revisions extends React.PureComponent<RevisionsProps, RevisionsState> {
 
   displayRevisions = () => {
     if (this.state.revisions.length > 0) {
-      return this.state.revisions.map(revision => {
-        return (
-          <Revision
-            key={revision._id}
-            revision={revision}
-            projectId={this.props.projectId}
-          />
-        );
-      });
+      return this.state.revisions
+        .slice()
+        .reverse()
+        .map(revision => {
+          return (
+            <Revision
+              key={revision._id}
+              revision={revision}
+              projectId={this.props.projectId}
+            />
+          );
+        });
     }
     return null;
   };
@@ -126,8 +129,8 @@ class Revisions extends React.PureComponent<RevisionsProps, RevisionsState> {
             upload new document <i className="fas fa-cloud-upload-alt fa-2x" />
           </a>
         </div>
-        <div className="revisions-list">{this.displayRevisions()}</div>
         {this.state.isLoading ? <div className="loader" /> : null}
+        <div className="revisions-list">{this.displayRevisions()}</div>
       </React.Fragment>
     );
   }

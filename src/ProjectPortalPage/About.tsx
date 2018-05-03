@@ -21,8 +21,7 @@ class About extends React.PureComponent<AboutProps> {
     e.preventDefault();
     axios
       .post('http://localhost:8080/api/email/', {
-        link: this.props.user.websiteLink,
-        email: this.props.user.email,
+        link: `http://localhost:3000/user/profile/${this.props.user.username}`,
         username: this.props.user.username,
         projectName: this.props.name,
         projectId: this.props.projectId
