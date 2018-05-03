@@ -38,7 +38,7 @@ mongoose.connect(config.db.mlab);
 
 app.use(
   cors({
-    origin: 'https://www.projectmatch.me',
+    origin: config.host.name,
     credentials: true,
     preflightContinue: true,
     optionsSuccessStatus: 200
