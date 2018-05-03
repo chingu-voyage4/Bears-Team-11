@@ -73,6 +73,7 @@ class App extends React.Component {
                 path="/user/profile"
                 component={PublicProfile}
               />
+              <Route path="/user/profile/:username" component={PublicProfile} />
             </Switch>
           </Router>
         </div>
