@@ -79,7 +79,7 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
                 component={PublicProfile}
               />
               <Route exact={true} path="/about" component={AboutPage} />
-              <Route exact={true} path="/404" component={ErrorPage} />
+              <Route exact={true} path="*" component={ErrorPage} />
             </Switch>
           </Router>
         </div>
