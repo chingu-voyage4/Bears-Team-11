@@ -9,6 +9,7 @@ var Comment = require('../models/Comments');
 var Revision = require('../models/Revisions');
 var Marker = require('../models/Markers');
 var User = require('../models/Users');
+var config = require('../utils/config');
 
 module.exports = function(passport) {
   // retrieves all projects
@@ -401,9 +402,7 @@ module.exports = function(passport) {
                 console.log(err);
                 res.status(409);
               } else {
-                res.redirect(
-                  `https://www.projectmatch.me/projects/${project._id}`
-                );
+                res.redirect(`${config.host.name}/projects/${project._id}`);
               }
             }
           );

@@ -17,28 +17,27 @@ import { HYDRATE_USER } from './actions/actionTypes';
 import ErrorPage from './404Page/ErrorPage';
 import AboutPage from './AboutPage/AboutPage';
 
+import config from './.config';
+
+if (config.env !== 'production') {
+  console.log('create-react-app is running in', config.env);
+}
+
+
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
-class App extends React.Component<{}, { reduxManualTest: boolean }> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      reduxManualTest: false
-    };
-  }
 
-  componentDidMount() {
-    var user = localStorage.getItem('user');
-    if (user) {
-      store.dispatch({
-        type: HYDRATE_USER,
-        data: JSON.parse(user)
-      });
-    }
-  }
+var user = localStorage.getItem('user');
+if (user) {
+  store.dispatch({
+    type: HYDRATE_USER,
+    data: JSON.parse(user)
+  });
+}
 
+class App extends React.Component {
   render() {
     return (
       <Provider store={store}>

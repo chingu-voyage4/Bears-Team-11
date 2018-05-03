@@ -4,12 +4,12 @@ import { Marker } from '../types/Marker.d';
 import { Categories } from '../types/Category';
 import { Tags } from '../types/Tags';
 import axios from 'axios';
-import host from '../hostname';
+import config from '../.config';
 
 /* User */
 function login(email: string, password: string): Promise<User | string> {
   return new Promise((resolve, reject) => {
-    const endpoint: string = host + '/api/login';
+    const endpoint: string = config.host.name + '/api/login';
 
     var data: object = {
       headers: {
@@ -64,7 +64,7 @@ function login(email: string, password: string): Promise<User | string> {
 
 function googleLogin(idToken: string): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint: string = host + '/api/googlelogin';
+    const endpoint: string = config.host.name + '/api/googlelogin';
 
     var data: object = {
       headers: {
@@ -126,7 +126,7 @@ function register(
   password: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/signup';
+    const endpoint = config.host.name + '/api/signup';
 
     var data: object = {
       body: JSON.stringify({
@@ -172,7 +172,7 @@ function deactivate(
   password: string
 ): Promise<string | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/user/deactivate';
+    const endpoint = config.host.name + '/api/user/deactivate';
 
     var data: object = {
       body: JSON.stringify({
@@ -205,7 +205,7 @@ function deactivate(
 
 function activate(username: string, password: string): Promise<string | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/user/activate';
+    const endpoint = config.host.name + '/api/user/activate';
 
     var data: object = {
       body: JSON.stringify({
@@ -250,7 +250,7 @@ function userSettingsUpdate(
   userId: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/user/update/public';
+    const endpoint = config.host.name + '/api/user/update/public';
     var data: object = {
       method: 'POST',
       credentials: 'include',
@@ -319,7 +319,7 @@ function userPrivateSettingsUpdate(
   userId: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/user/update/personal';
+    const endpoint = config.host.name + '/api/user/update/personal';
     var data: object = {
       method: 'POST',
       credentials: 'include',
@@ -374,14 +374,14 @@ function userPrivateSettingsUpdate(
 }
 
 function logout() {
-  return axios.get(host + '/api/logout').then(response => {
+  return axios.get(config.host.name + '/api/logout').then(response => {
     return null;
   });
 }
 
 function getAllUsers(): Promise<Array<User>> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/users';
+    const endpoint = config.host.name + '/api/users';
 
     var data: object = {
       headers: {
@@ -413,7 +413,7 @@ function getProjects(
   query: object | null
 ): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/projects';
+    const endpoint = config.host.name + '/api/projects';
     var bodyData;
 
     if (query === null) {
@@ -448,14 +448,14 @@ function getProjects(
 
 function getProject(projectId: string) {
   return axios
-    .get(host + '/api/projects/' + projectId)
+    .get(config.host.name + '/api/projects/' + projectId)
     .then(response => response.data.project);
 }
 
 async function addOrUpdateProject(project: Project): Promise<Project> {
   const endpoint = project.hasOwnProperty('_id')
-    ? host + '/api/projects/update/' + project._id
-    : host + '/api/projects/add';
+    ? config.host.name + '/api/projects/update/' + project._id
+    : config.host.name + '/api/projects/add';
 
   var data: object = {
     body: JSON.stringify({
@@ -497,7 +497,8 @@ function uploadProjectImage(
   projectId: string
 ): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/upload/image/project?projectId=' + projectId;
+    const endpoint =
+      config.host.name + '/api/upload/image/project?projectId=' + projectId;
 
     var formData = new FormData();
     for (var i = 0; i < file.length; i++) {
@@ -529,7 +530,8 @@ function uploadProjectImage(
 
 function uploadProfileImage(file: FileList, userId: string): Promise<User> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/upload/image/profile?userName=' + userId;
+    const endpoint =
+      config.host.name + '/api/upload/image/profile?userName=' + userId;
 
     var formData = new FormData();
     for (var i = 0; i < file.length; i++) {
@@ -587,7 +589,7 @@ function uploadRevisionImage(
 ) {
   // tslint:disable-next-line
   const endpoint =
-    host +
+    config.host.name +
     `/api/upload/image/revision?projectId=${projectId}&user=${username}&revisionNumber=${revisionNumber}`;
 
   var formData = new FormData();
@@ -621,7 +623,8 @@ function uploadRevisionImage(
 
 function downloadProjectImageURLS(projectId: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/download/project?projectId=' + projectId;
+    const endpoint =
+      config.host.name + '/api/download/project?projectId=' + projectId;
     var data: object = {
       method: 'GET'
     };
@@ -641,7 +644,7 @@ function downloadProjectImageURLS(projectId: string): Promise<string[]> {
 }
 function getOneProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/projects/' + id;
+    const endpoint = config.host.name + '/api/projects/' + id;
 
     var data: object = {
       method: 'GET',
@@ -667,7 +670,7 @@ function getOneProject(id: string): Promise<Project> {
 
 function deleteProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/projects/delete';
+    const endpoint = config.host.name + '/api/projects/delete';
 
     var data: object = {
       body: JSON.stringify({
@@ -699,7 +702,7 @@ function deleteProject(id: string): Promise<Project> {
 
 function getTags(): Promise<Tags> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/projects/tags';
+    const endpoint = config.host.name + '/api/projects/tags';
 
     var data: object = {
       headers: {
@@ -728,7 +731,7 @@ function getTags(): Promise<Tags> {
 
 function getCategories(): Promise<Categories> {
   return new Promise((resolve, reject) => {
-    const endpoint = host + '/api/projects/categories';
+    const endpoint = config.host.name + '/api/projects/categories';
 
     var data: object = {
       headers: {
@@ -759,7 +762,7 @@ function getCategories(): Promise<Categories> {
  */
 function getMarkers(revisionId: string) {
   return axios
-    .get(host + `/api/projects/revision/${revisionId}/markers`)
+    .get(config.host.name + `/api/projects/revision/${revisionId}/markers`)
     .then(response => {
       return response.data.markers;
     });
@@ -767,7 +770,7 @@ function getMarkers(revisionId: string) {
 
 function saveMarker(revisionId: string, marker: Marker) {
   return axios
-    .post(host + `/api/projects/revision/${revisionId}/marker`, {
+    .post(config.host.name + `/api/projects/revision/${revisionId}/marker`, {
       type: marker.type,
       creator: marker.creator,
       x: marker.x,
@@ -781,7 +784,7 @@ function saveMarker(revisionId: string, marker: Marker) {
 }
 function deleteMarker(markerId: string) {
   return axios
-    .delete(host + `/api/projects/revision/marker/${markerId}`)
+    .delete(config.host.name + `/api/projects/revision/marker/${markerId}`)
     .then(response => {
       return response.data.marker;
     });
@@ -790,7 +793,7 @@ function deleteMarker(markerId: string) {
 function updateMarkerPosition(id: string, x: string, y: string) {
   console.log('updating marker position...');
   return axios
-    .put(host + `/api/projects/revision/marker/${id}`, {
+    .put(config.host.name + `/api/projects/revision/marker/${id}`, {
       x,
       y
     })
@@ -802,7 +805,7 @@ function updateMarkerPosition(id: string, x: string, y: string) {
 function updateMarkerDimensions(id: string, width: string, height: string) {
   console.log('updating marker dimensions...');
   return axios
-    .put(host + `/api/projects/revision/marker/${id}`, {
+    .put(config.host.name + `/api/projects/revision/marker/${id}`, {
       width,
       height
     })
@@ -813,7 +816,7 @@ function updateMarkerDimensions(id: string, width: string, height: string) {
 
 function resolveMarker(id: string) {
   return axios
-    .put(host + `/api/projects/revision/marker/${id}`, {
+    .put(config.host.name + `/api/projects/revision/marker/${id}`, {
       isResolved: true
     })
     .then(response => {
@@ -823,7 +826,9 @@ function resolveMarker(id: string) {
 
 function getMarkerComments(markerId: string) {
   return axios
-    .get(host + `/api/projects/revision/markers/${markerId}/comments`)
+    .get(
+      config.host.name + `/api/projects/revision/markers/${markerId}/comments`
+    )
     .then(response => {
       return response.data.comments;
     });
@@ -831,10 +836,13 @@ function getMarkerComments(markerId: string) {
 
 function addMarkerComment(markerId: string, username: string, message: string) {
   return axios
-    .post(host + `/api/projects/revision/marker/${markerId}/comment`, {
-      creator: username,
-      comment: message
-    })
+    .post(
+      config.host.name + `/api/projects/revision/marker/${markerId}/comment`,
+      {
+        creator: username,
+        comment: message
+      }
+    )
     .then(response => {
       return response.data.comment;
     });
@@ -848,7 +856,7 @@ function addRevision(
   description: string
 ) {
   return axios
-    .post(host + `/api/projects/${projectId}/revision`, {
+    .post(config.host.name + `/api/projects/${projectId}/revision`, {
       revisionNumber: 'string',
       finalVersion: true,
       imageURL: '',

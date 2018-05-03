@@ -1,6 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
-import host from '../hostname';
+import config from '../.config';
+
 interface TeamProps {
   projectId: string;
 }
@@ -17,7 +18,10 @@ class Team extends React.PureComponent<TeamProps, TeamState> {
   }
   componentDidMount() {
     axios
-      .get(host + `/api/projects/${this.props.projectId}/team/thumbnails`)
+      .get(
+        config.host.name +
+          `/api/projects/${this.props.projectId}/team/thumbnails`
+      )
       .then(response => {
         var thumbnails = response.data.thumbnailsURLs;
         this.setState({

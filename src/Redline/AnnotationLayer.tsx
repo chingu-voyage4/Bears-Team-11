@@ -15,7 +15,8 @@ import { Store } from '../types/Redux';
 import { Marker } from '../types/Marker';
 import { User } from '../types/User';
 import axios from 'axios';
-import host from '../hostname';
+import config from '../.config';
+
 declare global {
   interface Window {
     $: any;
@@ -58,7 +59,7 @@ class AnnotationLayer extends React.Component<
     });
 
     axios
-      .get(host + `/api/projects/${this.props.projectId}/team`)
+      .get(config.host.name + `/api/projects/${this.props.projectId}/team`)
       .then(response => {
         var team = response.data.team;
         this.setState({ team });
