@@ -401,7 +401,7 @@ module.exports = function(passport) {
                 console.log(err);
                 res.status(409);
               } else {
-                res.status(200);
+                res.redirect(`http://localhost:3000/projects/${project._id}`);
               }
             }
           );
