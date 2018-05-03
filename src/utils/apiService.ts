@@ -281,6 +281,7 @@ function userSettingsUpdate(
         if (res.message === 'Successfully updated user details') {
           var user = res.user;
           var userDetails = res.userDetail;
+          console.log('userDetail=' + JSON.stringify(userDetails));
           resolve({
             _id: user._id,
             firstName: user.firstName,
