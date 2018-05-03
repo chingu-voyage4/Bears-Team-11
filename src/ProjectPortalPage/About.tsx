@@ -3,6 +3,7 @@ import Team from './Team';
 import * as moment from 'moment';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import config from '../.config';
 
 interface AboutProps {
   name: string | undefined;
@@ -20,8 +21,8 @@ class About extends React.PureComponent<AboutProps> {
   sendJoinRequest = (e: any) => {
     e.preventDefault();
     axios
-      .post('http://localhost:8080/api/email/', {
-        link: `http://localhost:3000/user/profile/${this.props.user.username}`,
+      .post(config.host.name + '/api/email/', {
+        link: config.host.name + `/user/profile/${this.props.user.username}`,
         username: this.props.user.username,
         projectName: this.props.name,
         projectId: this.props.projectId

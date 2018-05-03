@@ -7,6 +7,7 @@ import AnnotationLayer from './AnnotationLayer';
 import axios from 'axios';
 import HeaderContainer from '../Header/HeaderContainer';
 import { connect } from 'react-redux';
+import config from '../.config';
 
 interface RedlineProps {
   imageLink: string;
@@ -33,7 +34,7 @@ class Redline extends React.Component<RedlineProps, RedlineState> {
   componentDidMount() {
     var { revisionId } = this.getURLParams();
     axios
-      .get(`http://localhost:8080/api/projects/revision/${revisionId}`)
+      .get(config.host.name + `/api/projects/revision/${revisionId}`)
       .then(response => {
         this.setState({
           revision: response.data.revision
@@ -42,9 +43,7 @@ class Redline extends React.Component<RedlineProps, RedlineState> {
 
     axios
       .get(
-        `http://localhost:8080/api/projects/${
-          this.getURLParams().projectId
-        }/team`
+        config.host.name + `/api/projects/${this.getURLParams().projectId}/team`
       )
       .then(response => {
         var team = response.data.team;

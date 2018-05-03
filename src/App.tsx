@@ -14,6 +14,11 @@ import PublicProfile from './PublicProfile/PublicProfile';
 import Redline from './Redline';
 import ProjectPortalPage from './ProjectPortalPage';
 import { HYDRATE_USER } from './actions/actionTypes';
+import config from './.config';
+
+if (config.env !== 'production') {
+  console.log('create-react-app is running in', config.env);
+}
 
 const store = createStore(
   rootReducer,

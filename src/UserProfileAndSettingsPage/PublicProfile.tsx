@@ -25,7 +25,7 @@ class PublicProfile extends React.Component<
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState(
       {
         aboutme: this.props.user.description,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as moment from 'moment';
 // import axios from 'axios';
-
+// import host from '../hostname';
 interface MessageProps {
   creator: string;
   createdAt: string;
@@ -22,7 +22,7 @@ class Message extends React.PureComponent<MessageProps, MessageState> {
     // FIX NEEDED: API for fetching user images broken due to recent changes
     // axios
     //   .get(
-    //     `http://localhost:8080/api/user/${this.props.creator}/profile/picture`
+    //     host + `/api/user/${this.props.creator}/profile/picture`
     //   )
     //   .then(response => {
     //     this.setState({

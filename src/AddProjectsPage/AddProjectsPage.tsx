@@ -3,7 +3,7 @@ import Footer from '../Footer/Footer';
 import '../styles/AddProjectsPage.css';
 import HeaderContainer from '../Header/HeaderContainer';
 import { AddProjectState } from '../types/AddProjectsPage.d';
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import {
   addOrUpdateProject,
   getOneProject,
@@ -12,7 +12,7 @@ import {
 import { getAllUsers } from '../actions/userActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
-import { Store, AddProjectProps, Action } from '../types/Redux';
+import { Store, AddProjectProps } from '../types/Redux';
 import { Redirect } from 'react-router';
 import StatusOptionsComponent from './StatusOptionsComponent';
 import ChosenTeam from './ChosenTeam';
@@ -53,7 +53,7 @@ class AddProjectsPage extends React.Component<
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getCategories();
     this.props.getTags();
     this.props.getAllUsers();
@@ -666,27 +666,11 @@ function mapStateToProps(state: Store) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<Action>) {
-  return {
-    addOrUpdateProject: (project: any, files: FileList) => {
-      return dispatch(addOrUpdateProject(project, files));
-    },
-    getAllUsers: () => {
-      return dispatch(getAllUsers());
-    },
-    getCategories: () => {
-      return dispatch(getCategories());
-    },
-    getTags: () => {
-      return dispatch(getTags());
-    },
-    getOneProject: (id: string) => {
-      return dispatch(getOneProject(id));
-    },
-    getProjects: (options: object, query: object | null) => {
-      return dispatch(getProjects(options, query));
-    }
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddProjectsPage);
+export default connect(mapStateToProps, {
+  addOrUpdateProject,
+  getAllUsers,
+  getCategories,
+  getTags,
+  getOneProject,
+  getProjects
+})(AddProjectsPage as any);

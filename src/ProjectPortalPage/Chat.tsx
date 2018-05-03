@@ -2,6 +2,7 @@ import * as React from 'react';
 import Message from './Message';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import config from '../.config';
 
 interface ChatProps {
   projectId: string;
@@ -25,9 +26,7 @@ class Chat extends React.PureComponent<ChatProps, ChatState> {
   }
   componentDidMount() {
     axios
-      .get(
-        `http://localhost:8080/api/projects/${this.props.projectId}/comments`
-      )
+      .get(config.host.name + `/api/projects/${this.props.projectId}/comments`)
       .then(response => {
         var comments = response.data.comments;
         this.setState({
@@ -38,7 +37,7 @@ class Chat extends React.PureComponent<ChatProps, ChatState> {
       });
 
     axios
-      .get(`http://localhost:8080/api/projects/${this.props.projectId}/team`)
+      .get(config.host.name + `/api/projects/${this.props.projectId}/team`)
       .then(response => {
         var team = response.data.team;
         this.setState({ team });
@@ -65,7 +64,7 @@ class Chat extends React.PureComponent<ChatProps, ChatState> {
   addComment = (comment: any) => {
     axios
       .post(
-        `http://localhost:8080/api/projects/${this.props.projectId}/comment`,
+        config.host.name + `/api/projects/${this.props.projectId}/comment`,
         {
           username: this.props.user.username,
           comment
