@@ -42,15 +42,19 @@ router.post('/', function(req, res) {
               from: 'join_request@projectmatch.me',
               subject: 'Project Match - Join Request',
               text: `Hello,\n\nYou've got a request from ${sender} to join ${projectName}.\n\nYou can see their profile here: ${link}.\n\nTo accept the request, click: ${
-                config.host.name
+                config.server.name
               }/api/projects/${projectId}/accept/${interestedParty}`
             };
 
             smtpTransport.sendMail(mailOptions, function(err) {
               if (err) {
-                res.json({ error: err.message });
+                res.json({
+                  error: err.message
+                });
               }
-              res.json({ success: 'Success!' });
+              res.json({
+                success: 'Success!'
+              });
             });
           }
         }
