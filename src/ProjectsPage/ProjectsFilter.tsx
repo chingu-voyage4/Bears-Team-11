@@ -6,6 +6,8 @@ import { getProjects, searchProjects } from '../actions/projectActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
 import { ProjectPageFilterProps, Store, Action } from '../types/Redux';
+import FilterByCategoriesComponent from './FilterByCategoriesComponent';
+import FilterByTagsComponent from './FilterByTagsComponent';
 
 class ProjectsFilter extends React.Component<
   ProjectPageFilterProps,
@@ -235,119 +237,12 @@ class ProjectsFilter extends React.Component<
   }
 
   render() {
-    class FilterByCategoriesComponent extends React.Component<{
-      categories: any;
-      categoryFilter: any;
-    }> {
-      render() {
-        var categoriesFromStore = this.props.categories!;
-        var filterByCategories;
-        if (categoriesFromStore instanceof Array) {
-          filterByCategories = categoriesFromStore.map(function(
-            // tslint:disable-next-line
-            category: any,
-            index: number
-          ) {
-            return (
-              <div
-                className="checkboxContainer"
-                key={'categories_filter_' + index}
-              >
-                <label htmlFor={'categories_filter_id_' + index}>
-                  {category.categoryName}
-                  <input
-                    type="checkbox"
-                    name="category"
-                    id={'categories_filter_id_' + index}
-                    value={category.categoryName}
-                    className="filterOptions-categories"
-                  />
-                  <span className="checkmark" />
-                </label>
-              </div>
-            );
-          });
-        }
-        return (
-          <div>
-            <input
-              className="project-filter-search-input-box"
-              type="text"
-              placeholder="Search Categories"
-              id="categoryFilter"
-              onKeyUp={this.props.categoryFilter}
-            />
-            {filterByCategories}
-          </div>
-        );
-      }
-    }
-
-    class FilterByTagsComponent extends React.Component<{
-      tags: any;
-      tagFilter: any;
-    }> {
-      render() {
-        var tagsFromStore = this.props.tags!;
-        var filterByTags;
-        if (tagsFromStore instanceof Array) {
-          filterByTags = tagsFromStore.map(function(
-            // tslint:disable-next-line
-            tag: any,
-            index: number
-          ) {
-            return (
-              <div className="checkboxContainer" key={'tags_filter_' + index}>
-                <label htmlFor={'tags_filter_id_' + index}>
-                  {tag.tagName}
-                  <input
-                    type="checkbox"
-                    name="tag"
-                    id={'tags_filter_id_' + index}
-                    value={tag.tagName}
-                    className="filterOptions-tags"
-                  />
-                  <span className="checkmark" />
-                </label>
-              </div>
-            );
-          });
-        }
-        return (
-          <div>
-            <input
-              className="project-filter-search-input-box"
-              type="text"
-              placeholder="Search Tags"
-              id="tagFilter"
-              onKeyUp={this.props.tagFilter}
-            />
-            {filterByTags}
-          </div>
-        );
-      }
-    }
-
     return (
       <form className="project-filters">
         <div className="project-filter-dropdown">
           <div className="project-filter-title">Sort By:</div>
 
           <div className="project-filter-dropdown-content">
-            <div className="radioContainer">
-              <label htmlFor="project-filter-sortBy-all">
-                All
-                <input
-                  type="radio"
-                  name="sortBy"
-                  value="All"
-                  id="project-filter-sortBy-all"
-                  className="filterOptions-sortBy"
-                />
-                <span className="radioCheckmark" />
-              </label>
-            </div>
-
             <div className="radioContainer">
               <label htmlFor="project-filter-sortBy-MostViewed">
                 Most Viewed
@@ -495,20 +390,6 @@ class ProjectsFilter extends React.Component<
                 <span className="radioCheckmark" />
               </label>
             </div>
-
-            <div className="radioContainer">
-              <label htmlFor="project-filter-status-all">
-                All
-                <input
-                  type="radio"
-                  name="status"
-                  value="All Statuses"
-                  id="project-filter-status-all"
-                  className="filterOptions-status"
-                />
-                <span className="radioCheckmark" />
-              </label>
-            </div>
           </div>
         </div>
 
@@ -524,7 +405,7 @@ class ProjectsFilter extends React.Component<
           onClick={e => this.clearFilters(e)}
           className="project-filter-clear-btn"
         >
-          Clear Filters
+          Clear Filters / Search
         </button>
       </form>
     );

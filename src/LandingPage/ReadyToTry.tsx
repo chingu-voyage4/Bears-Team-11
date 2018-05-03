@@ -20,7 +20,7 @@ class ReadyToTry extends React.Component<ReadyToTryProps, {}> {
           onClick={e => this.registerPressed(e)}
           className="ready-to-try-button"
         >
-          SIGN UP FOR FREE
+          SIGN UP
         </button>
       </div>
     );

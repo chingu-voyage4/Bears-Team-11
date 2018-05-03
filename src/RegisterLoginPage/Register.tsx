@@ -132,7 +132,7 @@ class Register extends React.Component<RegisterProps, RegisterState> {
             className="signUpBtn"
             name="registerBtn"
           >
-            Sign Up For Free
+            Sign Up
           </button>
         </form>
       </div>
