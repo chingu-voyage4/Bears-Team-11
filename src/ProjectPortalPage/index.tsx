@@ -62,6 +62,7 @@ class ProjectPortalPage extends React.Component<
                 liveLink={this.state.currentProject.liveLink}
                 lookingFor={this.state.currentProject.lookingFor}
                 mockupLink={this.state.currentProject.mockupLink}
+                status={this.state.currentProject.status}
               />
             </div>
             <div className="project-portal__chat">
