@@ -11,6 +11,7 @@ TITLE
   text-align: center;
   padding-top: 60px;
   padding-bottom: 30px;
+  font-family: $font;
 }
 /*
 ==========================
@@ -58,6 +59,7 @@ PROJECT FILTERS
   border: 1px solid $theme-blue;
   min-width: 1040px;
   max-width: 1040px;
+  font-family: $font;
 }
 
 .project-filter-title {
