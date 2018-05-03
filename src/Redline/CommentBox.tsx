@@ -6,7 +6,7 @@ import { Store } from '../types/Redux';
 import { User } from '../types/User';
 import { addComment, getComments } from '../actions/markerActions';
 import axios from 'axios';
-
+import host from '../hostname';
 interface CommentBoxProps {
   revisionId: string;
   markerId: string;
@@ -38,9 +38,7 @@ class CommentBox extends React.Component<CommentBoxProps, CommentBoxState> {
   componentDidMount() {
     axios
       .get(
-        `http://localhost:8080/api/projects/revision/markers/${
-          this.props.markerId
-        }/comments`
+        host + `/api/projects/revision/markers/${this.props.markerId}/comments`
       )
       .then(response => {
         this.setState({

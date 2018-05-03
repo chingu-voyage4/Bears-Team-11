@@ -3,7 +3,7 @@ import Revision from './Revision';
 import axios from 'axios';
 import apiService from '../utils/apiService';
 import { connect } from 'react-redux';
-
+import host from '../hostname';
 interface RevisionsProps {
   mockups: Array<string> | undefined;
   projectId: string;
@@ -34,9 +34,7 @@ class Revisions extends React.PureComponent<RevisionsProps, RevisionsState> {
   }
   componentDidMount() {
     axios
-      .get(
-        `http://localhost:8080/api/projects/${this.props.projectId}/revisions`
-      )
+      .get(host + `/api/projects/${this.props.projectId}/revisions`)
       .then(response => {
         var revisions = response.data.revisions;
         this.setState({
@@ -45,7 +43,7 @@ class Revisions extends React.PureComponent<RevisionsProps, RevisionsState> {
       });
 
     axios
-      .get(`http://localhost:8080/api/projects/${this.props.projectId}/team`)
+      .get(host + `/api/projects/${this.props.projectId}/team`)
       .then(response => {
         var team = response.data.team;
         this.setState({ team });

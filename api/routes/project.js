@@ -401,7 +401,9 @@ module.exports = function(passport) {
                 console.log(err);
                 res.status(409);
               } else {
-                res.redirect(`http://localhost:3000/projects/${project._id}`);
+                res.redirect(
+                  `https://www.projectmatch.me/projects/${project._id}`
+                );
               }
             }
           );

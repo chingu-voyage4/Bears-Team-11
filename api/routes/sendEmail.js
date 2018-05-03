@@ -40,7 +40,7 @@ router.post('/', function(req, res) {
               to: to,
               from: 'join_request@projectmatch.me',
               subject: 'Project Match - Join Request',
-              text: `Hello,\n\nYou've got a request from ${sender} to join ${projectName}.\n\nYou can see their profile here: ${link}.\n\nTo accept the request, click: http://localhost:8080/api/projects/${projectId}/accept/${interestedParty}`
+              text: `Hello,\n\nYou've got a request from ${sender} to join ${projectName}.\n\nYou can see their profile here: ${link}.\n\nTo accept the request, click: https://www.projectmatch.me/api/projects/${projectId}/accept/${interestedParty}`
             };
 
             smtpTransport.sendMail(mailOptions, function(err) {
