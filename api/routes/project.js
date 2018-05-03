@@ -379,13 +379,14 @@ module.exports = function(passport) {
     Project.findByIdAndUpdate(
       req.params.projectId,
       {
-        $push: {
+        $addToSet: {
           team: req.params.username
         }
       },
       function(err, project) {
         if (err) {
           console.log(err);
+          res.status(409);
         } else {
           // add project to user
           UserDetails.findOneAndUpdate(
@@ -398,6 +399,7 @@ module.exports = function(passport) {
             function(err, user) {
               if (err) {
                 console.log(err);
+                res.status(409);
               } else {
                 res.status(200);
               }
