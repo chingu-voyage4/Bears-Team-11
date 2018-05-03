@@ -14,6 +14,7 @@ interface AboutProps {
   mockupLink: string | undefined;
   lookingFor: Array<string> | undefined;
   projectId: string;
+  status: boolean;
   user: any;
 }
 
@@ -42,32 +43,45 @@ class About extends React.PureComponent<AboutProps> {
       <React.Fragment>
         <div className="about__heading">
           <h1>{this.props.name}</h1>
-          <p>Due {moment(this.props.dueDate).format('ll')}</p>
+          {this.props.status ? (
+            <p>Due {moment(this.props.dueDate).format('ll')}</p>
+          ) : (
+            <p>Status: Complete</p>
+          )}
         </div>
         <div className="about__body">
           <p className="about__description">{this.props.description}</p>
           <div>
             <ul className="about__links">
-              <li>
-                <a href={this.props.githubLink}>Github Repo</a>
-              </li>
-              <li>
-                <a href={this.props.liveLink}>Published Site</a>
-              </li>
-              <li>
-                <a href={this.props.mockupLink}>Final Mockup</a>
-              </li>
+              {this.props.githubLink !== '' ? (
+                <li>
+                  <a href={this.props.githubLink}>Github Repo</a>
+                </li>
+              ) : null}
+              {this.props.liveLink !== '' ? (
+                <li>
+                  <a href={this.props.liveLink}>Published Site</a>
+                </li>
+              ) : null}
+              {this.props.mockupLink !== '' ? (
+                <li>
+                  <a href={this.props.mockupLink}>Final Mockup</a>
+                </li>
+              ) : null}
+
               <li className="looking-for">
                 looking for{' '}
                 {this.props.lookingFor && this.props.lookingFor.length > 0
                   ? this.props.lookingFor[0].toUpperCase()
                   : 'NONE'}
               </li>
-              <li>
-                <a className="button" href="" onClick={this.sendJoinRequest}>
-                  Join Team
-                </a>
-              </li>
+              {this.props.user && this.props.status ? (
+                <li>
+                  <a className="button" href="" onClick={this.sendJoinRequest}>
+                    Join Team
+                  </a>
+                </li>
+              ) : null}
             </ul>
           </div>
         </div>
