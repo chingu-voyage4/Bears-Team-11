@@ -22,8 +22,8 @@ class About extends React.PureComponent<AboutProps> {
   sendJoinRequest = (e: any) => {
     e.preventDefault();
     axios
-      .post(config.client.name + '/api/email/', {
-        link: `${config.host.name}/user/profile/${this.props.user.username}`,
+      .post(config.host.name + '/api/email/', {
+        link: `${config.client.name}/user/profile/${this.props.user.username}`,
         username: this.props.user.username,
         projectName: this.props.name,
         projectId: this.props.projectId
