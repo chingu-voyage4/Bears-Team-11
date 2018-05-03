@@ -1,13 +1,16 @@
 import * as React from 'react';
 import axios from 'axios';
+import config from '../.config';
 
-class Team extends React.PureComponent<
-  { projectId: string },
-  {
-    thumbnails: Array<string>;
-  }
-> {
-  constructor(props: { projectId: string }) {
+interface TeamProps {
+  projectId: string;
+}
+
+interface TeamState {
+  thumbnails: Array<string>;
+}
+class Team extends React.PureComponent<TeamProps, TeamState> {
+  constructor(props: TeamProps) {
     super(props);
     this.state = {
       thumbnails: []
@@ -16,9 +19,8 @@ class Team extends React.PureComponent<
   componentDidMount() {
     axios
       .get(
-        `http://localhost:8080/api/projects/${
-          this.props.projectId
-        }/team/thumbnails`
+        config.host.name +
+          `/api/projects/${this.props.projectId}/team/thumbnails`
       )
       .then(response => {
         var thumbnails = response.data.thumbnailsURLs;

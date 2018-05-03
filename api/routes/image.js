@@ -1,5 +1,5 @@
 var express = require('express');
-
+var mongoose = require('mongoose');
 var multer = require('multer');
 var multerS3 = require('multer-s3');
 // credentials from aws
@@ -13,7 +13,7 @@ var s3 = new AWS.S3();
 var Projects = require('../models/Projects');
 var User = require('../models/Users');
 var UserDetails = require('../models/UserDetails');
-
+var Revisions = require('../models/Revisions');
 /**
  * FOR USER
  */
@@ -53,7 +53,7 @@ router.post('/profile', function(req, res) {
     } else {
       console.log('Successfully uploaded profile pic');
       User.findOneAndUpdate(
-        { username: req.query.userName },
+        { _id: req.query.userName },
         { profileImage: req.file.location },
         { new: true },
         function(err, user) {
@@ -62,21 +62,25 @@ router.post('/profile', function(req, res) {
               error: 'Error in saving image urls to user: ' + err
             });
           } else {
-            UserDetails.findOne({ username: user.username }, function(
-              err,
-              userDetail
-            ) {
-              if (err || !userDetail) {
-                return res.json({ error: 'Error in retreiving userDetails' });
-              } else {
-                return res.json({
-                  user: user,
-                  userDetail: userDetail,
-                  imageURL: req.file.location,
-                  message: 'Successfully saved profile image'
-                });
+            UserDetails.findOne(
+              {
+                username: user.username
+              },
+              function(err, userDetail) {
+                if (err || !userDetail) {
+                  return res.json({
+                    error: 'Error in retreiving userDetails'
+                  });
+                } else {
+                  return res.json({
+                    user: user,
+                    userDetail: userDetail,
+                    imageURL: req.file.location,
+                    message: 'Successfully saved profile image'
+                  });
+                }
               }
-            });
+            );
           }
         }
       );
@@ -106,13 +110,19 @@ router.post('/project', function(req, res) {
     if (err) {
       // file not uploaded to aws
       console.log(err);
-      return res.json({ error: 'Image Upload not successfull ' + err.message });
+      return res.json({
+        error: 'Image Upload not successfull ' + err.message
+      });
     } else {
       console.log('Successfully uploaded project image');
       Projects.findByIdAndUpdate(
         req.query.projectId,
-        { images: [req.file.location] },
-        { new: true },
+        {
+          images: [req.file.location]
+        },
+        {
+          new: true
+        },
         function(err, project) {
           if (err || !project) {
             return res.json({
@@ -134,29 +144,67 @@ router.post('/project', function(req, res) {
 // NOTE: Should have "revisionId"
 router.post('/revision', function(req, res) {
   console.log('Posting to revision');
-  let fileName = req.query.revisionId;
-  console.log(fileName);
-  var upload = multer({
-    storage: multerS3({
-      s3: s3,
-      bucket: 'project-match/revision',
-      acl: 'public-read',
-      contentType: multerS3.AUTO_CONTENT_TYPE,
-      key: function(req, file, cb) {
-        cb(null, fileName);
-      }
-    })
+
+  var revision = new Revisions({
+    revisionNumber: req.query.revisionNumber,
+    creator: req.query.user,
+    project: mongoose.Types.ObjectId(req.query.projectId)
   });
 
-  var uploadingHandler = upload.single('image');
-  uploadingHandler(req, res, function(err) {
+  revision.save(function(err) {
     if (err) {
-      // file not uploaded to aws
       console.log(err);
-      return res.send({ error: 'Image Upload not successfull ' + err.message });
+      res.status(500);
     } else {
-      console.log('succeefully uploaded');
-      return res.send({ imageURL: req.file.location });
+      let fileName = revision._id.toString();
+
+      console.log('type of filename', typeof fileName);
+
+      var upload = multer({
+        storage: multerS3({
+          s3: s3,
+          bucket: 'project-match/revision',
+          acl: 'public-read',
+          contentType: multerS3.AUTO_CONTENT_TYPE,
+          key: function(req, file, cb) {
+            console.log('file:', file);
+            cb(null, fileName);
+          }
+        })
+      });
+
+      var uploadingHandler = upload.single('image');
+      uploadingHandler(req, res, function(err) {
+        if (err) {
+          // file not uploaded to aws
+          return res.send({
+            error: 'Image Upload not successfull ' + err.message
+          });
+        } else {
+          Revisions.findByIdAndUpdate(
+            revision._id,
+            {
+              imageURL: req.file.location
+            },
+            {
+              new: true
+            },
+            function(err, revision) {
+              if (err || !revision) {
+                res.json({
+                  error: 'Error in uploading revision images: ' + err
+                });
+              } else {
+                return res.json({
+                  revision: revision,
+                  imageURL: req.file.location,
+                  message: 'Successfully saved revision image'
+                });
+              }
+            }
+          );
+        }
+      });
     }
   });
 });

@@ -1,7 +1,7 @@
 import { googleLogin } from '../actions/userActions';
 import { connect } from 'react-redux';
 import * as React from 'react';
-import { GoogleProps } from '../types/GoogleLogin.d';
+import { GoogleProps } from '../types/Redux';
 // ref: https://developers.google.com/identity/sign-in/web/sign-in
 
 /* tslint:disable */
@@ -35,9 +35,7 @@ export class GoogleSignIn extends React.Component<GoogleProps> {
 
   signOut = () => {
     var auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function() {
-      console.log('User signed out.');
-    });
+    auth2.signOut().then(function() {});
   };
 
   render() {

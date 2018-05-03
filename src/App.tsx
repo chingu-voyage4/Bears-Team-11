@@ -5,38 +5,35 @@ import { Provider } from 'react-redux';
 import rootReducer from './reducers';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import LandingPage from './Landing Page/LandingPage';
+import LandingPage from './LandingPage/LandingPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import ProjectsPage from './Projects Page/ProjectsPage';
+import ProjectsPage from './ProjectsPage/ProjectsPage';
 import AddProjectsPage from './AddProjectsPage/AddProjectsPage';
 import SettingsPage from './UserProfileAndSettingsPage/SettingsPage';
-import PublicProfile from './UserProfileAndSettingsPage/PublicProfile';
+import PublicProfile from './PublicProfile/PublicProfile';
 import Redline from './Redline';
-import ProjectPortalPage from './ProjectPortalPage/ProjectPortalPage';
+import ProjectPortalPage from './ProjectPortalPage';
 import { HYDRATE_USER } from './actions/actionTypes';
+import config from './.config';
+
+if (config.env !== 'production') {
+  console.log('create-react-app is running in', config.env);
+}
 
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
-class App extends React.Component<{}, { reduxManualTest: boolean }> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      reduxManualTest: false
-    };
-  }
 
-  componentDidMount() {
-    var user = localStorage.getItem('user');
-    if (user) {
-      store.dispatch({
-        type: HYDRATE_USER,
-        data: JSON.parse(user)
-      });
-    }
-  }
+var user = localStorage.getItem('user');
+if (user) {
+  store.dispatch({
+    type: HYDRATE_USER,
+    data: JSON.parse(user)
+  });
+}
 
+class App extends React.Component {
   render() {
     return (
       <Provider store={store}>

@@ -1,7 +1,7 @@
 export interface PersonalDetailsState {
-  username: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  password: string;
+  userId: string;
+  username: string;
 }
-
-export interface PersonalDetailsProps {}

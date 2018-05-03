@@ -1,18 +1,25 @@
 import * as React from 'react';
-import Footer from '../Footer';
+import Footer from '../Footer/Footer';
 import '../styles/AddProjectsPage.css';
-import HeaderContainer from '../HeaderContainer';
+import HeaderContainer from '../Header/HeaderContainer';
 import { AddProjectState } from '../types/AddProjectsPage.d';
 import { connect } from 'react-redux';
 import {
-  addProject,
-  updateProject,
-  getOneProject
+  addOrUpdateProject,
+  getOneProject,
+  getProjects
 } from '../actions/projectActions';
 import { getAllUsers } from '../actions/userActions';
 import { getTags } from '../actions/tagsActions';
 import { getCategories } from '../actions/categoryActions';
 import { Store, AddProjectProps } from '../types/Redux';
+import { Redirect } from 'react-router';
+import StatusOptionsComponent from './StatusOptionsComponent';
+import ChosenTeam from './ChosenTeam';
+import ChosenTags from './ChosenTags';
+import TagOptionsComponent from './TagOptionsComponent';
+import CategoriesOptionsComponent from './CategoriesOptionsComponent';
+import TeamOptionsComponent from './TeamOptionsComponent';
 
 class AddProjectsPage extends React.Component<
   AddProjectProps,
@@ -21,6 +28,8 @@ class AddProjectsPage extends React.Component<
   constructor(props: AddProjectProps) {
     super(props);
     this.state = {
+      shouldRedirect: false,
+      projIdRedirect: '',
       name: '',
       description: '',
       dueDate: '',
@@ -44,7 +53,7 @@ class AddProjectsPage extends React.Component<
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getCategories();
     this.props.getTags();
     this.props.getAllUsers();
@@ -56,7 +65,7 @@ class AddProjectsPage extends React.Component<
     };
 
     var setState = () => {
-      var project = this.props.addOrUpdateProject!;
+      var project = this.props.currentProject!;
       return this.setState(
         {
           name: project.name,
@@ -81,12 +90,11 @@ class AddProjectsPage extends React.Component<
           files: null
         },
         () => {
-          console.log(this.state);
+          // console.log(this.state);
           // var doc: any;
           // if (this.state.lookingFor === ['Programmer']) {
           //   doc = document.getElementById('new-project-role-p')!;
           //   doc.checked = true;
-
           // } else if (this.state.lookingFor === ['Designer']) {
           //   doc = document.getElementById('new-project-role-d')![0];
           //   doc.checked = true;
@@ -172,7 +180,6 @@ class AddProjectsPage extends React.Component<
             arrayOfRoles.push(node.value);
           }
         });
-        console.log(arrayOfRoles);
         this.setState({ lookingFor: arrayOfRoles } as any);
       }
     } else {
@@ -197,6 +204,14 @@ class AddProjectsPage extends React.Component<
   }
 
   public handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
+    var title = document.getElementById('new-project-title') as any;
+    var description = document.getElementById('new-project-description') as any;
+
+    if (title.value === '' && description.value === '') {
+      alert('Title and Description are required 😉');
+      return;
+    }
+
     var elemList = document.getElementsByClassName('new-project-roles');
     var elements = [].filter.call(elemList, function(elem: any) {
       return elem.checked;
@@ -208,52 +223,45 @@ class AddProjectsPage extends React.Component<
     });
 
     this.setState({ lookingFor: lookingForArray }, () => {
+      var projectToCreateOrUpdate = {
+        name: this.state.name,
+        description: this.state.description,
+        dueDate: this.state.dueDate,
+        team: this.state.team,
+        githubLink: this.state.githubLink,
+        mockupLink: this.state.mockupLink,
+        liveLink: this.state.liveLink,
+        lookingFor: this.state.lookingFor,
+        status: this.state.status,
+        category: this.state.category,
+        tags: this.state.tags,
+        contact: this.state.contact,
+        creator: this.props.user.username
+      };
       if (this.props.match.params.hasOwnProperty('id')) {
-        this.props.updateProject(
-          {
-            _id: this.props.addOrUpdateProject._id,
-            name: this.state.name,
-            description: this.state.description,
-            dueDate: this.state.dueDate,
-            team: this.state.team,
-            githubLink: this.state.githubLink,
-            mockupLink: this.state.mockupLink,
-            liveLink: this.state.liveLink,
-            lookingFor: this.state.lookingFor,
-            status: this.state.status,
-            category: this.state.category,
-            tags: this.state.tags,
-            contact: this.state.contact,
-            creator: this.props.user.username
-          },
-          this.state.files
-        );
-      } else {
-        this.props.addProject(
-          {
-            name: this.state.name,
-            description: this.state.description,
-            dueDate: this.state.dueDate,
-            team: this.state.team,
-            githubLink: this.state.githubLink,
-            mockupLink: this.state.mockupLink,
-            liveLink: this.state.liveLink,
-            lookingFor: this.state.lookingFor,
-            status: this.state.status,
-            category: this.state.category,
-            tags: this.state.tags,
-            contact: this.state.contact,
-            creator: this.props.user.username
-          },
-          this.state.files
-        );
+        projectToCreateOrUpdate = Object.assign({}, projectToCreateOrUpdate, {
+          _id: this.props.currentProject._id
+        });
       }
+
+      this.props
+        .addOrUpdateProject(projectToCreateOrUpdate, this.state.files)
+        .then(() => {
+          this.props
+            .getProjects({ sort: { modifiedAt: -1 } }, null)
+            .then(() => {
+              console.log(this.props.projects);
+              this.setState({
+                shouldRedirect: true,
+                projIdRedirect: this.props.projects[0]._id
+              });
+            });
+        });
     });
   };
 
   public handleImageText = (e: React.FormEvent<HTMLInputElement>): void => {
     let files = e.currentTarget.files! as FileList;
-    // tslint:disable-next-line
     this.setState({ files: files } as any);
   };
 
@@ -340,252 +348,14 @@ class AddProjectsPage extends React.Component<
   };
 
   render() {
-    class StatusOptionsComponent extends React.Component<{
-      onFormChange: any;
-    }> {
-      render() {
-        let statusOptionsArray = ['Active', 'Completed'];
-
-        var statusComponent = statusOptionsArray.map(
-          (status: string, index: number) => {
-            return (
-              <input
-                key={'status_' + index}
-                type="button"
-                name="status"
-                value={status}
-                onClick={this.props.onFormChange}
-                className="new-project-dropdown-text"
-              />
-            );
-          }
-        );
-
-        return statusComponent;
-      }
-    }
-    class TeamOptionsComponent extends React.Component<{
-      allUsers: any;
-      user: any;
-      onFormChange: any;
-      teamFilter: any;
-    }> {
-      render() {
-        let teamOptionsComponent: JSX.Element[];
-        let usersFromStore = this.props.allUsers!;
-        let username = this.props.user.username;
-        if (usersFromStore instanceof Array) {
-          usersFromStore = usersFromStore.filter(
-            user => user.username !== username
-          );
-          teamOptionsComponent = usersFromStore.map(
-            (users: any, index: number) => {
-              return (
-                <input
-                  key={'users_' + index}
-                  type="button"
-                  name="team"
-                  value={users.username}
-                  onClick={this.props.onFormChange}
-                  className="new-project-dropdown-text"
-                />
-              );
-            }
-          );
-        }
-        return (
-          <div>
-            <input
-              className="search-input-box"
-              type="text"
-              placeholder="Search for Teammates"
-              id="teamSearch"
-              onKeyUp={this.props.teamFilter}
-            />
-            {teamOptionsComponent!}
-          </div>
-        );
-      }
-    }
-
-    class CategoriesOptionsComponent extends React.Component<{
-      categories: any;
-      onFormChange: any;
-      categoryFilter: any;
-    }> {
-      render() {
-        let categoryOptionsComponent: JSX.Element[];
-        let categoriesFromStore = this.props.categories!;
-        if (categoriesFromStore instanceof Array) {
-          categoryOptionsComponent = categoriesFromStore.map(
-            (category: any, index: number) => {
-              return (
-                <input
-                  key={'categories_' + index}
-                  type="button"
-                  name="category"
-                  value={category.categoryName}
-                  onClick={this.props.onFormChange}
-                  className="new-project-dropdown-text"
-                />
-              );
-            }
-          );
-        }
-        return (
-          <div>
-            <input
-              className="search-input-box"
-              type="text"
-              placeholder="Search Categories"
-              id="categorySearch"
-              onKeyUp={this.props.categoryFilter}
-            />
-            {categoryOptionsComponent!}
-          </div>
-        );
-      }
-    }
-
-    class TagOptionsComponent extends React.Component<{
-      formChange: any;
-      tags: any;
-      tagFilter: any;
-    }> {
-      render() {
-        let tagOptionsComponent: JSX.Element[];
-        let tagsFromStore = this.props.tags!;
-        if (tagsFromStore instanceof Array) {
-          tagOptionsComponent = tagsFromStore.map(
-            (tagObject: any, index: number) => {
-              return (
-                <input
-                  key={'tags_' + index}
-                  type="button"
-                  name="tags"
-                  value={tagObject.tagName}
-                  onClick={this.props.formChange}
-                  className="new-project-dropdown-text"
-                />
-              );
-            }
-          );
-        }
-        return (
-          <div>
-            <input
-              className="search-input-box"
-              type="text"
-              placeholder="Search / Add Tags"
-              id="tagSearch"
-              onKeyUp={this.props.tagFilter}
-            />
-            {tagOptionsComponent!}
-          </div>
-        );
-      }
-    }
-
-    class ChosenTags extends React.Component<{
-      tags: any;
-      handleOptionRemoval: any;
-    }> {
-      render() {
-        var chosenTags;
-        if (!this.props.tags) {
-          return null;
-        }
-
-        let tags = this.props.tags.slice();
-
-        if (tags.length === 0) {
-          chosenTags = null;
-        } else {
-          chosenTags = tags.map((tagName: string, index: number) => {
-            return (
-              <div className="tag-container" key={index}>
-                <input
-                  type="button"
-                  className="new-project-chosen-tag"
-                  value={tagName}
-                />
-                <button
-                  type="button"
-                  className="remove-tag-btn"
-                  onClick={e => this.props.handleOptionRemoval(e, 'tags', tags)}
-                >
-                  X
-                </button>
-              </div>
-            );
-          });
-        }
-        return <div className="array-of-tags">{chosenTags}</div>;
-      }
-    }
-
-    class ChosenTeam extends React.Component<{
-      team: any;
-      handleOptionRemoval: any;
-    }> {
-      render() {
-        let chosenTeam;
-        let team = Object.assign([], this.props.team);
-        if (team.length === 0) {
-          chosenTeam = null;
-        } else {
-          if (team.length === 1) {
-            chosenTeam = (
-              <div className="tag-container" key={1}>
-                <input
-                  type="button"
-                  className="new-project-chosen-tag"
-                  value={team}
-                />
-                <button
-                  type="button"
-                  className="remove-tag-btn"
-                  onClick={e =>
-                    this.props.handleOptionRemoval(
-                      e,
-                      'team',
-                      Object.assign([], this.props.team)
-                    )
-                  }
-                >
-                  X
-                </button>
-              </div>
-            );
-          } else {
-            chosenTeam = team.map((teamMemeber: string, index: number) => {
-              return (
-                <div className="tag-container" key={index}>
-                  <input
-                    type="button"
-                    className="new-project-chosen-tag"
-                    value={teamMemeber}
-                  />
-                  <button
-                    type="button"
-                    className="remove-tag-btn"
-                    onClick={e =>
-                      this.props.handleOptionRemoval(
-                        e,
-                        'team',
-                        Object.assign([], this.props.team)
-                      )
-                    }
-                  >
-                    X
-                  </button>
-                </div>
-              );
-            });
-          }
-        }
-        return chosenTeam;
-      }
+    if (this.state.shouldRedirect) {
+      return (
+        <Redirect
+          push={true}
+          from="/projects/add"
+          to={'/projects/' + this.state.projIdRedirect}
+        />
+      );
     }
 
     return (
@@ -892,14 +662,15 @@ function mapStateToProps(state: Store) {
     tags: state.tags,
     allUsers: state.allUsers,
     imageLinks: state.imageLinks,
-    addOrUpdateProject: state.addOrUpdateProject
+    currentProject: state.addOrUpdateProject
   };
 }
+
 export default connect(mapStateToProps, {
-  addProject,
+  addOrUpdateProject,
   getAllUsers,
   getCategories,
   getTags,
-  updateProject,
-  getOneProject
-})(AddProjectsPage);
+  getOneProject,
+  getProjects
+})(AddProjectsPage as any);

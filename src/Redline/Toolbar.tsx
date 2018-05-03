@@ -1,17 +1,26 @@
 /* tslint:disable */
 import * as React from 'react';
 
-class Toolbar extends React.Component<
-  {
-    tool: any;
-    selectCursorTool: any;
-    selectCircleTool: any;
-    selectRectangleTool: any;
-    selectCommentTool: any;
-  },
-  {}
-> {
+interface ToolbarProps {
+  isDisabled: boolean;
+  tool: any;
+  selectCursorTool: any;
+  selectCircleTool: any;
+  selectRectangleTool: any;
+  selectCommentTool: any;
+}
+
+class Toolbar extends React.Component<ToolbarProps> {
   render() {
+    if (this.props.isDisabled) {
+      return (
+        <div className="toolbar">
+          <p className="toolbar__message">
+            Only team members can access the tool bar 😅
+          </p>
+        </div>
+      );
+    }
     return (
       <div className="toolbar">
         <div>

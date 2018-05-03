@@ -50,6 +50,11 @@ DOCUMENT SETUP
   left: -10px;
   border-bottom: 1px solid $light-grey;
 }
+
+.project-edit-info-forPublicProfile {
+  grid-area: t;
+  left: -10px;
+}
 /*
 ==========================
 IMAGE
@@ -58,17 +63,19 @@ IMAGE
 .project-image {
   height: 225px;
   object-fit: cover;
-  border: $border;
 }
 
 .project-edit-image {
-  grid-area: i;
   height: 100%;
   width: 100%;
   object-fit: cover;
   border: $border;
   vertical-align: middle;
   border: none;
+}
+
+.project-edit-image-container {
+  grid-area: i;
 }
 /*
 ==========================
@@ -118,7 +125,6 @@ ROLES
   color: $theme-blue;
   text-transform: uppercase;
   padding-left: 5px;
-  text-decoration: underline;
 }
 /*
 ==========================
@@ -138,7 +144,8 @@ SAVE PROJECT BUTTON
 }
 
 .project-edit-btn,
-.project-delete-btn {
+.project-delete-btn,
+.project-project-portal-btn {
   color: white;
   border: none;
   width: 100px;
@@ -149,16 +156,21 @@ SAVE PROJECT BUTTON
 }
 .project-edit-btn {
   float: right;
-  background-color: $theme-blue;
+  background-color: $edit-orange;
   text-align: center;
 }
 .project-delete-btn {
   float: left;
   background-color: $attention-red;
 }
+.project-project-portal-btn {
+  background-color: $theme-blue;
+  text-align: center;
+}
 
 .project-edit-btn:hover,
-.project-delete-btn:hover {
+.project-delete-btn:hover,
+.project-project-portal-btn:hover {
   box-shadow: $box-shadow;
 }
 
@@ -185,7 +197,7 @@ TAGS & CATEGORY LINKS
   display: inline-block;
   font-size: 11px;
   margin-right: 4px;
-  padding: 2px;
+  padding: 3px 5px;
 }
 
 .projects-tag-links {
@@ -195,4 +207,22 @@ TAGS & CATEGORY LINKS
 .projects-category-links {
   background-color: $theme-blue;
   color: white;
+}
+
+/*
+==========================
+MEDIA QUERIES
+==========================
+*/
+
+@media all and (max-width: 1079px) and (min-width: 0px) {
+  .projects-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media all and (max-width: 675px) and (min-width: 0px) {
+  .projects-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

@@ -11,7 +11,8 @@ var MarkerSchema = new Schema({
   x: { type: Number },
   y: { type: Number },
   width: { type: Number },
-  height: { type: Number }
+  height: { type: Number },
+  isResolved: { type: Boolean, default: false }
 });
 
 var Markers = Mongoose.model('Markers', MarkerSchema);

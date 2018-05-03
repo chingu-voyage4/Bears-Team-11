@@ -3,8 +3,6 @@
  Serialzation and De-Serialization functions are helpfull to establish
  connection persisitent login connection to the server.
 */
-
-// TODO: Reset password and Change Password needs to be implemented
 var login = require('./login');
 var signup = require('./signup');
 var deactivateUser = require('./deactivateUser');
@@ -32,13 +30,10 @@ module.exports = function(passport) {
     });
   });
 
-  // Setting up Passport Strategies for SignUp/Registration,
-  //LogIn and Reset Password
   signup(passport);
   login(passport);
   deactivateUser(passport);
   deleteUser(passport);
   project(passport);
-
   //TODO: Reset Password and Change Password
 };

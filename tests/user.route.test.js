@@ -1,9 +1,8 @@
 const request = require('supertest'); // https://github.com/visionmedia/supertest
 const app = require('../api/server');
 
-process.env.NODE_ENV = 'test';
 // ---------------------
-// NEW USER
+// CREATE & DELETE USER
 // ---------------------
 let lemonysnicketloginCookie;
 let loginCookie;
@@ -21,27 +20,12 @@ describe('posting new user', function() {
         email: 'lsnicket@gmail.com'
       })
       .expect(res => {
-        console.log('res.header = ' + res + ' = ' + res.header['set-cookie']);
-        lemonysnicketloginCookie = res.header['set-cookie'];
+        // lemonysnicketloginCookie = res.header['set-cookie'];
         expect(res.body.message).toBe('User Registration Succesful');
       });
   });
 
-  test('log in new user', () => {
-    return request(app)
-      .post('/api/login')
-      .set('Content-Type', 'application/json')
-      .send({
-        password: 'secret',
-        email: 'lsnicket@gmail.com'
-      })
-      .expect(res => {
-        expect(res.body.message).toBe('Successfully logged in');
-      });
-  });
-
   test('delete user', () => {
-    console.log('lemonysnicketloginCookie ' + lemonysnicketloginCookie);
     return request(app)
       .post('/api/user/delete')
       .set('Content-Type', 'application/json')
@@ -59,11 +43,11 @@ describe('posting new user', function() {
       .post('/api/signup')
       .set('Content-Type', 'application/json')
       .send({
-        firstName: 'Peter',
-        lastName: 'Rabbit',
-        username: 'prabbit',
+        firstName: 'f',
+        lastName: 's',
+        username: 'fs',
         password: 'secret',
-        email: 'peter@gmail.com'
+        email: 'fs@gmail.com'
       })
       .expect(res => {
         expect(res.body.message).toBe(
@@ -82,7 +66,7 @@ describe('deactivate & activate user', function() {
       .set('Content-Type', 'application/json')
       .send({
         password: 'secret',
-        email: 'peter@gmail.com'
+        email: 'fs@gmail.com'
       })
       .then(res => {
         loginCookie = res.header['set-cookie'];
@@ -99,7 +83,7 @@ describe('deactivate & activate user', function() {
       .set('Content-Type', 'application/json')
       .set('cookie', loginCookie)
       .send({
-        username: 'prabbit',
+        username: 'fs',
         password: 'secret'
       })
       .expect(res => {
@@ -113,7 +97,7 @@ describe('deactivate & activate user', function() {
       .set('Content-Type', 'application/json')
       .set('cookie', loginCookie)
       .send({
-        username: 'prabbit',
+        username: 'fs',
         password: 'secret'
       })
       .expect(res => {
@@ -145,7 +129,7 @@ describe('login & logout user', function() {
       .set('Content-Type', 'application/json')
       .send({
         password: 'secret',
-        email: 'peter@gmail.com'
+        email: 'fs@gmail.com'
       })
       .expect(res => {
         expect(res.body.message).toBe('Successfully logged in');
@@ -167,7 +151,7 @@ describe('login & logout user', function() {
       .set('Content-Type', 'application/json')
       .send({
         password: 'wrongpassword',
-        email: 'peter@gmail.com'
+        email: 'fs@gmail.com'
       })
       .expect(res => {
         expect(res.body.message).toBe('Invalid Password');

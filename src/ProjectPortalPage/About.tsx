@@ -1,20 +1,42 @@
 import * as React from 'react';
 import Team from './Team';
 import * as moment from 'moment';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import config from '../.config';
 
-class About extends React.PureComponent<
-  {
-    name: string | undefined;
-    dueDate: string | undefined;
-    description: string | undefined;
-    githubLink: string | undefined;
-    liveLink: string | undefined;
-    mockupLink: string | undefined;
-    lookingFor: Array<string> | undefined;
-    projectId: string;
-  },
-  {}
-> {
+interface AboutProps {
+  name: string | undefined;
+  dueDate: string | undefined;
+  description: string | undefined;
+  githubLink: string | undefined;
+  liveLink: string | undefined;
+  mockupLink: string | undefined;
+  lookingFor: Array<string> | undefined;
+  projectId: string;
+  user: any;
+}
+
+class About extends React.PureComponent<AboutProps> {
+  sendJoinRequest = (e: any) => {
+    e.preventDefault();
+    axios
+      .post(config.host.name + '/api/email/', {
+        link: config.host.name + `/user/profile/${this.props.user.username}`,
+        username: this.props.user.username,
+        projectName: this.props.name,
+        projectId: this.props.projectId
+      })
+      .then(res => {
+        if (res.status === 200) {
+          alert('Request sent successfully!');
+        } else {
+          alert(
+            'There was an issue sending your request, please try again later'
+          );
+        }
+      });
+  };
   render() {
     return (
       <React.Fragment>
@@ -39,10 +61,10 @@ class About extends React.PureComponent<
                 looking for{' '}
                 {this.props.lookingFor && this.props.lookingFor.length > 0
                   ? this.props.lookingFor[0].toUpperCase()
-                  : null}
+                  : 'NONE'}
               </li>
               <li>
-                <a className="button" href="">
+                <a className="button" href="" onClick={this.sendJoinRequest}>
                   Join Team
                 </a>
               </li>
@@ -56,5 +78,10 @@ class About extends React.PureComponent<
     );
   }
 }
+function mapStateToProps(state: any) {
+  return {
+    user: state.user
+  };
+}
 
-export default About;
+export default connect(mapStateToProps)(About);

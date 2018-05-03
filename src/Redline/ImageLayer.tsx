@@ -1,7 +1,11 @@
 /* tslint: disable */
 import * as React from 'react';
 
-class ImageLayer extends React.Component<{ imageLink: string }> {
+interface ImageLayerProps {
+  imageLink: string;
+}
+
+class ImageLayer extends React.Component<ImageLayerProps> {
   render() {
     return (
       <div className="redline-image-container">

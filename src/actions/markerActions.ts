@@ -1,13 +1,21 @@
 import {
   ADD_MARKER,
   MOVE_MARKER,
+  RESIZE_MARKER,
   ADD_COMMENT,
-  GET_MARKERS
+  GET_MARKERS,
+  GET_MARKER_COMMENT,
+  DELETE_MARKER,
+  RESOLVE_MARKER
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import { MarkerAction } from '../types/Redux.d';
 import { Marker } from '../types/Marker.d';
 import apiService from '../utils/apiService';
+
+export type getMarkers_fntype = (
+  revisionId: string
+) => (dispatch: Dispatch<MarkerAction>) => void;
 
 export function getMarkers(
   revisionId: string
@@ -21,6 +29,11 @@ export function getMarkers(
     });
   };
 }
+
+export type addMarker_fntype = (
+  revisionId: string,
+  marker: Marker
+) => (dispatch: Dispatch<MarkerAction>) => void;
 
 export function addMarker(
   revisionId: string,
@@ -36,13 +49,19 @@ export function addMarker(
   };
 }
 
-export function moveMarker(
+export type moveMarker_fntype = (
   revisionId: string,
   id: string,
   x: string,
   y: string,
   width: string,
   height: string
+) => (dispatch: Dispatch<MarkerAction>) => void;
+
+export function moveMarker(
+  id: string,
+  x: string,
+  y: string
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService.updateMarkerPosition(id, x, y).then(updatedMarker => {
@@ -54,7 +73,23 @@ export function moveMarker(
   };
 }
 
-export function addComment(
+export function resizeMarker(
+  id: string,
+  width: string,
+  height: string
+): (dispatch: Dispatch<MarkerAction>) => void {
+  return dispatch => {
+    return apiService
+      .updateMarkerDimensions(id, width, height)
+      .then(updatedMarker => {
+        dispatch({
+          type: RESIZE_MARKER,
+          data: updatedMarker
+        });
+      });
+  };
+}
+export type addComment_fntype = (
   revisionId: string,
   markerId: string,
   comment: {
@@ -62,15 +97,66 @@ export function addComment(
     time: string;
     message: string;
   }
+) => (dispatch: Dispatch<MarkerAction>) => void;
+
+export function addComment(
+  markerId: string,
+  username: string,
+  message: string
 ): (dispatch: Dispatch<MarkerAction>) => void {
   return dispatch => {
     return apiService
-      .addMarkerComment(revisionId, markerId, comment)
-      .then((updatedMarker: Marker) => {
+      .addMarkerComment(markerId, username, message)
+      .then((comment: any) => {
         dispatch({
           type: ADD_COMMENT,
+          data: {
+            markerId,
+            comment
+          }
+        });
+        return comment;
+      });
+  };
+}
+
+export function getComments(
+  markerId: string
+): (dispatch: Dispatch<MarkerAction>) => void {
+  return dispatch => {
+    return apiService
+      .getMarkerComments(markerId)
+      .then((updatedMarker: Marker) => {
+        dispatch({
+          type: GET_MARKER_COMMENT,
           data: updatedMarker
         });
       });
+  };
+}
+
+export function deleteMarker(
+  markerId: string
+): (dispatch: Dispatch<MarkerAction>) => void {
+  return dispatch => {
+    return apiService.deleteMarker(markerId).then(marker => {
+      dispatch({
+        type: DELETE_MARKER,
+        markerId
+      });
+    });
+  };
+}
+
+export function resolveMarker(
+  markerId: string
+): (dispatch: Dispatch<MarkerAction>) => void {
+  return dispatch => {
+    return apiService.resolveMarker(markerId).then(marker => {
+      dispatch({
+        type: RESOLVE_MARKER,
+        markerId
+      });
+    });
   };
 }

@@ -4,4 +4,5 @@ export interface RegisterState {
   email: string;
   password: string;
   username: string;
+  shouldRedirect: boolean;
 }

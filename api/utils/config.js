@@ -5,5 +5,8 @@ module.exports = {
   db: {
     local: 'mongodb://localhost/team',
     mlab: 'mongodb://bt11:b11@ds019480.mlab.com:19480/pmatch'
+  },
+  host: {
+    name: 'http://localhost:3000'
   }
 };
