@@ -204,6 +204,14 @@ class AddProjectsPage extends React.Component<
   }
 
   public handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
+    var title = document.getElementById('new-project-title') as any;
+    var description = document.getElementById('new-project-description') as any;
+
+    if (title.value === '' && description.value === '') {
+      alert('Title and Description are required 😉');
+      return;
+    }
+
     var elemList = document.getElementsByClassName('new-project-roles');
     var elements = [].filter.call(elemList, function(elem: any) {
       return elem.checked;
