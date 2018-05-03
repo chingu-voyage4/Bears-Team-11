@@ -152,6 +152,7 @@ ANNOTATION
   width: 1280px;
 }
 .annotation-rectangle {
+  display: flex;
   position: absolute;
   width: 100px;
   height: 100px;
@@ -159,6 +160,8 @@ ANNOTATION
   border: 2px solid #2699fb;
   border-radius: 5px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  align-items: center;
+  justify-content: center;
   z-index: 11;
 }
 .annotation-circle {
@@ -175,8 +178,8 @@ ANNOTATION
 }
 .annotation-initials {
   color: white;
-  font-weight: 600;
-  font-size: 0.6rem;
+  font-weight: 900;
+  font-size: 1rem;
 }
 /* ==========================
 COMMENT BOX

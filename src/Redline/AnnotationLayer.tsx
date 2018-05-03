@@ -96,7 +96,7 @@ class AnnotationLayer extends React.Component<
   };
 
   drawRect = (marker: Marker): any => {
-    var { _id, x, y, isResolved, creator, width, height } = marker;
+    var { _id, x, y, isResolved, width, height } = marker;
     var style = {
       top: `${y}px`,
       left: `${x}px`,
@@ -121,13 +121,13 @@ class AnnotationLayer extends React.Component<
           resolveMarker={this.resolveMarker}
           isResolved={isResolved}
         />
-        <div className="annotation-initials">{creator}</div>
+        {/* <div className="annotation-initials">{creator}</div> */}
       </div>
     );
   };
 
   drawCircle = (marker: Marker) => {
-    var { _id, x, y, isResolved, creator } = marker;
+    var { _id, x, y, isResolved } = marker;
     var style = {
       top: `${y}px`,
       left: `${x}px`,
@@ -150,7 +150,9 @@ class AnnotationLayer extends React.Component<
           resolveMarker={this.resolveMarker}
           isResolved={isResolved}
         />
-        <div className="annotation-initials">{creator}</div>
+        <div className="annotation-initials">
+          {/* {creator ? creator.charAt(0).toUpperCase() : '?'} */}
+        </div>
       </div>
     );
   };
