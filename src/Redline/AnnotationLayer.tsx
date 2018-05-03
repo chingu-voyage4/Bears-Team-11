@@ -130,7 +130,11 @@ class AnnotationLayer extends React.Component<
           resolveMarker={this.resolveMarker}
           isResolved={isResolved}
         />
-        {/* <div className="annotation-initials">{creator}</div> */}
+        <div className="annotation-initials">
+          {/* {marker.creator === this.props.user.username
+            ? this.props.user.username.charAt(0).toUpperCase()
+            : null} */}
+        </div>
       </div>
     );
   };
@@ -147,7 +151,7 @@ class AnnotationLayer extends React.Component<
       <div
         key={_id}
         id={_id}
-        className="annotation-circle"
+        className="annotation-circle "
         style={style}
         // onClick={this.toggleCommentBox}
       >
@@ -160,7 +164,9 @@ class AnnotationLayer extends React.Component<
           isResolved={isResolved}
         />
         <div className="annotation-initials">
-          {/* {creator ? creator.charAt(0).toUpperCase() : '?'} */}
+          {/* {marker.creator === this.props.user.username
+            ? this.props.user.username.charAt(0).toUpperCase()
+            : null} */}
         </div>
       </div>
     );
