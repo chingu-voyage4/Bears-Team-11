@@ -14,11 +14,15 @@ import PublicProfile from './PublicProfile/PublicProfile';
 import Redline from './Redline';
 import ProjectPortalPage from './ProjectPortalPage';
 import { HYDRATE_USER } from './actions/actionTypes';
+import ErrorPage from './404Page/ErrorPage';
+import AboutPage from './AboutPage/AboutPage';
+
 import config from './.config';
 
 if (config.env !== 'production') {
   console.log('create-react-app is running in', config.env);
 }
+
 
 const store = createStore(
   rootReducer,
@@ -73,6 +77,8 @@ class App extends React.Component {
                 path="/user/profile"
                 component={PublicProfile}
               />
+              <Route exact={true} path="/about" component={AboutPage} />
+              <Route exact={true} path="*" component={ErrorPage} />
             </Switch>
           </Router>
         </div>
