@@ -73,6 +73,14 @@ class AnnotationLayer extends React.Component<
     } else if (nextProps.tool === 'cursor' && this.props.tool !== 'cursor') {
       this.enableInteractivity();
     }
+
+    if (this.props.tool === 'cursor') {
+      this.hideComments();
+    }
+
+    if (this.props.tool === 'comment') {
+      this.showComments();
+    }
   }
 
   isTeamMember = () => {
@@ -112,7 +120,7 @@ class AnnotationLayer extends React.Component<
         id={_id}
         className="annotation-rectangle"
         style={style}
-        onClick={this.toggleCommentBox}
+        // onClick={this.toggleCommentBox}
       >
         <CommentBox
           key={_id}
@@ -141,7 +149,7 @@ class AnnotationLayer extends React.Component<
         id={_id}
         className="annotation-circle"
         style={style}
-        onClick={this.toggleCommentBox}
+        // onClick={this.toggleCommentBox}
       >
         <CommentBox
           key={_id}
@@ -210,6 +218,24 @@ class AnnotationLayer extends React.Component<
         child.style.display = 'none';
       }
     }
+  };
+
+  hideComments = () => {
+    var commentBoxes = Array.from(
+      document.getElementsByClassName('comment-box')
+    );
+    commentBoxes.forEach(commentBox => {
+      (commentBox as HTMLElement).style.display = 'none';
+    });
+  };
+
+  showComments = () => {
+    var commentBoxes = Array.from(
+      document.getElementsByClassName('comment-box')
+    );
+    commentBoxes.forEach(commentBox => {
+      (commentBox as HTMLElement).style.display = 'block';
+    });
   };
 
   makeInteractive = () => {
