@@ -45,7 +45,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
           </div>
           <div className="signUp">
             <button onClick={this.registerPressed} className="signUpButton">
-              SIGN UP FOR FREE
+              SIGN UP
             </button>
           </div>
         </div>
