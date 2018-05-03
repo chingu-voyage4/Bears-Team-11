@@ -15,6 +15,7 @@ import Redline from './Redline';
 import ProjectPortalPage from './ProjectPortalPage';
 import { HYDRATE_USER } from './actions/actionTypes';
 import ErrorPage from './404Page/ErrorPage';
+import AboutPage from './AboutPage/AboutPage';
 
 const store = createStore(
   rootReducer,
@@ -77,6 +78,7 @@ class App extends React.Component<{}, { reduxManualTest: boolean }> {
                 path="/user/profile"
                 component={PublicProfile}
               />
+              <Route exact={true} path="/about" component={AboutPage} />
               <Route exact={true} path="/404" component={ErrorPage} />
             </Switch>
           </Router>

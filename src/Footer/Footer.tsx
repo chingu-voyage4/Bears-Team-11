@@ -17,7 +17,7 @@ class Footer extends React.Component {
           </div>
           <div className="about">
             <div className="footer-subtitle">About Project Match</div>
-            <Link to="/" className="footer-subcategories">
+            <Link to="/about" className="footer-subcategories">
               About Project Match
             </Link>
             <a
