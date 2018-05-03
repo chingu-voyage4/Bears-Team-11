@@ -75,7 +75,7 @@ class About extends React.PureComponent<AboutProps> {
                   ? this.props.lookingFor[0].toUpperCase()
                   : 'NONE'}
               </li>
-              {this.props.user && this.props.status ? (
+              {this.props.user._id && this.props.status ? (
                 <li>
                   <a className="button" href="" onClick={this.sendJoinRequest}>
                     Join Team
