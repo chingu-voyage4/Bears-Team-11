@@ -25,24 +25,15 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
-class App extends React.Component<{}, { reduxManualTest: boolean }> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      reduxManualTest: false
-    };
-  }
+var user = localStorage.getItem('user');
+if (user) {
+  store.dispatch({
+    type: HYDRATE_USER,
+    data: JSON.parse(user)
+  });
+}
 
-  componentDidMount() {
-    var user = localStorage.getItem('user');
-    if (user) {
-      store.dispatch({
-        type: HYDRATE_USER,
-        data: JSON.parse(user)
-      });
-    }
-  }
-
+class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
