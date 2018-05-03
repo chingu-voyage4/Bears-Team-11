@@ -229,6 +229,7 @@ export interface UserProfileProps {
   user: User;
   projects: Array<Project> | Project;
   getProjects: getProjects_fntype;
+  match: any;
 }
 
 export interface ReadyToTryProps {

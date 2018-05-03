@@ -24,13 +24,22 @@ module.exports = function(passport) {
       err,
       details
     ) {
-      console.log(details);
       if (err) {
         res.status(404).send({
           error: 'Not Found: ' + err
         });
       } else {
-        res.json(details);
+        // FIX ME: write a seperate function for this logic, shared with '/:username/profile/picture' route
+        User.findOne({ username: req.params.username }, function(err, user) {
+          if (err) {
+            res.status(404).send({
+              error: 'Not Found'
+            });
+          } else {
+            // FIX ME: send as a single object
+            res.json({ details, profileImage: user.profileImage });
+          }
+        });
       }
     });
   });

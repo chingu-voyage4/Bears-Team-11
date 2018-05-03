@@ -247,6 +247,7 @@ export function userSettingsUpdate(
         userId
       )
       .then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
         return dispatch({
           type: USER_SETTINGS_UPDATE,
           data: user
@@ -277,6 +278,7 @@ export function userPrivateSettingsUpdate(
     return apiService
       .userPrivateSettingsUpdate(firstName, lastName, email, userId)
       .then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
         return dispatch({
           type: USER_SETTINGS_UPDATE,
           data: user

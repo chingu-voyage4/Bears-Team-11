@@ -23,7 +23,6 @@ if (config.env !== 'production') {
   console.log('create-react-app is running in', config.env);
 }
 
-
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
@@ -77,6 +76,7 @@ class App extends React.Component {
                 path="/user/profile"
                 component={PublicProfile}
               />
+              <Route path="/user/profile/:username" component={PublicProfile} />
               <Route exact={true} path="/about" component={AboutPage} />
               <Route exact={true} path="*" component={ErrorPage} />
             </Switch>
