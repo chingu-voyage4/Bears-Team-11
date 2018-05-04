@@ -6,7 +6,7 @@ CONTAINER
 */
 .redline-container {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 57px);
   /* background ref: http://lea.verou.me/css3patterns/#seigaiha */
   background-color: #d1d1d1;
   background-image: radial-gradient(

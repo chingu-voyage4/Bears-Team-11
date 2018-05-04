@@ -8,7 +8,7 @@ class Footer extends React.Component {
         <div className="footer-container">
           <div className="contactUs">
             <div className="footer-subtitle">Contact Us</div>
-            <div className="footer-subcategories">hello@projectmatch.com</div>
+            <div className="footer-subcategories">hello@projectmatch.me</div>
           </div>
           <div className="needHelp">
             <div className="footer-subtitle">Need Help?</div>
