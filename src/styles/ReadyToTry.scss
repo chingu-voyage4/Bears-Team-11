@@ -22,6 +22,8 @@
   text-align: left;
   font-weight: 700;
   padding-bottom: 20px;
+  padding-top: 90px;
+  @include hrline;
 }
 
 .ready-to-try-button {

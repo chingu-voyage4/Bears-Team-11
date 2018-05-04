@@ -29,7 +29,6 @@ class RecentProjects extends React.Component<RecentProjectsProps, {}> {
         <Link to="/projects" className="explore-projects-button">
           Explore More Projects
         </Link>
-        <hr className="horizontal-line" />
       </div>
     );
   }
