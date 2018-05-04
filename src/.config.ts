@@ -10,10 +10,10 @@ const development = {
 
 const production = {
   host: {
-    name: 'http://projectmatch.me'
+    name: 'https://projectmatch.me'
   },
   client: {
-    name: 'http://projectmatch.me'
+    name: 'https://projectmatch.me'
   },
   env: 'production'
 };
