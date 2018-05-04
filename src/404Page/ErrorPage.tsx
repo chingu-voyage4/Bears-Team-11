@@ -10,12 +10,19 @@ class ErrorPage extends React.Component<any, any> {
     history.back();
   };
   render() {
+    console.log(history);
     return (
       <div className="error-page-container">
         <img className="error-image" src={require('../assets/404-03.png')} />
-        <button className="error-goBack-btn" onClick={this.goBack}>
-          Go Back
-        </button>
+        {history.length > 2 ? (
+          <button className="error-goBack-btn" onClick={this.goBack}>
+            Go Back
+          </button>
+        ) : (
+          <a href="https://www.projectmatch.me" className="back-btn">
+            <button className="error-goBack-btn">Back to Project Match</button>
+          </a>
+        )}
       </div>
     );
   }

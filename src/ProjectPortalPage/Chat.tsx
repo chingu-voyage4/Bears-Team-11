@@ -116,7 +116,7 @@ class Chat extends React.PureComponent<ChatProps, ChatState> {
         <div id="messages" className="messages">
           {this.state.comments.length > 0
             ? this.displayMessages()
-            : 'No messages'}
+            : 'Start A Conversation'}
         </div>
         <div className="message-bar">
           <input

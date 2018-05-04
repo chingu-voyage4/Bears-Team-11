@@ -43,11 +43,9 @@ class About extends React.PureComponent<AboutProps> {
       <React.Fragment>
         <div className="about__heading">
           <h1>{this.props.name}</h1>
-          {this.props.status ? (
+          {this.props.status && this.props.dueDate ? (
             <p>Due {moment(this.props.dueDate).format('ll')}</p>
-          ) : (
-            <p>Status: Complete</p>
-          )}
+          ) : null}
         </div>
         <div className="about__body">
           <p className="about__description">{this.props.description}</p>

@@ -3,25 +3,24 @@
 COLORS
 ==========================
 */
+
 $theme-blue: #489be2;
 $light-blue: #e5e9fa;
 $grass-green: #1ba572;
-
 $grey: #95989a;
 $dark-grey: #757575;
 $light-grey: #d1d1d1;
 $pale-grey: #f7f7f7;
 $black-grey: #2b353d;
-
 $attention-red: #f37070;
 $light-red: #f5cbcb;
-
 $edit-orange: #f3a070;
 /*
 ==========================
 FILE SETUP
 ==========================
 */
+
 @mixin html-body-fontfamily {
   width: 100%;
   height: 100%;
@@ -30,11 +29,13 @@ FILE SETUP
   overflow-x: hidden;
   font-family: $font;
 }
+
 /*
 ==========================
 Z-INDEX
 ==========================
 */
+
 $login-register-window-z: 5;
 $redline-image-container-z: 10;
 $header-dropdown-z: 20;
@@ -43,6 +44,7 @@ $header-dropdown-z: 20;
 FONTS
 ==========================
 */
+
 $font: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round', sans-serif;
 $logo-font-size: 24px;
 $header-font-size: 14px;
@@ -59,6 +61,7 @@ $project-description-size: 12px;
 COMPONENTS
 ==========================
 */
+
 $box-shadow: 0px 3px 6px $light-grey;
 $border: 1px solid $light-grey;
 /*
@@ -66,6 +69,7 @@ $border: 1px solid $light-grey;
 BUTTON
 ==========================
 */
+
 @mixin white-text-blue-background-button {
   border: none;
   color: white;
@@ -82,11 +86,13 @@ BUTTON
   border-top: 1px solid $light-grey;
   width: 1100px;
 }
+
 /*
 ==========================
 LOGIN / REGISTER COMPONENTS
 ==========================
 */
+
 @mixin login-register-container {
   position: fixed;
   top: 0;
@@ -99,4 +105,29 @@ LOGIN / REGISTER COMPONENTS
   border: 2px solid $theme-blue;
   box-shadow: $box-shadow;
   background-color: white;
+}
+
+/*
+==========================
+LOADER
+==========================
+*/
+
+@mixin loader {
+  margin: 0 auto;
+  border: 8px solid $light-grey;
+  border-top: 8px solid $theme-blue;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+  margin-bottom: 20px;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }
