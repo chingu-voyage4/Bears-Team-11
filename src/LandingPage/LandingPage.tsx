@@ -17,7 +17,7 @@ class LandingPage extends React.Component<LandingPageProps, LandingPageState> {
         <LandingImage />
         <ProjectFeatures />
         <RecentProjects />
-        <ReadyToTry />
+        {Object.keys(this.props.user).length === 0 ? <ReadyToTry /> : null}
         <Footer />
       </div>
     );
