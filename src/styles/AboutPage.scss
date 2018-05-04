@@ -1,0 +1,93 @@
+@import '_variables.scss';
+/*
+==========================
+GRID
+==========================
+*/
+.about-container {
+  font-family: $font;
+  max-width: 1080px;
+  margin: 0 auto;
+  margin-top: 150px;
+  margin-bottom: 150px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 80px;
+  justify-items: center;
+}
+
+.team-person-card,
+.team-person-image,
+.team-person-info {
+  width: 300px;
+}
+/*
+==========================
+PERSON CARD
+==========================
+*/
+.team-person-card {
+  box-shadow: $box-shadow;
+}
+/*
+==========================
+PERSON IMAGE
+==========================
+*/
+.team-person-image {
+  height: 275px;
+  object-fit: cover;
+}
+/*
+==========================
+PERSON INFO
+==========================
+*/
+
+.team-person-name {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 700;
+  color: $dark-grey;
+  margin-top: 10px;
+}
+.team-person-title {
+  font-size: 12px;
+  text-transform: capitalize;
+  color: $dark-grey;
+  font-weight: 500;
+  text-align: center;
+}
+
+.team-person-github-icon {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+  text-align: center;
+}
+/*
+==========================
+ABOUT PM overall container
+==========================
+*/
+.about-project-match {
+  grid-column: span 2;
+  background-color: $theme-blue;
+  color: white;
+  padding: 50px 80px 50px 80px;
+  box-shadow: $box-shadow;
+}
+.about-project-match-header {
+  text-align: left;
+  font-size: 40px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.about-project-match-text {
+  font-size: 18px;
+  line-height: 24px;
+}

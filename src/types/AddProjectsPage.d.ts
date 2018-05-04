@@ -1,4 +1,6 @@
 export interface AddProjectState {
+  shouldRedirect: boolean;
+  projIdRedirect: string;
   _id?: string;
   name?: string;
   description?: string;

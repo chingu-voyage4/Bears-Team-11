@@ -2,8 +2,8 @@ export interface User {
   _id: string;
   firstName: string;
   lastName: string;
-  email?: string;
-  username?: string;
+  email: string;
+  username: string;
   profileImage?: string;
   password?: string;
   googleId?: string;

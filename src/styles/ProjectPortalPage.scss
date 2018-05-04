@@ -5,14 +5,20 @@ PROJECT PORTAL
 ==========================
 */
 .project-portal__container {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, 'Varela Round',
-    sans-serif;
+  font-family: $font;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .project-portal__info {
-  margin: 0 0 2rem 0;
-  width: 1280px;
+  max-width: 1280px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: auto;
+  justify-items: center;
+  grid-template-areas: 'i i i i c c c';
   margin: 0 auto;
+  background-color: white;
 }
 
 /*
@@ -23,16 +29,45 @@ CAROUSEL
 .project-portal__carousel__background {
   background: $black-grey;
   width: 100%;
-  min-height: 60vh;
+  max-height: calc(100vh - 450px - 75px);
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .project-portal__carousel {
   background: $black-grey;
-  width: 1080px;
+  max-width: 1280px;
   margin: 0 auto;
   position: relative;
 }
 
+/*
+==========================
+CAROUSEL & CHAT SCROLLBAR
+==========================
+*/
+
+.project-portal__carousel__background::-webkit-scrollbar,
+.project-portal__chat ::-webkit-scrollbar {
+  width: 10px;
+}
+
+.project-portal__carousel__background::-webkit-scrollbar-track,
+.project-portal__chat ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px $light-grey;
+}
+
+.project-portal__carousel__background::-webkit-scrollbar-thumb,
+.project-portal__chat ::-webkit-scrollbar-thumb {
+  background-color: $light-grey;
+  outline: 1px solid $light-blue;
+  border-radius: 5px;
+}
+
+.project-portal__carousel__background::-webkit-scrollbar-thumb:hover,
+.project-portal__chat ::-webkit-scrollbar-thumb:hover {
+  background-color: $theme-blue;
+}
 /*
 ==========================
 REVISIONS
@@ -47,7 +82,7 @@ REVISIONS
 
 .revision {
   display: inline-block;
-  padding: 50px 75px;
+  padding: 25px 10px;
 }
 
 .revision__title {
@@ -72,6 +107,11 @@ REVISIONS
   position: relative;
 }
 
+.revision__image {
+  width: 300px;
+  height: 150px;
+}
+
 .revision__changes {
   display: flex;
   justify-content: center;
@@ -89,24 +129,14 @@ REVISIONS
 
 /*
 ==========================
-CHAT
-==========================
-*/
-.project-portal__chat {
-  width: 1280px * 0.4;
-  display: inline-block;
-}
-
-/*
-==========================
 ABOUT
 ==========================
 */
 .project-portal__about {
-  width: 1280px * 0.58;
-  display: inline-block;
-  padding: 0 20px 0 0;
+  grid-area: i;
   color: $dark-grey;
+  margin: 10px;
+  width: 100%;
 }
 
 .about__heading {
@@ -140,9 +170,23 @@ TEAM
 
 .team__thumbnail {
   width: 50px;
+  height: 50px;
   border-radius: 50%;
 }
 
+/*
+==========================
+CHAT BOX CONTAINER
+==========================
+*/
+.project-portal__chat {
+  grid-area: c;
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0 auto;
+  margin: 30px 10px 0px 10px;
+  box-shadow: $box-shadow;
+}
 /*
 ==========================
 MESSAGES
@@ -150,8 +194,11 @@ MESSAGES
 */
 .messages {
   overflow: scroll;
-  height: 300px;
-  width: 100%;
+  max-height: 320px;
+  overflow-x: hidden;
+  padding: 15px;
+  color: $dark-grey;
+  font-size: 14px;
 }
 
 .messages ul {
@@ -166,22 +213,27 @@ MESSAGES
 }
 
 .message-input {
+  margin-top: 12px;
   width: 100%;
-  height: 25px;
+  height: 33px;
   font-size: 16px;
   padding: 5px;
   outline: none;
   border: 1px solid $theme-blue;
   color: $dark-grey;
 }
+.message-input:disabled {
+  background-color: $pale-grey;
+}
 
 .message-send {
+  margin-top: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   background: $theme-blue;
   color: #ffffff;
-  height: 37px;
+  height: 45px;
   width: 42px;
 }
 
@@ -192,8 +244,8 @@ MESSAGE
 */
 .message {
   display: flex;
-  align-items: center;
   padding: 5px 0;
+  flex-direction: column;
   color: $dark-grey;
 }
 
@@ -236,7 +288,7 @@ UPLOAD LINK
 .upload-link {
   position: absolute;
   top: 50px;
-  right: 75px;
+  right: 25px;
   color: #ffffff;
   text-decoration: none;
 }
@@ -250,13 +302,13 @@ UPLOAD LINK
 ABOUT
 ==========================
 */
-
 .about__body {
   display: flex;
+  width: 100%;
 }
 
 .about__description {
-  width: 60%;
+  width: 65%;
 }
 
 .about__links {
@@ -283,9 +335,20 @@ ABOUT
   color: $theme-blue;
 }
 
+/*
+==========================
+LOADER
+==========================
+*/
+.loader {
+  @include loader;
+}
+
+/*
+==========================
+MISC
+==========================
+*/
 .button {
   @include white-text-blue-background-button;
-  // background: $theme-blue;
-  // color: #ffffff;
-  // padding: 5px;
 }

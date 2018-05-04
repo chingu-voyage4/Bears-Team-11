@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Store } from '../types/Redux';
-import {
-  PublicProfileProps,
-  PublicProfileState
-} from '../types/PublicProfile.d';
+import { Store, PublicProfileProps } from '../types/Redux';
+import { PublicProfileState } from '../types/PublicProfile.d';
 import { userSettingsUpdate } from '../actions/userActions';
 
 class PublicProfile extends React.Component<
@@ -28,7 +25,7 @@ class PublicProfile extends React.Component<
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState(
       {
         aboutme: this.props.user.description,

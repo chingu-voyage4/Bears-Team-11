@@ -4,11 +4,12 @@ import { Marker } from '../types/Marker.d';
 import { Categories } from '../types/Category';
 import { Tags } from '../types/Tags';
 import axios from 'axios';
+import config from '../.config';
 
 /* User */
 function login(email: string, password: string): Promise<User | string> {
   return new Promise((resolve, reject) => {
-    const endpoint: string = 'http://localhost:8080/api/login';
+    const endpoint: string = config.host.name + '/api/login';
 
     var data: object = {
       headers: {
@@ -63,7 +64,7 @@ function login(email: string, password: string): Promise<User | string> {
 
 function googleLogin(idToken: string): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint: string = 'http://localhost:8080/api/googlelogin';
+    const endpoint: string = config.host.name + '/api/googlelogin';
 
     var data: object = {
       headers: {
@@ -125,7 +126,7 @@ function register(
   password: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/signup';
+    const endpoint = config.host.name + '/api/signup';
 
     var data: object = {
       body: JSON.stringify({
@@ -171,7 +172,7 @@ function deactivate(
   password: string
 ): Promise<string | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/user/deactivate';
+    const endpoint = config.host.name + '/api/user/deactivate';
 
     var data: object = {
       body: JSON.stringify({
@@ -204,7 +205,7 @@ function deactivate(
 
 function activate(username: string, password: string): Promise<string | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/user/activate';
+    const endpoint = config.host.name + '/api/user/activate';
 
     var data: object = {
       body: JSON.stringify({
@@ -249,7 +250,7 @@ function userSettingsUpdate(
   userId: string
 ): Promise<User | Error> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/user/update/public';
+    const endpoint = config.host.name + '/api/user/update/public';
     var data: object = {
       method: 'POST',
       credentials: 'include',
@@ -281,6 +282,70 @@ function userSettingsUpdate(
         if (res.message === 'Successfully updated user details') {
           var user = res.user;
           var userDetails = res.userDetail;
+          console.log('userDetail=' + JSON.stringify(userDetails));
+          resolve({
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
+          });
+        } else {
+          reject(res.error);
+        }
+      });
+  });
+}
+
+function userPrivateSettingsUpdate(
+  firstName: string,
+  lastName: string,
+  // username: string,
+  email: string,
+  // password: string,
+  userId: string
+): Promise<User | Error> {
+  return new Promise((resolve, reject) => {
+    const endpoint = config.host.name + '/api/user/update/personal';
+    var data: object = {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        // username: username,
+        email: email,
+        // password: password,
+        userId: userId
+      })
+    };
+
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        if (res.message === 'Successfully updated user personal details') {
+          var user = res.user;
+          var userDetails = res.userDetail;
           resolve({
             _id: user._id,
             firstName: user.firstName,
@@ -309,14 +374,14 @@ function userSettingsUpdate(
 }
 
 function logout() {
-  return axios.get('http://localhost:8080/api/logout').then(response => {
+  return axios.get(config.host.name + '/api/logout').then(response => {
     return null;
   });
 }
 
 function getAllUsers(): Promise<Array<User>> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/users';
+    const endpoint = config.host.name + '/api/users';
 
     var data: object = {
       headers: {
@@ -348,7 +413,7 @@ function getProjects(
   query: object | null
 ): Promise<Array<Project>> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects';
+    const endpoint = config.host.name + '/api/projects';
     var bodyData;
 
     if (query === null) {
@@ -363,8 +428,6 @@ function getProjects(
       },
       method: 'POST'
     };
-
-    console.log(data);
 
     fetch(endpoint, data)
       // tslint:disable-next-line
@@ -385,100 +448,47 @@ function getProjects(
 
 function getProject(projectId: string) {
   return axios
-    .get('http://localhost:8080/api/projects/' + projectId)
+    .get(config.host.name + '/api/projects/' + projectId)
     .then(response => response.data.project);
 }
 
-function addProject(project: Project): Promise<Project> {
-  return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/add';
+async function addOrUpdateProject(project: Project): Promise<Project> {
+  const endpoint = project.hasOwnProperty('_id')
+    ? config.host.name + '/api/projects/update/' + project._id
+    : config.host.name + '/api/projects/add';
 
-    var data: object = {
-      body: JSON.stringify({
-        name: project.name,
-        description: project.description,
-        dueDate: project.dueDate,
-        team: project.team,
-        githubLink: project.githubLink,
-        mockupLink: project.mockupLink,
-        liveLink: project.liveLink,
-        lookingFor: project.lookingFor,
-        status: project.status,
-        category: project.category,
-        tags: project.tags,
-        images: project.images,
-        contact: project.contact,
-        creator: project.creator
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      credentials: 'include'
-    };
+  var data: object = {
+    body: JSON.stringify({
+      name: project.name,
+      description: project.description,
+      dueDate: project.dueDate,
+      team: project.team,
+      githubLink: project.githubLink,
+      mockupLink: project.mockupLink,
+      liveLink: project.liveLink,
+      lookingFor: project.lookingFor,
+      status: project.status,
+      category: project.category,
+      tags: project.tags,
+      contact: project.contact,
+      creator: project.creator
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    credentials: 'include'
+  };
 
-    console.log(data);
-
-    fetch(endpoint, data)
-      // tslint:disable-next-line
-      .then(function(res: any) {
-        return res.json();
-      })
-      // tslint:disable-next-line
-      .then(function(res: any) {
-        JSON.stringify(res);
-        if (res.message === 'New project saved successfully') {
-          resolve(res.newProject);
-        } else {
-          reject(res.error);
-        }
-      });
-  });
-}
-
-function updateProject(project: Project): Promise<Project> {
-  return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/update/' + project._id;
-
-    var data: object = {
-      body: JSON.stringify({
-        name: project.name,
-        description: project.description,
-        dueDate: project.dueDate,
-        team: project.team,
-        githubLink: project.githubLink,
-        mockupLink: project.mockupLink,
-        liveLink: project.liveLink,
-        lookingFor: project.lookingFor,
-        status: project.status,
-        category: project.category,
-        tags: project.tags,
-        images: project.images,
-        contact: project.contact,
-        creator: project.creator
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      credentials: 'include'
-    };
-
-    fetch(endpoint, data)
-      // tslint:disable-next-line
-      .then(function(res: any) {
-        return res.json();
-      })
-      // tslint:disable-next-line
-      .then(function(res: any) {
-        JSON.stringify(res);
-        if (res.message === 'Project saved successfully') {
-          console.log(res.project);
-          resolve(res.project);
-        } else {
-          reject(res.error);
-        }
-      });
+  var fetchResult = await fetch(endpoint, data);
+  return fetchResult.json().then(res => {
+    if (res.message === 'New project saved successfully') {
+      return res.newProject;
+    } else if (res.message === 'Project saved successfully') {
+      return res.project;
+    } else {
+      return res.error;
+    }
   });
 }
 
@@ -488,7 +498,7 @@ function uploadProjectImage(
 ): Promise<Project> {
   return new Promise((resolve, reject) => {
     const endpoint =
-      'http://localhost:8080/api/upload/image/project?projectId=' + projectId;
+      config.host.name + '/api/upload/image/project?projectId=' + projectId;
 
     var formData = new FormData();
     for (var i = 0; i < file.length; i++) {
@@ -518,14 +528,15 @@ function uploadProjectImage(
   });
 }
 
-function uploadProfileImage(file: File, userId: string): Promise<User> {
+function uploadProfileImage(file: FileList, userId: string): Promise<User> {
   return new Promise((resolve, reject) => {
     const endpoint =
-      'http://localhost:8080/api/upload/image/profile?userId=' + userId;
+      config.host.name + '/api/upload/image/profile?userName=' + userId;
 
     var formData = new FormData();
-    formData.append('image', file);
-
+    for (var i = 0; i < file.length; i++) {
+      formData.append('image', file![i]);
+    }
     var data: object = {
       body: formData,
       method: 'POST',
@@ -570,10 +581,50 @@ function uploadProfileImage(file: File, userId: string): Promise<User> {
   });
 }
 
+function uploadRevisionImage(
+  file: FileList,
+  projectId: string,
+  username: string,
+  revisionNumber: number
+) {
+  // tslint:disable-next-line
+  const endpoint =
+    config.host.name +
+    `/api/upload/image/revision?projectId=${projectId}&user=${username}&revisionNumber=${revisionNumber}`;
+
+  var formData = new FormData();
+  for (var i = 0; i < file.length; i++) {
+    formData.append('image', file![i]);
+  }
+
+  var data: object = {
+    body: formData,
+    method: 'POST',
+    credentials: 'include'
+  };
+
+  return (
+    fetch(endpoint, data)
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        return res.json();
+      })
+      // tslint:disable-next-line
+      .then(function(res: any) {
+        JSON.stringify(res);
+        if (res.message === 'Successfully saved revision image') {
+          return res.revision;
+        } else {
+          return res.error;
+        }
+      })
+  );
+}
+
 function downloadProjectImageURLS(projectId: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
     const endpoint =
-      'http://localhost:8080/api/download/project?projectId=' + projectId;
+      config.host.name + '/api/download/project?projectId=' + projectId;
     var data: object = {
       method: 'GET'
     };
@@ -593,7 +644,7 @@ function downloadProjectImageURLS(projectId: string): Promise<string[]> {
 }
 function getOneProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/' + id;
+    const endpoint = config.host.name + '/api/projects/' + id;
 
     var data: object = {
       method: 'GET',
@@ -619,7 +670,7 @@ function getOneProject(id: string): Promise<Project> {
 
 function deleteProject(id: string): Promise<Project> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/delete';
+    const endpoint = config.host.name + '/api/projects/delete';
 
     var data: object = {
       body: JSON.stringify({
@@ -651,7 +702,7 @@ function deleteProject(id: string): Promise<Project> {
 
 function getTags(): Promise<Tags> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/tags';
+    const endpoint = config.host.name + '/api/projects/tags';
 
     var data: object = {
       headers: {
@@ -668,6 +719,7 @@ function getTags(): Promise<Tags> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
+        console.log(res);
         if (res.message === 'Successfully retrieved tags') {
           resolve(res.tags);
         } else {
@@ -679,7 +731,7 @@ function getTags(): Promise<Tags> {
 
 function getCategories(): Promise<Categories> {
   return new Promise((resolve, reject) => {
-    const endpoint = 'http://localhost:8080/api/projects/categories';
+    const endpoint = config.host.name + '/api/projects/categories';
 
     var data: object = {
       headers: {
@@ -710,7 +762,7 @@ function getCategories(): Promise<Categories> {
  */
 function getMarkers(revisionId: string) {
   return axios
-    .get(`http://localhost:8080/api/projects/revision/${revisionId}/markers`)
+    .get(config.host.name + `/api/projects/revision/${revisionId}/markers`)
     .then(response => {
       return response.data.markers;
     });
@@ -718,7 +770,7 @@ function getMarkers(revisionId: string) {
 
 function saveMarker(revisionId: string, marker: Marker) {
   return axios
-    .post(`http://localhost:8080/api/projects/revision/${revisionId}/marker`, {
+    .post(config.host.name + `/api/projects/revision/${revisionId}/marker`, {
       type: marker.type,
       creator: marker.creator,
       x: marker.x,
@@ -730,10 +782,18 @@ function saveMarker(revisionId: string, marker: Marker) {
       return response.data.marker;
     });
 }
+function deleteMarker(markerId: string) {
+  return axios
+    .delete(config.host.name + `/api/projects/revision/marker/${markerId}`)
+    .then(response => {
+      return response.data.marker;
+    });
+}
 
 function updateMarkerPosition(id: string, x: string, y: string) {
+  console.log('updating marker position...');
   return axios
-    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+    .put(config.host.name + `/api/projects/revision/marker/${id}`, {
       x,
       y
     })
@@ -743,10 +803,21 @@ function updateMarkerPosition(id: string, x: string, y: string) {
 }
 
 function updateMarkerDimensions(id: string, width: string, height: string) {
+  console.log('updating marker dimensions...');
   return axios
-    .put(`http://localhost:8080/api/projects/revision/markers/${id}`, {
+    .put(config.host.name + `/api/projects/revision/marker/${id}`, {
       width,
       height
+    })
+    .then(response => {
+      return response.data.marker;
+    });
+}
+
+function resolveMarker(id: string) {
+  return axios
+    .put(config.host.name + `/api/projects/revision/marker/${id}`, {
+      isResolved: true
     })
     .then(response => {
       return response.data.marker;
@@ -756,28 +827,44 @@ function updateMarkerDimensions(id: string, width: string, height: string) {
 function getMarkerComments(markerId: string) {
   return axios
     .get(
-      `http://localhost:8080/api/projects/revision/markers/${markerId}/comments`
+      config.host.name + `/api/projects/revision/markers/${markerId}/comments`
     )
     .then(response => {
       return response.data.comments;
     });
 }
 
-function addMarkerComment(
-  revisionId: string,
-  markerId: string,
-  comment: { user: string; time: string; message: string }
-) {
+function addMarkerComment(markerId: string, username: string, message: string) {
   return axios
     .post(
-      `http://localhost:8080/api/projects/revision/marker/${markerId}/comment`,
+      config.host.name + `/api/projects/revision/marker/${markerId}/comment`,
       {
-        creator: comment.user,
-        comment: comment.message
+        creator: username,
+        comment: message
       }
     )
     .then(response => {
       return response.data.comment;
+    });
+}
+
+function addRevision(
+  projectId: string,
+  finalVersion: number,
+  imageURL: string,
+  creator: string,
+  description: string
+) {
+  return axios
+    .post(config.host.name + `/api/projects/${projectId}/revision`, {
+      revisionNumber: 'string',
+      finalVersion: true,
+      imageURL: '',
+      creator: '',
+      description: ''
+    })
+    .then(response => {
+      console.log(response);
     });
 }
 
@@ -791,13 +878,14 @@ var apiService = {
   logout,
   getProjects,
   getProject,
-  addProject,
   getMarkers,
   getMarkerComments,
   addMarkerComment,
   saveMarker,
+  deleteMarker,
   updateMarkerPosition,
   updateMarkerDimensions,
+  resolveMarker,
   getOneProject,
   deleteProject,
   getTags,
@@ -807,7 +895,10 @@ var apiService = {
   uploadProfileImage,
   downloadProjectImageURLS,
   userSettingsUpdate,
-  updateProject
+  addOrUpdateProject,
+  uploadRevisionImage,
+  addRevision,
+  userPrivateSettingsUpdate
 };
 
 export default apiService;

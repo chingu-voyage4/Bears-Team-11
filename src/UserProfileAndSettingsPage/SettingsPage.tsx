@@ -1,16 +1,17 @@
 import * as React from 'react';
 import '../styles/SettingsPage.css';
-import { Store } from '../types/Redux';
-import { PassedProps, State } from '../types/SettingsPage.d';
+import { Store, SettingsPageProps } from '../types/Redux';
+import { State } from '../types/SettingsPage.d';
 import { connect } from 'react-redux';
+import { uploadProfileImage } from '../actions/userActions';
 import PublicProfile from './PublicProfile';
 import PersonalDetails from './PersonalDetails';
 import ProjectSettings from './ProjectSettings';
-import HeaderContainer from '../HeaderContainer';
-import Footer from '../Footer';
+import HeaderContainer from '../Header/HeaderContainer';
+import Footer from '../Footer/Footer';
 
-class SettingsPage extends React.Component<PassedProps, State> {
-  constructor(props: PassedProps) {
+class SettingsPage extends React.Component<SettingsPageProps, State> {
+  constructor(props: SettingsPageProps) {
     super(props);
     this.state = {
       personal: false,
@@ -43,20 +44,46 @@ class SettingsPage extends React.Component<PassedProps, State> {
     });
   };
 
+  toggleImageUploadShow = (e: any) => {
+    var doc = document.getElementById('settings-profile-image-id')!;
+    doc.classList.toggle('settings-image-upload-show');
+  };
+
+  uploadProfileImage = (e: any) => {
+    let file = e.currentTarget.files! as FileList;
+    if (file) {
+      console.log(file);
+      this.props.uploadProfileImage(file, this.props.user._id);
+    }
+  };
   render() {
     return (
       <div>
         <HeaderContainer />
         <div className="settings-container">
           <div className="settings-menu-div">
-            <div>
+            <img
+              className="settings-profile-image"
+              onMouseEnter={e => this.toggleImageUploadShow(e)}
+              src={
+                this.props.user.profileImage
+                  ? this.props.user.profileImage
+                  : require('../assets/blank image.png')
+              }
+            />
+            <div
+              onMouseOut={e => this.toggleImageUploadShow(e)}
+              id="settings-profile-image-id"
+              className="settings-profile-image-upload"
+            >
               <img
-                className="settings-profile-image"
-                src={
-                  this.props.user.profileImage
-                    ? this.props.user.profileImage
-                    : require('../assets/blank image.png')
-                }
+                src={require('../assets/icons8-pencil-52.png')}
+                className="settings-profile-image-icon"
+              />
+              <input
+                id="profile-image-upload"
+                type="file"
+                onChange={e => this.uploadProfileImage(e)}
               />
             </div>
             <h2 className="settings-name">{this.props.user.username}</h2>
@@ -83,7 +110,6 @@ class SettingsPage extends React.Component<PassedProps, State> {
               </button>
             </div>
           </div>
-
           <div className="settings-info-div">
             {this.state.public === true ? <PublicProfile /> : null}
             {this.state.personal === true ? <PersonalDetails /> : null}
@@ -102,4 +128,4 @@ function mapStateToProps(state: Store) {
   };
 }
 
-export default connect(mapStateToProps)(SettingsPage);
+export default connect(mapStateToProps, { uploadProfileImage })(SettingsPage);

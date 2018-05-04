@@ -1,16 +1,21 @@
 /* tslint:disable */
 import * as React from 'react';
-import * as shortid from 'shortid';
 import CommentBox from './CommentBox';
 import { connect } from 'react-redux';
 import {
   getMarkers,
   addMarker,
   moveMarker,
-  addComment
+  resizeMarker,
+  addComment,
+  resolveMarker,
+  deleteMarker
 } from '../actions/markerActions';
 import { Store } from '../types/Redux';
 import { Marker } from '../types/Marker';
+import { User } from '../types/User';
+import axios from 'axios';
+import config from '../.config';
 
 declare global {
   interface Window {
@@ -18,88 +23,190 @@ declare global {
   }
 }
 
-class AnnotationLayer extends React.Component<{
+interface AnnotationLayerProps {
   tool: any;
   onMarkerAdd: any;
   revisionId: string;
   projectId: string;
   markers: Array<Marker>;
+  user: User | any;
   addMarker: any;
   getMarkers: any;
   moveMarker: any;
   addComment: any;
-}> {
+  resolveMarker: any;
+  deleteMarker: any;
+  resizeMarker: any;
+}
+
+interface AnnotationLayerState {
+  team: Array<string>;
+}
+
+class AnnotationLayer extends React.Component<
+  AnnotationLayerProps,
+  AnnotationLayerState
+> {
+  constructor(props: AnnotationLayerProps) {
+    super(props);
+    this.state = {
+      team: []
+    };
+  }
   componentDidMount() {
     this.props.getMarkers(this.props.revisionId).then(() => {
       this.makeInteractive();
     });
+
+    axios
+      .get(config.host.name + `/api/projects/${this.props.projectId}/team`)
+      .then(response => {
+        var team = response.data.team;
+        this.setState({ team });
+      });
   }
 
-  componentWillReceiveProps(nextProps: any) {
-    // TODO: need a better way to toggle states
+  componentDidUpdate(nextProps: any) {
     this.makeInteractive();
     if (nextProps.tool !== 'cursor' && this.props.tool === 'cursor') {
       this.disableInteractivity();
     } else if (nextProps.tool === 'cursor' && this.props.tool !== 'cursor') {
       this.enableInteractivity();
     }
+
+    if (this.props.tool === 'cursor') {
+      this.hideComments();
+    }
   }
+
+  isTeamMember = () => {
+    if (this.props.user._id && this.state.team) {
+      return this.state.team.some(teammember => {
+        return teammember === this.props.user.username;
+      });
+    }
+    return false;
+  };
 
   drawMarkers = () => {
     var markers: any = [];
-    this.props.markers.forEach((annotation: any) => {
-      if (annotation.type === 'rectangle') {
-        markers.push(
-          this.drawRect(
-            annotation.id,
-            annotation.x,
-            annotation.y,
-            annotation.width,
-            annotation.height
-          )
-        );
+    this.props.markers.forEach((marker: any) => {
+      if (marker.type === 'rectangle') {
+        markers.push(this.drawRect(marker));
       } else {
-        markers.push(
-          this.drawCircle(annotation.id, annotation.x, annotation.y)
-        );
+        markers.push(this.drawCircle(marker));
       }
     });
     return markers;
   };
 
-  // BUG: annotation canvas does not wrap the image
+  drawRect = (marker: Marker): any => {
+    var { _id, x, y, isResolved, width, height } = marker;
+    var style = {
+      top: `${y}px`,
+      left: `${x}px`,
+      width: `${width || 100}px`,
+      height: `${height || 100}px`,
+      backgroundColor: isResolved ? 'rgba(249,166,33,0.5)' : null,
+      borderColor: isResolved ? '#f9a621' : null
+    };
+    return (
+      <div
+        key={_id}
+        id={_id}
+        className="annotation-rectangle"
+        style={style}
+        onClick={this.toggleCommentBox}
+      >
+        <CommentBox
+          key={_id}
+          markerId={_id}
+          revisionId={this.props.revisionId}
+          deleteMarker={this.deleteMarker}
+          resolveMarker={this.resolveMarker}
+          isResolved={isResolved}
+        />
+        <div className="annotation-initials">
+          {/* {marker.creator === this.props.user.username
+            ? this.props.user.username.charAt(0).toUpperCase()
+            : null} */}
+        </div>
+      </div>
+    );
+  };
+
+  drawCircle = (marker: Marker) => {
+    var { _id, x, y, isResolved } = marker;
+    var style = {
+      top: `${y}px`,
+      left: `${x}px`,
+      backgroundColor: isResolved ? '#f9a621' : null
+    };
+
+    return (
+      <div
+        key={_id}
+        id={_id}
+        className="annotation-circle "
+        style={style}
+        onClick={this.toggleCommentBox}
+      >
+        <CommentBox
+          key={_id}
+          markerId={_id}
+          revisionId={this.props.revisionId}
+          deleteMarker={this.deleteMarker}
+          resolveMarker={this.resolveMarker}
+          isResolved={isResolved}
+        />
+        <div className="annotation-initials">
+          {/* {marker.creator === this.props.user.username
+            ? this.props.user.username.charAt(0).toUpperCase()
+            : null} */}
+        </div>
+      </div>
+    );
+  };
+
   addMarker = (e: any) => {
-    var marker: any;
-    switch (this.props.tool) {
-      case 'circle':
-        // center the cursor (toolbar offset + height offset)
-        marker = {
-          id: shortid.generate(),
-          x: e.pageX - 21,
-          y: e.pageY - 71,
-          type: 'circle'
-        };
-        this.saveMarker(marker);
-        break;
-      case 'rectangle':
-        // center the cursor
-        marker = {
-          id: shortid.generate(),
-          x: e.pageX - 50,
-          y: e.pageY - 100,
-          width: 100,
-          height: 100,
-          type: 'rectangle'
-        };
-        this.saveMarker(marker);
-        break;
-      default:
-        break;
+    if (this.isTeamMember()) {
+      var marker: any;
+      var { left, top } = e.target.getBoundingClientRect();
+
+      switch (this.props.tool) {
+        case 'circle':
+          marker = {
+            x: e.pageX - left - 21,
+            y: e.pageY - top - 21,
+            type: 'circle',
+            creator: this.props.user.username
+          };
+          this.saveMarker(marker);
+          break;
+        case 'rectangle':
+          // center the cursor
+          marker = {
+            x: e.pageX - left - 50,
+            y: e.pageY - top - 50,
+            width: 100,
+            height: 100,
+            type: 'rectangle',
+            creator: this.props.user.username
+          };
+          this.saveMarker(marker);
+          break;
+        default:
+          break;
+      }
     }
   };
 
   saveMarker = (marker: Marker) => {
-    this.props.addMarker(this.props.revisionId, marker);
+    this.props.addMarker(
+      this.props.revisionId,
+      marker,
+      this.props.user.username
+    );
     this.props.onMarkerAdd();
   };
 
@@ -115,67 +222,53 @@ class AnnotationLayer extends React.Component<{
     }
   };
 
-  drawRect = (id: any, x: any, y: any, width = 100, height = 100): any => {
-    var style = {
-      top: `${y}px`,
-      left: `${x}px`,
-      width: `${width}px`,
-      height: `${height}px`
-    };
-    return (
-      <div
-        key={id}
-        id={id}
-        className="annotation-rectangle"
-        style={style}
-        onClick={this.toggleCommentBox}
-      >
-        <CommentBox markerId={id} revisionId={this.props.revisionId} />
-      </div>
+  hideComments = () => {
+    var commentBoxes = Array.from(
+      document.getElementsByClassName('comment-box')
     );
+    commentBoxes.forEach(commentBox => {
+      (commentBox as HTMLElement).style.display = 'none';
+    });
   };
 
-  drawCircle = (id: any, x: any, y: any) => {
-    var style = {
-      top: `${y}px`,
-      left: `${x}px`
-    };
-    return (
-      <div
-        key={id}
-        id={id}
-        className="annotation-circle"
-        style={style}
-        onClick={this.toggleCommentBox}
-      >
-        <CommentBox markerId={id} revisionId={this.props.revisionId} />
-      </div>
+  showComments = () => {
+    var commentBoxes = Array.from(
+      document.getElementsByClassName('comment-box')
     );
+    commentBoxes.forEach(commentBox => {
+      (commentBox as HTMLElement).style.display = 'block';
+    });
   };
 
   makeInteractive = () => {
     this.props.markers.forEach((marker: any) => {
-      this.makeDraggable(marker.id);
-      if (marker.type === 'rectangle') {
-        this.makeResizeable(marker.id);
+      if (marker.creator === this.props.user.username) {
+        this.makeDraggable(marker._id);
+        if (marker.type === 'rectangle') {
+          this.makeResizeable(marker._id);
+        }
       }
     });
   };
 
   enableInteractivity = () => {
     this.props.markers.forEach((marker: any) => {
-      this.enableDrag(marker.id);
-      if (marker.type === 'rectangle') {
-        this.enableResize(marker.id);
+      if (marker.creator === this.props.user.username) {
+        this.enableDrag(marker._id);
+        if (marker.type === 'rectangle') {
+          this.enableResize(marker._id);
+        }
       }
     });
   };
 
   disableInteractivity = () => {
     this.props.markers.forEach((marker: any) => {
-      this.disableDrag(marker.id);
-      if (marker.type === 'rectangle') {
-        this.disableResize(marker.id);
+      if (marker.creator === this.props.user.username) {
+        this.disableDrag(marker._id);
+        if (marker.type === 'rectangle') {
+          this.disableResize(marker._id);
+        }
       }
     });
   };
@@ -184,15 +277,13 @@ class AnnotationLayer extends React.Component<{
     window.$(`#${id}`).draggable({
       stop: () => {
         var marker = document.getElementById(id);
-        if (marker) {
+        if (marker && marker.parentElement) {
+          var offset = marker.parentElement.getBoundingClientRect();
           var position = marker.getBoundingClientRect();
           this.props.moveMarker(
-            this.props.revisionId,
             id,
-            position.left,
-            position.top - 75, // adjust for toolbar + padding
-            position.width - 4, // adjust for border
-            position.height - 4 // adjust for border
+            position.left - offset.left,
+            position.top - offset.top
           );
         }
       }
@@ -206,11 +297,8 @@ class AnnotationLayer extends React.Component<{
         var marker = document.getElementById(id);
         if (marker) {
           var position = marker.getBoundingClientRect();
-          this.props.moveMarker(
-            this.props.revisionId,
+          this.props.resizeMarker(
             id,
-            position.left,
-            position.top - 75, // adjust for toolbar + padding
             position.width - 4, // adjust for border
             position.height - 4 // adjust for border
           );
@@ -219,7 +307,14 @@ class AnnotationLayer extends React.Component<{
     });
   };
 
-  // TODO: make into one function?
+  resolveMarker = (markerId: any) => {
+    this.props.resolveMarker(markerId);
+  };
+
+  deleteMarker = (markerId: any) => {
+    this.props.deleteMarker(markerId);
+  };
+
   disableDrag = (id: any) => {
     window.$(`#${id}`).draggable('disable');
   };
@@ -240,6 +335,7 @@ class AnnotationLayer extends React.Component<{
     return (
       <div className="redline-annotations" onClick={this.addMarker}>
         {this.drawMarkers()}
+        {this.props.children}
       </div>
     );
   }
@@ -247,7 +343,8 @@ class AnnotationLayer extends React.Component<{
 
 function mapStateToProps(state: Store, ownProps: any) {
   return {
-    markers: state.markers
+    markers: state.markers,
+    user: state.user
   };
 }
 
@@ -255,5 +352,8 @@ export default connect(mapStateToProps, {
   getMarkers,
   addMarker,
   moveMarker,
-  addComment
+  resizeMarker,
+  addComment,
+  resolveMarker,
+  deleteMarker
 })(AnnotationLayer);

@@ -5,80 +5,107 @@ import Toolbar from './Toolbar';
 import ImageLayer from './ImageLayer';
 import AnnotationLayer from './AnnotationLayer';
 import axios from 'axios';
+import HeaderContainer from '../Header/HeaderContainer';
+import { connect } from 'react-redux';
+import config from '../.config';
 
-class Redline extends React.Component<
-  { imageLink: string; match: any },
-  {
-    tool: string;
-    revision: any;
-  }
-> {
-  constructor(props: { imageLink: string; match: any }) {
+interface RedlineProps {
+  imageLink: string;
+  match: any;
+  user: any;
+}
+
+interface RedlineState {
+  tool: string;
+  revision: any;
+  team: Array<string>;
+}
+
+class Redline extends React.Component<RedlineProps, RedlineState> {
+  constructor(props: RedlineProps) {
     super(props);
     this.state = {
       tool: 'cursor',
-      revision: {}
+      revision: {},
+      team: []
     };
   }
 
   componentDidMount() {
-    var { projectId, revisionId } = this.getURLParams();
+    var { revisionId } = this.getURLParams();
     axios
-      .get(
-        `http://localhost:8080/api/projects/${projectId}/revisions/${revisionId}`
-      )
+      .get(config.host.name + `/api/projects/revision/${revisionId}`)
       .then(response => {
         this.setState({
           revision: response.data.revision
         });
       });
+
+    axios
+      .get(
+        config.host.name + `/api/projects/${this.getURLParams().projectId}/team`
+      )
+      .then(response => {
+        var team = response.data.team;
+        this.setState({ team });
+      });
   }
-
-  // NOTE: Possibly make a generic tool function
-  selectCursorTool = () => {
-    this.setState({ tool: 'cursor' });
-  };
-
-  selectCircleTool = () => {
-    this.setState({ tool: 'circle' });
-  };
-
-  selectRectangleTool = () => {
-    this.setState({ tool: 'rectangle' });
-  };
-
-  selectCommentTool = () => {
-    this.setState({ tool: 'comment' });
+  selectTool = (tool: string) => {
+    this.setState({ tool });
   };
 
   getURLParams = () => {
     return this.props.match.params;
   };
 
+  isTeamMember = () => {
+    if (this.props.user._id && this.state.team) {
+      return this.state.team.some(teammember => {
+        return teammember === this.props.user.username;
+      });
+    }
+    return false;
+  };
+
+  shouldDisableToolBar = () => {
+    return !this.isTeamMember();
+  };
+
   render() {
     return (
-      <div className="redline-container">
-        <Toolbar
-          tool={this.state.tool}
-          selectCursorTool={this.selectCursorTool}
-          selectCircleTool={this.selectCircleTool}
-          selectRectangleTool={this.selectRectangleTool}
-          selectCommentTool={this.selectCommentTool}
-        />
-        <div className="redline-canvas">
-          <div>
-            <ImageLayer imageLink={this.state.revision.imageURL} />
-            <AnnotationLayer
-              tool={this.state.tool}
-              onMarkerAdd={this.selectCursorTool}
-              revisionId={this.getURLParams().revisionId}
-              projectId={this.getURLParams().projectId}
-            />
+      <React.Fragment>
+        <HeaderContainer />
+        <div className="redline-container">
+          <Toolbar
+            isDisabled={this.shouldDisableToolBar()}
+            tool={this.state.tool}
+            selectCursorTool={() => this.selectTool('cursor')}
+            selectCircleTool={() => this.selectTool('circle')}
+            selectRectangleTool={() => this.selectTool('rectangle')}
+            selectCommentTool={() => this.selectTool('comment')}
+          />
+          <div className="redline-canvas">
+            <div>
+              <AnnotationLayer
+                tool={this.state.tool}
+                onMarkerAdd={() => this.selectTool('cursor')}
+                revisionId={this.getURLParams().revisionId}
+                projectId={this.getURLParams().projectId}
+              >
+                <ImageLayer imageLink={this.state.revision.imageURL} />
+              </AnnotationLayer>
+            </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
 
-export default Redline;
+function mapStateToProps(state: any) {
+  return {
+    user: state.user
+  };
+}
+
+export default connect(mapStateToProps)(Redline);

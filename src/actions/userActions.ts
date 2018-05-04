@@ -4,8 +4,6 @@ import {
   LOGIN,
   REGISTER,
   LOGOUT,
-  LOGIN_ERROR,
-  REGISTER_ERROR,
   LOGOUT_ERROR,
   GET_ALL_USERS,
   GET_ALL_USERS_ERROR,
@@ -16,28 +14,40 @@ import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
 import { UserAction, Action } from '../types/Redux';
 
+/*
+==========================
+LOGIN
+==========================
+*/
+async function loginWithDispatchAsync(
+  dispatchType: any,
+  dispatch: Dispatch<Action>,
+  email: string,
+  password: string
+): Promise<void> {
+  var user = await apiService.login(email, password);
+  localStorage.setItem('user', JSON.stringify(user));
+  dispatch({ type: dispatchType, data: user });
+}
+
+export type login_fntype = (email: string, password: string) => Promise<void>;
+
 export function login(
   email: string,
   password: string
-): (dispatch: Dispatch<UserAction>) => void {
+): (dispatch: Dispatch<UserAction>) => Promise<void> {
   return dispatch => {
-    return apiService
-      .login(email, password)
-      .then(user => {
-        localStorage.setItem('user', JSON.stringify(user));
-        return dispatch({
-          type: LOGIN,
-          data: user
-        });
-      })
-      .catch(error => {
-        return dispatch({
-          type: LOGIN_ERROR,
-          error: 'Invalid email and/or password.'
-        });
-      });
+    return loginWithDispatchAsync(LOGIN, dispatch, email, password);
   };
 }
+/*
+==========================
+GOOGLE LOGIN
+==========================
+*/
+export type googleLogin_fntype = (
+  idToken: string
+) => (dispatch: Dispatch<UserAction>) => void;
 
 export function googleLogin(
   idToken: string
@@ -60,6 +70,38 @@ export function googleLogin(
       });
   };
 }
+/*
+==========================
+REGISTER
+==========================
+*/
+
+async function registerWithDispatchAsync(
+  dispatchType: any,
+  dispatch: Dispatch<Action>,
+  firstName: string,
+  lastName: string,
+  username: string,
+  email: string,
+  password: string
+): Promise<void> {
+  var user = await apiService.register(
+    firstName,
+    lastName,
+    username,
+    email,
+    password
+  );
+  localStorage.setItem('user', JSON.stringify(user));
+  dispatch({ type: dispatchType, data: user });
+}
+export type register_fntype = (
+  firstName: string,
+  lastName: string,
+  username: string,
+  email: string,
+  password: string
+) => Promise<void>;
 
 export function register(
   firstName: string,
@@ -67,28 +109,31 @@ export function register(
   username: string,
   email: string,
   password: string
-): (dispatch: Dispatch<UserAction>) => void {
+): (dispatch: Dispatch<UserAction>) => Promise<void> {
   return dispatch => {
-    return apiService
-      .register(firstName, lastName, username, email, password)
-      .then(user => {
-        localStorage.setItem('user', JSON.stringify(user));
-        return dispatch({
-          type: REGISTER,
-          data: user
-        });
-      })
-      .catch(error => {
-        return dispatch({
-          type: REGISTER_ERROR,
-          error
-        });
-      });
+    return registerWithDispatchAsync(
+      REGISTER,
+      dispatch,
+      firstName,
+      lastName,
+      username,
+      email,
+      password
+    );
   };
 }
+/*
+==========================
+UPLOAD PROFILE IMAGE
+==========================
+*/
+export type uploadProfileImage_fntype = (
+  file: FileList,
+  userId: string
+) => (dispatch: Dispatch<UserAction>) => void;
 
 export function uploadProfileImage(
-  file: File,
+  file: FileList,
   userId: string
 ): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
@@ -100,6 +145,13 @@ export function uploadProfileImage(
     });
   };
 }
+/*
+==========================
+LOGOUT
+==========================
+*/
+export type logout_fntype = () => (dispatch: Dispatch<UserAction>) => void;
+
 export function logout(): (dispatch: Dispatch<UserAction>) => void {
   return dispatch => {
     return apiService
@@ -119,8 +171,15 @@ export function logout(): (dispatch: Dispatch<UserAction>) => void {
   };
 }
 
-export type getAllUsersFnType = (dispatch: Dispatch<Action>) => void;
-export function getAllUsers(): getAllUsersFnType {
+/*
+==========================
+GET ALL USERS
+==========================
+*/
+
+export type getAllUsers_fntype = () => (dispatch: Dispatch<Action>) => void;
+
+export function getAllUsers(): (dispatch: Dispatch<Action>) => void {
   return dispatch => {
     return apiService
       .getAllUsers()
@@ -139,7 +198,25 @@ export function getAllUsers(): getAllUsersFnType {
   };
 }
 
-export type getAllUsers_fntype = (dispatch: Dispatch<Action>) => void;
+/*
+==========================
+USER SETTINGS (PUBLIC BIO) UPDATE
+==========================
+*/
+
+export type userSettingsUpdate_fntype = (
+  aboutme: string,
+  location: string,
+  roles: string[],
+  skills: string[],
+  linkedin: string,
+  github: string,
+  portfolio: string,
+  website: string,
+  twitter: string,
+  blog: string,
+  userId: string
+) => (dispatch: Dispatch<Action>) => void;
 
 export function userSettingsUpdate(
   aboutme: string,
@@ -170,6 +247,38 @@ export function userSettingsUpdate(
         userId
       )
       .then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
+        return dispatch({
+          type: USER_SETTINGS_UPDATE,
+          data: user
+        });
+      });
+  };
+}
+/*
+==========================
+USER SETTINGS (PRIVATE BIO) UPDATE
+==========================
+*/
+
+export type userPrivateSettingsUpdate_fntype = (
+  firstName: string,
+  lastName: string,
+  email: string,
+  userId: string
+) => (dispatch: Dispatch<Action>) => void;
+
+export function userPrivateSettingsUpdate(
+  firstName: string,
+  lastName: string,
+  email: string,
+  userId: string
+): (dispatch: Dispatch<Action>) => void {
+  return dispatch => {
+    return apiService
+      .userPrivateSettingsUpdate(firstName, lastName, email, userId)
+      .then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
         return dispatch({
           type: USER_SETTINGS_UPDATE,
           data: user

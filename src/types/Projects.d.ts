@@ -12,6 +12,7 @@ export interface Projects {
   lookingFor?: string[];
   comments?: string | Array<string>; // Need to update all dependents
   createdAt?: number;
+  modifiedAt?: number;
   dueDate?: number | any;
   views?: number;
   category?: string;
@@ -37,21 +38,8 @@ export interface Props {
   projId: string;
 }
 
-export interface ProjectForEditProps {
-  projects: Project;
-  projId: string;
-  data: any;
-  deleteProject: (id: string) => (dispatch: Dispatch<Action>) => void;
-}
-
 export interface EmptyProp {}
 
 export interface ProjectsProps {}
 
-export interface ProjectsInheritedProps {
-  projects: Array<Project>;
-  arrayOfProjects: string;
-  user: User;
-  searchResults: string | null;
-}
 export interface ProjectsState {}

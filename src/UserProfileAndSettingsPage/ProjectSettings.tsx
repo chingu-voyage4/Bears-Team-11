@@ -1,16 +1,9 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Store } from '../types/Redux';
-import {
-  ProjectSettingsProps,
-  ProjectSettingsState
-} from '../types/ProjectSettings';
-import {
-  getProjects,
-  updateProject,
-  deleteProject
-} from '../actions/projectActions';
-import ProjectForEdit from '../ProjectContainerForSettings';
+import { connect, Dispatch } from 'react-redux';
+import { Store, ProjectSettingsProps, Action } from '../types/Redux';
+import { ProjectSettingsState } from '../types/ProjectSettings';
+import { getProjects, deleteProject } from '../actions/projectActions';
+import ProjectForEdit from '../Project/ProjectContainerForSettings';
 
 class ProjectSettings extends React.Component<
   ProjectSettingsProps,
@@ -21,7 +14,7 @@ class ProjectSettings extends React.Component<
   }
 
   componentWillMount() {
-    this.props.getProjects({}, { creator: this.props.user.username });
+    this.props.getProjects({}, {});
   }
 
   render() {
@@ -33,7 +26,6 @@ class ProjectSettings extends React.Component<
         project.team!.indexOf(this.props.user.username!) !== -1
       );
     });
-    console.log(projectArray);
     if (projectArray.length === 0) {
       returnedComponent = null;
     } else if (
@@ -67,8 +59,15 @@ function mapStateToProps(state: Store) {
     projects: state.projects
   };
 }
-export default connect(mapStateToProps, {
-  getProjects,
-  updateProject,
-  deleteProject
-})(ProjectSettings);
+
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    getProjects: (options: object, query: object | null) => {
+      return dispatch(getProjects(options, query));
+    },
+    deleteProject: (id: string) => {
+      return dispatch(deleteProject(id));
+    }
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectSettings);
