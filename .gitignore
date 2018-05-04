@@ -1,13 +1,25 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
+# See https://www.git-tower.com/learn/git/faq/ignore-tracked-files-in-git for more about ignoring files commited to the repo
 
 # dependencies
 /node_modules
 
 # testing
 /coverage
+/.vscode
+launch.json
+
+# sensitive files
+/api/utils/s3_config.json
 
 # production
 /build
+
+# compiled assets
+*.css
+
+# sensitive assets
+/api/utils/s3_config.json
 
 # misc
 .DS_Store
@@ -15,7 +27,11 @@
 .env.development.local
 .env.test.local
 .env.production.local
+playground.js
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# credentials
+credentials.json

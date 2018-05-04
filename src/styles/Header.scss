@@ -1,0 +1,89 @@
+@import '_variables.scss';
+body {
+  position: relative;
+  z-index: -1;
+}
+
+.header-container {
+  max-width: 1080px;
+  max-height: 75px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas: 't . . l s';
+}
+
+a {
+  text-decoration: none;
+}
+
+/*
+==========================
+LOGO
+==========================
+*/
+
+.logo {
+  grid-area: t;
+  font-family: $font;
+  color: $theme-blue;
+  font-size: $logo-font-size;
+  font-weight: 700;
+  margin: auto;
+  margin-left: 0px;
+}
+
+/*
+==========================
+LOG IN
+==========================
+*/
+
+.login {
+  grid-area: l;
+  background: none;
+  border: none;
+  font-family: $font;
+  font-size: $header-font-size;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-right: 0px;
+}
+
+.loginText {
+  font-family: $font;
+  color: #757575;
+  text-align: center;
+  vertical-align: middle;
+  font-size: $header-font-size;
+  font-weight: 700;
+  border: none;
+  background-color: white !important;
+}
+
+/*
+==========================
+SIGNUP BUTTON
+==========================
+*/
+
+.signUp {
+  grid-area: s;
+  background: none;
+  border: none;
+  margin: auto;
+  margin-right: 0px;
+}
+
+.signUpButton {
+  @include white-text-blue-background-button;
+}
+/*
+==========================
+MEDIA QUERIES
+==========================
+*/
+@media all and (max-width: 1080px) and (min-width: 0px) {
+}
