@@ -77,10 +77,6 @@ class AnnotationLayer extends React.Component<
     if (this.props.tool === 'cursor') {
       this.hideComments();
     }
-
-    if (this.props.tool === 'comment') {
-      this.showComments();
-    }
   }
 
   isTeamMember = () => {
@@ -120,7 +116,7 @@ class AnnotationLayer extends React.Component<
         id={_id}
         className="annotation-rectangle"
         style={style}
-        // onClick={this.toggleCommentBox}
+        onClick={this.toggleCommentBox}
       >
         <CommentBox
           key={_id}
@@ -153,7 +149,7 @@ class AnnotationLayer extends React.Component<
         id={_id}
         className="annotation-circle "
         style={style}
-        // onClick={this.toggleCommentBox}
+        onClick={this.toggleCommentBox}
       >
         <CommentBox
           key={_id}

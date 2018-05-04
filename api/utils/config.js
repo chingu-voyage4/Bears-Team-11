@@ -8,5 +8,8 @@ module.exports = {
   },
   host: {
     name: 'http://localhost:3000'
+  },
+  server: {
+    name: 'http://localhost:8080'
   }
 };

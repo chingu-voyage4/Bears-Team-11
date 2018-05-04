@@ -29,7 +29,7 @@ CAROUSEL
 .project-portal__carousel__background {
   background: $black-grey;
   width: 100%;
-  max-height: calc(100vh - 450px - 75px);
+  height: calc(100vh - 450px - 75px);
   overflow: scroll;
   overflow-x: hidden;
 }
@@ -186,6 +186,7 @@ CHAT BOX CONTAINER
   margin: 0 auto;
   margin: 30px 10px 0px 10px;
   box-shadow: $box-shadow;
+  height: 407px;
 }
 /*
 ==========================
@@ -194,7 +195,7 @@ MESSAGES
 */
 .messages {
   overflow: scroll;
-  max-height: 320px;
+  height: 320px;
   overflow-x: hidden;
   padding: 15px;
   color: $dark-grey;

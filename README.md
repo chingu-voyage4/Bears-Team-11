@@ -5,7 +5,7 @@ Project Match is a web app created with the MERN stack with typescript integrati
 
 ## Contributors
 * [Francesca Sadikin (Co-PM and Designer)](https://github.com/serpient)
-* [luoto (Co-PM)](https://github.com/luoto)
+* [Tony Luo (Co-PM)](https://github.com/luoto)
 * [ram](https://github.com/ilvcs)
 * [Eric Miller](https://github.com/ericmiller777)
 
