@@ -54,6 +54,7 @@
       "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts-ts start",
     "start-server": "nodemon api",
+    "server": "npm run start-server",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts-ts build",
     "test": "jest --forceExit",
