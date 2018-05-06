@@ -78,11 +78,9 @@ function googleLogin(idToken: string): Promise<User | Error> {
     };
 
     fetch(endpoint, data)
-      // tslint:disable-next-line
       .then(function(res: any) {
         return res.json();
       })
-      // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
         if (
@@ -144,21 +142,33 @@ function register(
     };
 
     fetch(endpoint, data)
-      // tslint:disable-next-line
       .then(function(res: any) {
         return res.json();
       })
-      // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'User Registration Succesful') {
           var user = res.user;
+          var userDetails = res.userDetail;
           resolve({
             _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
-            username: user.username
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
           });
         } else {
           reject(res.error);
