@@ -63,6 +63,9 @@ IMAGE
 .project-image {
   height: 225px;
   object-fit: cover;
+  border-top: 1px solid $light-grey;
+  border-left: 1px solid $light-grey;
+  border-right: 1px solid $light-grey;
 }
 
 .project-edit-image {
