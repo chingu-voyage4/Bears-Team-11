@@ -18,18 +18,22 @@ module.exports = function(passport) {
       if (err) {
         return next(err);
       } else if (!user) {
-        return res.json({ message: info.message });
+        return res.json({
+          error: info.message
+        });
       } else {
         req.logIn(user, function(err) {
           if (err) {
             return next(err);
           }
-          UserDetails.findOne({ username: user.username }, function(
-            err,
-            userDetail
-          ) {
+          var newUserDetails = new UserDetails({
+            _id: user._id,
+            username: user.username
+          });
+          newUserDetails.save(function(err, userDetail) {
             if (err) {
-              return res.json({ error: err });
+              console.log('Error in saving newUserDetails: ' + err);
+              throw err;
             }
             return res.json({
               user: user,
@@ -46,28 +50,36 @@ module.exports = function(passport) {
   router.post('/login', function(req, res, next) {
     passport.authenticate('login', function(err, user, info) {
       if (err) {
-        return res.json({ error: err });
+        return res.json({
+          error: err
+        });
       }
       if (!user) {
-        return res.json({ message: info.message });
+        return res.json({
+          message: info.message
+        });
       }
       req.logIn(user, function(err) {
         if (err) {
           return next(err);
         }
-        UserDetails.findOne({ username: user.username }, function(
-          err,
-          userDetail
-        ) {
-          if (err) {
-            return res.json({ error: err });
+        UserDetails.findOne(
+          {
+            username: user.username
+          },
+          function(err, userDetail) {
+            if (err) {
+              return res.json({
+                error: err
+              });
+            }
+            return res.json({
+              user: user,
+              userDetail: userDetail,
+              message: info.message
+            });
           }
-          return res.json({
-            user: user,
-            userDetail: userDetail,
-            message: info.message
-          });
-        });
+        );
       });
     })(req, res, next);
   });
@@ -108,76 +120,84 @@ module.exports = function(passport) {
     // verify token ID
     verify()
       .then(function(googlePayload) {
-        return User.findOne({ googleId: googlePayload.userid }, function(
-          err,
-          user
-        ) {
-          if (err) {
-            return res.json({ error: err });
-          } else if (user) {
-            // existing user , send back existing user data
-            UserDetails.findOne({ googleId: user.googleId }, function(
-              err,
-              userDetail
-            ) {
-              if (err) {
-                return res.json({ error: err });
-              } else if (userDetail) {
-                req.logIn(user, function(err) {
+        return User.findOne(
+          {
+            googleId: googlePayload.userid
+          },
+          function(err, user) {
+            if (err) {
+              return res.json({
+                error: err
+              });
+            } else if (user) {
+              // existing user , send back existing user data
+              UserDetails.findOne(
+                {
+                  googleId: user.googleId
+                },
+                function(err, userDetail) {
                   if (err) {
-                    console.log(err);
-                    return next(err);
-                  }
-                  return res.json({
-                    user: user,
-                    userDetail: userDetail,
-                    message: 'Successfully logged in with Google'
-                  });
-                });
-              }
-            });
-          } else {
-            // user not found, make new user and userDetails collection
-            var newUser = new User();
-            newUser.firstName = googlePayload.given_name;
-            newUser.lastName = googlePayload.family_name;
-            newUser.email = googlePayload.email;
-            newUser.profileImage = googlePayload.profilePic;
-            newUser.googleId = googlePayload.userid;
-            newUser.username =
-              googlePayload.given_name + '_' + googlePayload.family_name;
-
-            // save the user
-            newUser.save(function(err, user) {
-              if (err) {
-                throw err;
-              } else {
-                var newUserDetails = new UserDetails({
-                  googleId: googlePayload.userid,
-                  username: newUser.username,
-                  _id: newUser._id
-                });
-
-                newUserDetails.save(function(err, userDetail) {
-                  if (err) {
-                    throw err;
-                  }
-                  // send back user and userDetails
-                  req.logIn(user, function(err) {
-                    if (err) {
-                      return next(err);
-                    }
                     return res.json({
-                      user: user,
-                      userDetail: userDetail,
-                      message: 'Sucessfully registered with Google'
+                      error: err
+                    });
+                  } else if (userDetail) {
+                    req.logIn(user, function(err) {
+                      if (err) {
+                        console.log(err);
+                        return next(err);
+                      }
+                      return res.json({
+                        user: user,
+                        userDetail: userDetail,
+                        message: 'Successfully logged in with Google'
+                      });
+                    });
+                  }
+                }
+              );
+            } else {
+              // user not found, make new user and userDetails collection
+              var newUser = new User();
+              newUser.firstName = googlePayload.given_name;
+              newUser.lastName = googlePayload.family_name;
+              newUser.email = googlePayload.email;
+              newUser.profileImage = googlePayload.profilePic;
+              newUser.googleId = googlePayload.userid;
+              newUser.username =
+                googlePayload.given_name + '_' + googlePayload.family_name;
+
+              // save the user
+              newUser.save(function(err, user) {
+                if (err) {
+                  throw err;
+                } else {
+                  var newUserDetails = new UserDetails({
+                    googleId: googlePayload.userid,
+                    username: newUser.username,
+                    _id: newUser._id
+                  });
+
+                  newUserDetails.save(function(err, userDetail) {
+                    if (err) {
+                      throw err;
+                    }
+                    // send back user and userDetails
+                    req.logIn(user, function(err) {
+                      if (err) {
+                        return next(err);
+                      }
+                      return res.json({
+                        user: user,
+                        userDetail: userDetail,
+                        message: 'Sucessfully registered with Google'
+                      });
                     });
                   });
-                });
-              }
-            });
+                }
+              });
+            }
           }
-        });
+        );
       })
       .catch(console.error);
   });
@@ -185,13 +205,17 @@ module.exports = function(passport) {
   /* Handle Logout */
   router.get('/logout', function(req, res, next) {
     req.logout();
-    res.json({ message: 'Successfully Logged Out' });
+    res.json({
+      message: 'Successfully Logged Out'
+    });
   });
 
   router.get('/users', function(req, res) {
     return User.find({}, function(err, users) {
       if (err) {
-        return res.json({ error: 'Error in retrieving users: ' + err });
+        return res.json({
+          error: 'Error in retrieving users: ' + err
+        });
       } else {
         return res.json({
           users: users,

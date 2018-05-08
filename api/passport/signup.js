@@ -41,22 +41,11 @@ module.exports = function(passport) {
                 newUser.firstName = req.body.firstName;
                 newUser.lastName = req.body.lastName;
 
-                newUser.save(function(err) {
+                newUser.save(function(err, newUser) {
                   if (err) {
                     console.log('Error in Saving user: ' + err);
                     throw err;
                   }
-                  var newUserDetails = new UserDetails({
-                    _id: newUser._id,
-                    username: newUser.username
-                  });
-                  newUserDetails.save(function(err, userDetail) {
-                    if (err) {
-                      console.log('Error in saving newUserDetails: ' + err);
-                      throw err;
-                    }
-                    console.log('New UserDetails document available');
-                  });
                   console.log('User Registration succesful');
                   return done(null, newUser, {
                     message: 'User Registration Succesful'
