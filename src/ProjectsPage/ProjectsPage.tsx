@@ -27,6 +27,28 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
     this.props.getProjects(options, null);
   }
 
+  public closeAllDropDown(e: React.MouseEvent<HTMLDivElement>): void {
+    var listOfDropdowns = [
+      'project-filter-category-id',
+      'project-filter-tag-id'
+    ];
+    console.log('closing windows');
+    listOfDropdowns.forEach(function(elemById: string) {
+      if (
+        document
+          .getElementById(elemById)!
+          .classList.contains('new-project-show') &&
+        document.activeElement !== document.getElementById('categoryFilter') &&
+        document.activeElement !== document.getElementById('tagFilter') &&
+        document.activeElement !==
+          document.getElementById(elemById)!.previousElementSibling
+      ) {
+        var doc = document.getElementById(elemById)!;
+        doc.classList.remove('new-project-show');
+      }
+    });
+  }
+
   public searchSubmit(
     e:
       | React.FormEvent<HTMLButtonElement>
@@ -51,7 +73,7 @@ class ProjectsPage extends React.Component<ProjectPageProps, ProjectPageState> {
 
   render() {
     return (
-      <div>
+      <div onClick={e => this.closeAllDropDown(e)}>
         <HeaderContainer />
 
         <br />
