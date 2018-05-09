@@ -549,7 +549,8 @@ function uploadProfileImage(file: FileList, userId: string): Promise<User> {
     var data: object = {
       body: formData,
       method: 'POST',
-      credentials: 'include'
+      credentials: 'include',
+      'cache-control': 'no-cache'
     };
 
     fetch(endpoint, data)
