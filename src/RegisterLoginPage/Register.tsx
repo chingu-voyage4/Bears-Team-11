@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { Store } from '../types/Redux';
 import { RegisterState } from '../types/Register.d';
-import { RegisterProps, Action } from '../types/Redux.d';
+import { RegisterProps } from '../types/Redux.d';
 import { register } from '../actions/userActions';
 import {
   showRegisterWindow,
@@ -146,24 +146,8 @@ function mapStateToProps(state: Store) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<Action>) {
-  return {
-    register: (
-      firstName: string,
-      lastName: string,
-      username: string,
-      email: string,
-      password: string
-    ) => {
-      return dispatch(register(firstName, lastName, username, email, password));
-    },
-    showRegisterWindow: () => {
-      return dispatch(showRegisterWindow());
-    },
-    completeRegistration: () => {
-      return dispatch(completeRegistration());
-    }
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, {
+  register,
+  showRegisterWindow,
+  completeRegistration
+})(Register as any);
