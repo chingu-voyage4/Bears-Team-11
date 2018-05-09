@@ -41,12 +41,10 @@ class PublicProfile extends React.Component<
             user
           },
           () => {
-            var username;
-            if (this.props.match.params.username) {
-              username = this.props.match.params.username;
-            } else {
-              username = this.state.user.username;
-            }
+            var username = this.props.match.params.username
+              ? this.props.match.params.username
+              : this.state.user.username;
+
             this.props.getProjects(
               { createdAt: -1 },
               {
