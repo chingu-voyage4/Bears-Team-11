@@ -3,4 +3,5 @@ export interface State {
   public: boolean;
   project: boolean;
   loaderVisible: boolean;
+  profileImage: string;
 }
