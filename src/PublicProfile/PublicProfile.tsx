@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Footer from '../Footer/Footer';
 import HeaderContainer from '../Header/HeaderContainer';
-import { Store, UserProfileProps, Action } from '../types/Redux';
-import { connect, Dispatch } from 'react-redux';
+import { Store, UserProfileProps } from '../types/Redux';
+import { connect } from 'react-redux';
 import { getProjects } from '../actions/projectActions';
 import '../styles/PublicProfile.css';
 import RolesCheckmarks from './RolesCheckmarks';
@@ -41,15 +41,16 @@ class PublicProfile extends React.Component<
             user
           },
           () => {
-            // FIX ME: needs to be revised, get projects is retrieving projects that do not belong to user.
-            // this action is also fired multiple times successively.
+            var username;
+            if (this.props.match.params.username) {
+              username = this.props.match.params.username;
+            } else {
+              username = this.state.user.username;
+            }
             this.props.getProjects(
               { createdAt: -1 },
               {
-                $or: [
-                  { creator: this.state.user.username },
-                  { team: { $in: [this.state.user.username] } }
-                ]
+                $or: [{ creator: username }, { team: { $in: [username] } }]
               }
             );
           }
@@ -90,14 +91,11 @@ class PublicProfile extends React.Component<
           <div className="public-profile-projects">
             <div className="public-profile-header">Projects</div>
             <UserProjects
-              // FIX ME: the getProjects action should only return projects for this user
-              projects={(this.props.projects as any).filter((project: any) => {
-                return (
-                  project.team.some(
-                    (username: string) => username === this.state.user.username
-                  ) || project.creator === this.state.user.username
-                );
-              })}
+              projects={
+                this.props.match.params.username
+                  ? this.props.projects
+                  : this.props.userProjects
+              }
             />
           </div>
         </div>
@@ -110,15 +108,9 @@ class PublicProfile extends React.Component<
 function mapStateToProps(state: Store) {
   return {
     user: state.user,
-    projects: state.projects
+    projects: state.projects,
+    userProjects: state.userProjects
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<Action>) {
-  return {
-    getProjects: (options: object, query: object | null) => {
-      return dispatch(getProjects(options, query));
-    }
-  };
-}
-export default connect(mapStateToProps, mapDispatchToProps)(PublicProfile);
+export default connect(mapStateToProps, { getProjects })(PublicProfile as any);

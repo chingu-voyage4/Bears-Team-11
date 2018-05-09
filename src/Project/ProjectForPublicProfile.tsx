@@ -16,18 +16,6 @@ class ProjectForPublicProfile extends React.Component<
     super(props);
   }
 
-  componentWillMount() {
-    this.props.getProjects(
-      { createdAt: -1 },
-      {
-        $or: [
-          { creator: this.props.user.username },
-          { team: { $in: [this.props.user.username] } }
-        ]
-      }
-    );
-  }
-
   render() {
     var data = this.props.data;
 
