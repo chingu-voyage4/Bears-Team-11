@@ -30,13 +30,6 @@ class ProjectsFilter extends React.Component<
     this.props.getTags();
   }
 
-  public closeAllDropDown(): void {
-    var listOfDropdowns = ['categoryFilter', 'tagFilter'];
-    listOfDropdowns.map(function(elemById: string) {
-      document.getElementById(elemById)!.classList.remove('new-project-show');
-    });
-  }
-
   public toggleDropDown(
     e: React.FormEvent<HTMLButtonElement> | React.FormEvent<HTMLInputElement>,
     elemById: string

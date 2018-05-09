@@ -136,6 +136,30 @@ class AddProjectsPage extends React.Component<
     doc.classList.toggle('new-project-show');
   };
 
+  closeDropdown = (e: React.MouseEvent<HTMLDivElement>) => {
+    var arrayOfWindows = [
+      'new-team-dropdown',
+      'new-tags-dropdown',
+      'new-project-dropdown',
+      'new-status-dropdown'
+    ];
+    arrayOfWindows.forEach((elemById: string) => {
+      if (
+        document
+          .getElementById(elemById)!
+          .classList.contains('new-project-show') &&
+        document.activeElement !== document.getElementById('teamSearch') &&
+        document.activeElement !== document.getElementById('categorySearch') &&
+        document.activeElement !== document.getElementById('tagSearch') &&
+        document.activeElement !==
+          document.getElementById(elemById)!.previousElementSibling
+      ) {
+        var doc = document.getElementById(elemById)!;
+        doc.classList.remove('new-project-show');
+      }
+    });
+  };
+
   public onFormChange = (e: React.FormEvent<HTMLInputElement>): void | null => {
     e.persist();
     var { name, value } = e.currentTarget;
@@ -359,7 +383,7 @@ class AddProjectsPage extends React.Component<
     }
 
     return (
-      <div className="new-project-body">
+      <div className="new-project-body" onClick={e => this.closeDropdown(e)}>
         <HeaderContainer />
         <form className="new-project-container">
           <div className="box-1">
