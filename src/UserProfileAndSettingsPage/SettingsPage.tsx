@@ -17,10 +17,16 @@ class SettingsPage extends React.Component<SettingsPageProps, State> {
       personal: false,
       public: true,
       project: false,
-      loaderVisible: false
+      loaderVisible: false,
+      profileImage: require('../assets/blank image.png')
     };
   }
 
+  componentDidMount() {
+    if (this.props.user.profileImage !== '') {
+      this.setState({ profileImage: this.props.user.profileImage! });
+    }
+  }
   personalSettings = () => {
     this.setState({
       personal: true,
@@ -56,7 +62,10 @@ class SettingsPage extends React.Component<SettingsPageProps, State> {
       console.log(file);
       this.setState({ loaderVisible: true });
       this.props.uploadProfileImage(file, this.props.user._id).then(() => {
-        this.setState({ loaderVisible: false });
+        this.setState({
+          loaderVisible: false,
+          profileImage: this.props.user.profileImage!
+        });
       });
     }
   };
@@ -72,11 +81,7 @@ class SettingsPage extends React.Component<SettingsPageProps, State> {
               <img
                 className="settings-profile-image"
                 onMouseEnter={e => this.toggleImageUploadShow(e)}
-                src={
-                  this.props.user.profileImage
-                    ? this.props.user.profileImage
-                    : require('../assets/blank image.png')
-                }
+                src={this.state.profileImage}
               />
             )}
             <div
