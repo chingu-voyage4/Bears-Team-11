@@ -14,6 +14,7 @@ import config from '../.config';
 
 interface UserProfileState {
   user: any;
+  loaderVisible: boolean;
 }
 
 class PublicProfile extends React.Component<
@@ -23,7 +24,8 @@ class PublicProfile extends React.Component<
   constructor(props: UserProfileProps) {
     super(props);
     this.state = {
-      user: {}
+      user: {},
+      loaderVisible: false
     };
   }
 
@@ -45,12 +47,19 @@ class PublicProfile extends React.Component<
               ? this.props.match.params.username
               : this.state.user.username;
 
-            this.props.getProjects(
-              { createdAt: -1 },
-              {
-                $or: [{ creator: username }, { team: { $in: [username] } }]
-              }
-            );
+            this.setState({ loaderVisible: true });
+            this.props
+              .getProjects(
+                { createdAt: -1 },
+                {
+                  $or: [{ creator: username }, { team: { $in: [username] } }]
+                }
+              )
+              .then(() => {
+                this.setState({
+                  loaderVisible: false
+                });
+              });
           }
         );
       });
@@ -88,6 +97,7 @@ class PublicProfile extends React.Component<
 
           <div className="public-profile-projects">
             <div className="public-profile-header">Projects</div>
+            {this.state.loaderVisible ? <div className="loader" /> : null}
             <UserProjects
               projects={
                 this.props.match.params.username
