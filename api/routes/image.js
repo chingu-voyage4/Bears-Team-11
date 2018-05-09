@@ -37,7 +37,7 @@ router.post('/profile', function(req, res) {
       acl: 'public-read',
       contentType: multerS3.AUTO_CONTENT_TYPE,
       key: function(req, file, cb) {
-        cb(null, fileName + Date.now());
+        cb(null, fileName);
       }
     })
   });
