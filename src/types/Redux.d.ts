@@ -198,9 +198,9 @@ export interface ProjectsInheritedProps {
 
 export interface ProjectSettingsProps {
   user: User;
-  projects: Array<Project>;
+  userProjects: Array<Project> | Project;
   deleteProject: deleteProject_fntype;
-  getProjects: getProjects_fntype;
+  getUserProjects: getUserProjects_fntype;
 }
 
 export interface ProjectForPublicProfileProps {
@@ -232,6 +232,7 @@ export interface SettingsPageProps {
 export interface UserProfileProps {
   user: User;
   projects: Array<Project> | Project;
+  userProjects: Array<Project> | Project;
   getProjects: getProjects_fntype;
   match: any;
 }
