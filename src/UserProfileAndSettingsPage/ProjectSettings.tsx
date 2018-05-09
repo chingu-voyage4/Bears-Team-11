@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { connect, Dispatch } from 'react-redux';
-import { Store, ProjectSettingsProps, Action } from '../types/Redux';
+import { connect } from 'react-redux';
+import { Store, ProjectSettingsProps } from '../types/Redux';
 import { ProjectSettingsState } from '../types/ProjectSettings';
-import { getProjects, deleteProject } from '../actions/projectActions';
+import { getUserProjects, deleteProject } from '../actions/projectActions';
 import ProjectForEdit from '../Project/ProjectContainerForSettings';
 
 class ProjectSettings extends React.Component<
@@ -14,24 +14,15 @@ class ProjectSettings extends React.Component<
   }
 
   componentWillMount() {
-    this.props.getProjects({}, {});
+    this.props.getUserProjects(this.props.user.username);
   }
 
   render() {
     var returnedComponent;
-    var projectArray = this.props.projects;
-    projectArray = projectArray.filter(project => {
-      return (
-        project.creator === this.props.user.username ||
-        project.team!.indexOf(this.props.user.username!) !== -1
-      );
-    });
-    if (projectArray.length === 0) {
+    var projectArray = this.props.userProjects;
+    if (!projectArray) {
       returnedComponent = null;
-    } else if (
-      projectArray.length === 1 ||
-      Array.isArray(projectArray) === false
-    ) {
+    } else if (!Array.isArray(projectArray)) {
       returnedComponent = (
         <ProjectForEdit projId={projectArray[0]._id} data={projectArray[0]} />
       );
@@ -56,18 +47,10 @@ class ProjectSettings extends React.Component<
 function mapStateToProps(state: Store) {
   return {
     user: state.user,
-    projects: state.projects
+    userProjects: state.userProjects
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<Action>) {
-  return {
-    getProjects: (options: object, query: object | null) => {
-      return dispatch(getProjects(options, query));
-    },
-    deleteProject: (id: string) => {
-      return dispatch(deleteProject(id));
-    }
-  };
-}
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectSettings);
+export default connect(mapStateToProps, { getUserProjects, deleteProject })(
+  ProjectSettings as any
+);
