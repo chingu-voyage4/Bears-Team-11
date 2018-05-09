@@ -5,7 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Store, LoggedInHeaderProps } from '../types/Redux';
 import { logout } from '../actions/userActions';
-import { getProjects } from '../actions/projectActions';
+import { getUserProjects } from '../actions/projectActions';
 
 class LoggedInHeader extends React.Component<
   LoggedInHeaderProps,
@@ -19,7 +19,7 @@ class LoggedInHeader extends React.Component<
   }
 
   componentDidMount() {
-    this.props.getProjects({}, {});
+    this.props.getUserProjects(this.props.user.username);
   }
 
   public logout = () => {
@@ -32,25 +32,9 @@ class LoggedInHeader extends React.Component<
   }
 
   render() {
-    var listOfProjects = this.props.projects;
-    var username = this.props.user.username;
-    var activeProjects: any;
+    var activeProjects = this.props.userProjects;
     var links: any;
 
-    if (listOfProjects === null || listOfProjects === undefined) {
-      links = null;
-    } else {
-      activeProjects = listOfProjects.filter((project: any) => {
-        if (
-          project.creator === username ||
-          (project.team!.indexOf(username) !== -1 && project.status === true)
-        ) {
-          return project;
-        } else {
-          return null;
-        }
-      });
-    }
     if (activeProjects === undefined) {
       links = null;
     } else if (!Array.isArray(activeProjects)) {
@@ -230,10 +214,11 @@ class LoggedInHeader extends React.Component<
 function mapStateToProps(state: Store) {
   return {
     user: state.user,
-    projects: state.projects
+    projects: state.projects,
+    userProjects: state.userProjects
   };
 }
 
-export default withRouter(connect(mapStateToProps, { logout, getProjects })(
+export default withRouter(connect(mapStateToProps, { logout, getUserProjects })(
   LoggedInHeader as any
 ) as any);

@@ -24,7 +24,8 @@ import {
   downloadProjectImageURLS_fntype,
   getProject_fntype,
   searchProjects_fntype,
-  getProjects_fntype
+  getProjects_fntype,
+  getUserProjects_fntype
 } from '../actions/projectActions';
 import {
   getMarkers_fntype,
@@ -103,6 +104,7 @@ export interface Store {
   markers: Array<Marker>;
   dispatch: Dispatch<Action>;
   justRegistered: boolean;
+  userProjects: Array<Project> | Project;
 }
 
 export interface LoginProps {
@@ -174,6 +176,8 @@ export interface LoggedInHeaderProps {
   projects: Array<Project>;
   logout: logout_fntype;
   getProjects: getProjects_fntype;
+  userProjects: Array<Project> | Project;
+  getUserProjects: getUserProjects_fntype;
 }
 
 export interface State {}
@@ -240,4 +244,9 @@ export interface ReadyToTryProps {
 export interface PersonalDetailsProps {
   user: User;
   userPrivateSettingsUpdate: userPrivateSettingsUpdate_fntype;
+}
+
+export interface TagPageProps {
+  projects: Array<Project> | Project;
+  getProjects: getProjects_fntype;
 }
