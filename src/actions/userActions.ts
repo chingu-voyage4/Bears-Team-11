@@ -130,19 +130,18 @@ UPLOAD PROFILE IMAGE
 export type uploadProfileImage_fntype = (
   file: FileList,
   userId: string
-) => (dispatch: Dispatch<UserAction>) => void;
+) => Promise<void>;
 
 export function uploadProfileImage(
   file: FileList,
   userId: string
-): (dispatch: Dispatch<UserAction>) => void {
+): (dispatch: Dispatch<UserAction>) => Promise<void> {
   return dispatch => {
-    return apiService.uploadProfileImage(file, userId).then(user => {
-      return dispatch({
-        type: UPLOAD_PROFILE_IMAGE,
-        data: user
-      });
-    });
+    async function doAsyncWork(): Promise<void> {
+      var user = await apiService.uploadProfileImage(file, userId);
+      dispatch({ type: UPLOAD_PROFILE_IMAGE, data: user });
+    }
+    return doAsyncWork();
   };
 }
 /*
