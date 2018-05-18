@@ -14,6 +14,7 @@
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
+    "concurrently": "^3.5.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "express": "^4.16.2",
@@ -56,6 +57,7 @@
     "start-server": "nodemon api",
     "server": "npm run start-server",
     "start": "npm-run-all -p watch-css start-js",
+    "launch": "concurrently \"npm start\" \"npm run start-server\"",
     "build": "npm run build-css && react-scripts-ts build",
     "test": "jest --forceExit",
     "eject": "react-scripts-ts eject"
