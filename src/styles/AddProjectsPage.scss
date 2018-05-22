@@ -14,8 +14,8 @@ GRID
   max-width: 1080px;
   font-family: $font;
   margin: 0 auto;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: calc(50vh - 352px);
+  margin-bottom: calc(50vh - 352px);
   display: grid;
   grid-template-columns: repeat(auto-fill, 1fr);
   grid-template-rows: auto;

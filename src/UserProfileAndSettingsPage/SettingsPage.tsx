@@ -16,10 +16,17 @@ class SettingsPage extends React.Component<SettingsPageProps, State> {
     this.state = {
       personal: false,
       public: true,
-      project: false
+      project: false,
+      loaderVisible: false,
+      profileImage: require('../assets/blank image.png')
     };
   }
 
+  componentDidMount() {
+    if (this.props.user.profileImage !== '') {
+      this.setState({ profileImage: this.props.user.profileImage! });
+    }
+  }
   personalSettings = () => {
     this.setState({
       personal: true,
@@ -53,7 +60,13 @@ class SettingsPage extends React.Component<SettingsPageProps, State> {
     let file = e.currentTarget.files! as FileList;
     if (file) {
       console.log(file);
-      this.props.uploadProfileImage(file, this.props.user._id);
+      this.setState({ loaderVisible: true });
+      this.props.uploadProfileImage(file, this.props.user._id).then(() => {
+        this.setState({
+          loaderVisible: false,
+          profileImage: this.props.user.profileImage!
+        });
+      });
     }
   };
   render() {
@@ -62,15 +75,15 @@ class SettingsPage extends React.Component<SettingsPageProps, State> {
         <HeaderContainer />
         <div className="settings-container">
           <div className="settings-menu-div">
-            <img
-              className="settings-profile-image"
-              onMouseEnter={e => this.toggleImageUploadShow(e)}
-              src={
-                this.props.user.profileImage
-                  ? this.props.user.profileImage
-                  : require('../assets/blank image.png')
-              }
-            />
+            {this.state.loaderVisible ? (
+              <div className="loader" />
+            ) : (
+              <img
+                className="settings-profile-image"
+                onMouseEnter={e => this.toggleImageUploadShow(e)}
+                src={this.state.profileImage}
+              />
+            )}
             <div
               onMouseOut={e => this.toggleImageUploadShow(e)}
               id="settings-profile-image-id"
@@ -128,4 +141,6 @@ function mapStateToProps(state: Store) {
   };
 }
 
-export default connect(mapStateToProps, { uploadProfileImage })(SettingsPage);
+export default connect(mapStateToProps, { uploadProfileImage })(
+  SettingsPage as any
+);

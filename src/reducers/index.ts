@@ -10,10 +10,12 @@ import uploadImagesReducer from './uploadImages';
 import addOrUpdateProjectReducer from './addOrUpdateProjectReducer';
 import searchResultsReducer from './searchResultsReducer';
 import currentProjectReducer from './currentProjectReducer';
+import userProjectReducer from './userProjectReducer';
 
 export default combineReducers({
   user: userReducer,
   projects: projectReducer,
+  userProjects: userProjectReducer,
   markers: markerReducer,
   registerLoginWindow: appReducer,
   tags: tagsReducer,

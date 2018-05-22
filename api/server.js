@@ -34,11 +34,18 @@ var multerS3 = require('multer-s3');
 
 // Connect to DB-Cloud
 // NOTE: Uncomment below line if you want to save data in the cloud(Mlab)
-mongoose.connect(config.db.mlab);
+mongoose.connect(config.db.mlab, {
+  server: {
+    // sets how many times to try reconnecting
+    reconnectTries: Number.MAX_VALUE,
+    // sets the delay between every retry (milliseconds)
+    reconnectInterval: 1000
+  }
+});
 
 app.use(
   cors({
-    origin: config.host.name,
+    origin: 'https://www.projectmatch.me',
     credentials: true,
     preflightContinue: true,
     optionsSuccessStatus: 200

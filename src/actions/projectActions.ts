@@ -6,7 +6,8 @@ import {
   GET_ONE_PROJECT,
   SEARCH_PROJECT,
   GET_PROJECT,
-  DOWNLOAD_PROJECT_IMAGE_URLS
+  DOWNLOAD_PROJECT_IMAGE_URLS,
+  GET_USER_PROJECTS
 } from './actionTypes';
 import { Dispatch } from 'react-redux';
 import apiService from '../utils/apiService';
@@ -34,6 +35,35 @@ export function getProjects(
     }
 
     return doAsyncWork();
+  };
+}
+/*
+==========================
+GET USER PROJECTS
+==========================
+*/
+export type getUserProjects_fntype = (
+  username: string
+) => (dispatch: Dispatch<Action>) => void;
+
+export function getUserProjects(
+  username: string
+): (dispatch: Dispatch<Action>) => void {
+  return dispatch => {
+    var options = {};
+    var query = {
+      $or: [{ creator: username }, { team: { $in: [username] } }]
+    };
+    return apiService.getProjects(options, query).then(project => {
+      if (project) {
+        return dispatch({
+          type: GET_USER_PROJECTS,
+          data: project
+        });
+      } else {
+        return null;
+      }
+    });
   };
 }
 /*

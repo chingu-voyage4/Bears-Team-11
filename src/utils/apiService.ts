@@ -78,11 +78,9 @@ function googleLogin(idToken: string): Promise<User | Error> {
     };
 
     fetch(endpoint, data)
-      // tslint:disable-next-line
       .then(function(res: any) {
         return res.json();
       })
-      // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
         if (
@@ -144,21 +142,33 @@ function register(
     };
 
     fetch(endpoint, data)
-      // tslint:disable-next-line
       .then(function(res: any) {
         return res.json();
       })
-      // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
         if (res.message === 'User Registration Succesful') {
           var user = res.user;
+          var userDetails = res.userDetail;
           resolve({
             _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
-            username: user.username
+            username: user.username,
+            profileImage: user.profileImage,
+            location: userDetails.location,
+            roles: userDetails.roles,
+            description: userDetails.description,
+            techstack: userDetails.techstack,
+            projects: userDetails.projects,
+            bookmarked: userDetails.bookmarked,
+            linkedInLink: userDetails.linkedInLink,
+            githubLink: userDetails.githubLink,
+            portfolioLink: userDetails.portfolioLink,
+            websiteLink: userDetails.websiteLink,
+            twitterLink: userDetails.twitterLink,
+            blogLink: userDetails.blogLink
           });
         } else {
           reject(res.error);
@@ -282,7 +292,6 @@ function userSettingsUpdate(
         if (res.message === 'Successfully updated user details') {
           var user = res.user;
           var userDetails = res.userDetail;
-          console.log('userDetail=' + JSON.stringify(userDetails));
           resolve({
             _id: user._id,
             firstName: user.firstName,
@@ -540,7 +549,8 @@ function uploadProfileImage(file: FileList, userId: string): Promise<User> {
     var data: object = {
       body: formData,
       method: 'POST',
-      credentials: 'include'
+      credentials: 'include',
+      'cache-control': 'no-cache'
     };
 
     fetch(endpoint, data)
@@ -719,7 +729,6 @@ function getTags(): Promise<Tags> {
       // tslint:disable-next-line
       .then(function(res: any) {
         JSON.stringify(res);
-        console.log(res);
         if (res.message === 'Successfully retrieved tags') {
           resolve(res.tags);
         } else {
@@ -791,7 +800,6 @@ function deleteMarker(markerId: string) {
 }
 
 function updateMarkerPosition(id: string, x: string, y: string) {
-  console.log('updating marker position...');
   return axios
     .put(config.host.name + `/api/projects/revision/marker/${id}`, {
       x,
@@ -803,7 +811,6 @@ function updateMarkerPosition(id: string, x: string, y: string) {
 }
 
 function updateMarkerDimensions(id: string, width: string, height: string) {
-  console.log('updating marker dimensions...');
   return axios
     .put(config.host.name + `/api/projects/revision/marker/${id}`, {
       width,
